@@ -20,7 +20,7 @@
       "services/*": ["src/services/*"],
       "config/*": ["src/config/*"],
       "icons/*": ["public/icons/*"],
-      "image/*": ["public/image/*"]
+      "images/*": ["public/images/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

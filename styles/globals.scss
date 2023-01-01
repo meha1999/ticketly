@@ -1,9 +1,11 @@
 @import "./pages/auth/auth";
+@import "./components/layouts/dashboard";
 @import "pages/test.module.scss";
 
 html,
 body {
   max-width: 100vw;
+  height: 100vh;
   overflow-x: hidden;
   margin: 0;
   direction: rtl;

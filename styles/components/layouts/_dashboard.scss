@@ -1,0 +1,30 @@
+.dashboard-layout {
+  background-color: #ffffff;
+  height: 100vh;
+  width: 100vw;
+  .dashboard-container {
+    height: 100%;
+    margin: 0 45px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    .header {
+      margin-top: 45px;
+      height: 8%;
+    }
+    .dashboard-content {
+      height: 80%;
+      display: flex;
+      .dashboard-sidebar {
+        width: 15%;
+        height: 100%;
+      }
+      .dashboard-main {
+        width: 85%;
+        height: 100%;
+        background-color: #f4f6f8;
+        border-radius: 60px;
+      }
+    }
+  }
+}

@@ -8,13 +8,37 @@ import googleLogo from "public/images/google-logo.svg";
 import loginTools from "public/images/login-tools.svg";
 
 const SignUp = () => {
-  return <div>SignUp</div>;
+  return (
+    <div className="sign-up">
+      <div>
+        <div>
+          <span>مکانیک</span>
+        </div>
+        <div>
+          <span>ارزیاب</span>
+        </div>
+        <div>
+          <span>تامین‌کننده</span>
+        </div>
+      </div>
+      <form>
+        <div>
+          <label htmlFor="name">نام و نام خانوادگی:</label>
+          <input type="text" name="name" id="name" />
+        </div>
+        <div>
+          <label htmlFor="name">آدرس ایمیل:</label>
+          <input type="email" name="email" id="email" />
+        </div>
+      </form>
+    </div>
+  );
 };
 
 const Login = () => {
   return (
     <div className="login">
-      <form action="" className="form">
+      <form className="form">
         <div className="input-container">
           <label htmlFor="email">آدرس ایمیل:</label>
           <input type="email" name="email" id="email" />
@@ -23,16 +47,18 @@ const Login = () => {
           <label htmlFor="">رمز عبور:</label>
           <input type="password" name="password" id="password" />
         </div>
-        <div>
-          <div></div>
+        <div className="login-with-google">
+          <div className="line"></div>
           <span>یا ثبت نام با</span>
-          <div></div>
+          <div className="line"></div>
         </div>
-        <div>
+        <div className="google">
           <Image src={googleLogo} alt="google" />
           <span>ثبت نام با گوگل</span>
         </div>
-        <button type="submit">ورود</button>
+        <button type="submit" className="login-btn">
+          ورود
+        </button>
       </form>
       <Image src={loginTools} alt="tools" className="tools-image" />
     </div>

@@ -1,6 +1,7 @@
 @import "./pages/auth/auth";
 @import "./components/layouts/dashboard";
-@import "pages/test.module.scss";
+@import "./pages/test.scss";
+@import "./pages/dashboard/ticket/create";
 
 html,
 body {

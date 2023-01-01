@@ -6,31 +6,44 @@ import Image from "next/image";
 import logo from "public/images/logo.svg";
 import googleLogo from "public/images/google-logo.svg";
 import loginTools from "public/images/login-tools.svg";
+import signUpTools from "public/images/sign-up-tools.svg";
 
 const SignUp = () => {
   return (
     <div className="sign-up">
-      <div>
-        <div>
-          <span>مکانیک</span>
-        </div>
-        <div>
-          <span>ارزیاب</span>
-        </div>
-        <div>
-          <span>تامین‌کننده</span>
-        </div>
-      </div>
-      <form>
-        <div>
+      <form className="form">
+        <div className="input-container">
           <label htmlFor="name">نام و نام خانوادگی:</label>
           <input type="text" name="name" id="name" />
         </div>
-        <div>
+        <div className="input-container">
           <label htmlFor="name">آدرس ایمیل:</label>
           <input type="email" name="email" id="email" />
         </div>
+        <div className="password">
+          <div className="input-container">
+            <label htmlFor="password">رمز عبور:</label>
+            <input type="password" name="password" id="password" />
+          </div>
+          <div className="input-container">
+            <label htmlFor="rePassword">تکرار رمز عبور:</label>
+            <input type="password" name="rePassword" id="rePassword" />
+          </div>
+        </div>
+        <div className="login-with-google">
+          <div className="line"></div>
+          <span>یا ثبت نام با</span>
+          <div className="line"></div>
+        </div>
+        <div className="google">
+          <Image src={googleLogo} alt="google" />
+          <span>ثبت نام با گوگل</span>
+        </div>
+        <button type="submit" className="login-btn">
+          ثبت نام
+        </button>
       </form>
+      <Image src={signUpTools} alt="tools" className="tools-image" />
     </div>
   );
 };
@@ -49,7 +62,7 @@ const Login = () => {
         </div>
         <div className="login-with-google">
           <div className="line"></div>
-          <span>یا ثبت نام با</span>
+          <span>یا ورود با</span>
           <div className="line"></div>
         </div>
         <div className="google">

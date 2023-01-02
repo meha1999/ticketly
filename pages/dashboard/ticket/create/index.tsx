@@ -1,57 +1,79 @@
 import DashboardLayout from "components/layouts/dashboard";
 import Image from "next/image";
-import receiveSquare from "public/images/receive-square.svg";
+import fileUploadIcon from "public/images/icons/file_upload.svg";
+import trashIcon from "public/images/icons/trash.svg";
+import createTicket from "public/images/icons/create_ticket_fill.svg";
 
 const Create = () => {
   return (
     <DashboardLayout>
       <div className="create">
-        <h3 className="title">ثبت تیکت جدید</h3>
+        <div className="title">
+          <Image src={createTicket} alt="create-ticket" />
+          <h3>{"ثبت تیکت جدید"}</h3>
+        </div>
         <form className="content">
-          <div>
-            <div>
-              <label htmlFor="categories">دسته بندی:</label>
-              <select name="categories" id="categories"></select>
+          <div className="row">
+            <div className="field">
+              <label htmlFor="categories">{"دسته بندی:"}</label>
+              <select name="categories" id="categories">
+                <option value="اجزای خودرو">{"اجزای خودرو"}</option>
+                <option value="اجزای خودرو">{"اجزای خودرو"}</option>
+              </select>
             </div>
-            <div>
-              <label htmlFor="part_type">نوع قطعه:</label>
-              <select name="part_type" id="part_type"></select>
+            <div className="field">
+              <label htmlFor="part_type">{"نوع قطعه:"}</label>
+              <select name="part_type" id="part_type">
+                <option value="قطعه مصرفی لاستیک">{"قطعه مصرفی لاستیک"}</option>
+              </select>
             </div>
           </div>
-          <div>
-            <div>
-              <label htmlFor="accessories_type">نوع لوازم قطعه:</label>
-              <select name="accessories_type" id="accessories_type"></select>
+          <div className="row">
+            <div className="field">
+              <label htmlFor="accessories_type">{"نوع لوازم قطعه:"}</label>
+              <select name="accessories_type" id="accessories_type">
+                <option value="قطعه داخلی یا خارجی یا موتور خودرو">
+                  {"قطعه داخلی یا خارجی یا موتور خودرو"}
+                </option>
+              </select>
             </div>
-            <div>
-              <label htmlFor="name">نام کالا:</label>
+            <div className="field">
+              <label htmlFor="name">{"نام کالا:"}</label>
               <input type="text" name="name" id="name" />
             </div>
           </div>
-          <div>
-            <label htmlFor="message">پیام:</label>
-            <textarea
-              name="message"
-              id="message"
-              // cols={30}
-              rows={10}
-            ></textarea>
+          <div className="message">
+            <label htmlFor="message">{"پیام:"}</label>
+            <textarea name="message" id="message" rows={10}></textarea>
           </div>
-          <div>
-            <label htmlFor="attached_file">فایل پیوست:</label>
-            <div>
-              <div>
-                <button>
-                  <Image src={receiveSquare} alt="receive-square" />
-                  <span>آپلود فایل</span>
-                </button>
-                <input type="file" />
+          <div className="row">
+            <label htmlFor="attached_file">{"فایل پیوست:"}</label>
+            <div className="file-upload">
+              <div className="file">
+                <label htmlFor="file-input" className="file-input-label">
+                  <Image src={fileUploadIcon} alt="receive-square" />
+                  <span>{"آپلود فایل"}</span>
+                </label>
+                <input
+                  type="file"
+                  id="file-input"
+                  className="file-input"
+                  title=""
+                  accept=".png, .jpg, .jpeg"
+                />
               </div>
-              <span>پسوند های مجاز: .jpg, .gif, .jpeg, .png</span>
+              <span className="allowed-types">
+                {"پسوند های مجاز: .jpg, .jpeg, .png"}
+              </span>
             </div>
           </div>
-          <div>
-            <button></button>
+          <div className="action-buttons">
+            <button className="trash">
+              <Image src={trashIcon} alt="trash" />
+            </button>
+            <button type="submit" className="submit">
+              {"جستجوی کالا"}
+            </button>
           </div>
         </form>
       </div>

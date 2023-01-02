@@ -1,7 +1,6 @@
 import DashboardLayout from "components/layouts/dashboard";
 import Image from "next/image";
-import arrowDown from "public/images/arrow-down.svg";
-import upDown from "public/images/arrow-up.svg";
+import receiveSquare from "public/images/receive-square.svg";
 
 const Create = () => {
   return (
@@ -11,34 +10,48 @@ const Create = () => {
         <form className="content">
           <div>
             <div>
-              <label>دسته بندی ها:</label>
-              <input type="text" />
+              <label htmlFor="categories">دسته بندی:</label>
+              <select name="categories" id="categories"></select>
             </div>
             <div>
-              <span>نوع قطعه:</span>
-              <div>
-                <span>قطعه مصرفی لاستیک</span>
-                <Image src={arrowDown} alt="arrow-down" />
-              </div>
+              <label htmlFor="part_type">نوع قطعه:</label>
+              <select name="part_type" id="part_type"></select>
             </div>
           </div>
           <div>
             <div>
-              <span>نوع لوازم قطعه:</span>
-              <div>
-                <span>قطعه داخلی یا خارجی یا موتور خودرو</span>
-                <Image src={arrowDown} alt="arrow-down" />
-              </div>
+              <label htmlFor="accessories_type">نوع لوازم قطعه:</label>
+              <select name="accessories_type" id="accessories_type"></select>
             </div>
             <div>
-              <span>نام کالا:</span>
-              <div>
-                <span>لنت ترمز جلو پراید</span>
-              </div>
+              <label htmlFor="name">نام کالا:</label>
+              <input type="text" name="name" id="name" />
             </div>
           </div>
           <div>
-            <span>پیام:</span>
+            <label htmlFor="message">پیام:</label>
+            <textarea
+              name="message"
+              id="message"
+              // cols={30}
+              rows={10}
+            ></textarea>
+          </div>
+          <div>
+            <label htmlFor="attached_file">فایل پیوست:</label>
+            <div>
+              <div>
+                <button>
+                  <Image src={receiveSquare} alt="receive-square" />
+                  <span>آپلود فایل</span>
+                </button>
+                <input type="file" />
+              </div>
+              <span>پسوند های مجاز: .jpg, .gif, .jpeg, .png</span>
+            </div>
+          </div>
+          <div>
+            <button></button>
           </div>
         </form>
       </div>

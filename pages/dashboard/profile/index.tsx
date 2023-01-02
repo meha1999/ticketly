@@ -1,5 +1,5 @@
 import Title from "components/common/Title";
-import ProfileBole from "public/images/icons/profile_bold.svg";
+import ProfileBold from "public/images/icons/profile_bold.svg";
 import DashboardLayout from "components/layouts/dashboard";
 import Divider from "components/common/Divider";
 import InputWithLabel from "components/pure/profile/InputWithLabel";
@@ -9,7 +9,7 @@ const Profile = () => {
     <DashboardLayout>
       <div className="profile-page-wrapper">
         <Title
-          titleIcon={ProfileBole}
+          titleIcon={ProfileBold}
           titleText="پروفایل"
           titleSideComponent={<div></div>}
         />

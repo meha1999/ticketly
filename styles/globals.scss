@@ -7,6 +7,7 @@
 @import "./pages/dashboard/profile/profile-page";
 @import "./pages/test.scss";
 @import "./pages/dashboard/ticket/create";
+@import "./pages/dashboard/ticket/list";
 
 * {
   margin: 0;
@@ -27,4 +28,26 @@ body {
 input {
   outline: none;
   border: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

@@ -91,6 +91,7 @@
             margin-right: 20px;
           }
           .input-container {
+            width: 100%;
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -136,6 +137,7 @@
             }
           }
           .login-btn {
+            padding: 24px 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -180,6 +182,7 @@
             margin-right: 20px;
           }
           .input-container {
+            width: 100%;
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -193,6 +196,7 @@
             padding: 0 10px;
           }
           .password {
+            gap: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -229,7 +233,8 @@
               color: #a0a0a0;
             }
           }
-          .login-btn {
+          .sign-up-btn {
+            padding: 24px 0;
             display: flex;
             justify-content: center;
             align-items: center;

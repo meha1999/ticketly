@@ -1,9 +1,19 @@
+@import "./components/fonts/FontYekan/style.scss";
 @import "./pages/auth/auth";
 @import "./components/layouts/dashboard";
-@import "./components/common/titlte";
-@import "./pages/dashboard/profile/profle-page";
+@import "./components/common/tittle";
+@import "./components/common/divider";
+
+@import "./pages/dashboard/profile/profile-page";
 @import "./pages/test.scss";
 @import "./pages/dashboard/ticket/create";
+@import "./pages/dashboard/ticket/list";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 html,
 body {
@@ -12,6 +22,12 @@ body {
   overflow-x: hidden;
   margin: 0;
   direction: rtl;
+  font-family: "IranYekan";
+}
+
+input {
+  outline: none;
+  border: none;
 }
 
 /* width */

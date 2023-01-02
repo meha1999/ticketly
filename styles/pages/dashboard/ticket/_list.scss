@@ -1,0 +1,146 @@
+.tickets {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 55px 75px 0 75px;
+  .tickets-conatiner {
+    width: 100%;
+    .ticket-box {
+      overflow-x: auto;
+      margin: 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background-color: #ffffff;
+      border-radius: 25px;
+      .description {
+        display: flex;
+        align-items: center;
+        .number {
+          margin: 0 5px;
+          width: 20%;
+          display: flex;
+          justify-content: center;
+          .value {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50px;
+            background-color: #f4f6f8;
+          }
+        }
+        .ticket-img {
+          width: 84px;
+          height: 84px;
+          margin: 0 10px;
+        }
+        .info {
+          display: flex;
+          flex-direction: column;
+          .name {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 28px;
+            color: #505050;
+            padding-bottom: 4px;
+          }
+          .further-info {
+            display: flex;
+            .brand {
+              text-align: center;
+              font-weight: 600;
+              font-size: 16px;
+              line-height: 25px;
+              padding-left: 15px;
+              width: 110px;
+            }
+            .supplier {
+              text-align: center;
+              width:90px ;
+              padding: 4px ;
+              background-color: #f3c701;
+              border-radius: 20px;
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+      .price {
+        margin: 0 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .amount {
+          text-align: center;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 28px;
+          color: #00a48a;
+        }
+        .code {
+          text-align: center;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 25px;
+          color: #b0b0b0;
+        }
+      }
+      .date-time {
+        border-right: 1px solid #c5c5c5;
+        border-left: 1px solid #c5c5c5;
+        padding: 0 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .date {
+          text-align: center;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 180%;
+          color: #7d7d7d;
+        }
+        .time {
+          text-align: center;
+          padding-top: 5px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 180%;
+          color: #7d7d7d;
+        }
+      }
+      .operation {
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .delete-icon {
+          width: 50px;
+          height: 50px;
+          margin: 10px;
+          cursor: pointer;
+        }
+        .status {
+          width: 70%;
+          margin: 20px 0 30px 20px;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 28px;
+          color: #00a48a;
+          background-color: #defffa;
+          border-radius: 25px;
+          padding: 10px 30px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

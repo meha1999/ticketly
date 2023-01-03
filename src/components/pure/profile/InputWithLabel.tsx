@@ -27,7 +27,7 @@ const InputWithLabel: FC<InputWithLabelProps> = ({
           <div className="input-part">
           <label className="file-input">
             <label htmlFor={id} className="file-input-label">+</label>
-            <input id={id} name={name} type="file" onChange={onChange} />
+            <input id={id} name={name} type="file" onChange={onChange}  accept="image/*" />
           </label>
           </div>
         </div>

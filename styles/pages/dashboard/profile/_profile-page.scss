@@ -1,10 +1,11 @@
 @import "input-with-label";
 
 .profile-page-wrapper {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 55px 55px 0;
 
   .user-profile-form {
@@ -12,6 +13,7 @@
     gap: 30px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     .form-item {
       width: 100%;
       gap: 64px;
@@ -33,6 +35,17 @@
         font-size: 20px;
         align-self: flex-start;
       }
+    }
+  }
+  .form-btns-container {
+    width: 100%;
+    display: flex;
+    gap: 13px;
+    justify-content: flex-end;
+    button {
+      padding: 16px;
+      cursor: pointer;
+      border-radius: 20px;
     }
   }
 }

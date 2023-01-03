@@ -3,8 +3,13 @@ import ProfileBold from "public/images/icons/profile_bold.svg";
 import DashboardLayout from "components/layouts/dashboard";
 import Divider from "components/common/divider";
 import InputWithLabel from "components/pure/profile/InputWithLabel";
+import { useState } from "react";
 
 const Profile = () => {
+  const [profileForm, setProfileForm] = useState({});
+
+  const submitProfileForm = () => {};
+
   return (
     <DashboardLayout>
       <div className="profile-page-wrapper">
@@ -14,9 +19,9 @@ const Profile = () => {
           titleSideComponent={<div></div>}
         />
         <Divider />
-        <form className="user-profile-form">
+        <form className="user-profile-form" onSubmit={submitProfileForm}>
           <div className="form-item">
-            <InputWithLabel isFileInput id="user-detail" label="تصویر کاربری" />
+            <InputWithLabel isFileInput id="user-image" label="تصویر کاربری" />
           </div>
           <div className="form-item">
             <InputWithLabel label="نام و نام خانوادگی" id="user-detail" />
@@ -43,8 +48,29 @@ const Profile = () => {
               <InputWithLabel label="تکرار رمز عبور جدید" id="new-pass" />
             </div>
           </div>
-          <Divider />
+          <div className="form-btns-container">
+            <button
+              style={{
+                color: "#B0B0B0",
+                border: " 1px solid #B0B0B0",
+                backgroundColor: "inherit",
+              }}
+            >
+              لغو
+            </button>
+            <button
+              style={{
+                color: "#fff",
+                backgroundColor: "#00A48A",
+                boxShadow: `0px 10px 20px #00A48A50 `,
+              }}
+              type="submit"
+            >
+              ویرایش اطلاعات
+            </button>
+          </div>
         </form>
+        <Divider />
       </div>
     </DashboardLayout>
   );

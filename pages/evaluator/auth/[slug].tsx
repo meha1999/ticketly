@@ -44,7 +44,7 @@ const SignUp = () => {
           <Image src={googleLogo} alt="google" />
           <span>ثبت نام با گوگل</span>
         </div>
-        <button type="submit" className="sign-up-btn">
+        <button type="submit" className="sign-up-btn bg-evaluator box-shadow-evaluator">
           ثبت نام
         </button>
       </form>
@@ -106,7 +106,7 @@ const Login = () => {
           <Image src={googleLogo} alt="google" />
           <span>ثبت نام با گوگل</span>
         </div>
-        <button type="submit" className="login-btn">
+        <button type="submit" className="login-btn bg-evaluator box-shadow-evaluator">
           ورود
         </button>
       </form>

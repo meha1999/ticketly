@@ -18,6 +18,9 @@
       .dashboard-sidebar {
         width: 15%;
         height: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 24px;
       }
       .dashboard-main {
         width: 85%;

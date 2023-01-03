@@ -3,8 +3,8 @@ import Image from "next/image";
 import fileUploadIcon from "public/images/icons/file_upload.svg";
 import trashIcon from "public/images/icons/trash.svg";
 import createTicket from "public/images/icons/create_ticket_fill.svg";
-import Title from "components/common/Title";
-import Divider from "components/common/Divider";
+import Title from "components/common/title";
+import Divider from "components/common/divider";
 
 const Create = () => {
   return (

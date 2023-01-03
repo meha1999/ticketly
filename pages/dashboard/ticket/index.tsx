@@ -1,10 +1,10 @@
-import Title from "components/common/Title";
+import Title from "components/common/title";
 import DashboardLayout from "components/layouts/dashboard";
 import Image from "next/image";
 import TicketBold from "public/images/icons/ticket_bold.svg";
 import DefaultTicket from "public/images/default-ticket.svg";
 import Delete from "public/images/icons/delete.svg";
-import Divider from "components/common/Divider";
+import Divider from "components/common/divider";
 
 const Tickets = () => {
   const data = [

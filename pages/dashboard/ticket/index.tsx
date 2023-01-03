@@ -1,9 +1,10 @@
-import Title from "components/common/Title";
+import Title from "components/common/title";
 import DashboardLayout from "components/layouts/dashboard";
 import Image from "next/image";
 import TicketBold from "public/images/icons/ticket_bold.svg";
 import DefaultTicket from "public/images/default-ticket.svg";
 import Delete from "public/images/icons/delete.svg";
+import Divider from "components/common/divider";
 
 const Tickets = () => {
   const data = [
@@ -66,6 +67,7 @@ const Tickets = () => {
           titleText="درخواست ها"
           titleSideComponent={<></>}
         />
+        <Divider />
         <div className="tickets-conatiner">
           {data.map((item, key) => (
             <div className="ticket-box" key={key}>

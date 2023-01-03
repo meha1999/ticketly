@@ -3,15 +3,15 @@ import Image from "next/image";
 import fileUploadIcon from "public/images/icons/file_upload.svg";
 import trashIcon from "public/images/icons/trash.svg";
 import createTicket from "public/images/icons/create_ticket_fill.svg";
+import Title from "components/common/title";
+import Divider from "components/common/divider";
 
 const Create = () => {
   return (
     <DashboardLayout>
       <div className="create">
-        <div className="title">
-          <Image src={createTicket} alt="create-ticket" />
-          <h3>{"ثبت تیکت جدید"}</h3>
-        </div>
+        <Title titleText="ثبت تیکت جدید" titleIcon={createTicket} />
+        <Divider />
         <form className="content">
           <div className="row">
             <div className="field">
@@ -54,17 +54,19 @@ const Create = () => {
                   <Image src={fileUploadIcon} alt="receive-square" />
                   <span>{"آپلود فایل"}</span>
                 </label>
-                <input
-                  type="file"
-                  id="file-input"
-                  className="file-input"
-                  title=""
-                  accept=".png, .jpg, .jpeg"
-                />
+                <div>
+                  <input
+                    type="file"
+                    id="file-input"
+                    className="file-input"
+                    title=""
+                    accept=".png, .jpg, .jpeg"
+                  />
+                  <span className="allowed-types">
+                    {"پسوند های مجاز: .jpg, .jpeg, .png"}
+                  </span>
+                </div>
               </div>
-              <span className="allowed-types">
-                {"پسوند های مجاز: .jpg, .jpeg, .png"}
-              </span>
             </div>
           </div>
           <div className="action-buttons">

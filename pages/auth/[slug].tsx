@@ -4,9 +4,15 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "public/images/logo.svg";
-import googleLogo from "public/images/google_logo.svg";
+import googleLogo from "public/images/icons/google_logo.svg";
 import loginTools from "public/images/login-tools.svg";
 import signUpTools from "public/images/sign-up-tools.svg";
+import { AuthService } from "services/auth.service";
+import { useDispatch } from "react-redux";
+import { REDUX_ACTION } from "src/enum/redux-action.enum";
+import { FieldValues, useForm } from "react-hook-form";
+
+const authService = new AuthService("http://172.16.151.226:9000");
 
 const SignUp = () => {
   return (
@@ -49,16 +55,48 @@ const SignUp = () => {
 };
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const loginUser = async (data: FieldValues) => {
+    try {
+      const res = await authService.login(data);
+      dispatch({
+        type: REDUX_ACTION.SET_TOKEN,
+        payload: res.data.key,
+      });
+      router.push("/dashboard");
+    } catch (err) {
+      console.log("err", err);
+    } finally {
+    }
+  };
+
   return (
     <div className="login">
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit(loginUser)}>
         <div className="input-container">
-          <label htmlFor="email">آدرس ایمیل:</label>
-          <input type="email" name="email" id="email" />
+          <label htmlFor="username">نام کاربری :</label>
+          <input
+            type="text"
+            id="username"
+            {...register("username", { required: true })}
+          />
+          {errors.username && <p>username is required.</p>}
         </div>
         <div className="input-container">
           <label htmlFor="">رمز عبور:</label>
-          <input type="password" name="password" id="password" />
+          <input
+            type="password"
+            id="password"
+            {...register("password", { required: true })}
+          />
+          {errors.password && <p>password is required.</p>}
         </div>
         <div className="login-with-google">
           <div className="line"></div>
@@ -77,11 +115,6 @@ const Login = () => {
     </div>
   );
 };
-
-
-
-
-
 
 const Auth = () => {
   const router = useRouter();

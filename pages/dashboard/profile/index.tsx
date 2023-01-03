@@ -1,7 +1,7 @@
-import Title from "components/common/Title";
+import Title from "components/common/title";
 import ProfileBold from "public/images/icons/profile_bold.svg";
 import DashboardLayout from "components/layouts/dashboard";
-import Divider from "components/common/Divider";
+import Divider from "components/common/divider";
 import InputWithLabel from "components/pure/profile/InputWithLabel";
 import { useState } from "react";
 

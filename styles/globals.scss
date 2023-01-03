@@ -3,6 +3,7 @@
 @import "./components/layouts/dashboard";
 @import "./components/common/tittle";
 @import "./components/common/divider";
+@import "./components/common/header/header";
 
 @import "./pages/dashboard/profile/profile-page";
 @import "./pages/test.scss";
@@ -13,6 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "IranYekan";
 }
 
 html,
@@ -22,10 +24,11 @@ body {
   overflow-x: hidden;
   margin: 0;
   direction: rtl;
-  font-family: "IranYekan";
 }
 
-input {
+input,
+select,
+textarea {
   outline: none;
   border: none;
 }

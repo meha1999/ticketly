@@ -24,6 +24,13 @@
         height: 100%;
         background-color: #f4f6f8;
         border-radius: 60px;
+        overflow-y: auto;
+      }
+      .dashboard-main::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        margin-bottom: 45px !important;
+        margin-top: 45px !important;
+        border-radius: 10px;
       }
     }
   }

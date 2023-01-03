@@ -85,7 +85,7 @@ const Auth = () => {
             </div>
           </div>
         </div>
-        <div className="auth-form">
+        <div className="auth-form" style={{borderRadius :'60px'}}>
           <Login />
         </div>
       </div>

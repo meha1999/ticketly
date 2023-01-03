@@ -3,15 +3,15 @@ import Image from "next/image";
 import fileUploadIcon from "public/images/icons/file_upload.svg";
 import trashIcon from "public/images/icons/trash.svg";
 import createTicket from "public/images/icons/create_ticket_fill.svg";
+import Title from "components/common/Title";
+import Divider from "components/common/Divider";
 
 const Create = () => {
   return (
     <DashboardLayout>
       <div className="create">
-        <div className="title">
-          <Image src={createTicket} alt="create-ticket" />
-          <h3>{"ثبت تیکت جدید"}</h3>
-        </div>
+        <Title titleText="ثبت تیکت جدید" titleIcon={createTicket} />
+        <Divider />
         <form className="content">
           <div className="row">
             <div className="field">

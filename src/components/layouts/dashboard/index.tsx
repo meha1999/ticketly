@@ -8,9 +8,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <div className="dashboard-layout">
       <div className="dashboard-container">
-        <div className="header">ddddddddd</div>
+        <div className="header">header</div>
         <div className="dashboard-content">
-          <div className="dashboard-sidebar">ddddddddd</div>
+          <div className="dashboard-sidebar">sidebar</div>
           <div className="dashboard-main">{children}</div>
         </div>
       </div>

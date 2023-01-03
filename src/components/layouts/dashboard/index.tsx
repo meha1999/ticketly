@@ -1,4 +1,5 @@
 import Header from "components/common/header";
+import Sidebar from "components/common/sidebar";
 import { GetServerSideProps } from "next";
 import React from "react";
 
@@ -13,7 +14,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           <Header />
         </div>
         <div className="dashboard-content">
-          <div className="dashboard-sidebar">sidebar</div>
+          <div className="dashboard-sidebar">
+            <Sidebar />
+          </div>
           <div className="dashboard-main">{children}</div>
         </div>
       </div>

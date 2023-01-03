@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "public/images/logo.svg";
 import googleLogo from "public/images/icons/google_logo.svg";
-import authTools from "public/images/auth/mechanic.svg";
+import loginTools from "public/images/login-tools.svg";
+import signUpTools from "public/images/sign-up-tools.svg";
 import { AuthService } from "services/auth.service";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
@@ -48,7 +49,7 @@ const SignUp = () => {
           ثبت نام
         </button>
       </form>
-      <Image src={authTools} alt="tools" className="tools-image" />
+      <Image src={signUpTools} alt="tools" className="tools-image" />
     </div>
   );
 };
@@ -69,7 +70,7 @@ const Login = () => {
         type: REDUX_ACTION.SET_TOKEN,
         payload: res.data.key,
       });
-      router.push("/mechanic/dashboard");
+      router.push("/dashboard");
     } catch (err) {
       console.log("err", err);
     } finally {
@@ -110,7 +111,7 @@ const Login = () => {
           ورود
         </button>
       </form>
-      <Image src={authTools} alt="tools" className="tools-image" />
+      <Image src={loginTools} alt="tools" className="tools-image" />
     </div>
   );
 };
@@ -131,13 +132,13 @@ const Auth = () => {
         <div className="auth-header">
           <div className="auth-tabs">
             <Link
-              href="/mechanic/auth/login"
+              href="/auth/login"
               className={authType === "login" ? "selected tab" : "tab"}
             >
               {"ورود"}
             </Link>
             <Link
-              href="/mechanic/auth/signup"
+              href="/auth/signup"
               className={authType === "signup" ? "selected tab" : "tab"}
             >
               {"ثبت نام"}
@@ -161,7 +162,7 @@ export default Auth;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (ctx.query.slug !== "login" && ctx.query.slug !== "signup") {
-    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.setHeader("Location", "/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

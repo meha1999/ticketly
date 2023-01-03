@@ -1,4 +1,4 @@
-import DashboardLayout from "components/layouts/dashboard";
+import DashboardLayout from "components/layouts/dashboard/evaluator";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 

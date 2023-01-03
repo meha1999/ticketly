@@ -13,83 +13,157 @@ import Wallet from "images/icons/wallet";
 import ProductRegistration from "images/icons/product_registration";
 import Store from "images/icons/store";
 import SuppliersList from "images/icons/suppliers_list";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-const EvaluatorSidebar = () => {
+const Sidebar = () => {
+  const router = useRouter();
+
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name">{"پنل مدیریت"}</div>
+      <div className="panel-name" style={{ backgroundColor: "#5E7BEC" }}>
+        {"پنل ارزیاب"}
+      </div>
       <ul className="menus">
-        <li className="menu">
-          <Counter color="#BDBDBD" />
-          <span>{"پیشخوان"}</span>
-        </li>
-        <li className="menu">
-          <div
+        <li>
+          <Link
+            href="/evaluator/dashboard"
+            className="menu"
             style={{
-              width: "24px",
-              height: "24px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              objectFit: "cover",
+              color: `${
+                router.pathname === "/evaluator/dashboard"
+                  ? "#5E7BEC"
+                  : "#4d4d4d"
+              }`,
             }}
           >
-            <UserIcon color="#4D4D4D" />
-          </div>
-          <span>{"پروفایل"}</span>
+            <Counter
+              color={
+                router.pathname === "/evaluator/dashboard"
+                  ? "#5E7BEC"
+                  : "#4d4d4d"
+              }
+            />
+            <span>{"پیشخوان"}</span>
+          </Link>
         </li>
-        {/* <li className="menu">
-      <ProductSearch color="#4D4D4D" />
-      <span>{"جستجو کالا"}</span>
-    </li> */}
-        {/* <li className="menu">
-      <NewTicketRegistration color="#4D4D4D" />
-      <span>{"ثبت تیکت جدید"}</span>
-    </li> */}
-        <li className="menu">
-          <ProductRegistration color="#4D4D4D" />
-          <span>{"ثبت محصول"}</span>
+        <li>
+          <Link
+            href=""
+            className="menu"
+            style={{
+              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+            }}
+          >
+            <div
+              style={{
+                width: "24px",
+                height: "24px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                objectFit: "cover",
+              }}
+            >
+              <UserIcon
+                color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
+              />
+            </div>
+            <span>{"پروفایل"}</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href=""
+            className="menu"
+            style={{
+              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+            }}
+          >
+            <ProductRegistration
+              color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
+            />
+            <span>{"ثبت محصول"}</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href=""
+            className="menu"
+            style={{
+              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+            }}
+          >
+            <Store color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"} />
+            <span>{"انبار"}</span>
+          </Link>
         </li>
         <li className="menu">
-          <Store color="#4D4D4D" />
-          <span>{"انبار"}</span>
-        </li>
-        <li className="menu">
-          <RegisteredRequests color="#4D4D4D" />
+          <RegisteredRequests color="#4d4d4d" />
           <span>{"درخواست‌های ثبت شده"}</span>
         </li>
         <ul className="sub-menus">
-          <li className="menu">
-            <span>{"درخواست‌های فعال"}</span>
+          <li>
+            <Link
+              href=""
+              className="menu"
+              style={{
+                color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+              }}
+            >
+              <span
+                style={{
+                  color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+                }}
+              >
+                {"درخواست‌های فعال"}
+              </span>
+            </Link>
           </li>
-          <li className="menu">
-            <span>{"درخواست‌های بسته شده"}</span>
+          <li>
+            <Link
+              href=""
+              className="menu"
+              style={{
+                color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+              }}
+            >
+              <span
+                style={{
+                  color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+                }}
+              >
+                {"درخواست‌های بسته شده"}
+              </span>
+            </Link>
           </li>
         </ul>
-        <li className="menu">
-          <SuppliersList color="#4D4D4D" />
-          <span>{"لیست تامین کنندگان"}</span>
+        <li>
+          <Link
+            href=""
+            className="menu"
+            style={{
+              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+            }}
+          >
+            <SuppliersList
+              color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
+            />
+            <span>{"لیست تامین کنندگان"}</span>
+          </Link>
         </li>
-        <li className="menu">
-          <ChatPage color="#4D4D4D" />
-          <span>{"صفحه چت"}</span>
+        <li>
+          <Link
+            href=""
+            className="menu"
+            style={{
+              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+            }}
+          >
+            <ChatPage color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"} />
+            <span>{"صفحه چت"}</span>
+          </Link>
         </li>
-        {/* <li className="menu">
-      <Orders color="#4D4D4D" />
-      <span>{"سفارشات"}</span>
-    </li> */}
-        {/* <li className="menu">
-      <Wallet color="#4D4D4D" />
-      <span>{"کیف پول"}</span>
-    </li> */}
-        {/* <li className="menu">
-      <Users color="#4D4D4D" />
-      <span>{"کاربران"}</span>
-    </li> */}
-        {/* <li className="menu">
-      <Settings color="#4D4D4D" />
-      <span>{"تنظیمات"}</span>
-    </li> */}
       </ul>
       <button className="logout-btn">
         <Image src={logoutIcon} alt="logout" />
@@ -99,4 +173,4 @@ const EvaluatorSidebar = () => {
   );
 };
 
-export default EvaluatorSidebar;
+export default Sidebar;

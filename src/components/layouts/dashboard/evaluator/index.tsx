@@ -1,5 +1,5 @@
 import Header from "components/common/header";
-import Sidebar from "components/common/sidebar";
+import Sidebar from "components/common/sidebar/evaluator-sidebar";
 import { GetServerSideProps } from "next";
 import React from "react";
 

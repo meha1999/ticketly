@@ -77,7 +77,6 @@ const Login = () => {
     }
   };
 
-  console.log(errors)
   return (
     <div className="login">
       <form className="form" onSubmit={handleSubmit(loginUser)}>
@@ -86,7 +85,7 @@ const Login = () => {
           <input
             type="text"
             id="username"
-            {...register('username', { required: true })}
+            {...register("username", { required: true })}
           />
           {errors.username && <p>username is required.</p>}
         </div>
@@ -95,7 +94,7 @@ const Login = () => {
           <input
             type="password"
             id="password"
-            {...register('password', { required: true })}
+            {...register("password", { required: true })}
           />
           {errors.password && <p>password is required.</p>}
         </div>

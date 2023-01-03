@@ -54,17 +54,19 @@ const Create = () => {
                   <Image src={fileUploadIcon} alt="receive-square" />
                   <span>{"آپلود فایل"}</span>
                 </label>
-                <input
-                  type="file"
-                  id="file-input"
-                  className="file-input"
-                  title=""
-                  accept=".png, .jpg, .jpeg"
-                />
+                <div>
+                  <input
+                    type="file"
+                    id="file-input"
+                    className="file-input"
+                    title=""
+                    accept=".png, .jpg, .jpeg"
+                  />
+                  <span className="allowed-types">
+                    {"پسوند های مجاز: .jpg, .jpeg, .png"}
+                  </span>
+                </div>
               </div>
-              <span className="allowed-types">
-                {"پسوند های مجاز: .jpg, .jpeg, .png"}
-              </span>
             </div>
           </div>
           <div className="action-buttons">

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "public/images/logo.svg";
-import googleLogo from "public/images/google_logo.svg";
+import googleLogo from "public/images/icons/google_logo.svg";
 import loginTools from "public/images/login-tools.svg";
 import signUpTools from "public/images/sign-up-tools.svg";
 
@@ -77,11 +77,6 @@ const Login = () => {
     </div>
   );
 };
-
-
-
-
-
 
 const Auth = () => {
   const router = useRouter();

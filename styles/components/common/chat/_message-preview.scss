@@ -1,0 +1,49 @@
+.message-preview {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-top: 1px solid #dddddd;
+  .profile-image {
+    width: 44px;
+    height: 44px;
+    background: #f4f6f8;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .name {
+    font-weight: 700;
+    font-size: 18px;
+    color: #4d4d4d;
+    margin-right: 12px;
+    width: 15%;
+  }
+  .message {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 20px;
+    width: 70%;
+    border-right: 1px solid #b0b0b0;
+    border-left: 1px solid #b0b0b0;
+    .content {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 400;
+      font-size: 14px;
+      color: #5f5f5f;
+    }
+  }
+  .date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    color: #7d7d7d;
+    margin-right: auto;
+    width: 10%;
+  }
+}

@@ -1,0 +1,45 @@
+.message-wrapper {
+  background: #f4f6f8;
+  border-radius: 25px;
+  padding: 20px;
+  margin-top: auto;
+  .content {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+    resize: none;
+  }
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    .tools {
+      display: flex;
+      align-items: center;
+      gap: 27px;
+      .tool_btn {
+        width: fit-content;
+        height: fit-content;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+      }
+    }
+    .submit_btn {
+      width: 195px;
+      height: 50px;
+      background: #00a48a;
+      box-shadow: 0px 10px 20px rgba(0, 164, 138, 0.3);
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      color: #ffffff;
+    }
+  }
+}

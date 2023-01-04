@@ -1,4 +1,4 @@
-import DashboardLayout from "components/layouts/dashboard/mechanic";
+import DashboardLayout from "components/layouts/dashboard/evaluator";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
@@ -9,7 +9,7 @@ const Dashboard = () => {
   >((store: ReduxStoreModel) => store.token);
   console.log(token);
 
-  return <DashboardLayout>Mechanic Dashboard</DashboardLayout>;
+  return <DashboardLayout>Evaluator Dashboard</DashboardLayout>;
 };
 
 export default Dashboard;

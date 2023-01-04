@@ -1,0 +1,32 @@
+.drop-down-wrapper {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .label {
+    min-width: 150px;
+  }
+  .drop-down {
+    height: 100%;
+    padding: 12px;
+    min-width: 430px;
+    max-width: 1185px;
+    font-size: 18px;
+    border-radius: 25px;
+    outline: none;
+    border: none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-image: url("../../../../public/images/icons/down_arrow.svg");
+    background-repeat: no-repeat;
+    background-position: 25px center;
+    background-size: 10px;
+    background-color: #e4e7ea;
+
+    &.full {
+      width: 100%;
+    }
+  }
+}

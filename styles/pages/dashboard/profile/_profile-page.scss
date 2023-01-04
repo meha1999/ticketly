@@ -1,13 +1,10 @@
-@import "input-with-label";
-
 .profile-page-wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 55px 55px 0;
-
+  margin-bottom: 20px;
   .user-profile-form {
     width: 100%;
     gap: 30px;
@@ -43,7 +40,7 @@
     gap: 13px;
     justify-content: flex-end;
     button {
-      padding: 16px;
+      padding: 16px 32px;
       cursor: pointer;
       border-radius: 20px;
     }

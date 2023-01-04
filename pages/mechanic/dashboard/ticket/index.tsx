@@ -1,5 +1,5 @@
 import Title from "components/common/title";
-import DashboardLayout from "components/layouts/dashboard";
+import DashboardLayout from "components/layouts/dashboard/evaluator";
 import Image from "next/image";
 import TicketBold from "public/images/icons/ticket_bold.svg";
 import DefaultTicket from "public/images/default-ticket.svg";

@@ -7,10 +7,6 @@ import VerticalNext from "images/icons/vertical_next";
 const Chat = () => {
   return (
     <div className="chat">
-      <Link href="/" className="return-to-requests">
-        <Image src={returnIcon} alt="return" />
-        <span>{"بازگشت به درخواست‌ها"}</span>
-      </Link>
       <div className="heading">
         <h2 className="title">{"لنت ترمز جلو پراید"}</h2>
         <div>

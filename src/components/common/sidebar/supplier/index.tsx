@@ -5,7 +5,6 @@ import logoutIcon from "images/icons/logout.svg";
 import UserIcon from "images/icons/user_icon";
 import ProductRegistration from "images/icons/product_registration";
 import Store from "images/icons/store";
-import SuppliersList from "images/icons/suppliers_list";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Orders from "images/icons/orders";
@@ -102,20 +101,6 @@ const Sidebar = () => {
           >
             <RegisteredRequests color="#4d4d4d" />
             <span>{"درخواست‌های ثبت شده"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#F2C901" : "#4d4d4d"}`,
-            }}
-          >
-            <SuppliersList
-              color={router.pathname === "" ? "#F2C901" : "#4d4d4d"}
-            />
-            <span>{"لیست ارزیابان"}</span>
           </Link>
         </li>
         <li>

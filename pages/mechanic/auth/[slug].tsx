@@ -14,21 +14,53 @@ import { FieldValues, useForm } from "react-hook-form";
 const authService = new AuthService("http://172.16.151.226:9000");
 
 const SignUp = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const signUpUser = async (data: FieldValues) => {
+    try {
+      const res = await authService.signUp(data, "mechanic");
+      dispatch({
+        type: REDUX_ACTION.SET_TOKEN,
+        payload: res.data.key,
+      });
+      router.push("/mechanic/dashboard");
+    } catch (err) {
+      console.log("err", err);
+    } finally {
+    }
+  };
+
   return (
     <div className="sign-up">
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit(signUpUser)}>
         <div className="input-container">
-          <label htmlFor="name">نام و نام خانوادگی:</label>
-          <input type="text" name="name" id="name" />
+          <label htmlFor="username">نام و نام خانوادگی:</label>
+          <input
+            type="text"
+            id="username"
+            {...register("username", { required: true })}
+          />
+          {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
         </div>
         <div className="input-container">
-          <label htmlFor="name">آدرس ایمیل:</label>
+          <label htmlFor="email">آدرس ایمیل:</label>
           <input type="email" name="email" id="email" />
         </div>
         <div className="password">
           <div className="input-container">
             <label htmlFor="password">رمز عبور:</label>
-            <input type="password" name="password" id="password" />
+            <input
+              type="password"
+              id="password"
+              {...register("password", { required: true })}
+            />
+            {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
           </div>
           <div className="input-container">
             <label htmlFor="rePassword">تکرار رمز عبور:</label>
@@ -44,7 +76,10 @@ const SignUp = () => {
           <Image src={googleLogo} alt="google" />
           <span>ثبت نام با گوگل</span>
         </div>
-        <button type="submit" className="sign-up-btn bg-mechanic box-shadow-mechanic">
+        <button
+          type="submit"
+          className="sign-up-btn bg-mechanic box-shadow-mechanic"
+        >
           ثبت نام
         </button>
       </form>
@@ -64,7 +99,7 @@ const Login = () => {
 
   const loginUser = async (data: FieldValues) => {
     try {
-      const res = await authService.login(data);
+      const res = await authService.login(data, "mechanic");
       dispatch({
         type: REDUX_ACTION.SET_TOKEN,
         payload: res.data.key,
@@ -86,7 +121,7 @@ const Login = () => {
             id="username"
             {...register("username", { required: true })}
           />
-          {errors.username && <p>username is required.</p>}
+          {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
         </div>
         <div className="input-container">
           <label htmlFor="">رمز عبور:</label>
@@ -95,7 +130,7 @@ const Login = () => {
             id="password"
             {...register("password", { required: true })}
           />
-          {errors.password && <p>password is required.</p>}
+          {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
         </div>
         <div className="login-with-google">
           <div className="line"></div>
@@ -106,7 +141,10 @@ const Login = () => {
           <Image src={googleLogo} alt="google" />
           <span>ثبت نام با گوگل</span>
         </div>
-        <button type="submit" className="login-btn bg-mechanic box-shadow-mechanic">
+        <button
+          type="submit"
+          className="login-btn bg-mechanic box-shadow-mechanic"
+        >
           ورود
         </button>
       </form>

@@ -5,7 +5,7 @@
 @import "./components/common/divider";
 @import "./components/common/header/header";
 @import "./components/common/sidebar/sidebar";
-
+@import "./components/common/inputs/inputs.scss";
 @import "./pages/dashboard/profile/profile-page";
 @import "./pages/test.scss";
 @import "./pages/dashboard/ticket/create";
@@ -54,15 +54,14 @@ button {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #E4E7EA;
+  background: #e4e7ea;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #E4E7EA;
+  background: #e4e7ea;
 }
-
 
 .bg-admin {
   background-color: #505050;

@@ -1,47 +1,38 @@
 import Image from "next/image";
 import Counter from "images/icons/counter";
 import RegisteredRequests from "images/icons/registered_requests";
-import Settings from "images/icons/settings";
-import Users from "images/icons/users";
 import logoutIcon from "images/icons/logout.svg";
 import UserIcon from "images/icons/user_icon";
-import ProductSearch from "images/icons/product_search";
-import NewTicketRegistration from "images/icons/new_ticket_registration";
-import ChatPage from "images/icons/chat_page";
-import Orders from "images/icons/orders";
-import Wallet from "images/icons/wallet";
 import ProductRegistration from "images/icons/product_registration";
 import Store from "images/icons/store";
 import SuppliersList from "images/icons/suppliers_list";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Users from "images/icons/users";
+import Settings from "images/icons/settings";
 
 const Sidebar = () => {
   const router = useRouter();
 
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name" style={{ backgroundColor: "#5E7BEC" }}>
-        {"پنل ارزیاب"}
+      <div className="panel-name" style={{ backgroundColor: "#505050" }}>
+        {"پنل مدیریت"}
       </div>
       <ul className="menus">
         <li>
           <Link
-            href="/evaluator/dashboard"
+            href="/admin/dashboard"
             className="menu"
             style={{
               color: `${
-                router.pathname === "/evaluator/dashboard"
-                  ? "#5E7BEC"
-                  : "#4d4d4d"
+                router.pathname === "/admin/dashboard" ? "#BDBDBD" : "#4d4d4d"
               }`,
             }}
           >
             <Counter
               color={
-                router.pathname === "/evaluator/dashboard"
-                  ? "#5E7BEC"
-                  : "#4d4d4d"
+                router.pathname === "/admin/dashboard" ? "#BDBDBD" : "#4d4d4d"
               }
             />
             <span>{"پیشخوان"}</span>
@@ -52,7 +43,7 @@ const Sidebar = () => {
             href=""
             className="menu"
             style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+              color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
             }}
           >
             <div
@@ -66,41 +57,15 @@ const Sidebar = () => {
               }}
             >
               <UserIcon
-                color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
+                color={router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}
               />
             </div>
             <span>{"پروفایل"}</span>
           </Link>
         </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-            }}
-          >
-            <ProductRegistration
-              color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
-            />
-            <span>{"ثبت محصول"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-            }}
-          >
-            <Store color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"} />
-            <span>{"انبار"}</span>
-          </Link>
-        </li>
         <li className="menu">
           <RegisteredRequests color="#4d4d4d" />
-          <span>{"درخواست‌های ثبت شده"}</span>
+          <span>{"درخواست‌ها"}</span>
         </li>
         <ul className="sub-menus">
           <li>
@@ -108,15 +73,15 @@ const Sidebar = () => {
               href=""
               className="menu"
               style={{
-                color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+                color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
               }}
             >
               <span
                 style={{
-                  color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+                  color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
                 }}
               >
-                {"درخواست‌های فعال"}
+                {"درخواست‌های در حال تامین"}
               </span>
             </Link>
           </li>
@@ -125,12 +90,29 @@ const Sidebar = () => {
               href=""
               className="menu"
               style={{
-                color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+                color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
               }}
             >
               <span
                 style={{
-                  color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+                  color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
+                }}
+              >
+                {"درخواست‌های درحال ارسال"}
+              </span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href=""
+              className="menu"
+              style={{
+                color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
+              }}
+            >
+              <span
+                style={{
+                  color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
                 }}
               >
                 {"درخواست‌های بسته شده"}
@@ -143,13 +125,11 @@ const Sidebar = () => {
             href=""
             className="menu"
             style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+              color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
             }}
           >
-            <SuppliersList
-              color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
-            />
-            <span>{"لیست تامین کنندگان"}</span>
+            <Users color={router.pathname === "" ? "#BDBDBD" : "#4d4d4d"} />
+            <span>{"کاربران"}</span>
           </Link>
         </li>
         <li>
@@ -157,11 +137,11 @@ const Sidebar = () => {
             href=""
             className="menu"
             style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
+              color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
             }}
           >
-            <ChatPage color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"} />
-            <span>{"صفحه چت"}</span>
+            <Settings color={router.pathname === "" ? "#BDBDBD" : "#4d4d4d"} />
+            <span>{"تنظیمات"}</span>
           </Link>
         </li>
       </ul>

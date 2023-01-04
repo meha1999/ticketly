@@ -22,7 +22,7 @@ const Login = () => {
 
   const loginUser = async (data: FieldValues) => {
     try {
-      const res = await authService.login(data);
+      const res = await authService.login(data, "admin");
       dispatch({
         type: REDUX_ACTION.SET_TOKEN,
         payload: res.data.key,
@@ -44,7 +44,7 @@ const Login = () => {
             id="username"
             {...register("username", { required: true })}
           />
-          {errors.username && <p>username is required.</p>}
+          {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
         </div>
         <div className="input-container">
           <label htmlFor="">رمز عبور:</label>
@@ -53,7 +53,7 @@ const Login = () => {
             id="password"
             {...register("password", { required: true })}
           />
-          {errors.password && <p>password is required.</p>}
+          {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
         </div>
         <div className="login-with-google">
           <div className="line"></div>
@@ -85,7 +85,7 @@ const Auth = () => {
             </div>
           </div>
         </div>
-        <div className="auth-form" style={{borderRadius :'60px'}}>
+        <div className="auth-form" style={{ borderRadius: "60px" }}>
           <Login />
         </div>
       </div>

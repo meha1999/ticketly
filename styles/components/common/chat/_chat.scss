@@ -1,0 +1,28 @@
+.chat {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 40px 50px;
+  .return-to-requests {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: #4d4d4d;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  .heading {
+    display: flex;
+    align-items: center;
+    padding-bottom: 15px;
+    .title {
+      font-weight: 700;
+      font-size: 22px;
+      color: #4d4d4d;
+    }
+  }
+}

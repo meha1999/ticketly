@@ -1,3 +1,4 @@
+import Chat from "components/common/chat";
 import DashboardLayout from "components/layouts/dashboard/mechanic";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
@@ -9,7 +10,11 @@ const Dashboard = () => {
   >((store: ReduxStoreModel) => store.token);
   console.log(token);
 
-  return <DashboardLayout>Mechanic Dashboard</DashboardLayout>;
+  return (
+    <DashboardLayout>
+      <Chat />
+    </DashboardLayout>
+  );
 };
 
 export default Dashboard;

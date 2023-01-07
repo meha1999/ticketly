@@ -24,9 +24,8 @@ const Title: FC<TitleProps> = ({
           />
           <span className="title-text">{titleText}</span>
         </div>
-        <div className="side-component">{titleSideComponent}</div>
+        {titleSideComponent}
       </div>
-      <span className="underline" />
     </div>
   );
 };

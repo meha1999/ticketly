@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { FieldValues, useForm } from "react-hook-form";
 
-const authService = new AuthService("http://172.16.151.226:9000");
+const authService = new AuthService();
 
 const SignUp = () => {
   const {

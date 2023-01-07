@@ -9,12 +9,13 @@
 @import "./components/common/chat/chat";
 @import "./components/common/chat/message-preview";
 @import "./components/common/chat/message";
+@import "./components/pure/order-completion";
+@import "./components/pure/chat-list";
+@import "./components/pure/message-card";
 
 @import "./pages/dashboard/profile/profile-page";
 @import "./pages/dashboard/requests/request-page-evaluator";
 @import "./pages/dashboard/requests/request-page-supplier";
-
-@import "./pages/test.scss";
 @import "./pages/dashboard/ticket/create";
 @import "./pages/dashboard/ticket/list";
 

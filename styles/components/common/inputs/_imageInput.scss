@@ -1,5 +1,4 @@
 .image-input-wrapper {
-  gap: 24px;
   height: 100px;
   width: calc(50% - 32px);
   display: flex;
@@ -9,7 +8,7 @@
     min-width: 150px;
   }
   .input-part {
-    min-width: 430px;
+   width: 100%;
     .image-input {
       width: 100px;
       height: 100px;

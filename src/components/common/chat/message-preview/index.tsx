@@ -1,14 +1,15 @@
 import UserIcon from "images/icons/user_icon";
 import Image from "next/image";
-import seenIcon from "images/icons/seen.svg";
 import { FC } from "react";
+import Seen from "images/icons/seen";
 
 interface MessagePreviewProps {
   profileImage?: string;
   name: string;
   message?: string;
-  date: string;
+  date?: string;
   color?: string;
+  hasSeen: boolean;
 }
 
 const MessagePreview: FC<MessagePreviewProps> = ({
@@ -17,6 +18,7 @@ const MessagePreview: FC<MessagePreviewProps> = ({
   message,
   date,
   color,
+  hasSeen,
 }) => {
   return (
     <div className="message-preview">
@@ -28,13 +30,17 @@ const MessagePreview: FC<MessagePreviewProps> = ({
         )}
       </div>
       <span className="name">{name}</span>
-      <div className="message">
-        <div className="content">{message!}</div>
-        {message && <Image src={seenIcon} alt="seen" />}
-      </div>
-      <div className="date">
-        <span>{date}</span>
-      </div>
+      {message && (
+        <div className="message">
+          <div className="content">{message!}</div>
+          <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />
+        </div>
+      )}
+      {date && (
+        <div className="date">
+          <span>{date}</span>
+        </div>
+      )}
     </div>
   );
 };

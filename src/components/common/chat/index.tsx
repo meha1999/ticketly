@@ -76,6 +76,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
             date={JalaliDateTime(dateTimeConfig).toFullText(
               new Date(item.created_at)
             )}
+            hasSeen={item.seen}
           />
         ))}
         <div ref={ref}></div>
@@ -85,7 +86,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         // color={userType["mechanic"]}
         name="متین نوروزپور"
         // message=""
-        date="7 دی ماه 1401 13:19"
+        hasSeen={false}
       />
       <Message color={userType[router.asPath.split("/")[1]]} onSend={onSend} />
     </div>

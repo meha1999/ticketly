@@ -40,6 +40,9 @@ const Profile = () => {
     newPassRepeat: "",
   });
 
+  const [cities, setCities] = useState();
+  const [province, setProvince] = useState();
+
   const submitProfileForm = () => {};
 
   const userProfileHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,6 +111,7 @@ const Profile = () => {
             <Dropdown
               label="شهر"
               id="city"
+              disabled
               onChange={setProfileDataHandler}
               currentValue={profileForm.city}
               currentOptions={["sss", "Sssss", "eeee"]}
@@ -184,3 +188,11 @@ const Profile = () => {
 };
 
 export default Profile;
+
+// export const getServerSideProps = async (ctx) => {
+//   const provincesRes = await axios.get();
+//   const provinces = provincesRes.data
+//   return {
+//     props: {provinces},
+//   };
+// };

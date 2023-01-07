@@ -18,9 +18,12 @@ const dateTimeConfig = {
 
 const userType: Record<string, string> = {
   staff: "#5E7BEC",
+  evaluator: "#5E7BEC",
   customer: "#00A48A",
+  mechanic: "#00A48A",
   supplier: "#F2C901",
 };
+
 interface ChatComponentProps {
   data: Array<any>;
   onSend: any;
@@ -84,7 +87,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         // message=""
         date="7 دی ماه 1401 13:19"
       />
-      <Message color={userType[router.asPath.split("/")[1]]}  onSend={onSend}/>
+      <Message color={userType[router.asPath.split("/")[1]]} onSend={onSend} />
     </div>
   );
 };

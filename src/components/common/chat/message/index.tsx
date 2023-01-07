@@ -3,10 +3,22 @@ import Microphone from "images/icons/microphone";
 import Attach from "images/icons/attach";
 import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
+import React from "react";
 
-const Message = () => {
+interface MessageProps {
+  onSend: any;
+}
+
+const Message: React.FC<MessageProps> = ({ onSend }) => {
+  
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    onSend(e.target.firstChild.value);
+    e.target.firstChild.value = "";
+  };
+
   return (
-    <form className="message-wrapper">
+    <form className="message-wrapper" onSubmit={handleSubmit}>
       <textarea
         name="content"
         id="content"

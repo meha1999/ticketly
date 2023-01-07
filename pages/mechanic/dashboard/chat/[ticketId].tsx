@@ -1,6 +1,7 @@
+import ChatComponent from "components/common/chat";
 import DashboardLayout from "components/layouts/dashboard/mechanic";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
@@ -12,18 +13,18 @@ const Chat = () => {
   const dispatch = useDispatch();
 
   const [socketUrl, setSocketUrl] = useState(
-    `ws://172.16.151.226:9000/ws/chat/${router.query.ticketId}/`
+    `ws://172.16.151.170:8000/ws/chat/${router.query.ticketId}/`
   );
 
   useEffect(() => {
     router.query.ticketId &&
       setSocketUrl(
-        `ws://172.16.151.226:9000/ws/chat/${router.query.ticketId}/`
+        `ws://172.16.151.170:8000/ws/chat/${router.query.ticketId}/`
       );
     router.query.ticketId && fetchMessageHistory();
   }, [router.query.ticketId]);
 
-  const [messageHistory, setMessageHistory] = useState([]);
+  const [messageHistory, setMessageHistory] = useState<any>([]);
 
   const { sendMessage, sendJsonMessage, lastMessage, readyState }: any =
     useWebSocket(socketUrl);
@@ -31,23 +32,31 @@ const Chat = () => {
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(router.query.ticketId);
-      console.log(res, "ssssss");
+      // console.log(res, "ssssss");
+      setMessageHistory(res.data);
     } catch (err) {
-      console.log("err", err);
+      // console.log("err", err);
     } finally {
     }
   };
 
   useEffect(() => {
     if (lastMessage !== null) {
-      setMessageHistory((prev) => prev.concat(lastMessage.data));
+      const data = JSON.parse(lastMessage.data);
+      setMessageHistory((prev: any) => [...prev, data]);
     }
   }, [lastMessage, setMessageHistory]);
 
+
+
+  console.log(messageHistory);
+
+
+
   const handleClickSendMessage = useCallback(
-    () =>
+    (message: any) =>
       sendJsonMessage({
-        message: "sdsd",
+        message: message,
         sender: {
           pk: 5,
         },
@@ -69,12 +78,10 @@ const Chat = () => {
   useEffect(() => {});
   return (
     <DashboardLayout>
-      <button
-        style={{ padding: "50px", margin: "50px" }}
-        onClick={handleClickSendMessage}
-      >
-        ddddd
-      </button>
+      <ChatComponent
+        data={messageHistory}
+        onSend={handleClickSendMessage}
+      />
     </DashboardLayout>
   );
 };

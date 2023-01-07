@@ -12,7 +12,7 @@ export abstract class BaseService {
     this.axiosRequestConfig = {
       baseURL: alternativeBaseUrl
         ? alternativeBaseUrl
-        : (process.env.REACT_APP_BASE_RASAD_URL as string),
+        : (process.env.NEXT_PUBLIC_BASE_RASAD_URL as string),
     };
     this.axiosInstance = Axios.create(this.axiosRequestConfig);
   }
@@ -71,12 +71,11 @@ export abstract class BaseService {
       token = store.getState().token;
       if (token) BaseService.setToken(token);
     }
-
     if (token) {
       this.axiosRequestConfig = {
         headers: {
           "Content-Type": "application/json",
-          token: token,
+          Authorization: `Token ${token}`,
         },
       };
       axiosInstanceWithToken = Axios.create({
@@ -93,11 +92,11 @@ export abstract class BaseService {
         return response;
       },
       function (error) {
-        if (error.response.status === 401 || error.response.status === 403) {
-          localStorage.clear();
-          sessionStorage.clear();
-          window.location.href = "/rasad/login";
-        }
+        // if (error.response.status === 401 || error.response.status === 403) {
+        //   localStorage.clear();
+        //   sessionStorage.clear();
+        //   window.location.href = "/rasad/login";
+        // }
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
         return Promise.reject(error);

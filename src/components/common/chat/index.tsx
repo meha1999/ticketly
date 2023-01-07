@@ -5,6 +5,7 @@ import img from "images/auth/admin.svg";
 import Message from "./message";
 import { useEffect, useRef } from "react";
 import { JalaliDateTime } from "jalali-date-time";
+import { useRouter } from "next/router";
 
 const dateTimeConfig = {
   timezone: "Asia/Tehran",
@@ -27,6 +28,7 @@ interface ChatComponentProps {
 
 const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const scrollToBottom = () => {
     console.log(ref.current);
@@ -46,11 +48,17 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
           <span>{"TY4235689321"}</span>
         </div>
         <div className="nav-buttons">
-          <button className="nav-button">
-            <VerticalPrevious color="#00A48A" />
+          <button
+            className="nav-button"
+            style={{ borderColor: `${userType[router.asPath.split("/")[1]]}` }}
+          >
+            <VerticalPrevious color={userType[router.asPath.split("/")[1]]} />
           </button>
-          <button className="nav-button">
-            <VerticalNext color="#00A48A" />
+          <button
+            className="nav-button"
+            style={{ borderColor: `${userType[router.asPath.split("/")[1]]}` }}
+          >
+            <VerticalNext color={userType[router.asPath.split("/")[1]]} />
           </button>
         </div>
       </div>
@@ -76,7 +84,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         // message=""
         date="7 دی ماه 1401 13:19"
       />
-      <Message onSend={onSend} />
+      <Message color={userType[router.asPath.split("/")[1]]}  onSend={onSend}/>
     </div>
   );
 };

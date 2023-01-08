@@ -1,5 +1,5 @@
 import ChatComponent from "components/common/chat";
-import DashboardLayout from "components/layouts/dashboard/mechanic";
+import DashboardLayout from "components/layouts/dashboard/evaluator";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

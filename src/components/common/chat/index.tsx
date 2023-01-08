@@ -66,7 +66,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         </div>
       </div>
       <div className="messages-list">
-        {data.map((item, index) => (
+        {data?.map((item, index) => (
           <MessagePreview
             key={index}
             profileImage={item.sender.photo}

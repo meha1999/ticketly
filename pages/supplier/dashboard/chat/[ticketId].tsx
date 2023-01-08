@@ -1,5 +1,5 @@
 import ChatComponent from "components/common/chat";
-import DashboardLayout from "components/layouts/dashboard/mechanic";
+import DashboardLayout from "components/layouts/dashboard/supplier";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -47,8 +47,6 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  console.log(messageHistory);
-
   const handleClickSendMessage = useCallback(
     (message: any) =>
       sendJsonMessage({
@@ -60,8 +58,6 @@ const Chat = () => {
       }),
     []
   );
-
-  // console.log(messageHistory);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",

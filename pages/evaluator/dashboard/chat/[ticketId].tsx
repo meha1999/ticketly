@@ -1,4 +1,5 @@
 import ChatComponent from "components/common/chat";
+import Title from "components/common/title";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
 import ChatList from "components/pure/chat-list";
 import OrderCompletion from "components/pure/order-completion";
@@ -7,6 +8,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
+import chatIcon from "images/icons/chat_page.svg";
+import Divider from "components/common/divider";
 
 const chatService = new ChatService();
 
@@ -48,7 +51,6 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-
   const handleClickSendMessage = useCallback(
     (message: any) =>
       sendJsonMessage({
@@ -61,7 +63,6 @@ const Chat = () => {
     []
   );
 
-
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
     [ReadyState.OPEN]: "Open",
@@ -73,6 +74,8 @@ const Chat = () => {
   useEffect(() => {});
   return (
     <DashboardLayout>
+      <Title titleText="صفحه چت" titleIcon={chatIcon} />
+      <Divider />
       <OrderCompletion
         subject="لنت ترمز جلو پراید "
         name="متین نوروزپور"

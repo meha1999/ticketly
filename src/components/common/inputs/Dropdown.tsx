@@ -5,7 +5,7 @@ interface DropdownProps {
   label: string;
   disabled?: boolean;
   currentValue: string;
-  currentOptions: string[];
+  currentOptions: any[];
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -30,9 +30,9 @@ const Dropdown: FC<DropdownProps> = ({
         name={id}
         disabled={disabled}
       >
-        {currentOptions.map((i) => (
-          <option value={i} key={i}>
-            {i}
+        {currentOptions?.map((i) => (
+          <option value={i.name} key={i.id}>
+            {i.name}
           </option>
         ))}
       </select>

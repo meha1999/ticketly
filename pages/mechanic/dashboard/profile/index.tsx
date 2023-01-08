@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Title from "components/common/title";
 import ProfileBold from "public/images/icons/profile_bold.svg";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
@@ -6,6 +6,7 @@ import Divider from "components/common/divider";
 import TextInput from "components/common/inputs/TextInput";
 import ImageInput from "components/common/inputs/ImageInput";
 import Dropdown from "components/common/inputs/Dropdown";
+import { ProfileService } from "services/profile.service";
 
 interface ProfileFormState {
   userImage: File | null;
@@ -23,6 +24,7 @@ interface ChangePassState {
   newPassRepeat: string;
 }
 
+const profileService = new ProfileService();
 const Profile = () => {
   const [profileForm, setProfileForm] = useState<ProfileFormState>({
     userImage: null,
@@ -40,8 +42,26 @@ const Profile = () => {
     newPassRepeat: "",
   });
 
-  const [cities, setCities] = useState();
-  const [province, setProvince] = useState();
+  const [cities, setCities] = useState([]);
+  const [province, setProvince] = useState([]);
+
+  useEffect(() => {
+    const getCities = async () => {
+      try {
+        const citiesRes = await profileService.getProvince();
+        setProvince(citiesRes.data);
+      } catch (error) {}
+    };
+    getCities();
+  }, []);
+
+  useEffect(() => {
+    const getProvince = async () => {
+      const provinceRes = await profileService.getCities(profileForm.province);
+      setCities(provinceRes.data);
+    };
+    getProvince();
+  }, [profileForm.province]);
 
   const submitProfileForm = () => {};
 
@@ -104,14 +124,14 @@ const Profile = () => {
             <Dropdown
               id="province"
               label="استان"
+              currentOptions={province}
               currentValue={profileForm.province}
               onChange={setProfileDataHandler}
-              currentOptions={["sss", "Sssss", "eeee"]}
             />
             <Dropdown
-              label="شهر"
               id="city"
-              disabled
+              label="شهر"
+              disabled={!!profileForm.province}
               onChange={setProfileDataHandler}
               currentValue={profileForm.city}
               currentOptions={["sss", "Sssss", "eeee"]}
@@ -148,20 +168,20 @@ const Profile = () => {
             </h4>
             <div className="form-item">
               <TextInput
-                label="رمز عبور فعلی"
                 id="currentPass"
+                label="رمز عبور فعلی"
                 onChange={resetPasswordHandler}
               />
               <TextInput
-                label="رمز عبور جدید"
                 id="newPass"
+                label="رمز عبور جدید"
                 onChange={resetPasswordHandler}
               />
             </div>
             <div className="form-item left">
               <TextInput
-                label="تکرار رمز عبور جدید"
                 id="newPassRepeat"
+                label="تکرار رمز عبور جدید"
                 onChange={resetPasswordHandler}
               />
             </div>

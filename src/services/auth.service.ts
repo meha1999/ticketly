@@ -8,10 +8,10 @@ export class AuthService extends BaseService {
     type: "mechanic" | "admin" | "evaluator" | "supplier"
   ): Promise<any> {
     const userType = {
-      admin: "superuser/",
-      evaluator: "staff/",
+      admin: "/superuser/",
+      evaluator: "/staff/",
       mechanic: "/",
-      supplier: "supplier/",
+      supplier: "/supplier/",
     };
     return this.axiosInstanceWithoutToken.post(
       `/auth/login/${userType[type]}`,
@@ -24,13 +24,13 @@ export class AuthService extends BaseService {
     type: "mechanic" | "admin" | "evaluator" | "supplier"
   ): Promise<any> {
     const userType = {
-      admin: "superuser/",
-      evaluator: "staff/",
+      admin: "/superuser/",
+      evaluator: "/staff/",
       mechanic: "/",
-      supplier: "supplier/",
+      supplier: "/supplier/",
     };
     return this.axiosInstanceWithoutToken.post(
-      `/account/user/${userType[type]}`,
+      `/account/user${userType[type]}`,
       payload
     );
   }

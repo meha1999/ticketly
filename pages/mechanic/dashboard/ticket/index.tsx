@@ -5,6 +5,7 @@ import TicketBold from "public/images/icons/ticket_bold.svg";
 import DefaultTicket from "public/images/default-ticket.svg";
 import Delete from "public/images/icons/delete.svg";
 import Divider from "components/common/divider";
+import { GetServerSideProps } from "next";
 
 const Tickets = () => {
   const data = [
@@ -113,3 +114,15 @@ const Tickets = () => {
 };
 
 export default Tickets;
+
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  if (ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
+    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.statusCode = 302;
+    ctx.res.end();
+  }
+  return {
+    props: {},
+  };
+};

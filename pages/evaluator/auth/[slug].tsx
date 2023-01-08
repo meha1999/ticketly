@@ -10,6 +10,7 @@ import { AuthService } from "services/auth.service";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { FieldValues, useForm } from "react-hook-form";
+import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 
 const authService = new AuthService();
 
@@ -94,12 +95,15 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const dispatch = useDispatch();
   const router = useRouter();
 
   const loginUser = async (data: FieldValues) => {
     try {
       const res = await authService.login(data, "evaluator");
+      setCookies("role", "evaluator");
+      setCookies("token", res.data.key);
       dispatch({
         type: REDUX_ACTION.SET_TOKEN,
         payload: res.data.key,

@@ -1,5 +1,6 @@
 import ChatComponent from "components/common/chat";
 import DashboardLayout from "components/layouts/dashboard/mechanic";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -77,3 +78,14 @@ const Chat = () => {
 };
 
 export default Chat;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  if (ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
+    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.statusCode = 302;
+    ctx.res.end();
+  }
+  return {
+    props: {},
+  };
+};

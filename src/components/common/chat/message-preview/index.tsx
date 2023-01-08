@@ -24,7 +24,11 @@ const MessagePreview: FC<MessagePreviewProps> = ({
 }) => {
   const first = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    first.current?.scrollIntoView({ behavior: "smooth" });
+    first.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
   }, [count]);
 
   return (

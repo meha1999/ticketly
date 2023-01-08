@@ -3,7 +3,7 @@ import VerticalNext from "images/icons/vertical_next";
 import MessagePreview from "./message-preview";
 import img from "images/auth/admin.svg";
 import Message from "./message";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
 
@@ -38,9 +38,21 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
     ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const [scrollIndex, setScrollIndex] = useState<number>(data.length - 3);
   useEffect(() => {
     scrollToBottom();
+    setScrollIndex(data.length - 3);
   }, [data]);
+
+  const goUpMessage = () => {
+    if (scrollIndex <= 0) return;
+    setScrollIndex(scrollIndex - 1);
+  };
+
+  const goDownMessage = () => {
+    if (scrollIndex + 2 > data.length) return;
+    setScrollIndex(scrollIndex + 1);
+  };
 
   return (
     <div className="chat">
@@ -53,11 +65,13 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         <div className="nav-buttons">
           <button
             className="nav-button"
+            onClick={goUpMessage}
             style={{ borderColor: `${userType[router.asPath.split("/")[1]]}` }}
           >
             <VerticalPrevious color={userType[router.asPath.split("/")[1]]} />
           </button>
           <button
+            onClick={goDownMessage}
             className="nav-button"
             style={{ borderColor: `${userType[router.asPath.split("/")[1]]}` }}
           >
@@ -69,14 +83,15 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         {data?.map((item, index) => (
           <MessagePreview
             key={index}
+            hasSeen={item.seen}
+            message={item.content}
+            name={item.sender.username}
             profileImage={item.sender.photo}
             color={userType[item.sender.role]}
-            name={item.sender.username}
-            message={item.content}
+            count={scrollIndex === index + 1}
             date={JalaliDateTime(dateTimeConfig).toFullText(
               new Date(item.created_at)
             )}
-            hasSeen={item.seen}
           />
         ))}
         <div ref={ref}></div>

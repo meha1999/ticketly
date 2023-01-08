@@ -34,7 +34,6 @@ const Chat = () => {
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(router.query.ticketId);
-      // console.log(res, "ssssss");
       setMessageHistory(res.data);
     } catch (err) {
       // console.log("err", err);
@@ -49,7 +48,6 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  console.log(messageHistory);
 
   const handleClickSendMessage = useCallback(
     (message: any) =>
@@ -63,7 +61,6 @@ const Chat = () => {
     []
   );
 
-  // console.log(messageHistory);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",

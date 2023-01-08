@@ -32,7 +32,6 @@ const Chat = () => {
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(router.query.ticketId);
-      // console.log(res, "ssssss");
       setMessageHistory(res.data);
     } catch (err) {
       // console.log("err", err);

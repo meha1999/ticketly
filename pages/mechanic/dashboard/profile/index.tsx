@@ -54,7 +54,6 @@ const Profile = () => {
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
     setProfileForm({ ...profileForm, [e.target.name]: e.target.value });
-    console.log(e.target.value);
   };
 
   const resetPasswordHandler = (e: React.ChangeEvent<any>) => {

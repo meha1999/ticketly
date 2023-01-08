@@ -17,6 +17,9 @@
     height: 43px;
     background: #f4f6f8;
     border-radius: 18px;
+    img {
+      border-radius: 50%;
+    }
   }
   .name-and-message {
     display: flex;

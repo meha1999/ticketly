@@ -3,10 +3,10 @@ import { FC } from "react";
 import Image from "next/image";
 
 interface MessageCardProps {
-  profileImage?: string;
+  profileImage: string;
   name: string;
   message: string;
-  unreadMessagesCount: number;
+  unreadMessagesCount?: number;
   time: string;
 }
 
@@ -31,7 +31,7 @@ const MessageCard: FC<MessageCardProps> = ({
         <div className="message">{message}</div>
       </div>
       <div className="notification-and-time">
-        {unreadMessagesCount !== 0 && (
+        {unreadMessagesCount && (
           <div className="count">{unreadMessagesCount}</div>
         )}
         <span>{time}</span>

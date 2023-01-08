@@ -22,6 +22,7 @@ const userType: Record<string, string> = {
   customer: "#00A48A",
   mechanic: "#00A48A",
   supplier: "#F2C901",
+  superuser: "#505050",
 };
 
 interface ChatComponentProps {
@@ -34,11 +35,10 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
   const router = useRouter();
 
   const scrollToBottom = () => {
-    console.log(ref.current);
     ref?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const [scrollIndex, setScrollIndex] = useState<number>(data.length - 3);
+  const [scrollIndex, setScrollIndex] = useState<number>(data?.length - 3);
   useEffect(() => {
     scrollToBottom();
     setScrollIndex(data.length - 3);
@@ -96,13 +96,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         ))}
         <div ref={ref}></div>
       </div>
-      <MessagePreview
-        profileImage={img}
-        // color={userType["mechanic"]}
-        name="متین نوروزپور"
-        // message=""
-        hasSeen={false}
-      />
       <Message color={userType[router.asPath.split("/")[1]]} onSend={onSend} />
     </div>
   );

@@ -7,35 +7,31 @@ const ChatList = () => {
       profileImage: img,
       name: "قاسم افشار",
       message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      unreadMessagesCount: 1,
+      // unreadMessagesCount: 1,
       time: "۱۱:۲۹",
     },
     {
       profileImage: img,
       name: "کیان میرکیان",
       message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      unreadMessagesCount: 1,
       time: "۱۱:۲۹",
     },
     {
-      profileImage: img,
+      profileImage: "",
       name: "کمیل قاسمی",
       message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      unreadMessagesCount: 1,
       time: "۱۱:۲۹",
     },
     {
       profileImage: img,
       name: "محمد حسنی",
       message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      unreadMessagesCount: 0,
       time: "۱۱:۲۹",
     },
     {
-      profileImage: img,
+      profileImage: "",
       name: "قاسم افشار",
       message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      unreadMessagesCount: 0,
       time: "۱۱:۲۹",
     },
   ];
@@ -49,10 +45,10 @@ const ChatList = () => {
       <div className="suppliers">
         <h3>تامین کنندگان:</h3>
         <div className="suppliers-list">
-          {list.map((item: any, index: number) => (
+          {list?.map((item: any, index: number) => (
             <MessageCard
               key={index}
-              profileImage={item.img}
+              profileImage={item.profileImage}
               name={item.name}
               message={item.message}
               unreadMessagesCount={item.unreadMessagesCount}

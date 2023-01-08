@@ -7,6 +7,7 @@ import TextInput from "components/common/inputs/TextInput";
 import ImageInput from "components/common/inputs/ImageInput";
 import Dropdown from "components/common/inputs/Dropdown";
 import { ProfileService } from "services/profile.service";
+import { GetServerSideProps } from "next";
 
 interface ProfileFormState {
   userImage: File | null;
@@ -209,10 +210,13 @@ const Profile = () => {
 
 export default Profile;
 
-// export const getServerSideProps = async (ctx) => {
-//   const provincesRes = await axios.get();
-//   const provinces = provincesRes.data
-//   return {
-//     props: {provinces},
-//   };
-// };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  if (ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
+    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.statusCode = 302;
+    ctx.res.end();
+  }
+  return {
+    props: {},
+  };
+};

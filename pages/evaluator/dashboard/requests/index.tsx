@@ -5,6 +5,7 @@ import Divider from "components/common/divider";
 import editIcon from "public/images/icons/request/edit.svg";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
 import ProfileBold from "public/images/icons/profile_bold1.svg";
+import { GetServerSideProps } from "next";
 
 const Requests = () => {
   const [activeTab, setActiveTab] = useState("supplying");
@@ -121,4 +122,15 @@ export const ReqTicketBtn = ({
       {textTranslator[status]}
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  if (ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
+    ctx.res.setHeader("Location", "/evaluator/auth/login");
+    ctx.res.statusCode = 302;
+    ctx.res.end();
+  }
+  return {
+    props: {},
+  };
 };

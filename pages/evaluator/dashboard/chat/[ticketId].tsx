@@ -1,5 +1,7 @@
 import ChatComponent from "components/common/chat";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
+import ChatList from "components/pure/chat-list";
+import OrderCompletion from "components/pure/order-completion";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -74,7 +76,21 @@ const Chat = () => {
   useEffect(() => {});
   return (
     <DashboardLayout>
-      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} />
+      <OrderCompletion
+        subject="لنت ترمز جلو پراید "
+        name="متین نوروزپور"
+        address="تهران، خیابان انقلاب، خیابان جمالزاده، نبش کوچه شهرزاد"
+        walletCash={13500000}
+      />
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <ChatList />
+        <div style={{ width: "75%" }}>
+          <ChatComponent
+            data={messageHistory}
+            onSend={handleClickSendMessage}
+          />
+        </div>
+      </div>
     </DashboardLayout>
   );
 };

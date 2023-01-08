@@ -33,25 +33,27 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const scrollToBottom = () => {
-    console.log(ref.current);
-    ref?.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const [scrollIndex, setScrollIndex] = useState<number>(data.length - 3);
+  const [scrollIndex, setScrollIndex] = useState<number>(data.length);
   useEffect(() => {
-    scrollToBottom();
-    setScrollIndex(data.length - 3);
+    setScrollIndex(data.length);
   }, [data]);
 
   const goUpMessage = () => {
-    if (scrollIndex <= 0) return;
-    setScrollIndex(scrollIndex - 1);
+    if (scrollIndex === data.length) {
+      setScrollIndex(data.length - 2);
+    } else {
+      if (scrollIndex - 1 < 0) return;
+      setScrollIndex(scrollIndex - 1);
+    }
   };
 
   const goDownMessage = () => {
-    if (scrollIndex + 2 > data.length) return;
-    setScrollIndex(scrollIndex + 1);
+    if (scrollIndex === 1) {
+      setScrollIndex(4);
+    } else {
+      if (scrollIndex + 1 > data.length) return;
+      setScrollIndex(scrollIndex + 2);
+    }
   };
 
   return (

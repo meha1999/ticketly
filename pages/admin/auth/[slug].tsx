@@ -24,11 +24,16 @@ const Login = () => {
   const loginUser = async (data: FieldValues) => {
     try {
       const res = await authService.login(data, "admin");
+      const userRes = await authService.getUser();
       setCookies("role", "admin");
       setCookies("token", res.data.key);
       dispatch({
         type: REDUX_ACTION.SET_TOKEN,
         payload: res.data.key,
+      });
+      dispatch({
+        type: REDUX_ACTION.SET_USER,
+        payload: userRes.data,
       });
       router.push("/admin/dashboard");
     } catch (err) {

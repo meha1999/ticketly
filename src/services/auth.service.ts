@@ -34,4 +34,8 @@ export class AuthService extends BaseService {
       payload
     );
   }
+
+  getUser() {
+    return this.axiosInstanceWithToken.get("auth/user/");
+  }
 }

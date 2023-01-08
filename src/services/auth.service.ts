@@ -34,4 +34,8 @@ export class AuthService extends BaseService {
       payload
     );
   }
+
+  logout(): Promise<any> {
+    return this.axiosInstanceWithToken.post("/auth/logout/");
+  }
 }

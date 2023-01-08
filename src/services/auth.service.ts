@@ -14,7 +14,7 @@ export class AuthService extends BaseService {
       supplier: "/supplier/",
     };
     return this.axiosInstanceWithoutToken.post(
-      `/auth/login/${userType[type]}`,
+      `/auth/login${userType[type]}`,
       payload
     );
   }

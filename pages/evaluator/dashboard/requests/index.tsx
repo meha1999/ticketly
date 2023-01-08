@@ -22,13 +22,22 @@ const Requests = () => {
                 <span className="count">4</span>
               </div>
               <div className="tabs">
-                <button className={activeTab === "supplying" ? "active" : ""} onClick={()=> setActiveTab("supplying")}>
+                <button
+                  className={activeTab === "supplying" ? "active" : ""}
+                  onClick={() => setActiveTab("supplying")}
+                >
                   درحال تامین
                 </button>
-                <button className={activeTab === "sending" ? "active" : ""} onClick={()=> setActiveTab("sending")}>
+                <button
+                  className={activeTab === "sending" ? "active" : ""}
+                  onClick={() => setActiveTab("sending")}
+                >
                   درحال ارسال
                 </button>
-                <button className={activeTab === "closing" ? "active" : ""} onClick={()=> setActiveTab("closing")}>
+                <button
+                  className={activeTab === "closing" ? "active" : ""}
+                  onClick={() => setActiveTab("closing")}
+                >
                   بسته شده
                 </button>
               </div>

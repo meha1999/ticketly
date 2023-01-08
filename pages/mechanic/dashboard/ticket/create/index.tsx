@@ -1,4 +1,4 @@
-import DashboardLayout from "components/layouts/dashboard/evaluator";
+import DashboardLayout from "components/layouts/dashboard/mechanic";
 import Image from "next/image";
 import fileUploadIcon from "public/images/icons/file_upload.svg";
 import trashIcon from "public/images/icons/trash.svg";

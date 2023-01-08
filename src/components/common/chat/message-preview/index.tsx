@@ -1,11 +1,12 @@
 import UserIcon from "images/icons/user_icon";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import Seen from "images/icons/seen";
 
 interface MessagePreviewProps {
   profileImage?: string;
   name: string;
+  count?: boolean;
   message?: string;
   date?: string;
   color?: string;
@@ -17,11 +18,16 @@ const MessagePreview: FC<MessagePreviewProps> = ({
   name,
   message,
   date,
+  count,
   color,
   hasSeen,
 }) => {
+  const first = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    first.current?.scrollIntoView({ behavior: "smooth" });
+  }, [count]);
   return (
-    <div className="message-preview">
+    <div className="message-preview" ref={first}>
       <div className="profile-image">
         {profileImage ? (
           <Image src={profileImage} alt="profile" width={42} height={42} />

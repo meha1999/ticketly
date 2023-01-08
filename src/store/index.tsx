@@ -6,9 +6,12 @@ import { persistReducer, persistStore } from "redux-persist";
 // custom
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { reducer as TokenReducer } from "./token/reducer";
+import { reducer as userReducer } from "./user/reducer";
+
 
 const reducers: ReducersMapObject<ReduxStoreModel, AnyAction> = {
   token: TokenReducer as Reducer<ReduxStoreModel["token"], AnyAction>,
+  user: userReducer as  Reducer<ReduxStoreModel["user"], AnyAction>,
 };
 
 const combinedReducers = combineReducers(reducers);

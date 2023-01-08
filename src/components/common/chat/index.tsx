@@ -22,6 +22,7 @@ const userType: Record<string, string> = {
   customer: "#00A48A",
   mechanic: "#00A48A",
   supplier: "#F2C901",
+  superuser: "#505050",
 };
 
 interface ChatComponentProps {
@@ -39,21 +40,13 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
   }, [data]);
 
   const goUpMessage = () => {
-    if (scrollIndex === data.length) {
-      setScrollIndex(data.length - 2);
-    } else {
-      if (scrollIndex - 1 < 0) return;
-      setScrollIndex(scrollIndex - 1);
-    }
+    if (scrollIndex - 1 < 0) return;
+    setScrollIndex(scrollIndex - 1);
   };
 
   const goDownMessage = () => {
-    if (scrollIndex === 1) {
-      setScrollIndex(4);
-    } else {
-      if (scrollIndex + 1 > data.length) return;
-      setScrollIndex(scrollIndex + 2);
-    }
+    if (scrollIndex + 1 > data.length) return;
+    setScrollIndex(scrollIndex + 1);
   };
 
   return (
@@ -98,13 +91,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
         ))}
         <div ref={ref}></div>
       </div>
-      <MessagePreview
-        profileImage={img}
-        // color={userType["mechanic"]}
-        name="متین نوروزپور"
-        // message=""
-        hasSeen={false}
-      />
       <Message color={userType[router.asPath.split("/")[1]]} onSend={onSend} />
     </div>
   );

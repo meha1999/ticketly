@@ -1,8 +1,8 @@
 .chat-list {
   background: #ffffff;
   border-radius: 33px;
-  height: 505px;
-  width: 25%;
+  height: 60%;
+  width: 23%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,15 +39,16 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    height: 68%;
     h3 {
       margin-right: 10px;
     }
     .suppliers-list {
       display: flex;
       flex-direction: column;
+      height: 281px;
       gap: 7px;
       overflow-y: scroll;
+      margin-bottom: 50px;
     }
   }
   .add-supplier-btn {

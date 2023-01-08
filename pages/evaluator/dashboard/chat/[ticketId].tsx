@@ -1,11 +1,16 @@
 import ChatComponent from "components/common/chat";
+import Title from "components/common/title";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
+import ChatList from "components/pure/chat-list";
+import OrderCompletion from "components/pure/order-completion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
+import chatIcon from "images/icons/chat_page.svg";
+import Divider from "components/common/divider";
 
 const chatService = new ChatService();
 
@@ -33,7 +38,6 @@ const Chat = () => {
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(router.query.ticketId);
-      // console.log(res, "ssssss");
       setMessageHistory(res.data);
     } catch (err) {
       // console.log("err", err);
@@ -48,8 +52,6 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  console.log(messageHistory);
-
   const handleClickSendMessage = useCallback(
     (message: any) =>
       sendJsonMessage({
@@ -62,8 +64,6 @@ const Chat = () => {
     []
   );
 
-  // console.log(messageHistory);
-
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
     [ReadyState.OPEN]: "Open",
@@ -75,7 +75,23 @@ const Chat = () => {
   useEffect(() => {});
   return (
     <DashboardLayout>
-      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} />
+      <Title titleText="صفحه چت" titleIcon={chatIcon} />
+      <Divider />
+      <OrderCompletion
+        subject="لنت ترمز جلو پراید "
+        name="متین نوروزپور"
+        address="تهران، خیابان انقلاب، خیابان جمالزاده، نبش کوچه شهرزاد"
+        walletCash={13500000}
+      />
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <ChatList />
+        <div style={{ width: "75%" }}>
+          <ChatComponent
+            data={messageHistory}
+            onSend={handleClickSendMessage}
+          />
+        </div>
+      </div>
     </DashboardLayout>
   );
 };
@@ -84,7 +100,7 @@ export default Chat;
 
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  if (ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
+  if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
     ctx.res.setHeader("Location", "/evaluator/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();

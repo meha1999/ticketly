@@ -33,7 +33,6 @@ const Chat = () => {
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(router.query.ticketId);
-      // console.log(res, "ssssss");
       setMessageHistory(res.data);
     } catch (err) {
       // console.log("err", err);
@@ -79,7 +78,7 @@ const Chat = () => {
 export default Chat;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  if (ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
+  if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
     ctx.res.setHeader("Location", "/supplier/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();

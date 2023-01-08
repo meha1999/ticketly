@@ -75,7 +75,6 @@ const Profile = () => {
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
     setProfileForm({ ...profileForm, [e.target.name]: e.target.value });
-    console.log(e.target.value);
   };
 
   const resetPasswordHandler = (e: React.ChangeEvent<any>) => {
@@ -211,7 +210,7 @@ const Profile = () => {
 export default Profile;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  if (ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
+  if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
     ctx.res.setHeader("Location", "/mechanic/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();

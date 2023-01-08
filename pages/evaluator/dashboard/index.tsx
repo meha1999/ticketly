@@ -14,7 +14,7 @@ const Dashboard = () => {
   >((store: ReduxStoreModel) => store.token);
   console.log(token);
 
-  return <DashboardLayout>dddddddddddddddddd</DashboardLayout>;
+  return <DashboardLayout>Evaluator Dashboard</DashboardLayout>;
 };
 
 export default Dashboard;

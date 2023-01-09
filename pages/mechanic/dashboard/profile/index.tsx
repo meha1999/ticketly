@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Title from "components/common/title";
 import ProfileBold from "public/images/icons/profile_bold.svg";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
@@ -8,16 +8,18 @@ import ImageInput from "components/common/inputs/ImageInput";
 import Dropdown from "components/common/inputs/Dropdown";
 import { ProfileService } from "services/profile.service";
 import { GetServerSideProps } from "next";
+import { AuthService } from "services/auth.service";
+import { toBase64 } from "src/tools/tobase64";
 
 interface ProfileFormState {
-  userImage: File | null;
+  photo: string | ArrayBuffer | null;
   userName: string;
-  userPhone: string;
-  nationalCode: string;
+  mobile_phone: string;
+  national_id: string;
   email: string;
   address: string;
-  province: string;
-  city: string;
+  province: number | null;
+  city: number | null;
 }
 interface ChangePassState {
   currentPass: string;
@@ -26,16 +28,18 @@ interface ChangePassState {
 }
 
 const profileService = new ProfileService();
+const authService = new AuthService();
+
 const Profile = () => {
   const [profileForm, setProfileForm] = useState<ProfileFormState>({
-    userImage: null,
+    photo: null,
     userName: "",
-    userPhone: "",
-    nationalCode: "",
+    mobile_phone: "",
+    national_id: "",
     email: "",
     address: "",
-    province: "",
-    city: "",
+    province: null,
+    city: null,
   });
   const [resetPass, setResetPass] = useState<ChangePassState>({
     currentPass: "",
@@ -45,32 +49,53 @@ const Profile = () => {
 
   const [cities, setCities] = useState([]);
   const [province, setProvince] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getCities = async () => {
       try {
         const citiesRes = await profileService.getProvince();
         setProvince(citiesRes.data);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     getCities();
   }, []);
 
   useEffect(() => {
     const getProvince = async () => {
-      const provinceRes = await profileService.getCities(profileForm.province);
-      setCities(provinceRes.data);
+      try {
+        const provinceRes = await profileService.getCities(
+          profileForm.province ?? 8
+        );
+        setCities(provinceRes.data.shahrs);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getProvince();
   }, [profileForm.province]);
 
-  const submitProfileForm = () => {};
+  const submitProfileForm = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      await new Promise((res) => setTimeout(() => res(""), 5000));
+      // const formRes = await authService.userInfoPatch({
+      //   ...profileForm,
+      //   address: `${profileForm.province}-${profileForm.city}-${profileForm.address}`,
+      // });
+      setLoading(false);
+    } catch (error) {}
+  };
 
-  const userProfileHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const userProfileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     }
-    setProfileForm({ ...profileForm, userImage: e.target.files[0] });
+    const data = await toBase64(e.target.files[0]);
+    setProfileForm({ ...profileForm, photo: data });
   };
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
@@ -89,11 +114,11 @@ const Profile = () => {
         <form className="user-profile-form" onSubmit={submitProfileForm}>
           <div className="form-item">
             <ImageInput
+              id="photo"
               label="تصویر کاربر"
-              id="userImage"
               inputColor="#00A48A"
               onChange={userProfileHandler}
-              image={profileForm.userImage}
+              image={profileForm.photo}
             />
           </div>
           <div className="form-item">
@@ -104,14 +129,14 @@ const Profile = () => {
             />
             <TextInput
               label="شماره موبایل"
-              id="cellPhone"
+              id="mobile_phone"
               onChange={setProfileDataHandler}
             />
           </div>
           <div className="form-item">
             <TextInput
               label="کد ملی"
-              id="nationalCode"
+              id="national_id"
               onChange={setProfileDataHandler}
             />
             <TextInput
@@ -125,16 +150,15 @@ const Profile = () => {
               id="province"
               label="استان"
               currentOptions={province}
-              currentValue={profileForm.province}
+              currentValue={profileForm.province ?? 8}
               onChange={setProfileDataHandler}
             />
             <Dropdown
               id="city"
               label="شهر"
-              disabled={!!profileForm.province}
               onChange={setProfileDataHandler}
-              currentValue={profileForm.city}
-              currentOptions={["sss", "Sssss", "eeee"]}
+              currentValue={profileForm.city ?? 0}
+              currentOptions={cities}
             />
           </div>
           <TextInput label="ادرس محل سکونت" isFullWidthInput id="address" />
@@ -158,7 +182,7 @@ const Profile = () => {
                 }}
                 type="submit"
               >
-                ویرایش اطلاعات
+                {loading ? "درحال ارسال . . . " : "ویرایش اطلاعات"}
               </button>
             </div>
           </div>

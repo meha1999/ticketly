@@ -1,5 +1,6 @@
 // custom
 
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { BaseService } from "./base.service";
 
 export class AuthService extends BaseService {
@@ -41,5 +42,9 @@ export class AuthService extends BaseService {
 
   getUser() {
     return this.axiosInstanceWithToken.get("auth/user/");
+  }
+
+  userInfoPatch(userInfo: Partial<ReduxStoreModel["user"]>) {
+    return this.axiosInstanceWithToken.patch("auth/user/", userInfo);
   }
 }

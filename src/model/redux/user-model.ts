@@ -1,7 +1,7 @@
 export interface UserModel {
   id: number;
-  photo: string;
-  role: "staff" | "mechanic" | "evaluator" | "supplier";
+  photo: string | ArrayBuffer | null;
+  role: "supperuser" | "mechanic" | "evaluator" | "supplier";
   last_login: string;
   username: string;
   first_name: string;

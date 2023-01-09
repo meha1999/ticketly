@@ -1,23 +1,24 @@
-import Image from "next/image";
-import Counter from "images/icons/counter";
-import RegisteredRequests from "images/icons/registered_requests";
-import logoutIcon from "images/icons/logout.svg";
-import UserIcon from "images/icons/user_icon";
-import ProductRegistration from "images/icons/product_registration";
-import Store from "images/icons/store";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import Orders from "images/icons/orders";
-import { AuthService } from "services/auth.service";
-import { useDispatch } from "react-redux";
 import { deleteCookie } from "cookies-next";
+import { useDispatch } from "react-redux";
+import { NavLink } from "src/tools/NavLink";
+import { AuthService } from "services/auth.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
+//icons
+import { TiUser } from "react-icons/ti";
+import { BiEdit } from "react-icons/bi";
+import { GiCarWheel } from "react-icons/gi";
+import { BsGridFill } from "react-icons/bs";
+import { TfiWallet } from "react-icons/tfi";
+import { SiHackthebox } from "react-icons/si";
+import { BsClipboardCheck } from "react-icons/bs";
+import { IoLogOutOutline } from "react-icons/io5";
 
 const authService = new AuthService();
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const { pathname, push: RouterPush } = useRouter();
   const handleLogout = async () => {
     try {
       const res = await authService.logout();
@@ -26,7 +27,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        router.push("/supplier/auth/login");
+        RouterPush("/admin/auth/login");
       }
     } catch (err) {
       console.log("err", err);
@@ -34,112 +35,90 @@ const Sidebar = () => {
     }
   };
 
+  const isActiveRoute = (route: string) => pathname.startsWith(route);
+
+  const SIDE_BAR_LINK_ITEMS: any[] = [
+    {
+      id: 1,
+      title: "پیشخوان",
+      path: "/supplier/dashboard",
+      icon: BsGridFill,
+      exact: true,
+      subLinks: [],
+    },
+    {
+      id: 2,
+      title: "پروفایل",
+      path: "/supplier/dashboard/profile",
+      icon: TiUser,
+      subLinks: [],
+    },
+    {
+      id: 3,
+      title: "ثبت محصول",
+      path: "/supplier/dashboard/register",
+      icon: SiHackthebox,
+      subLinks: [],
+    },
+    {
+      id: 4,
+      title: "محصولات فروش",
+      path: "/supplier/dashboard/products",
+      icon: GiCarWheel,
+      subLinks: [],
+    },
+    {
+      id: 5,
+      title: "درخواست ها",
+      path: "/supplier/dashboard/tickets",
+      icon: BiEdit,
+      subLinks: [],
+    },
+    {
+      id: 6,
+      title: "سفارشات",
+      path: "/supplier/dashboard/orders",
+      icon: BsClipboardCheck,
+      subLinks: [],
+    },
+  ];
+
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name" style={{ backgroundColor: "#F2C901" }}>
-        {"پنل تامین کننده"}
-      </div>
+      <div className="panel-name supplier">پنل تامین کننده</div>
       <ul className="menus">
-        <li>
-          <Link
-            href="/supplier/dashboard"
-            className="menu"
-            style={{
-              color: `${
-                router.pathname === "/supplier/dashboard"
-                  ? "#F2C901"
-                  : "#4d4d4d"
-              }`,
-            }}
-          >
-            <Counter
-              color={
-                router.pathname === "/supplier/dashboard"
-                  ? "#F2C901"
-                  : "#4d4d4d"
-              }
-            />
-            <span>{"پیشخوان"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#F2C901" : "#4d4d4d"}`,
-            }}
-          >
-            <div
-              style={{
-                width: "24px",
-                height: "24px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                objectFit: "cover",
-              }}
-            >
-              <UserIcon
-                color={router.pathname === "" ? "#F2C901" : "#4d4d4d"}
-              />
-            </div>
-            <span>{"پروفایل"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#F2C901" : "#4d4d4d"}`,
-            }}
-          >
-            <ProductRegistration
-              color={router.pathname === "" ? "#F2C901" : "#4d4d4d"}
-            />
-            <span>{"ثبت محصول"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#F2C901" : "#4d4d4d"}`,
-            }}
-          >
-            <Store color={router.pathname === "" ? "#F2C901" : "#4d4d4d"} />
-            <span>{"محصولات فروش"}</span>
-          </Link>
-        </li>
-        <li className="menu">
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#F2C901" : "#4d4d4d"}`,
-            }}
-          >
-            <RegisteredRequests color="#4d4d4d" />
-            <span>{"درخواست‌های ثبت شده"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#F2C901" : "#4d4d4d"}`,
-            }}
-          >
-            <Orders color={router.pathname === "" ? "#F2C901" : "#4d4d4d"} />
-            <span>{"سفارشات"}</span>
-          </Link>
-        </li>
+        {SIDE_BAR_LINK_ITEMS.map(
+          ({ id, title, icon: Icon, path, subLinks, exact }) => (
+            <li key={id}>
+              <NavLink href={path} className="menu supplier" exact={exact}>
+                <Icon className={isActiveRoute(path) ? "active" : ""} />
+                <span>{title}</span>
+              </NavLink>
+              {subLinks.length ? (
+                <ul className="sub-menus">
+                  {subLinks.map(({ id, path, title, icon: Icon }: any) => (
+                    <li key={id}>
+                      <NavLink href={path} className="menu supplier">
+                        {Icon && (
+                          <Icon
+                            className={isActiveRoute(path) ? "active" : ""}
+                          />
+                        )}
+                        <span>{title}</span>
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                ""
+              )}
+            </li>
+          )
+        )}
       </ul>
       <button className="logout-btn" onClick={handleLogout}>
-        <Image src={logoutIcon} alt="logout" />
+        <IoLogOutOutline />
+
         <span>{"خروج از حساب"}</span>
       </button>
     </div>

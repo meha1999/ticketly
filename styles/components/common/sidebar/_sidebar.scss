@@ -18,6 +18,9 @@
     &.mechanic {
       background-color: #00a48a;
     }
+    &.supplier {
+      background-color: #EED201;
+    }
     &.evaluator {
       background-color: #5e7bec;
     }
@@ -47,6 +50,9 @@
         &.mechanic {
           color: #00a48a;
         }
+        &.supplier {
+          color: #EED201;
+        }
         &.evaluator {
           color: #5e7bec;
         }
@@ -69,6 +75,9 @@
           font-weight: 700;
           &.mechanic {
             color: #00a48a;
+          }
+          &.supplier {
+            color: #EED201;
           }
           &.evaluator {
             color: #5e7bec;

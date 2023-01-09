@@ -1,4 +1,4 @@
-import DashboardLayout from "components/layouts/dashboard/mechanic";
+import DashboardLayout from "components/layouts/dashboard/supplier";
 
 const Register = () => {
   return <DashboardLayout>Register</DashboardLayout>;

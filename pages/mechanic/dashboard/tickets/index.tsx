@@ -1,5 +1,5 @@
 import Title from "components/common/title";
-import DashboardLayout from "components/layouts/dashboard/evaluator";
+import DashboardLayout from "components/layouts/dashboard/mechanic";
 import Image from "next/image";
 import TicketBold from "public/images/icons/ticket_bold.svg";
 import DefaultTicket from "public/images/default-ticket.svg";
@@ -114,7 +114,6 @@ const Tickets = () => {
 };
 
 export default Tickets;
-
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {

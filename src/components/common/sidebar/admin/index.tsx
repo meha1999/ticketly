@@ -75,23 +75,23 @@ const Sidebar = () => {
     {
       id: 5,
       title: "درخواست ها",
-      path: "/admin/dashboard/requests",
+      path: "/admin/dashboard/tickets",
       icon: BiEdit,
       subLinks: [
         {
           id: 1,
           title: "درخواست‌های در حال تامین",
-          path: "/admin/dashboard/requests/supplying",
+          path: "/admin/dashboard/tickets/supplying",
         },
         {
           id: 2,
           title: "درخواست‌های در حال ارسال",
-          path: "/admin/dashboard/requests/sending",
+          path: "/admin/dashboard/tickets/sending",
         },
         {
           id: 3,
           title: "درخواست‌های بسته شده",
-          path: "/admin/dashboard/requests/closed",
+          path: "/admin/dashboard/tickets/closed",
         },
       ],
     },

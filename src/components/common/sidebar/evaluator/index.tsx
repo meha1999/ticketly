@@ -1,23 +1,17 @@
-import Image from "next/image";
-import Counter from "images/icons/counter";
-import RegisteredRequests from "images/icons/registered_requests";
-import logoutIcon from "images/icons/logout.svg";
-import UserIcon from "images/icons/user_icon";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import Users from "images/icons/users";
-import Settings from "images/icons/settings";
 import { AuthService } from "services/auth.service";
 import { deleteCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
-import { FC } from "react";
 import { NavLink } from "src/tools/NavLink";
+//icons
+import { IoLogOutOutline } from "react-icons/io5";
 import { BsGridFill } from "react-icons/bs";
 import { TiUser } from "react-icons/ti";
+import { BiEdit } from "react-icons/bi";
 import { GiCarWheel } from "react-icons/gi";
 import { SiHackthebox } from "react-icons/si";
-import { BiEdit } from "react-icons/bi";
+import { GrContactInfo } from "react-icons/gr";
 
 const authService = new AuthService();
 
@@ -75,25 +69,32 @@ const Sidebar = () => {
     {
       id: 5,
       title: "درخواست ها",
-      path: "/evaluator/dashboard/requests",
+      path: "/evaluator/dashboard/tickets",
       icon: BiEdit,
       subLinks: [
         {
           id: 1,
           title: "درخواست‌های در حال تامین",
-          path: "/evaluator/dashboard/requests/supplying",
+          path: "/evaluator/dashboard/tickets/supplying",
         },
         {
           id: 2,
           title: "درخواست‌های در حال ارسال",
-          path: "/evaluator/dashboard/requests/sending",
+          path: "/evaluator/dashboard/tickets/sending",
         },
         {
           id: 3,
           title: "درخواست‌های بسته شده",
-          path: "/evaluator/dashboard/requests/closed",
+          path: "/evaluator/dashboard/tickets/closed",
         },
       ],
+    },
+    {
+      id: 6,
+      title: "لیست تامین کنندگان",
+      path: "/evaluator/dashboard/providers",
+      icon: GrContactInfo,
+      subLinks: [],
     },
   ];
 
@@ -110,10 +111,14 @@ const Sidebar = () => {
               </NavLink>
               {subLinks.length ? (
                 <ul className="sub-menus">
-                  {subLinks.map(({ id, path:subPath, title, icon: Icon }: any) => (
+                  {subLinks.map(({ id, path, title, icon: Icon }: any) => (
                     <li key={id}>
-                      <NavLink href={subPath} className="menu evaluator">
-                        {Icon && <Icon className={isActiveRoute(path) ? "active" : ""}/>}
+                      <NavLink href={path} className="menu evaluator">
+                        {Icon && (
+                          <Icon
+                            className={isActiveRoute(path) ? "active" : ""}
+                          />
+                        )}
                         <span>{title}</span>
                       </NavLink>
                     </li>
@@ -127,7 +132,7 @@ const Sidebar = () => {
         )}
       </ul>
       <button className="logout-btn" onClick={handleLogout}>
-        <Image src={logoutIcon} alt="logout" />
+        <IoLogOutOutline />
         <span>{"خروج از حساب"}</span>
       </button>
     </div>

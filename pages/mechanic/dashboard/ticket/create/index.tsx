@@ -7,21 +7,16 @@ import Title from "components/common/title";
 import Divider from "components/common/divider";
 import { GetServerSideProps } from "next";
 import { FieldValues, useForm } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import ReactDOM from "react-dom";
 import CustomPortal from "components/common/portal";
+import { TicketService } from "services/ticket.service";
+
+const ticketService = new TicketService();
 
 const Create = () => {
-  const divRef = useRef<any>(null);
   const portalContainer: any = document.getElementById("portal");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  useCloseByClickOutSide({
-    ref: divRef,
-    isOpened: isOpen,
-    setIsOpened: setIsOpen,
-  });
 
   const {
     register,
@@ -30,13 +25,47 @@ const Create = () => {
     reset,
   } = useForm();
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.currentTarget);
+  const divRef = useRef<any>(null);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [rootCategories, setRootCategories] = useState<Array<any>>([]);
+  const [trunkCategories, setTrunkCategories] = useState<Array<any>>([]);
+  const [branchCategories, setBranchCategories] = useState<Array<any>>([]);
+
+  useCloseByClickOutSide({
+    ref: divRef,
+    isOpened: isOpen,
+    setIsOpened: setIsOpen,
+  });
+
+  // const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log(event.currentTarget);
+  // };
+
+  const handleChangeRootCategory = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const items: any = rootCategories.filter(
+      (item: any) => item.name === event.currentTarget.value
+    );
+    setTrunkCategories(items[0]?.trunk_root);
+  };
+
+  const handleChangeTrunkCategory = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const items: any = trunkCategories.filter(
+      (item: any) => item.name === event.currentTarget.value
+    );
+    setBranchCategories(items[0]?.branch_trunk);
   };
 
   const handleRequest = async (data: FieldValues) => {
     try {
-      console.log(data);
+      const finalData = {
+        name: data.name,
+        department: 1,
+      };
     } catch (err) {
       console.log("err", err);
     } finally {
@@ -44,9 +73,21 @@ const Create = () => {
   };
 
   const handleReset = () => {
-    // reset();
-    setIsOpen(!isOpen);
+    reset();
+    // setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await ticketService.getCategories();
+        setRootCategories(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCategories();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -60,9 +101,13 @@ const Create = () => {
               <select
                 id="category"
                 {...register("category", { required: true })}
+                onChange={handleChangeRootCategory}
               >
-                <option value="اجزای خودرو">{"اجزای خودرو"}</option>
-                <option value="اجزای خودرو">{"اجزای"}</option>
+                {rootCategories?.map((item: any) => (
+                  <option key={item.id} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
               {errors.category && <p>انتخاب دسته‌بندی اجباری است.</p>}
             </div>
@@ -71,8 +116,13 @@ const Create = () => {
               <select
                 id="part_type"
                 {...register("part_type", { required: true })}
+                onChange={handleChangeTrunkCategory}
               >
-                <option value="قطعه مصرفی لاستیک">{"قطعه مصرفی لاستیک"}</option>
+                {trunkCategories?.map((item: any) => (
+                  <option key={item.id} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
               {errors.part_type && <p>انتخاب نوع قطعه اجباری است.</p>}
             </div>
@@ -84,9 +134,11 @@ const Create = () => {
                 id="accessories_type"
                 {...register("accessories_type", { required: true })}
               >
-                <option value="قطعه داخلی یا خارجی یا موتور خودرو">
-                  {"قطعه داخلی یا خارجی یا موتور خودرو"}
-                </option>
+                {branchCategories?.map((item: any) => (
+                  <option key={item.id} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
               {errors.accessories_type && (
                 <p>انتخاب نوع لوازم قطعه اجباری است.</p>
@@ -103,13 +155,13 @@ const Create = () => {
             </div>
           </div>
           <div className="message">
-            <label htmlFor="message">{"پیام:"}</label>
+            <label htmlFor="description">{"پیام:"}</label>
             <textarea
-              id="message"
+              id="description"
               rows={10}
-              {...register("message", { required: true })}
+              {...register("description", { required: true })}
             ></textarea>
-            {errors.message && <p>وارد کردن پیام اجباری است.</p>}
+            {errors.description && <p>وارد کردن پیام اجباری است.</p>}
           </div>
           {/* <div className="row">
             <label htmlFor="attached_file">{"فایل پیوست:"}</label>

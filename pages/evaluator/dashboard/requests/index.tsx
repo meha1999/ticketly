@@ -21,10 +21,9 @@ const Requests = () => {
         const ticketRes = await ticketService.getTickets();
         // setTicketList(ticketRes.data)
         console.log(ticketRes.data);
-        
       } catch (error) {}
     };
-    getTickets()
+    getTickets();
   }, []);
 
   return (

@@ -107,6 +107,11 @@ const Login = () => {
         type: REDUX_ACTION.SET_TOKEN,
         payload: res.data.key,
       });
+      const userRes = await authService.getUser();
+      dispatch({
+        type: REDUX_ACTION.SET_USER,
+        payload: userRes.data,
+      });
       router.push("/mechanic/dashboard");
     } catch (err) {
       console.log("err", err);

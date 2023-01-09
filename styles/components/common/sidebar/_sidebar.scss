@@ -15,28 +15,69 @@
     font-weight: 700;
     font-size: 24px;
     color: #ffffff;
+    &.mechanic {
+      background-color: #00a48a;
+    }
+    &.evaluator {
+      background-color: #5e7bec;
+    }
+    &.admin {
+      background-color: #505050;
+    }
   }
   .menus {
-    display: flex;
-    flex-direction: column;
     gap: 25px;
+    display: flex;
+    font-size: 18px;
     padding-top: 40px;
     list-style-type: none;
+    flex-direction: column;
     .menu {
+      gap: 10px;
       display: flex;
       align-items: center;
-      gap: 10px;
       font-weight: 600;
-      font-size: 16px;
       text-decoration: none;
       color: #4d4d4d;
+      & svg {
+        font-size: 20px;
+      }
+      &.active {
+        font-weight: 700;
+        &.mechanic {
+          color: #00a48a;
+        }
+        &.evaluator {
+          color: #5e7bec;
+        }
+        &.admin {
+          color: #505050;
+        }
+      }
     }
     .sub-menus {
+      gap: 14px;
+      padding: 20px 0;
       display: flex;
+      font-size: 16px;
+      font-weight: 600;
+      margin-right: 25px;
       flex-direction: column;
-      gap: 15px;
-      margin-right: auto;
       list-style-type: none;
+      .menu {
+        &.active {
+          font-weight: 700;
+          &.mechanic {
+            color: #00a48a;
+          }
+          &.evaluator {
+            color: #5e7bec;
+          }
+          &.admin {
+            color: #505050;
+          }
+        }
+       }
     }
   }
   .logout-btn {

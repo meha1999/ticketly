@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Title from "components/common/title";
 import Divider from "components/common/divider";
 import editIcon from "public/images/icons/request/edit.svg";
@@ -7,26 +7,9 @@ import DashboardLayout from "components/layouts/dashboard/evaluator";
 import ProfileBold from "public/images/icons/profile_bold1.svg";
 import { GetServerSideProps } from "next";
 import { BsCheckLg } from "react-icons/bs";
-import { TicketService } from "services/ticket.service";
-
-const ticketService = new TicketService();
 
 const Requests = () => {
   const [activeTab, setActiveTab] = useState("supplying");
-  const [ticketList, setTicketList] = useState([]);
-
-  useEffect(() => {
-    const getTickets = async () => {
-      try {
-        const ticketRes = await ticketService.getTickets();
-        // setTicketList(ticketRes.data)
-        console.log(ticketRes.data);
-        
-      } catch (error) {}
-    };
-    getTickets()
-  }, []);
-
   return (
     <DashboardLayout>
       <div className="ev-request-page-wrapper">
@@ -73,7 +56,7 @@ const Requests = () => {
             <span> وضعیت تیکت</span>
           </div>
           <ul className="list-wrapper">
-            {ticketList?.map((i, d) => (
+            {[1, 2, 3, 4, 5, 6, 1, 1, 1, 1].map((i, d) => (
               <li className="list-item" key={d}>
                 <div className="title">
                   <span className="count">{d + 1}</span>

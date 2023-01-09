@@ -1,39 +1,23 @@
-import DashboardLayout from "components/layouts/dashboard/evaluator";
-import ReactDOM from "react-dom";
-import CustomPortal from "components/common/portal";
-import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
-import { useRef, useState } from "react";
+import { Inter } from "@next/font/google";
+import Link from "next/link";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  // const divRef = useRef<any>(null);
-  // const portalContainer: any = document.getElementById("portal");
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  // useCloseByClickOutSide({
-  //   ref: divRef,
-  //   isOpened: isOpen,
-  //   setIsOpened: setIsOpen,
-  // });
-
   return (
-    <>
-      <DashboardLayout />
-      {/* {isOpen &&
-        ReactDOM.createPortal(
-          <CustomPortal>
-            <div
-              ref={divRef}
-              style={{
-                width: "100px",
-                height: "100px",
-                backgroundColor: "red",
-              }}
-            >
-              sfdssdfa
-            </div>
-          </CustomPortal>,
-          portalContainer
-        )} */}
-    </>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "space-around",
+      }}
+    >
+      <Link href="mechanic/auth/login">صفحه ورود مکانیک</Link>
+      <Link href="evaluator/auth/login">صفحه ورود ارزیاب</Link>
+      <Link href="admin/auth/login">صفحه ورود ادمین</Link>
+    </div>
   );
 }

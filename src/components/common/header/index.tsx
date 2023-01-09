@@ -4,6 +4,8 @@ import logo from "images/logo.svg";
 import UserIcon from "images/icons/user_icon";
 import bellIcon from "images/icons/bell.svg";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const userType: Record<string, string> = {
   evaluator: "#5E7BEC",
@@ -14,6 +16,9 @@ const userType: Record<string, string> = {
 
 const Header = () => {
   const router = useRouter();
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
 
   return (
     <div className="header-wrapper">
@@ -30,7 +35,7 @@ const Header = () => {
               className="name"
               style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
             >
-              متین نوروزپور
+              {user?.username}
             </span>
             <span className="email">Matinnorouzpour@gmail.com</span>
           </div>

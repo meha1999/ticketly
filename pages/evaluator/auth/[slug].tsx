@@ -10,7 +10,7 @@ import { AuthService } from "services/auth.service";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { FieldValues, useForm } from "react-hook-form";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { setCookies } from "cookies-next";
 
 const authService = new AuthService();
 

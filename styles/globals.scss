@@ -12,6 +12,7 @@
 @import "./components/pure/order-completion";
 @import "./components/pure/chat-list";
 @import "./components/pure/message-card";
+@import "./components/common/portal/portal";
 
 @import "./pages/dashboard/profile/profile-page";
 @import "./pages/dashboard/requests/request-page-evaluator";
@@ -33,6 +34,10 @@ body {
   overflow-x: hidden;
   margin: 0;
   direction: rtl;
+}
+
+body {
+  position: relative;
 }
 
 input,

@@ -4,9 +4,8 @@ export class ProfileService extends BaseService {
   getProvince() {
     return this.axiosInstanceWithToken.get("address/ostan/");
   }
-  getCities(provinceName: string) {
-    return this.axiosInstanceWithToken.get("address/shahr/", {
-      params: { provinceName },
-    });
+  getCities(provinceName: number) {
+    return this.axiosInstanceWithToken.get(`address/ostan/shahr/${provinceName}/`);
   }
 }
+

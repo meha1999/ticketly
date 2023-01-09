@@ -4,7 +4,7 @@ import React, { FC } from "react";
 interface ImageInputProps {
   id?: string;
   label: string;
-  image: File | null;
+  image: string | ArrayBuffer | null;
   inputColor?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -25,7 +25,7 @@ const ImageInput: FC<ImageInputProps> = ({
         <label className="image-input" htmlFor={id}>
           {image && (
             <img
-              src={URL.createObjectURL(image)}
+              src={image as string}
               alt={label}
               className="image"
             />

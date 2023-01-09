@@ -11,12 +11,19 @@ import { AuthService } from "services/auth.service";
 import { deleteCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
+import { FC } from "react";
+import { NavLink } from "src/tools/NavLink";
+import { BsGridFill } from "react-icons/bs";
+import { TiUser } from "react-icons/ti";
+import { GiCarWheel } from "react-icons/gi";
+import { SiHackthebox } from "react-icons/si";
+import { BiEdit } from "react-icons/bi";
 
 const authService = new AuthService();
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const { pathname, push: RouterPush } = useRouter();
   const handleLogout = async () => {
     try {
       const res = await authService.logout();
@@ -25,7 +32,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        router.push("/admin/auth/login");
+        RouterPush("/admin/auth/login");
       }
     } catch (err) {
       console.log("err", err);
@@ -33,136 +40,91 @@ const Sidebar = () => {
     }
   };
 
+  const isActiveRoute = (route: string) => pathname.startsWith(route);
+
+  const SIDE_BAR_LINK_ITEMS: any[] = [
+    {
+      id: 1,
+      title: "پیشخوان",
+      path: "/admin/dashboard",
+      icon: BsGridFill,
+      exact: true,
+      subLinks: [],
+    },
+    {
+      id: 2,
+      title: "پروفایل",
+      path: "/admin/dashboard/profile",
+      icon: TiUser,
+      subLinks: [],
+    },
+    {
+      id: 3,
+      title: "ثبت محصول",
+      path: "/admin/dashboard/register",
+      icon: SiHackthebox,
+      subLinks: [],
+    },
+    {
+      id: 4,
+      title: "انبار",
+      path: "/admin/dashboard/store",
+      icon: GiCarWheel,
+      subLinks: [],
+    },
+    {
+      id: 5,
+      title: "درخواست ها",
+      path: "/admin/dashboard/requests",
+      icon: BiEdit,
+      subLinks: [
+        {
+          id: 1,
+          title: "درخواست‌های در حال تامین",
+          path: "/admin/dashboard/requests/supplying",
+        },
+        {
+          id: 2,
+          title: "درخواست‌های در حال ارسال",
+          path: "/admin/dashboard/requests/sending",
+        },
+        {
+          id: 3,
+          title: "درخواست‌های بسته شده",
+          path: "/admin/dashboard/requests/closed",
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name" style={{ backgroundColor: "#505050" }}>
-        {"پنل مدیریت"}
-      </div>
+      <div className="panel-name admin">پنل  مدیریت</div>
       <ul className="menus">
-        <li>
-          <Link
-            href="/admin/dashboard"
-            className="menu"
-            style={{
-              color: `${
-                router.pathname === "/admin/dashboard" ? "#BDBDBD" : "#4d4d4d"
-              }`,
-            }}
-          >
-            <Counter
-              color={
-                router.pathname === "/admin/dashboard" ? "#BDBDBD" : "#4d4d4d"
-              }
-            />
-            <span>{"پیشخوان"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-            }}
-          >
-            <div
-              style={{
-                width: "24px",
-                height: "24px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                objectFit: "cover",
-              }}
-            >
-              <UserIcon
-                color={router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}
-              />
-            </div>
-            <span>{"پروفایل"}</span>
-          </Link>
-        </li>
-        <li className="menu">
-          <RegisteredRequests color="#4d4d4d" />
-          <span>{"درخواست‌ها"}</span>
-        </li>
-        <ul className="sub-menus">
-          <li>
-            <Link
-              href=""
-              className="menu"
-              style={{
-                color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-              }}
-            >
-              <span
-                style={{
-                  color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-                }}
-              >
-                {"درخواست‌های در حال تامین"}
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href=""
-              className="menu"
-              style={{
-                color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-              }}
-            >
-              <span
-                style={{
-                  color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-                }}
-              >
-                {"درخواست‌های درحال ارسال"}
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href=""
-              className="menu"
-              style={{
-                color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-              }}
-            >
-              <span
-                style={{
-                  color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-                }}
-              >
-                {"درخواست‌های بسته شده"}
-              </span>
-            </Link>
-          </li>
-        </ul>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-            }}
-          >
-            <Users color={router.pathname === "" ? "#BDBDBD" : "#4d4d4d"} />
-            <span>{"کاربران"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#BDBDBD" : "#4d4d4d"}`,
-            }}
-          >
-            <Settings color={router.pathname === "" ? "#BDBDBD" : "#4d4d4d"} />
-            <span>{"تنظیمات"}</span>
-          </Link>
-        </li>
+        {SIDE_BAR_LINK_ITEMS.map(
+          ({ id, title, icon: Icon, path, subLinks, exact }) => (
+            <li key={id}>
+              <NavLink href={path} className="menu admin" exact={exact}>
+                <Icon className={isActiveRoute(path) ? "active" : ""} />
+                <span>{title}</span>
+              </NavLink>
+              {subLinks.length ? (
+                <ul className="sub-menus">
+                  {subLinks.map(({ id, path:subPath, title, icon: Icon }: any) => (
+                    <li key={id}>
+                      <NavLink href={subPath} className="menu admin">
+                        {Icon && <Icon className={isActiveRoute(path) ? "active" : ""}/>}
+                        <span>{title}</span>
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                ""
+              )}
+            </li>
+          )
+        )}
       </ul>
       <button className="logout-btn" onClick={handleLogout}>
         <Image src={logoutIcon} alt="logout" />

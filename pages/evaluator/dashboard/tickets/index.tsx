@@ -1,13 +1,15 @@
 import Image from "next/image";
+import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
 import Title from "components/common/title";
 import Divider from "components/common/divider";
-import editIcon from "public/images/icons/request/edit.svg";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
 import ProfileBold from "public/images/icons/profile_bold1.svg";
-import { GetServerSideProps } from "next";
+//icons
 import { BsCheckLg } from "react-icons/bs";
+import editIcon from "public/images/icons/request/edit.svg";
 import { TicketService } from "services/ticket.service";
+import { JalaliDateTime } from "jalali-date-time";
 
 const ticketService = new TicketService();
 
@@ -19,13 +21,21 @@ const Requests = () => {
     const getTickets = async () => {
       try {
         const ticketRes = await ticketService.getTickets();
-        // setTicketList(ticketRes.data)
+        setTicketList(ticketRes.data);
         console.log(ticketRes.data);
-        
       } catch (error) {}
     };
-    getTickets()
+    getTickets();
   }, []);
+
+  const dateTimeConfig = {
+    timezone: "Asia/Tehran",
+    locale: "en",
+    fullTextFormat: "d N ماه Y  -  H:I ",
+    titleFormat: "W, D N Y ",
+    dateFormat: "Y-M-D",
+    timeFormat: "H:I:S",
+  };
 
   return (
     <DashboardLayout>
@@ -73,19 +83,23 @@ const Requests = () => {
             <span> وضعیت تیکت</span>
           </div>
           <ul className="list-wrapper">
-            {ticketList?.map((i, d) => (
-              <li className="list-item" key={d}>
+            {ticketList?.map((item: any, index) => (
+              <li className="list-item" key={index}>
                 <div className="title">
-                  <span className="count">{d + 1}</span>
-                  لنت ترمز عقب پراید
+                  <span className="count">{index + 1}</span>
+                  {item.name}
                 </div>
                 <div className="user">
                   <div className="logo">
                     <Image src={ProfileBold} alt="" width={20} height={20} />
                   </div>
-                  <span className="name">متین نوروزپور مکانیک</span>
+                  <span className="name">{item.description}</span>
                 </div>
-                <div className="date">7 دی ماه 1401 14:31 </div>
+                <div className="date">
+                  {JalaliDateTime(dateTimeConfig).toFullText(
+                    new Date(item.updated_at)
+                  )}
+                </div>
                 <div className="status">
                   <ReqStatusBtn
                     status="pending"

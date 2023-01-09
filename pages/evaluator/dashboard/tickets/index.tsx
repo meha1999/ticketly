@@ -1,12 +1,13 @@
 import Image from "next/image";
+import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
 import Title from "components/common/title";
 import Divider from "components/common/divider";
-import editIcon from "public/images/icons/request/edit.svg";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
 import ProfileBold from "public/images/icons/profile_bold1.svg";
-import { GetServerSideProps } from "next";
+//icons
 import { BsCheckLg } from "react-icons/bs";
+import editIcon from "public/images/icons/request/edit.svg";
 import { TicketService } from "services/ticket.service";
 import { JalaliDateTime } from "jalali-date-time";
 
@@ -97,7 +98,7 @@ const Requests = () => {
                 <div className="date">
                   {JalaliDateTime(dateTimeConfig).toFullText(
                     new Date(item.updated_at)
-                  )}{" "}
+                  )}
                 </div>
                 <div className="status">
                   <ReqStatusBtn

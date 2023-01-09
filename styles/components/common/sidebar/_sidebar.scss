@@ -57,7 +57,7 @@
     }
     .sub-menus {
       gap: 14px;
-      padding: 20px 0;
+      padding-top: 20px;
       display: flex;
       font-size: 16px;
       font-weight: 600;
@@ -95,5 +95,9 @@
     font-size: 18px;
     color: #ffffff;
     margin-top: auto;
+    svg {
+      color: #EED201;
+      font-size: 25px;
+    }
   }
 }

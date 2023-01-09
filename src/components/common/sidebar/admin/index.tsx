@@ -7,9 +7,31 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Users from "images/icons/users";
 import Settings from "images/icons/settings";
+import { AuthService } from "services/auth.service";
+import { deleteCookie } from "cookies-next";
+import { useDispatch } from "react-redux";
+import { REDUX_ACTION } from "src/enum/redux-action.enum";
+
+const authService = new AuthService();
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      const res = await authService.logout();
+      if (res.status === 200) {
+        deleteCookie("role");
+        deleteCookie("token");
+        dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
+        dispatch({ type: REDUX_ACTION.EMPTY_USER });
+        router.push("/admin/auth/login");
+      }
+    } catch (err) {
+      console.log("err", err);
+    } finally {
+    }
+  };
 
   return (
     <div className="sidebar-wrapper">
@@ -142,7 +164,7 @@ const Sidebar = () => {
           </Link>
         </li>
       </ul>
-      <button className="logout-btn">
+      <button className="logout-btn" onClick={handleLogout}>
         <Image src={logoutIcon} alt="logout" />
         <span>{"خروج از حساب"}</span>
       </button>

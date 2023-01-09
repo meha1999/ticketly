@@ -36,6 +36,10 @@ export class AuthService extends BaseService {
     );
   }
 
+  logout(): Promise<any> {
+    return this.axiosInstanceWithToken.post("/auth/logout/");
+  }
+
   getUser() {
     return this.axiosInstanceWithToken.get("auth/user/");
   }

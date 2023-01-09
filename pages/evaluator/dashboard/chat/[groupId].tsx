@@ -5,39 +5,37 @@ import ChatList from "components/pure/chat-list";
 import OrderCompletion from "components/pure/order-completion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { Reducer, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
 import chatIcon from "images/icons/chat_page.svg";
 import Divider from "components/common/divider";
+import { TicketService } from "services/ticket.service";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { AnyAction, ReducersMapObject } from "redux";
 
 const chatService = new ChatService();
+const ticketService = new TicketService();
 
 const Chat = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [socketUrl, setSocketUrl] = useState(
-    `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${router.query.ticketId}/`
+  const [ticketId, setTicketId] = useState<string>("");
+  const [group, setGroup] = useState();
+  const [messageHistory, setMessageHistory] = useState<any>([]);
+  const [customerTicket, setCustomerTicket] = useState<any>([]);
+  const [suppliersTicket, setSuppliersTicket] = useState<any>([]);
+
+  const { sendJsonMessage, lastMessage, readyState }: any = useWebSocket(
+    `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${ticketId}/`
   );
 
-  useEffect(() => {
-    router.query.ticketId &&
-      setSocketUrl(
-        `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${router.query.ticketId}/`
-      );
-    router.query.ticketId && fetchMessageHistory();
-  }, [router.query.ticketId]);
-
-  const [messageHistory, setMessageHistory] = useState<any>([]);
-
-  const { sendJsonMessage, lastMessage, readyState }: any =
-    useWebSocket(socketUrl);
-
+  
   const fetchMessageHistory = async () => {
     try {
-      const res = await chatService.allChats(router.query.ticketId);
+      const res = await chatService.allChats(ticketId);
       setMessageHistory(res.data);
     } catch (err) {
       // console.log("err", err);
@@ -45,12 +43,26 @@ const Chat = () => {
     }
   };
 
-  useEffect(() => {
-    if (lastMessage !== null) {
-      const data = JSON.parse(lastMessage.data);
-      setMessageHistory((prev: any) => [...prev, data]);
+  const fetchGroupInfo = async () => {
+    try {
+      const res = await ticketService.getGroups(router.query.groupId as string);
+      setGroup(res.data);
+      const mechanics = res?.data?.ticket_group?.filter(
+        (item: any) => item.negotiant === "customer"
+      );
+      setTicketId(mechanics[0].id);
+
+      const suppliers = res?.data?.ticket_group?.filter(
+        (item: any) => item.negotiant !== "customer"
+      );
+
+      setCustomerTicket(mechanics.length ? mechanics[0] : {});
+      setSuppliersTicket(suppliers);
+    } catch (err) {
+      // console.log("err", err);
+    } finally {
     }
-  }, [lastMessage, setMessageHistory]);
+  };
 
   const handleClickSendMessage = useCallback(
     (message: any) =>
@@ -64,6 +76,21 @@ const Chat = () => {
     []
   );
 
+  useEffect(() => {
+    ticketId && fetchMessageHistory();
+  }, [ticketId]);
+
+  useEffect(() => {
+    router.query.groupId && fetchGroupInfo();
+  }, [router.query.groupId]);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      const data = JSON.parse(lastMessage.data);
+      setMessageHistory((prev: any) => [...prev, data]);
+    }
+  }, [lastMessage, setMessageHistory]);
+
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
     [ReadyState.OPEN]: "Open",
@@ -73,18 +100,19 @@ const Chat = () => {
   }[readyState as number];
 
   useEffect(() => {});
+
   return (
     <DashboardLayout>
       <Title titleText="صفحه چت" titleIcon={chatIcon} />
       <Divider />
       <OrderCompletion
-        subject="لنت ترمز جلو پراید "
-        name="متین نوروزپور"
-        address="تهران، خیابان انقلاب، خیابان جمالزاده، نبش کوچه شهرزاد"
-        walletCash={13500000}
+        subject={customerTicket.name}
+        name={customerTicket.customer}
+        address=""
+        walletCash={0}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ChatList />
+        <ChatList data={suppliersTicket} onChatChange={setTicketId} />
         <div style={{ width: "75%" }}>
           <ChatComponent
             data={messageHistory}
@@ -97,7 +125,6 @@ const Chat = () => {
 };
 
 export default Chat;
-
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {

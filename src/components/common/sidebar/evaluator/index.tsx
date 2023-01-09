@@ -3,21 +3,27 @@ import Counter from "images/icons/counter";
 import RegisteredRequests from "images/icons/registered_requests";
 import logoutIcon from "images/icons/logout.svg";
 import UserIcon from "images/icons/user_icon";
-import ProductRegistration from "images/icons/product_registration";
-import Store from "images/icons/store";
-import SuppliersList from "images/icons/suppliers_list";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import Users from "images/icons/users";
+import Settings from "images/icons/settings";
 import { AuthService } from "services/auth.service";
-import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { deleteCookie } from "cookies-next";
+import { useDispatch } from "react-redux";
+import { REDUX_ACTION } from "src/enum/redux-action.enum";
+import { FC } from "react";
+import { NavLink } from "src/tools/NavLink";
+import { BsGridFill } from "react-icons/bs";
+import { TiUser } from "react-icons/ti";
+import { GiCarWheel } from "react-icons/gi";
+import { SiHackthebox } from "react-icons/si";
+import { BiEdit } from "react-icons/bi";
 
 const authService = new AuthService();
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const { pathname, push: RouterPush } = useRouter();
   const handleLogout = async () => {
     try {
       const res = await authService.logout();
@@ -26,7 +32,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        router.push("/evaluator/auth/login");
+        RouterPush("/admin/auth/login");
       }
     } catch (err) {
       console.log("err", err);
@@ -34,156 +40,91 @@ const Sidebar = () => {
     }
   };
 
+  const isActiveRoute = (route: string) => pathname.startsWith(route);
+
+  const SIDE_BAR_LINK_ITEMS: any[] = [
+    {
+      id: 1,
+      title: "پیشخوان",
+      path: "/evaluator/dashboard",
+      icon: BsGridFill,
+      exact: true,
+      subLinks: [],
+    },
+    {
+      id: 2,
+      title: "پروفایل",
+      path: "/evaluator/dashboard/profile",
+      icon: TiUser,
+      subLinks: [],
+    },
+    {
+      id: 3,
+      title: "ثبت محصول",
+      path: "/evaluator/dashboard/register",
+      icon: SiHackthebox,
+      subLinks: [],
+    },
+    {
+      id: 4,
+      title: "انبار",
+      path: "/evaluator/dashboard/store",
+      icon: GiCarWheel,
+      subLinks: [],
+    },
+    {
+      id: 5,
+      title: "درخواست ها",
+      path: "/evaluator/dashboard/requests",
+      icon: BiEdit,
+      subLinks: [
+        {
+          id: 1,
+          title: "درخواست‌های در حال تامین",
+          path: "/evaluator/dashboard/requests/supplying",
+        },
+        {
+          id: 2,
+          title: "درخواست‌های در حال ارسال",
+          path: "/evaluator/dashboard/requests/sending",
+        },
+        {
+          id: 3,
+          title: "درخواست‌های بسته شده",
+          path: "/evaluator/dashboard/requests/closed",
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name" style={{ backgroundColor: "#5E7BEC" }}>
-        {"پنل ارزیاب"}
-      </div>
+      <div className="panel-name evaluator">پنل ارزیاب</div>
       <ul className="menus">
-        <li>
-          <Link
-            href="/evaluator/dashboard"
-            className="menu"
-            style={{
-              color: `${
-                router.pathname === "/evaluator/dashboard"
-                  ? "#5E7BEC"
-                  : "#4d4d4d"
-              }`,
-            }}
-          >
-            <Counter
-              color={
-                router.pathname === "/evaluator/dashboard"
-                  ? "#5E7BEC"
-                  : "#4d4d4d"
-              }
-            />
-            <span>{"پیشخوان"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-            }}
-          >
-            <div
-              style={{
-                width: "24px",
-                height: "24px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                objectFit: "cover",
-              }}
-            >
-              <UserIcon
-                color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
-              />
-            </div>
-            <span>{"پروفایل"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-            }}
-          >
-            <ProductRegistration
-              color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
-            />
-            <span>{"ثبت محصول"}</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-            }}
-          >
-            <Store color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"} />
-            <span>{"انبار"}</span>
-          </Link>
-        </li>
-        <li className="menu">
-          <RegisteredRequests color="#4d4d4d" />
-          <span>{"درخواست‌ها"}</span>
-        </li>
-        <ul className="sub-menus">
-          <li>
-            <Link
-              href=""
-              className="menu"
-              style={{
-                color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-              }}
-            >
-              <span
-                style={{
-                  color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-                }}
-              >
-                {"درخواست‌های در حال تامین"}
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href=""
-              className="menu"
-              style={{
-                color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-              }}
-            >
-              <span
-                style={{
-                  color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-                }}
-              >
-                {"درخواست‌های درحال ارسال"}
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href=""
-              className="menu"
-              style={{
-                color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-              }}
-            >
-              <span
-                style={{
-                  color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-                }}
-              >
-                {"درخواست‌های بسته شده"}
-              </span>
-            </Link>
-          </li>
-        </ul>
-        <li>
-          <Link
-            href=""
-            className="menu"
-            style={{
-              color: `${router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}`,
-            }}
-          >
-            <SuppliersList
-              color={router.pathname === "" ? "#5E7BEC" : "#4d4d4d"}
-            />
-            <span>{"لیست تامین کنندگان"}</span>
-          </Link>
-        </li>
+        {SIDE_BAR_LINK_ITEMS.map(
+          ({ id, title, icon: Icon, path, subLinks, exact }) => (
+            <li key={id}>
+              <NavLink href={path} className="menu evaluator" exact={exact}>
+                <Icon className={isActiveRoute(path) ? "active" : ""} />
+                <span>{title}</span>
+              </NavLink>
+              {subLinks.length ? (
+                <ul className="sub-menus">
+                  {subLinks.map(({ id, path:subPath, title, icon: Icon }: any) => (
+                    <li key={id}>
+                      <NavLink href={subPath} className="menu evaluator">
+                        {Icon && <Icon className={isActiveRoute(path) ? "active" : ""}/>}
+                        <span>{title}</span>
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                ""
+              )}
+            </li>
+          )
+        )}
       </ul>
       <button className="logout-btn" onClick={handleLogout}>
         <Image src={logoutIcon} alt="logout" />

@@ -183,10 +183,15 @@
     background-color: #fa1744;
     border-radius: 50%;
   }
-  &.new-ticket {
+  &.take {
     gap: 7px;
+    color: #fff;
+    cursor: pointer;
     display: flex;
+    padding: 3px 15px;
+    border-radius: 20px;
     align-items: center;
+    background-color: #68D666;
   }
   &.close {
     color: #fff;

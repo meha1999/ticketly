@@ -12,6 +12,9 @@ import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutsi
 import ReactDOM from "react-dom";
 import CustomPortal from "components/common/portal";
 import { TicketService } from "services/ticket.service";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { useRouter } from "next/router";
 
 const ticketService = new TicketService();
 
@@ -27,10 +30,17 @@ const Create = () => {
 
   const divRef = useRef<any>(null);
 
+  const router = useRouter();
+
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rootCategories, setRootCategories] = useState<Array<any>>([]);
   const [trunkCategories, setTrunkCategories] = useState<Array<any>>([]);
   const [branchCategories, setBranchCategories] = useState<Array<any>>([]);
+  const [branchCategoryId, setBranchCategoryId] = useState<number>(0);
 
   useCloseByClickOutSide({
     ref: divRef,
@@ -60,12 +70,30 @@ const Create = () => {
     setBranchCategories(items[0]?.branch_trunk);
   };
 
+  const handleChangeBranchCategory = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const items: any = branchCategories.filter(
+      (item: any) => item.name === event.currentTarget.value
+    );
+    setBranchCategoryId(items[0]?.id);
+  };
+
   const handleRequest = async (data: FieldValues) => {
     try {
       const finalData = {
         name: data.name,
         department: 1,
+        customer: user?.id,
+        priority: "high",
+        description: data.description,
+        status: "در انتظار پاسخ ارزیاب",
+        branch_category: branchCategoryId,
       };
+      const res = await ticketService.createTicket(finalData);
+      if (res.status === 201) {
+        router.push("/mechanic/dashboard/tickets");
+      }
     } catch (err) {
       console.log("err", err);
     } finally {
@@ -133,6 +161,7 @@ const Create = () => {
               <select
                 id="accessories_type"
                 {...register("accessories_type", { required: true })}
+                onChange={handleChangeBranchCategory}
               >
                 {branchCategories?.map((item: any) => (
                   <option key={item.id} value={item.name}>

@@ -3,15 +3,20 @@ import DashboardLayout from "components/layouts/dashboard/mechanic";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const chatService = new ChatService();
 
 const Chat = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
 
   const [socketUrl, setSocketUrl] = useState(
     `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${router.query.ticketId}/`
@@ -47,19 +52,17 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-
   const handleClickSendMessage = useCallback(
     (message: any) =>
       sendJsonMessage({
         message: message,
         sender: {
-          pk: 5,
+          pk: user?.id,
         },
         receiver: null,
       }),
     []
   );
-
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",

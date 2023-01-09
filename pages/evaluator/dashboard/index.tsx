@@ -1,11 +1,7 @@
-import Chat from "components/common/chat";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
-import ChatList from "components/pure/chat-list";
-import OrderCompletion from "components/pure/order-completion";
 import { GetServerSideProps } from "next";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 
 const Dashboard = () => {
   const token: string | null = useSelector<

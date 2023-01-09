@@ -1,4 +1,3 @@
-import Chat from "components/common/chat";
 import DashboardLayout from "components/layouts/dashboard/mechanic";
 import { GetServerSideProps } from "next";
 import { useSelector } from "react-redux";

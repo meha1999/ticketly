@@ -17,7 +17,9 @@ const authService = new AuthService();
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const { pathname, push: RouterPush } = useRouter();
+  const { asPath, push: RouterPush } = useRouter();
+  const router = useRouter();
+
   const handleLogout = async () => {
     try {
       const res = await authService.logout();
@@ -34,7 +36,7 @@ const Sidebar = () => {
     }
   };
 
-  const isActiveRoute = (route: string) => pathname.startsWith(route);
+  const isActiveRoute = (route: string) => asPath.includes(route);
 
   const SIDE_BAR_LINK_ITEMS: any[] = [
     {
@@ -113,12 +115,13 @@ const Sidebar = () => {
                 <ul className="sub-menus">
                   {subLinks.map(({ id, path, title, icon: Icon }: any) => (
                     <li key={id}>
-                      <NavLink href={path} className="menu evaluator">
-                        {Icon && (
-                          <Icon
-                            className={isActiveRoute(path) ? "active" : ""}
-                          />
-                        )}
+                      <NavLink
+                        href={path}
+                        className={`menu evaluator ${
+                          isActiveRoute(path) ? "active" : ""
+                        }`}
+                      >
+                        {Icon && <Icon />}
                         <span>{title}</span>
                       </NavLink>
                     </li>

@@ -171,7 +171,10 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="login-btn bg-evaluator box-shadow-evaluator"
+            className={`login-btn bg-evaluator box-shadow-evaluator ${
+              btnLoading && "loading"
+            }`}
+            disabled={btnLoading}
           >
             ورود
           </button>

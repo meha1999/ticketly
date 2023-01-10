@@ -59,6 +59,9 @@ const Create = () => {
       (item: any) => item.name === event.currentTarget.value
     );
     setTrunkCategories(items[0]?.trunk_root);
+    if (items[0]?.trunk_root?.length === 0) {
+      setBranchCategories([]);
+    }
   };
 
   const handleChangeTrunkCategory = (

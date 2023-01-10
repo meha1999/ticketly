@@ -26,7 +26,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        RouterPush("/admin/auth/login");
+        RouterPush("/evaluator/auth/login");
       }
     } catch (err) {
       console.log("err", err);

@@ -6,7 +6,7 @@ import OrderCompletion from "components/pure/order-completion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { Reducer, useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
 import chatIcon from "images/icons/chat_page.svg";
@@ -21,6 +21,9 @@ const ticketService = new TicketService();
 const Chat = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
 
   const [ticketId, setTicketId] = useState<string>("");
   const [group, setGroup] = useState();
@@ -32,7 +35,6 @@ const Chat = () => {
     `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${ticketId}/`
   );
 
-  
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(ticketId);
@@ -69,7 +71,7 @@ const Chat = () => {
       sendJsonMessage({
         message: message,
         sender: {
-          pk: 5,
+          pk: user?.id,
         },
         receiver: null,
       }),
@@ -107,9 +109,9 @@ const Chat = () => {
       <Divider />
       <OrderCompletion
         subject={customerTicket.name}
-        name={customerTicket.customer}
-        address=""
-        walletCash={0}
+        name={customerTicket.customer?.username}
+        address={customerTicket.customer?.address}
+        walletCash={customerTicket.customer?.wallet_account?.amount}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <ChatList data={suppliersTicket} onChatChange={setTicketId} />

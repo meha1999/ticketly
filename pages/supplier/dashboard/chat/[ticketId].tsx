@@ -3,15 +3,20 @@ import DashboardLayout from "components/layouts/dashboard/supplier";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const chatService = new ChatService();
 
 const Chat = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
 
   const [socketUrl, setSocketUrl] = useState(
     `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${router.query.ticketId}/`
@@ -52,7 +57,7 @@ const Chat = () => {
       sendJsonMessage({
         message: message,
         sender: {
-          pk: 5,
+          pk: user?.id,
         },
         receiver: null,
       }),
@@ -79,7 +84,7 @@ export default Chat;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
-    ctx.res.setHeader("Location", "/supplier/auth/login");
+    ctx.res.setHeader("Location", "/mechanic/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

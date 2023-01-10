@@ -21,7 +21,7 @@ const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
               key={index}
               onChatChange={() => onChatChange(item.id)}
               profileImage={item?.profileImage}
-              name={item.supplier}
+              name={item.supplier?.username}
               message={item.name}
               time={item.updated_at}
             />

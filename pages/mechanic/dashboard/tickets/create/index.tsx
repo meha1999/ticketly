@@ -7,10 +7,7 @@ import Title from "components/common/title";
 import Divider from "components/common/divider";
 import { GetServerSideProps } from "next";
 import { FieldValues, useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
-import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
-import ReactDOM from "react-dom";
-import CustomPortal from "components/common/portal";
+import { useEffect, useState } from "react";
 import { TicketService } from "services/ticket.service";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
@@ -28,25 +25,16 @@ const Create = () => {
     reset,
   } = useForm();
 
-  const divRef = useRef<any>(null);
-
   const router = useRouter();
 
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rootCategories, setRootCategories] = useState<Array<any>>([]);
   const [trunkCategories, setTrunkCategories] = useState<Array<any>>([]);
   const [branchCategories, setBranchCategories] = useState<Array<any>>([]);
   const [branchCategoryId, setBranchCategoryId] = useState<number>(0);
-
-  useCloseByClickOutSide({
-    ref: divRef,
-    isOpened: isOpen,
-    setIsOpened: setIsOpen,
-  });
 
   // const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   console.log(event.currentTarget);
@@ -103,10 +91,7 @@ const Create = () => {
     }
   };
 
-  const handleReset = () => {
-    reset();
-    // setIsOpen(!isOpen);
-  };
+  const handleReset = () => reset();
 
   useEffect(() => {
     const getCategories = async () => {
@@ -228,22 +213,6 @@ const Create = () => {
             </button>
           </div>
         </form>
-        {isOpen &&
-          ReactDOM.createPortal(
-            <CustomPortal>
-              <div
-                ref={divRef}
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "red",
-                }}
-              >
-                sfdssdfa
-              </div>
-            </CustomPortal>,
-            portalContainer
-          )}
       </div>
     </DashboardLayout>
   );

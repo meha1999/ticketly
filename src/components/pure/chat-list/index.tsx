@@ -1,5 +1,10 @@
 import MessageCard from "../message-card";
 import img from "images/auth/admin.svg";
+import { useRef, useState } from "react";
+import ReactDOM from "react-dom";
+import CustomPortal from "components/common/portal";
+import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
+import SuppliersList from "../suppliers-list";
 
 interface ChatListProps {
   data: Array<any>;
@@ -7,6 +12,22 @@ interface ChatListProps {
 }
 
 const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
+  const portalContainer: any = document.getElementById("portal");
+
+  const divRef = useRef<any>(null);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useCloseByClickOutSide({
+    ref: divRef,
+    isOpened: isOpen,
+    setIsOpened: setIsOpen,
+  });
+
+  const handleAddSupplier = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="chat-list">
       <div className="unread-messages">
@@ -28,10 +49,17 @@ const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
           ))}
         </div>
       </div>
-      <button className="add-supplier-btn">
+      <button className="add-supplier-btn" onClick={handleAddSupplier}>
         <span className="plus-icon">+</span>
         <span>اضافه کردن تامین کننده</span>
       </button>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <CustomPortal>
+            <SuppliersList elementRef={divRef} />
+          </CustomPortal>,
+          portalContainer
+        )}
     </div>
   );
 };

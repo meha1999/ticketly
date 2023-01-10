@@ -1,10 +1,13 @@
 import MessageCard from "../message-card";
 import img from "images/auth/admin.svg";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import CustomPortal from "components/common/portal";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import SuppliersList from "../suppliers-list";
+import { TicketService } from "services/ticket.service";
+
+const ticketService = new TicketService();
 
 interface ChatListProps {
   data: Array<any>;
@@ -17,6 +20,8 @@ const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
   const divRef = useRef<any>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [suppliersList, setSuppliersList] = useState<Array<any>>([]);
+  const [selectedSuppliers, setSelectedSuppliers] = useState<Array<number>>([]);
 
   useCloseByClickOutSide({
     ref: divRef,
@@ -27,6 +32,34 @@ const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
   const handleAddSupplier = () => {
     setIsOpen(!isOpen);
   };
+  const getSuppliersList = async () => {
+    try {
+      const res = await ticketService.getSuppliersList("supplier");
+      setSuppliersList(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+  const handleConfirm = () => {
+    console.log(selectedSuppliers);
+  };
+  const handleSelect = (id: number) => {
+    const items = selectedSuppliers.some((item: number) => item === id);
+    if (items) {
+      const data = selectedSuppliers.filter((item: number) => item !== id);
+      setSelectedSuppliers(data);
+    } else {
+      setSelectedSuppliers([...selectedSuppliers, id]);
+    }
+  };
+
+  useEffect(() => {
+    getSuppliersList();
+  }, []);
 
   return (
     <div className="chat-list">
@@ -56,7 +89,14 @@ const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
       {isOpen &&
         ReactDOM.createPortal(
           <CustomPortal>
-            <SuppliersList elementRef={divRef} />
+            <SuppliersList
+              suppliersList={suppliersList}
+              cancel={handleCancel}
+              confirm={handleConfirm}
+              elementRef={divRef}
+              handleSelect={handleSelect}
+              selectedSuppliers={selectedSuppliers}
+            />
           </CustomPortal>,
           portalContainer
         )}

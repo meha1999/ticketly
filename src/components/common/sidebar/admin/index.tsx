@@ -1,22 +1,15 @@
 import Image from "next/image";
-import Counter from "images/icons/counter";
-import RegisteredRequests from "images/icons/registered_requests";
 import logoutIcon from "images/icons/logout.svg";
-import UserIcon from "images/icons/user_icon";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import Users from "images/icons/users";
-import Settings from "images/icons/settings";
 import { AuthService } from "services/auth.service";
 import { deleteCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
-import { FC } from "react";
 import { NavLink } from "src/tools/NavLink";
 import { BsGridFill } from "react-icons/bs";
 import { TiUser } from "react-icons/ti";
-import { GiCarWheel } from "react-icons/gi";
-import { SiHackthebox } from "react-icons/si";
+import { IoIosPeople } from "react-icons/io";
+import { AiOutlineSetting } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 
 const authService = new AuthService();
@@ -59,20 +52,6 @@ const Sidebar = () => {
       subLinks: [],
     },
     {
-      id: 3,
-      title: "ثبت محصول",
-      path: "/admin/dashboard/register",
-      icon: SiHackthebox,
-      subLinks: [],
-    },
-    {
-      id: 4,
-      title: "انبار",
-      path: "/admin/dashboard/store",
-      icon: GiCarWheel,
-      subLinks: [],
-    },
-    {
       id: 5,
       title: "درخواست ها",
       path: "/admin/dashboard/tickets",
@@ -95,11 +74,25 @@ const Sidebar = () => {
         },
       ],
     },
+    {
+      id: 3,
+      title: "کاربران",
+      path: "/admin/dashboard/users",
+      icon: IoIosPeople,
+      subLinks: [],
+    },
+    {
+      id: 4,
+      title: "تنظیمات",
+      path: "/admin/dashboard/settings",
+      icon: AiOutlineSetting,
+      subLinks: [],
+    },
   ];
 
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name admin">پنل  مدیریت</div>
+      <div className="panel-name admin">پنل مدیریت</div>
       <ul className="menus">
         {SIDE_BAR_LINK_ITEMS.map(
           ({ id, title, icon: Icon, path, subLinks, exact }) => (
@@ -110,14 +103,20 @@ const Sidebar = () => {
               </NavLink>
               {subLinks.length ? (
                 <ul className="sub-menus">
-                  {subLinks.map(({ id, path:subPath, title, icon: Icon }: any) => (
-                    <li key={id}>
-                      <NavLink href={subPath} className="menu admin">
-                        {Icon && <Icon className={isActiveRoute(path) ? "active" : ""}/>}
-                        <span>{title}</span>
-                      </NavLink>
-                    </li>
-                  ))}
+                  {subLinks.map(
+                    ({ id, path: subPath, title, icon: Icon }: any) => (
+                      <li key={id}>
+                        <NavLink href={subPath} className="menu admin">
+                          {Icon && (
+                            <Icon
+                              className={isActiveRoute(path) ? "active" : ""}
+                            />
+                          )}
+                          <span>{title}</span>
+                        </NavLink>
+                      </li>
+                    )
+                  )}
                 </ul>
               ) : (
                 ""

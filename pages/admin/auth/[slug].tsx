@@ -9,6 +9,9 @@ import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { FieldValues, useForm } from "react-hook-form";
 import { setCookies } from "cookies-next";
+import { useState } from "react";
+import { Toaster } from "components/common/toast/Toaster";
+import ToastComponent from "components/common/toast/ToastComponent";
 
 const authService = new AuthService();
 
@@ -20,9 +23,12 @@ const Login = () => {
   } = useForm();
   const dispatch = useDispatch();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const loginUser = async (data: FieldValues) => {
     try {
+      setBtnLoading(true);
       const res = await authService.login(data, "admin");
       setCookies("role", "admin");
       setCookies("token", res.data.key);
@@ -30,55 +36,74 @@ const Login = () => {
         type: REDUX_ACTION.SET_TOKEN,
         payload: res.data.key,
       });
+      setBtnLoading(false);
+      setLoading(true);
       const userRes = await authService.getUser();
       dispatch({
         type: REDUX_ACTION.SET_USER,
         payload: userRes.data,
       });
+      setLoading(false);
       router.push("/admin/dashboard");
-    } catch (err) {
-      console.log("err", err);
+    } catch (err: any) {
+      Toaster.error(<ToastComponent title="خطایی در وارد شدن شما بروز داده است" />);
     } finally {
+      setBtnLoading(false);
+      setLoading(false);
     }
   };
 
-  return (
-    <div className="login">
-      <form className="form" onSubmit={handleSubmit(loginUser)}>
-        <div className="input-container">
-          <label htmlFor="username">نام کاربری :</label>
-          <input
-            type="text"
-            id="username"
-            {...register("username", { required: true })}
-          />
-          {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
-        </div>
-        <div className="input-container">
-          <label htmlFor="">رمز عبور:</label>
-          <input
-            type="password"
-            id="password"
-            {...register("password", { required: true })}
-          />
-          {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
-        </div>
-        <div className="login-with-google">
-          <div className="line"></div>
-          <span>یا ورود با</span>
-          <div className="line"></div>
-        </div>
-        <div className="google">
-          <Image src={googleLogo} alt="google" />
-          <span>ثبت نام با گوگل</span>
-        </div>
-        <button type="submit" className="login-btn bg-admin box-shadow-admin">
-          ورود
-        </button>
-      </form>
-      <Image src={authTools} alt="tools" className="tools-image" />
-    </div>
-  );
+  if (loading) {
+    return (
+      <div className="full-page-Container">
+        <span className="loading" />
+      </div>
+    );
+  } else {
+    return (
+      <div className="login">
+        <form className="form" onSubmit={handleSubmit(loginUser)}>
+          <div className="input-container">
+            <label htmlFor="username">نام کاربری :</label>
+            <input
+              type="text"
+              id="username"
+              {...register("username", { required: true })}
+            />
+            {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
+          </div>
+          <div className="input-container">
+            <label htmlFor="">رمز عبور:</label>
+            <input
+              type="password"
+              id="password"
+              {...register("password", { required: true })}
+            />
+            {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
+          </div>
+          <div className="login-with-google">
+            <div className="line"></div>
+            <span>یا ورود با</span>
+            <div className="line"></div>
+          </div>
+          <div className="google">
+            <Image src={googleLogo} alt="google" />
+            <span>ثبت نام با گوگل</span>
+          </div>
+          <button
+            type="submit"
+            className={`login-btn bg-admin box-shadow-admin ${
+              btnLoading && "loading"
+            }`}
+            disabled={btnLoading}
+          >
+            ورود
+          </button>
+        </form>
+        <Image src={authTools} alt="tools" className="tools-image" />
+      </div>
+    );
+  }
 };
 
 const Auth = () => {

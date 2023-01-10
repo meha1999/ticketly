@@ -5,22 +5,20 @@ import ChatList from "components/pure/chat-list";
 import OrderCompletion from "components/pure/order-completion";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { Reducer, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatService } from "services/chat.service";
 import chatIcon from "images/icons/chat_page.svg";
 import Divider from "components/common/divider";
 import { TicketService } from "services/ticket.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
-import { AnyAction, ReducersMapObject } from "redux";
 
 const chatService = new ChatService();
 const ticketService = new TicketService();
 
 const Chat = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
@@ -52,8 +50,7 @@ const Chat = () => {
       const mechanics = res?.data?.ticket_group?.filter(
         (item: any) => item.negotiant === "customer"
       );
-      setTicketId(mechanics[0].id);
-
+      !router.query.ticketId && setTicketId(mechanics[0].id);
       const suppliers = res?.data?.ticket_group?.filter(
         (item: any) => item.negotiant !== "customer"
       );
@@ -87,6 +84,10 @@ const Chat = () => {
   }, [router.query.groupId]);
 
   useEffect(() => {
+    router.query.ticketId && setTicketId(router.query.ticketId as string);
+  }, [router.query.ticketId]);
+
+  useEffect(() => {
     if (lastMessage !== null) {
       const data = JSON.parse(lastMessage.data);
       setMessageHistory((prev: any) => [...prev, data]);
@@ -112,6 +113,7 @@ const Chat = () => {
         name={customerTicket.customer?.username}
         address={customerTicket.customer?.address}
         walletCash={customerTicket.customer?.wallet_account?.amount}
+        openChat={() => setTicketId(customerTicket.id)}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <ChatList data={suppliersTicket} onChatChange={setTicketId} />

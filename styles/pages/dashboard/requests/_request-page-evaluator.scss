@@ -75,6 +75,7 @@
       align-self: flex-start;
       justify-content: flex-start;
       .list-item {
+        cursor: pointer;
         width: 100%;
         padding: 15px;
         font-weight: 700;
@@ -189,7 +190,7 @@
     background-color: #fa1744;
     border-radius: 50%;
   }
-  &.take {
+  &.green {
     gap: 7px;
     color: #fff;
     cursor: pointer;

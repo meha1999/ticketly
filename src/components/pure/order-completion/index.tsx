@@ -6,6 +6,7 @@ interface OrderCompletionProps {
   name: string;
   address: string;
   walletCash: number;
+  openChat: () => void;
 }
 
 const OrderCompletion: FC<OrderCompletionProps> = ({
@@ -13,6 +14,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   name,
   address,
   walletCash,
+  openChat,
 }) => {
   return (
     <div className="order-completion">
@@ -27,7 +29,9 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           </div>
           <span>{name}</span>
         </div>
-        <button className="chat-user">چت با مکانیک</button>
+        <button className="chat-user" onClick={openChat}>
+          چت با مکانیک
+        </button>
       </div>
       <div className="address">
         <span className="address-title">آدرس محل سکونت:</span>

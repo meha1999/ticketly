@@ -78,7 +78,7 @@ const Create = () => {
         customer: user?.id,
         priority: "high",
         description: data.description,
-        status: "در انتظار پاسخ ارزیاب",
+        status: "UNREAD",
         branch_category: branchCategoryId,
       };
       const res = await ticketService.createTicket(finalData);

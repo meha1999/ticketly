@@ -1,15 +1,53 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import { GetServerSideProps } from "next";
+import React, { useEffect, useState } from "react";
 import Title from "components/common/title";
 import Divider from "components/common/divider";
-import editIcon from "public/images/icons/request/edit.svg";
 import DashboardLayout from "components/layouts/dashboard/evaluator";
 import ProfileBold from "public/images/icons/profile_bold1.svg";
-import { GetServerSideProps } from "next";
+//icons
 import { BsCheckLg } from "react-icons/bs";
+import editIcon from "public/images/icons/request/edit.svg";
+import { TicketService } from "services/ticket.service";
+import { JalaliDateTime } from "jalali-date-time";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { Toaster } from "components/common/toast/Toaster";
+
+const ticketService = new TicketService();
 
 const Requests = () => {
   const [activeTab, setActiveTab] = useState("supplying");
+  const [ticketList, setTicketList] = useState([]);
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
+  useEffect(() => {
+    const getTickets = async () => {
+      try {
+        const ticketRes = await ticketService.getTickets();
+        setTicketList(ticketRes.data);
+      } catch (error) {}
+    };
+    getTickets();
+  }, []);
+
+  const dateTimeConfig = {
+    timezone: "Asia/Tehran",
+    locale: "en",
+    fullTextFormat: "d N ماه Y  -  H:I ",
+    titleFormat: "W, D N Y ",
+    dateFormat: "Y-M-D",
+    timeFormat: "H:I:S",
+  };
+
+  const getTicketRequest = async (id: string) => {
+    try {
+      const res = await ticketService.takeTicket(id, { staff: user?.id });
+      console.log(res.data);
+    } catch (error) {}
+  };
+
   return (
     <DashboardLayout>
       <div className="ev-request-page-wrapper">
@@ -56,27 +94,34 @@ const Requests = () => {
             <span> وضعیت تیکت</span>
           </div>
           <ul className="list-wrapper">
-            {[1, 2, 3, 4, 5, 6, 1, 1, 1, 1].map((i, d) => (
-              <li className="list-item" key={d}>
+            {ticketList?.map((item: any, index) => (
+              <li className="list-item" key={index}>
                 <div className="title">
-                  <span className="count">{d + 1}</span>
-                  لنت ترمز عقب پراید
+                  <span className="count">{index + 1}</span>
+                  {item.name}
                 </div>
                 <div className="user">
                   <div className="logo">
                     <Image src={ProfileBold} alt="" width={20} height={20} />
                   </div>
-                  <span className="name">متین نوروزپور مکانیک</span>
+                  <span className="name">{item.description}</span>
                 </div>
-                <div className="date">7 دی ماه 1401 14:31 </div>
+                <div className="date">
+                  {JalaliDateTime(dateTimeConfig).toFullText(
+                    new Date(item.updated_at)
+                  )}
+                </div>
                 <div className="status">
                   <ReqStatusBtn
                     status="pending"
-                    text="در انتظار پاسخ تامین کننده"
+                    text="در انتظار پاسخ ارزیاب"
                   />
                 </div>
                 <div className="ticket">
-                  <ReqTicketBtn status="take" />
+                  <ReqTicketBtn
+                    status={item.status}
+                    onClick={() => getTicketRequest(item.id)}
+                  />
                 </div>
               </li>
             ))}
@@ -106,20 +151,29 @@ export const ReqStatusBtn = ({
   );
 };
 
-export const ReqTicketBtn = ({ status }: { status: string }) => {
+export const ReqTicketBtn = ({
+  status,
+  onClick,
+}: {
+  status: string;
+  onClick: () => void;
+}) => {
   const className: Record<string, string> = {
-    take: "take",
+    UNREAD: "unread",
     close: "close",
     finished: "close",
   };
 
   const textTranslator: Record<string, string> = {
-    take: " قبول درخواست",
+    UNREAD: " قبول درخواست",
     close: "بستن تیکت",
     finished: "تیکت بسته شده",
   };
   return (
-    <div className={`ticket-status-wrapper ${className[status]} `}>
+    <div
+      className={`ticket-status-wrapper ${className[status]} `}
+      onClick={onClick}
+    >
       {status && <BsCheckLg />}
       {textTranslator[status]}
     </div>

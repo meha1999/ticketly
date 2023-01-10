@@ -10,21 +10,25 @@ import { BsCheckLg } from "react-icons/bs";
 import editIcon from "public/images/icons/request/edit.svg";
 import { TicketService } from "services/ticket.service";
 import { JalaliDateTime } from "jalali-date-time";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useRouter } from "next/router";
+import { Toaster } from "components/common/toast/Toaster";
 
 const ticketService = new TicketService();
 
 const Requests = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("supplying");
-  const [ticketList, setTicketList] = useState([]);
-
+  const [ticketList, setTicketList] = useState<any>([]);
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
   useEffect(() => {
     const getTickets = async () => {
       try {
         const ticketRes = await ticketService.getTickets();
         setTicketList(ticketRes.data);
-        console.log(ticketRes.data);
       } catch (error) {}
     };
     getTickets();
@@ -37,6 +41,24 @@ const Requests = () => {
     titleFormat: "W, D N Y ",
     dateFormat: "Y-M-D",
     timeFormat: "H:I:S",
+  };
+
+  const getTicketRequest = async (ticket: Record<string, string>) => {
+    if (ticket.status === "UNREAD") {
+      try {
+        const res = await ticketService.takeTicket(ticket.id, {
+          staff: user?.id,
+          status: "ACCEPTED",
+        });
+        Toaster.success("قبول درخواست با موفقیت انجام شد.");
+        const newList = ticketList.map((item: any) =>
+          item.id === ticket.id ? res.data : item
+        );
+        setTicketList(newList);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleOpenChat = (groupId: string, ticketId: string) => {
@@ -89,7 +111,7 @@ const Requests = () => {
             <span> وضعیت تیکت</span>
           </div>
           <ul className="list-wrapper">
-            {ticketList?.map((item: any, index) => (
+            {ticketList?.map((item: any, index: any) => (
               <li
                 className="list-item"
                 key={index}
@@ -103,7 +125,9 @@ const Requests = () => {
                   <div className="logo">
                     <Image src={ProfileBold} alt="" width={20} height={20} />
                   </div>
-                  <span className="name">{item.description}</span>
+                  <span className="name">
+                    {item.customer.full_name ?? "نام کاربر یافت نشد"}
+                  </span>
                 </div>
                 <div className="date">
                   {JalaliDateTime(dateTimeConfig).toFullText(
@@ -112,12 +136,16 @@ const Requests = () => {
                 </div>
                 <div className="status">
                   <ReqStatusBtn
-                    status="pending"
-                    text="در انتظار پاسخ تامین کننده"
+                    status={item.status}
+                    text="در انتظار پاسخ ارزیاب"
                   />
                 </div>
                 <div className="ticket">
-                  <ReqTicketBtn status="take" />
+                  <ReqTicketBtn
+                    isClosed={item.closed}
+                    status={item.status}
+                    onClick={() => getTicketRequest(item)}
+                  />
                 </div>
               </li>
             ))}
@@ -130,39 +158,57 @@ const Requests = () => {
 
 export default Requests;
 
-export const ReqStatusBtn = ({
-  status,
-  text,
-}: {
-  status: string;
-  text: string;
-}) => {
+export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
   const className: Record<string, string> = {
-    pending: "pending",
-    fulfilled: "fulfilled",
-    pending2: "pending-2",
+    UNREAD: "pending",
+    INPROCESS: "pending",
+    CLOSED: "fulfilled",
+    ACCEPTED: "pending-2",
+    ANSWERED: "pending-2",
+    PROVIDED: "fulfilled",
+    RETURNED: "pending-2",
+    DELIVERED: "fulfilled",
+  };
+
+  const translate: Record<string, string> = {
+    UNREAD: "در انتظار تایید ارزیاب",
+    ACCEPTED: "در انتظار پاسخ مکانیک",
+    ANSWERED: "در انتظار پاسخ مکانیک",
+    INPROCESS: "در انتظار تامین کننده",
+    CLOSED: "مکانیک پاسخ داده",
+    PROVIDED: "مکانیک پاسخ داده",
+    RETURNED: "در انتظار پاسخ مکانیک",
+    DELIVERED: "مکانیک پاسخ داده",
   };
   return (
-    <div className={`btn-status-wrapper ${className[status]} `}>{text}</div>
+    <div className={`btn-status-wrapper ${className[status]} `}>
+      {translate[status]}
+    </div>
   );
 };
 
-export const ReqTicketBtn = ({ status }: { status: string }) => {
-  const className: Record<string, string> = {
-    take: "take",
-    close: "close",
-    finished: "close",
-  };
-
-  const textTranslator: Record<string, string> = {
-    take: " قبول درخواست",
-    close: "بستن تیکت",
-    finished: "تیکت بسته شده",
-  };
+export const ReqTicketBtn = ({
+  status,
+  isClosed,
+  onClick,
+}: {
+  status: string;
+  isClosed: boolean;
+  onClick: () => void;
+}) => {
   return (
-    <div className={`ticket-status-wrapper ${className[status]} `}>
-      {status && <BsCheckLg />}
-      {textTranslator[status]}
+    <div
+      className={`ticket-status-wrapper ${
+        status === "UNREAD" ? "green" : "close"
+      }`}
+      onClick={onClick}
+    >
+      {status === "UNREAD" && <BsCheckLg />}
+      {status === "UNREAD"
+        ? "قبول درخواست"
+        : isClosed
+        ? "تیکت بسته شده"
+        : " بستن تیکت"}
     </div>
   );
 };

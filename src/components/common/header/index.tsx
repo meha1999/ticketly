@@ -35,9 +35,11 @@ const Header = () => {
               className="name"
               style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
             >
-              {user?.full_name}
+              {user?.full_name ?? "نام کاربری در دسترس نیست"}
             </span>
-            <span className="email">Matinnorouzpour@gmail.com</span>
+            <span className="email">
+              {user?.email ?? "ایمیل در دسترس نیست"}
+            </span>
           </div>
         </div>
         <div className="notification-container">

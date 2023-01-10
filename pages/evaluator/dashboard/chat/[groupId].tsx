@@ -13,6 +13,7 @@ import chatIcon from "images/icons/chat_page.svg";
 import Divider from "components/common/divider";
 import { TicketService } from "services/ticket.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { useSSE } from "react-hooks-sse";
 
 const chatService = new ChatService();
 const ticketService = new TicketService();
@@ -22,7 +23,7 @@ const Chat = () => {
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
-
+  // const state = useSSE("message", {});
   const [ticketId, setTicketId] = useState<string>("");
   const [group, setGroup] = useState();
   const [messageHistory, setMessageHistory] = useState<any>([]);
@@ -32,6 +33,14 @@ const Chat = () => {
   const { sendJsonMessage, lastMessage, readyState }: any = useWebSocket(
     `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${ticketId}/`
   );
+
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: "Connecting",
+    [ReadyState.OPEN]: "Open",
+    [ReadyState.CLOSING]: "Closing",
+    [ReadyState.CLOSED]: "Closed",
+    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
+  }[readyState as number];
 
   const fetchMessageHistory = async () => {
     try {
@@ -94,15 +103,7 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState as number];
-
-  useEffect(() => {});
+  // console.log(state);
 
   return (
     <DashboardLayout>
@@ -116,7 +117,11 @@ const Chat = () => {
         openChat={() => setTicketId(customerTicket.id)}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ChatList data={suppliersTicket} onChatChange={setTicketId} />
+        <ChatList
+          data={suppliersTicket}
+          onChatChange={setTicketId}
+          ticketId={ticketId}
+        />
         <div style={{ width: "75%" }}>
           <ChatComponent
             data={messageHistory}

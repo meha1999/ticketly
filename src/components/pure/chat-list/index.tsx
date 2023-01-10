@@ -9,9 +9,14 @@ import SuppliersList from "../suppliers-list";
 interface ChatListProps {
   data: Array<any>;
   onChatChange: (ticketId: string) => any;
+  ticketId: string;
 }
 
-const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
+const ChatList: React.FC<ChatListProps> = ({
+  data,
+  onChatChange,
+  ticketId,
+}) => {
   const portalContainer: any = document.getElementById("portal");
 
   const divRef = useRef<any>(null);
@@ -45,6 +50,7 @@ const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
               name={item.supplier?.username}
               message={item.name}
               time={item.updated_at}
+              selected={ticketId === item.id}
             />
           ))}
         </div>

@@ -18,6 +18,7 @@ interface MessageCardProps {
   message: string;
   unreadMessagesCount?: number;
   time: string;
+  selected: boolean;
   onChatChange: () => {};
 }
 
@@ -27,10 +28,14 @@ const MessageCard: FC<MessageCardProps> = ({
   message,
   unreadMessagesCount,
   time,
+  selected,
   onChatChange,
 }) => {
   return (
-    <div className="message-card" onClick={onChatChange}>
+    <div
+      className={`message-card ${selected ? "selected-ticket-card" : ""}`}
+      onClick={onChatChange}
+    >
       <div className="profile-image">
         {profileImage ? (
           <Image src={profileImage} alt="profile" width={43} height={43} />

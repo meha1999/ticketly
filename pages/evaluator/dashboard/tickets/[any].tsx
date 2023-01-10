@@ -13,10 +13,12 @@ import { JalaliDateTime } from "jalali-date-time";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { Toaster } from "components/common/toast/Toaster";
+import { useRouter } from "next/router";
 
 const ticketService = new TicketService();
 
 const Requests = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("supplying");
   const [ticketList, setTicketList] = useState([]);
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
@@ -46,6 +48,10 @@ const Requests = () => {
       const res = await ticketService.takeTicket(id, { staff: user?.id });
       console.log(res.data);
     } catch (error) {}
+  };
+
+  const handleOpenChat = (groupId: string, ticketId: string) => {
+    router.push(`/evaluator/dashboard/chat/${groupId}?ticketId=${ticketId}`);
   };
 
   return (
@@ -95,7 +101,11 @@ const Requests = () => {
           </div>
           <ul className="list-wrapper">
             {ticketList?.map((item: any, index) => (
-              <li className="list-item" key={index}>
+              <li
+                className="list-item"
+                key={index}
+                onClick={() => handleOpenChat(item.ticket_group, item.id)}
+              >
                 <div className="title">
                   <span className="count">{index + 1}</span>
                   {item.name}
@@ -112,10 +122,7 @@ const Requests = () => {
                   )}
                 </div>
                 <div className="status">
-                  <ReqStatusBtn
-                    status="pending"
-                    text="در انتظار پاسخ ارزیاب"
-                  />
+                  <ReqStatusBtn status="pending" text="در انتظار پاسخ ارزیاب" />
                 </div>
                 <div className="ticket">
                   <ReqTicketBtn

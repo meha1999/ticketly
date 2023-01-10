@@ -22,4 +22,8 @@ export class TicketService extends BaseService {
       "/product/category/root/trunk/branch/"
     );
   }
+
+  getSuppliersList(role: string) {
+    return this.axiosInstanceWithToken.get(`/account/user/?role=${role}`);
+  }
 }

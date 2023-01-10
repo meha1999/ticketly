@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-interface SuppliersListProps {
+interface SuppliersListIconProps {
   color: string;
 }
 
-const SuppliersList: FC<SuppliersListProps> = ({ color }) => {
+const SuppliersListIcon: FC<SuppliersListIconProps> = ({ color }) => {
   return (
     <svg
       width="20"
@@ -23,4 +23,4 @@ const SuppliersList: FC<SuppliersListProps> = ({ color }) => {
   );
 };
 
-export default SuppliersList;
+export default SuppliersListIcon;

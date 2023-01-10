@@ -1,6 +1,16 @@
 import UserIcon from "images/icons/user_icon";
 import { FC } from "react";
 import Image from "next/image";
+import { JalaliDateTime } from "jalali-date-time";
+
+const dateTimeConfig = {
+  timezone: "Asia/Tehran",
+  locale: "en",
+  fullTextFormat: "H:I",
+  titleFormat: "W, D N Y ",
+  dateFormat: "Y-M-D",
+  timeFormat: "H:I:S",
+};
 
 interface MessageCardProps {
   profileImage: string;
@@ -8,6 +18,7 @@ interface MessageCardProps {
   message: string;
   unreadMessagesCount?: number;
   time: string;
+  onChatChange: () => {};
 }
 
 const MessageCard: FC<MessageCardProps> = ({
@@ -16,9 +27,10 @@ const MessageCard: FC<MessageCardProps> = ({
   message,
   unreadMessagesCount,
   time,
+  onChatChange,
 }) => {
   return (
-    <div className="message-card">
+    <div className="message-card" onClick={onChatChange}>
       <div className="profile-image">
         {profileImage ? (
           <Image src={profileImage} alt="profile" width={43} height={43} />
@@ -34,7 +46,7 @@ const MessageCard: FC<MessageCardProps> = ({
         {unreadMessagesCount && (
           <div className="count">{unreadMessagesCount}</div>
         )}
-        <span>{time}</span>
+        <span>{JalaliDateTime(dateTimeConfig).toFullText(new Date(time))}</span>
       </div>
     </div>
   );

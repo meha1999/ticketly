@@ -55,8 +55,8 @@ const Sidebar = () => {
     },
     {
       id: 3,
-      title: "ثبت محصول",
-      path: "/mechanic/dashboard/register",
+      title: "ثبت تیکت جدید",
+      path: "/mechanic/dashboard/tickets/create",
       icon: SiHackthebox,
       subLinks: [],
     },
@@ -71,6 +71,7 @@ const Sidebar = () => {
       id: 5,
       title: "درخواست ها",
       path: "/mechanic/dashboard/tickets",
+      exact: true,
       icon: BiEdit,
       subLinks: [
         {
@@ -119,20 +120,18 @@ const Sidebar = () => {
               </NavLink>
               {subLinks.length ? (
                 <ul className="sub-menus">
-                  {subLinks.map(
-                    ({ id, path, title, icon: Icon }: any) => (
-                      <li key={id}>
-                        <NavLink href={path} className="menu mechanic">
-                          {Icon && (
-                            <Icon
-                              className={isActiveRoute(path) ? "active" : ""}
-                            />
-                          )}
-                          <span>{title}</span>
-                        </NavLink>
-                      </li>
-                    )
-                  )}
+                  {subLinks.map(({ id, path, title, icon: Icon }: any) => (
+                    <li key={id}>
+                      <NavLink href={path} className="menu mechanic">
+                        {Icon && (
+                          <Icon
+                            className={isActiveRoute(path) ? "active" : ""}
+                          />
+                        )}
+                        <span>{title}</span>
+                      </NavLink>
+                    </li>
+                  ))}
                 </ul>
               ) : (
                 ""

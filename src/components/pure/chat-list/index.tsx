@@ -1,41 +1,12 @@
 import MessageCard from "../message-card";
 import img from "images/auth/admin.svg";
 
-const ChatList = () => {
-  const list: Array<any> = [
-    {
-      profileImage: img,
-      name: "قاسم افشار",
-      message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      // unreadMessagesCount: 1,
-      time: "۱۱:۲۹",
-    },
-    {
-      profileImage: img,
-      name: "کیان میرکیان",
-      message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      time: "۱۱:۲۹",
-    },
-    {
-      profileImage: "",
-      name: "کمیل قاسمی",
-      message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      time: "۱۱:۲۹",
-    },
-    {
-      profileImage: img,
-      name: "محمد حسنی",
-      message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      time: "۱۱:۲۹",
-    },
-    {
-      profileImage: "",
-      name: "قاسم افشار",
-      message: "سلام خسته نباشید میخواستم سلام خسته نباشید میخواستم",
-      time: "۱۱:۲۹",
-    },
-  ];
+interface ChatListProps {
+  data: Array<any>;
+  onChatChange: (ticketId: string) => any;
+}
 
+const ChatList: React.FC<ChatListProps> = ({ data, onChatChange }) => {
   return (
     <div className="chat-list">
       <div className="unread-messages">
@@ -45,14 +16,14 @@ const ChatList = () => {
       <div className="suppliers">
         <h3>تامین کنندگان:</h3>
         <div className="suppliers-list">
-          {list?.map((item: any, index: number) => (
+          {data?.map((item: any, index: number) => (
             <MessageCard
               key={index}
-              profileImage={item.profileImage}
-              name={item.name}
-              message={item.message}
-              unreadMessagesCount={item.unreadMessagesCount}
-              time={item.time}
+              onChatChange={() => onChatChange(item.id)}
+              profileImage={item?.profileImage}
+              name={item.supplier?.username}
+              message={item.name}
+              time={item.updated_at}
             />
           ))}
         </div>

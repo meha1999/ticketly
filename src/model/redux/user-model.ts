@@ -4,8 +4,7 @@ export interface UserModel {
   role: "supperuser" | "mechanic" | "evaluator" | "supplier";
   last_login: string;
   username: string;
-  first_name: string;
-  last_name: string;
+  full_name: string;
   email: string;
   is_active: boolean;
   date_joined: string;

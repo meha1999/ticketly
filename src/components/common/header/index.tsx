@@ -35,7 +35,7 @@ const Header = () => {
               className="name"
               style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
             >
-              {user?.username}
+              {user?.full_name}
             </span>
             <span className="email">Matinnorouzpour@gmail.com</span>
           </div>

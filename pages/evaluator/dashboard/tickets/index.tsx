@@ -12,11 +12,13 @@ import { TicketService } from "services/ticket.service";
 import { JalaliDateTime } from "jalali-date-time";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { useRouter } from "next/router";
 import { Toaster } from "components/common/toast/Toaster";
 
 const ticketService = new TicketService();
 
 const Requests = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("supplying");
   const [ticketList, setTicketList] = useState<any>([]);
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
@@ -57,6 +59,10 @@ const Requests = () => {
         console.log(error);
       }
     }
+  };
+
+  const handleOpenChat = (groupId: string, ticketId: string) => {
+    router.push(`/evaluator/dashboard/chat/${groupId}?ticketId=${ticketId}`);
   };
 
   return (
@@ -106,7 +112,11 @@ const Requests = () => {
           </div>
           <ul className="list-wrapper">
             {ticketList?.map((item: any, index: any) => (
-              <li className="list-item" key={index}>
+              <li
+                className="list-item"
+                key={index}
+                onClick={() => handleOpenChat(item.ticket_group, item.id)}
+              >
                 <div className="title">
                   <span className="count">{index + 1}</span>
                   {item.name}

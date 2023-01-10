@@ -10,10 +10,12 @@ import { BsCheckLg } from "react-icons/bs";
 import editIcon from "public/images/icons/request/edit.svg";
 import { TicketService } from "services/ticket.service";
 import { JalaliDateTime } from "jalali-date-time";
+import { useRouter } from "next/router";
 
 const ticketService = new TicketService();
 
 const Requests = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("supplying");
   const [ticketList, setTicketList] = useState([]);
 
@@ -35,6 +37,10 @@ const Requests = () => {
     titleFormat: "W, D N Y ",
     dateFormat: "Y-M-D",
     timeFormat: "H:I:S",
+  };
+
+  const handleOpenChat = (groupId: string, ticketId: string) => {
+    router.push(`/evaluator/dashboard/chat/${groupId}?ticketId=${ticketId}`);
   };
 
   return (
@@ -84,7 +90,11 @@ const Requests = () => {
           </div>
           <ul className="list-wrapper">
             {ticketList?.map((item: any, index) => (
-              <li className="list-item" key={index}>
+              <li
+                className="list-item"
+                key={index}
+                onClick={() => handleOpenChat(item.ticket_group, item.id)}
+              >
                 <div className="title">
                   <span className="count">{index + 1}</span>
                   {item.name}

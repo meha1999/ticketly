@@ -1,0 +1,21 @@
+.toast-wrapper {
+    display: flex;
+    flex-direction: column;
+    direction: rtl;
+    font-family: "IranYekan";
+    text-align: right;
+    z-index: 100;
+    .title {
+      font-size: 15px;
+      font-weight: bold;
+      font-family: "IranYekan";
+      font-size: 12px;
+      text-align: right;
+    }
+    .desc {
+      font-size: 12px;
+      font-family: "IranYekan";
+      font-size: 10px;
+      text-align: right;
+    }
+  }

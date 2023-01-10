@@ -1,4 +1,5 @@
 @import "./components/fonts/FontYekan/style.scss";
+@import "./animations.scss";
 @import "./pages/auth/auth";
 @import "./components/layouts/dashboard";
 @import "./components/common/tittle";
@@ -19,6 +20,7 @@
 @import "./pages/dashboard/requests/request-page-supplier";
 @import "./pages/dashboard/ticket/create";
 @import "./pages/dashboard/ticket/list";
+@import "./components/common/toaster/toaster";
 
 * {
   margin: 0;
@@ -105,4 +107,24 @@ li {
 }
 .box-shadow-mechanic {
   box-shadow: 0px 20px 30px rgba(0, 164, 138, 0.3);
+}
+
+.full-page-Container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  top: 0;
+  left: 0;
+  position: absolute;
+  align-items: center;
+  background-color: #fff;
+  justify-content: center;
+  .loading {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #50505030;
+    border-top: 2px solid #505050;
+    animation: loading-spinner 1.5s linear infinite;
+  }
 }

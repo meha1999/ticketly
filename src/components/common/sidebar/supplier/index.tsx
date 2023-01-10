@@ -9,7 +9,6 @@ import { TiUser } from "react-icons/ti";
 import { BiEdit } from "react-icons/bi";
 import { GiCarWheel } from "react-icons/gi";
 import { BsGridFill } from "react-icons/bs";
-import { TfiWallet } from "react-icons/tfi";
 import { SiHackthebox } from "react-icons/si";
 import { BsClipboardCheck } from "react-icons/bs";
 import { IoLogOutOutline } from "react-icons/io5";
@@ -27,7 +26,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        RouterPush("/admin/auth/login");
+        RouterPush("/supplier/auth/login");
       }
     } catch (err) {
       console.log("err", err);

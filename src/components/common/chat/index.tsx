@@ -35,9 +35,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
   const router = useRouter();
 
   const [scrollIndex, setScrollIndex] = useState<number>(data?.length);
-  useEffect(() => {
-    setScrollIndex(data?.length);
-  }, [data]);
 
   const goUpMessage = () => {
     if (scrollIndex - 1 < 0) return;
@@ -48,6 +45,10 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
     if (scrollIndex + 1 > data.length) return;
     setScrollIndex(scrollIndex + 1);
   };
+
+  useEffect(() => {
+    setScrollIndex(data?.length);
+  }, [data]);
 
   return (
     <div className="chat">

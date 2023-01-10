@@ -18,37 +18,35 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
 
   return (
     <form className="message-wrapper" onSubmit={handleSubmit}>
+      <div className="tools">
+        <button type="button" className="tool_btn">
+          <Microphone color={color} />
+        </button>
+        <button type="button" className="tool_btn">
+          <Attach color={color} />
+        </button>
+        <button type="button" className="tool_btn">
+          <ImageUpload color={color} />
+        </button>
+      </div>
       <textarea
         name="content"
         id="content"
-        rows={3}
+        rows={2}
         className="content"
         placeholder="متن پیام خود را در این قسمت بنویسید."
       ></textarea>
-      <div className="action-buttons">
-        <div className="tools">
-          <button type="button" className="tool_btn">
-            <Microphone color={color} />
-          </button>
-          <button type="button" className="tool_btn">
-            <Attach color={color} />
-          </button>
-          <button type="button" className="tool_btn">
-            <ImageUpload color={color} />
-          </button>
-        </div>
-        <button
-          type="submit"
-          className="submit_btn"
-          style={{
-            backgroundColor: `${color}`,
-            boxShadow: `0px 10px 20px ${color}`,
-          }}
-        >
-          <span>ارسال پیام</span>
-          <Image src={sendMessageIcon} alt="send-message" />
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="submit_btn"
+        style={{
+          backgroundColor: `${color}`,
+          boxShadow: `0px 10px 20px ${color}`,
+        }}
+      >
+        <span>ارسال پیام</span>
+        <Image src={sendMessageIcon} alt="send-message" />
+      </button>
     </form>
   );
 };

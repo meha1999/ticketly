@@ -4,7 +4,7 @@ interface DropdownProps {
   id: string;
   label: string;
   disabled?: boolean;
-  currentValue: number;
+  currentValue: number | undefined;
   currentOptions: any[];
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }

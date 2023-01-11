@@ -107,8 +107,8 @@ const Sidebar = () => {
             <li key={id}>
               <NavLink
                 href={path}
-                className={`menu evaluator ${disable ? "disable" : ""}`}
                 exact={exact}
+                className={`menu evaluator ${disable ? "disable" : ""}`}
               >
                 <Icon />
                 <span>{title}</span>

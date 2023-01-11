@@ -1,11 +1,11 @@
 import VerticalPrevious from "images/icons/vertical_previous";
 import VerticalNext from "images/icons/vertical_next";
 import MessagePreview from "./message-preview";
-import img from "images/auth/admin.svg";
 import Message from "./message";
 import { useEffect, useRef, useState } from "react";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
+import { TicketService } from "services/ticket.service";
 
 const dateTimeConfig = {
   timezone: "Asia/Tehran",
@@ -27,14 +27,22 @@ const userType: Record<string, string> = {
 
 interface ChatComponentProps {
   data: Array<any>;
-  onSend: any;
+  ticketId: any;
+  onSend: (message: any) => any;
 }
 
-const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
+const ticketService = new TicketService();
+
+const ChatComponent: React.FC<ChatComponentProps> = ({
+  data,
+  ticketId,
+  onSend,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const [scrollIndex, setScrollIndex] = useState<number>(data?.length);
+  const [ticketInfo, setTicketInfo] = useState<any>();
 
   const goUpMessage = () => {
     if (scrollIndex - 1 < 0) return;
@@ -50,13 +58,27 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ data, onSend }) => {
     setScrollIndex(data?.length);
   }, [data]);
 
+  const handleFetchTicket = async () => {
+    try {
+      const res = await ticketService.getTicketById(ticketId);
+      setTicketInfo(res.data);
+    } catch (err) {
+      // console.log("err", err);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    handleFetchTicket();
+  }, [ticketId]);
+
   return (
     <div className="chat">
       <div className="heading">
-        <h2 className="title">{"لنت ترمز جلو پراید"}</h2>
+        <h2 className="title">{ticketInfo?.name}</h2>
         <div className="chat-id">
           <span>{"شناسه گفتگو:"}</span>
-          <span>{"TY4235689321"}</span>
+          <span>{ticketInfo?.id}</span>
         </div>
         <div className="nav-buttons">
           <button

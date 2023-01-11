@@ -45,7 +45,6 @@ const Tickets = () => {
     DELIVERED: "مکانیک پاسخ داده",
   };
 
-  // const data = [
   //   {
   //     name: "لنت ترمز جلو پراید",
   //     brand: "برند : پارس آبی",

@@ -14,11 +14,12 @@ import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useRouter } from "next/router";
 import { Toaster } from "components/common/toast/Toaster";
+import { NavLink } from "src/tools/NavLink";
 
 const ticketService = new TicketService();
 
 const Requests = () => {
-  const router = useRouter();
+  const { push: routerPush, query } = useRouter();
   const [activeTab, setActiveTab] = useState("supplying");
   const [ticketList, setTicketList] = useState<any>([]);
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
@@ -62,8 +63,14 @@ const Requests = () => {
   };
 
   const handleOpenChat = (groupId: string, ticketId: string) => {
-    router.push(`/evaluator/dashboard/chat/${groupId}?ticketId=${ticketId}`);
+    routerPush(`/evaluator/dashboard/chat/${groupId}?ticketId=${ticketId}`);
   };
+
+  useEffect(() => {
+    if (activeTab !== query.status) {
+      setActiveTab(query.status as string);
+    }
+  }, [query.status, activeTab]);
 
   return (
     <DashboardLayout>
@@ -78,24 +85,24 @@ const Requests = () => {
                 <span className="count">4</span>
               </div>
               <div className="tabs">
-                <button
+                <NavLink
+                  href="/evaluator/dashboard/tickets/supplying"
                   className={activeTab === "supplying" ? "active" : ""}
-                  onClick={() => setActiveTab("supplying")}
                 >
                   درحال تامین
-                </button>
-                <button
+                </NavLink>
+                <NavLink
+                  href="/evaluator/dashboard/tickets/sending"
                   className={activeTab === "sending" ? "active" : ""}
-                  onClick={() => setActiveTab("sending")}
                 >
                   درحال ارسال
-                </button>
-                <button
-                  className={activeTab === "closing" ? "active" : ""}
-                  onClick={() => setActiveTab("closing")}
+                </NavLink>
+                <NavLink
+                  href="/evaluator/dashboard/tickets/closed"
+                  className={activeTab === "closed" ? "active" : ""}
                 >
                   بسته شده
-                </button>
+                </NavLink>
               </div>
             </div>
           }
@@ -126,24 +133,24 @@ const Requests = () => {
                     <Image src={ProfileBold} alt="" width={20} height={20} />
                   </div>
                   <span className="name">
-                    {item.customer.full_name ?? "نام کاربر یافت نشد"}
+                    {item?.customer?.full_name ?? "نام کاربر یافت نشد"}
                   </span>
                 </div>
                 <div className="date">
                   {JalaliDateTime(dateTimeConfig).toFullText(
-                    new Date(item.updated_at)
+                    new Date(item?.updated_at)
                   )}
                 </div>
                 <div className="status">
                   <ReqStatusBtn
-                    status={item.status}
+                    status={item?.status}
                     text="در انتظار پاسخ ارزیاب"
                   />
                 </div>
                 <div className="ticket">
                   <ReqTicketBtn
-                    isClosed={item.closed}
-                    status={item.status}
+                    isClosed={item?.closed}
+                    status={item?.status}
                     onClick={() => getTicketRequest(item)}
                   />
                 </div>
@@ -161,10 +168,11 @@ export default Requests;
 export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
   const className: Record<string, string> = {
     UNREAD: "pending",
-    INPROCESS: "pending",
+    INPROGESS: "pending",
     CLOSED: "fulfilled",
     ACCEPTED: "pending-2",
     ANSWERED: "pending-2",
+    PENDING: "pending-2",
     PROVIDED: "fulfilled",
     RETURNED: "pending-2",
     DELIVERED: "fulfilled",
@@ -172,6 +180,7 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
 
   const translate: Record<string, string> = {
     UNREAD: "در انتظار تایید ارزیاب",
+    PENDING: "در انتظار پیام ارزیاب",
     ACCEPTED: "در انتظار پاسخ مکانیک",
     ANSWERED: "در انتظار پاسخ مکانیک",
     INPROCESS: "در انتظار تامین کننده",
@@ -180,6 +189,7 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
     RETURNED: "در انتظار پاسخ مکانیک",
     DELIVERED: "مکانیک پاسخ داده",
   };
+  
   return (
     <div className={`btn-status-wrapper ${className[status]} `}>
       {translate[status]}

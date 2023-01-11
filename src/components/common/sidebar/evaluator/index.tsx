@@ -17,8 +17,7 @@ const authService = new AuthService();
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const { asPath, push: RouterPush } = useRouter();
-  const router = useRouter();
+  const { push: RouterPush } = useRouter();
 
   const handleLogout = async () => {
     try {
@@ -35,8 +34,6 @@ const Sidebar = () => {
     } finally {
     }
   };
-
-  const isActiveRoute = (route: string) => asPath.includes(route);
 
   const SIDE_BAR_LINK_ITEMS: any[] = [
     {
@@ -73,6 +70,7 @@ const Sidebar = () => {
       title: "درخواست ها",
       path: "/evaluator/dashboard/tickets",
       icon: BiEdit,
+      disable: true,
       subLinks: [
         {
           id: 1,
@@ -105,22 +103,21 @@ const Sidebar = () => {
       <div className="panel-name evaluator">پنل ارزیاب</div>
       <ul className="menus">
         {SIDE_BAR_LINK_ITEMS.map(
-          ({ id, title, icon: Icon, path, subLinks, exact }) => (
+          ({ id, title, icon: Icon, path, subLinks, exact, disable }) => (
             <li key={id}>
-              <NavLink href={path} className="menu evaluator" exact={exact}>
-                <Icon className={isActiveRoute(path) ? "active" : ""} />
+              <NavLink
+                href={path}
+                className={`menu evaluator ${disable ? "disable" : ""}`}
+                exact={exact}
+              >
+                <Icon />
                 <span>{title}</span>
               </NavLink>
               {subLinks.length ? (
                 <ul className="sub-menus">
                   {subLinks.map(({ id, path, title, icon: Icon }: any) => (
                     <li key={id}>
-                      <NavLink
-                        href={path}
-                        className={`menu evaluator ${
-                          isActiveRoute(path) ? "active" : ""
-                        }`}
-                      >
+                      <NavLink href={path} className="menu evaluator">
                         {Icon && <Icon />}
                         <span>{title}</span>
                       </NavLink>

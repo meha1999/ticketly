@@ -11,14 +11,18 @@ const ticketService = new TicketService();
 
 interface ChatListProps {
   data: Array<any>;
-  onChatChange: (ticketId: string) => any;
   ticketId: string;
+  group: any;
+  onChatChange: (ticketId: string) => any;
+  onAddSuplier: () => Promise<void>;
 }
 
 const ChatList: React.FC<ChatListProps> = ({
   data,
-  onChatChange,
   ticketId,
+  group,
+  onChatChange,
+  onAddSuplier,
 }) => {
   const portalContainer: any = document.getElementById("portal");
 
@@ -34,24 +38,57 @@ const ChatList: React.FC<ChatListProps> = ({
     setIsOpened: setIsOpen,
   });
 
-  const handleAddSupplier = () => {
-    setIsOpen(!isOpen);
-  };
   const getSuppliersList = async () => {
     try {
       const res = await ticketService.getSuppliersList("supplier");
-      setSuppliersList(res.data);
+      const finalData = res?.data?.filter(
+        (item: any) =>
+          !group?.ticket_group?.some((ticket: any) => ticket?.supplier?.id === item.id)
+      );
+      console.log(finalData, res.data, group.ticket_group);
+      setSuppliersList(finalData);
     } catch (error) {
       console.log(error);
     } finally {
     }
   };
+
   const handleCancel = () => {
     setIsOpen(false);
   };
-  const handleConfirm = () => {
-    console.log(selectedSuppliers);
+
+  const handleAddSupplier = () => {
+    setIsOpen(!isOpen);
   };
+
+  const handleConfirm = async () => {
+    const supplierData = selectedSuppliers.map((item) => {
+      return {
+        name: group.ticket_group[0].name,
+        department: group.ticket_group[0].department,
+        customer: null,
+        supplier: { id: item },
+        staff: group.ticket_group[0].staff,
+        priority: group.ticket_group[0].priority,
+        description: group.ticket_group[0].description,
+        ticket_group: group.ticket_group[0].ticket_group,
+        status: "PENDING",
+        branch_category: group.ticket_group[0].branch_category,
+      };
+    });
+    const finalData = {
+      ticket_group: [...group.ticket_group, ...supplierData],
+    };
+    try {
+      await ticketService.addSuppliersToGroup(group.id, finalData);
+      onAddSuplier();
+      handleCancel();
+    } catch (err) {
+      // console.log("err", err);
+    } finally {
+    }
+  };
+
   const handleSelect = (id: number) => {
     const items = selectedSuppliers.some((item: number) => item === id);
     if (items) {
@@ -63,8 +100,8 @@ const ChatList: React.FC<ChatListProps> = ({
   };
 
   useEffect(() => {
-    getSuppliersList();
-  }, []);
+    isOpen && getSuppliersList();
+  }, [isOpen]);
 
   return (
     <div className="chat-list">

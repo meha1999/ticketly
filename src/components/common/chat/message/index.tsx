@@ -12,8 +12,8 @@ interface MessageProps {
 const Message: React.FC<MessageProps> = ({ onSend, color }) => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    onSend(e.target.firstChild.value);
-    e.target.firstChild.value = "";
+    onSend(e.target.children[1].value);
+    e.target.children[1].value = "";
   };
 
   return (

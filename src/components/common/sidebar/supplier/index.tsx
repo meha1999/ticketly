@@ -10,7 +10,8 @@ import { BiEdit } from "react-icons/bi";
 import { GiCarWheel } from "react-icons/gi";
 import { BsGridFill } from "react-icons/bs";
 import { SiHackthebox } from "react-icons/si";
-import { BsClipboardCheck } from "react-icons/bs";
+import { FaClipboardCheck } from "react-icons/fa";
+
 import { IoLogOutOutline } from "react-icons/io5";
 
 const authService = new AuthService();
@@ -77,7 +78,7 @@ const Sidebar = () => {
       id: 6,
       title: "سفارشات",
       path: "/supplier/dashboard/orders",
-      icon: BsClipboardCheck,
+      icon: FaClipboardCheck,
       subLinks: [],
     },
   ];

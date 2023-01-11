@@ -2,7 +2,8 @@ import Image from "next/image";
 import React, { FC } from "react";
 
 interface TitleProps {
-  titleIcon: any;
+  titleIcon?: any;
+  svgIcon?: any;
   titleText: string;
   titleSideComponent?: JSX.Element;
 }
@@ -10,18 +11,23 @@ interface TitleProps {
 const Title: FC<TitleProps> = ({
   titleIcon,
   titleText,
+  svgIcon,
   titleSideComponent,
 }) => {
   return (
     <div className="title-wrapper">
       <div className="title-items">
         <div className="hero">
-          <Image
-            src={titleIcon}
-            alt={titleText}
-            className="title-icon"
-            draggable={false}
-          />
+          {svgIcon ? (
+            svgIcon
+          ) : (
+            <Image
+              src={titleIcon}
+              alt={titleText}
+              className="title-icon"
+              draggable={false}
+            />
+          )}
           <span className="title-text">{titleText}</span>
         </div>
         {titleSideComponent}

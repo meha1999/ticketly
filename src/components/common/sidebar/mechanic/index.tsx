@@ -35,8 +35,6 @@ const Sidebar = () => {
     }
   };
 
-  const isActiveRoute = (route: string) => pathname.startsWith(route);
-
   const SIDE_BAR_LINK_ITEMS: any[] = [
     {
       id: 1,
@@ -71,8 +69,8 @@ const Sidebar = () => {
       id: 5,
       title: "درخواست ها",
       path: "/mechanic/dashboard/tickets",
-      exact: true,
       icon: BiEdit,
+      disable: true,
       subLinks: [
         {
           id: 1,
@@ -112,10 +110,14 @@ const Sidebar = () => {
       <div className="panel-name mechanic">پنل مکانیک</div>
       <ul className="menus">
         {SIDE_BAR_LINK_ITEMS.map(
-          ({ id, title, icon: Icon, path, subLinks, exact }) => (
+          ({ id, title, icon: Icon, path, subLinks, exact, disable }) => (
             <li key={id}>
-              <NavLink href={path} className="menu mechanic" exact={exact}>
-                <Icon className={isActiveRoute(path) ? "active" : ""} />
+              <NavLink
+                href={path}
+                exact={exact}
+                className={`menu mechanic ${disable ? "disable " : ""}`}
+              >
+                <Icon />
                 <span>{title}</span>
               </NavLink>
               {subLinks.length ? (
@@ -123,11 +125,7 @@ const Sidebar = () => {
                   {subLinks.map(({ id, path, title, icon: Icon }: any) => (
                     <li key={id}>
                       <NavLink href={path} className="menu mechanic">
-                        {Icon && (
-                          <Icon
-                            className={isActiveRoute(path) ? "active" : ""}
-                          />
-                        )}
+                        {Icon && <Icon />}
                         <span>{title}</span>
                       </NavLink>
                     </li>

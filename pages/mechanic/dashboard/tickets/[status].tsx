@@ -14,9 +14,8 @@ import { useRouter } from "next/router";
 const ticketService = new TicketService();
 
 const Tickets = () => {
-  const { push: routerPush, query } = useRouter();
-
   const [ticketList, setTicketList] = useState([]);
+  const { push: routerPush, query } = useRouter();
 
   useEffect(() => {
     const getTickets = async () => {

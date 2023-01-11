@@ -27,11 +27,11 @@ export class AuthService extends BaseService {
     const userType = {
       admin: "/superuser/",
       evaluator: "/staff/",
-      mechanic: "/",
+      mechanic: "/customer/",
       supplier: "/supplier/",
     };
     return this.axiosInstanceWithoutToken.post(
-      `/account/user${userType[type]}`,
+      `/account/user${userType[type]}register/`,
       payload
     );
   }

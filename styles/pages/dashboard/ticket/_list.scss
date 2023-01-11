@@ -7,6 +7,7 @@
   .tickets-conatiner {
     width: 100%;
     .ticket-box {
+      cursor: pointer;
       overflow-x: auto;
       margin: 14px 0;
       display: flex;

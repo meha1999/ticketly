@@ -14,11 +14,12 @@ import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useRouter } from "next/router";
 import { Toaster } from "components/common/toast/Toaster";
+import { NavLink } from "src/tools/NavLink";
 
 const ticketService = new TicketService();
 
 const Requests = () => {
-  const router = useRouter();
+  const { push: routerPush, query } = useRouter();
   const [activeTab, setActiveTab] = useState("supplying");
   const [ticketList, setTicketList] = useState<any>([]);
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
@@ -62,8 +63,14 @@ const Requests = () => {
   };
 
   const handleOpenChat = (groupId: string, ticketId: string) => {
-    router.push(`/evaluator/dashboard/chat/${groupId}?ticketId=${ticketId}`);
+    routerPush(`/evaluator/dashboard/chat/${groupId}?ticketId=${ticketId}`);
   };
+
+  useEffect(() => {
+    if (activeTab !== query.status) {
+      setActiveTab(query.status as string);
+    }
+  }, [query.status, activeTab]);
 
   return (
     <DashboardLayout>
@@ -78,24 +85,24 @@ const Requests = () => {
                 <span className="count">4</span>
               </div>
               <div className="tabs">
-                <button
+                <NavLink
+                  href="supplying"
                   className={activeTab === "supplying" ? "active" : ""}
-                  onClick={() => setActiveTab("supplying")}
                 >
                   درحال تامین
-                </button>
-                <button
+                </NavLink>
+                <NavLink
+                  href="sending"
                   className={activeTab === "sending" ? "active" : ""}
-                  onClick={() => setActiveTab("sending")}
                 >
                   درحال ارسال
-                </button>
-                <button
-                  className={activeTab === "closing" ? "active" : ""}
-                  onClick={() => setActiveTab("closing")}
+                </NavLink>
+                <NavLink
+                  href="closed"
+                  className={activeTab === "closed" ? "active" : ""}
                 >
                   بسته شده
-                </button>
+                </NavLink>
               </div>
             </div>
           }
@@ -126,7 +133,7 @@ const Requests = () => {
                     <Image src={ProfileBold} alt="" width={20} height={20} />
                   </div>
                   <span className="name">
-                    {item.customer.full_name ?? "نام کاربر یافت نشد"}
+                    {item.customer?.full_name ?? "نام کاربر یافت نشد"}
                   </span>
                 </div>
                 <div className="date">
@@ -165,6 +172,7 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
     CLOSED: "fulfilled",
     ACCEPTED: "pending-2",
     ANSWERED: "pending-2",
+    PENDING: "pending-2",
     PROVIDED: "fulfilled",
     RETURNED: "pending-2",
     DELIVERED: "fulfilled",
@@ -174,6 +182,7 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
     UNREAD: "در انتظار تایید ارزیاب",
     ACCEPTED: "در انتظار پاسخ مکانیک",
     ANSWERED: "در انتظار پاسخ مکانیک",
+    PENDING: "در انتظار پاسخ مکانیک",
     INPROCESS: "در انتظار تامین کننده",
     CLOSED: "مکانیک پاسخ داده",
     PROVIDED: "مکانیک پاسخ داده",

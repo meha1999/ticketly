@@ -24,18 +24,23 @@ const SignUp = () => {
   } = useForm();
   const dispatch = useDispatch();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const signUpUser = async (data: FieldValues) => {
+    setLoading(true);
     try {
-      const res = await authService.signUp(data, "supplier");
-      dispatch({
-        type: REDUX_ACTION.SET_TOKEN,
-        payload: res.data.key,
-      });
-      router.push("/supplier/dashboard");
+      await authService.signUp(data, "supplier");
+      router.push("/supplier/auth/login");
+      Toaster.success(
+        <ToastComponent
+          title="موفقیت امیز"
+          description="لطفا برای استفاده از سیستم وارد شوید"
+        />
+      );
     } catch (err) {
       console.log("err", err);
     } finally {
+      setLoading(false);
     }
   };
 
@@ -43,7 +48,7 @@ const SignUp = () => {
     <div className="sign-up">
       <form className="form" onSubmit={handleSubmit(signUpUser)}>
         <div className="input-container">
-          <label htmlFor="name">نام و نام خانوادگی:</label>
+          <label htmlFor="username">نام کاربری:</label>
           <input
             type="text"
             id="username"
@@ -53,7 +58,11 @@ const SignUp = () => {
         </div>
         <div className="input-container">
           <label htmlFor="name">آدرس ایمیل:</label>
-          <input type="email" name="email" id="email" />
+          <input
+            type="email"
+            id="email"
+            {...register("email", { required: true })}
+          />
         </div>
         <div className="password">
           <div className="input-container">
@@ -67,7 +76,11 @@ const SignUp = () => {
           </div>
           <div className="input-container">
             <label htmlFor="rePassword">تکرار رمز عبور:</label>
-            <input type="password" name="rePassword" id="rePassword" />
+            <input
+              type="password"
+              id="rePassword"
+              {...register("rePassword", { required: true })}
+            />
           </div>
         </div>
         <div className="login-with-google">
@@ -83,7 +96,7 @@ const SignUp = () => {
           type="submit"
           className="sign-up-btn bg-supplier box-shadow-supplier"
         >
-          ثبت نام
+          {loading ? "درحال انجام" : "ثبت نام"}
         </button>
       </form>
       <Image src={authTools} alt="tools" className="tools-image" />

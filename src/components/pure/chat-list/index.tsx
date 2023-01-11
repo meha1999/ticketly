@@ -22,14 +22,14 @@ const ChatList: React.FC<ChatListProps> = ({
 }) => {
   const portalContainer: any = document.getElementById("portal");
 
-  const divRef = useRef<any>(null);
+  const addSupplierPortalRef = useRef<any>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [suppliersList, setSuppliersList] = useState<Array<any>>([]);
   const [selectedSuppliers, setSelectedSuppliers] = useState<Array<number>>([]);
 
   useCloseByClickOutSide({
-    ref: divRef,
+    ref: addSupplierPortalRef,
     isOpened: isOpen,
     setIsOpened: setIsOpen,
   });
@@ -99,7 +99,7 @@ const ChatList: React.FC<ChatListProps> = ({
               suppliersList={suppliersList}
               cancel={handleCancel}
               confirm={handleConfirm}
-              elementRef={divRef}
+              elementRef={addSupplierPortalRef}
               handleSelect={handleSelect}
               selectedSuppliers={selectedSuppliers}
             />

@@ -12,15 +12,15 @@ interface NavLinkProps {
 }
 
 const NavLink: FC<NavLinkProps> = ({ href, exact, children, ...props }) => {
-  const { pathname } = useRouter();
-  const isActive = exact ? pathname === href : pathname.startsWith(href);
+  const { asPath } = useRouter();
+  const isActive = exact ? asPath === href : asPath.startsWith(href);
 
   if (isActive) {
     props.className += " active";
   }
 
   return (
-    <Link href={href} {...props}>
+    <Link href={href} {...props}  >
       {children}
     </Link>
   );

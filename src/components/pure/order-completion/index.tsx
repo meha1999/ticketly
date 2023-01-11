@@ -1,5 +1,9 @@
+import CustomPortal from "components/common/portal";
 import UserIcon from "images/icons/user_icon";
-import { FC } from "react";
+import { FC, useRef, useState } from "react";
+import ReactDOM from "react-dom";
+import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
+import ProductOrderRegistration from "../product-order-registration";
 
 interface OrderCompletionProps {
   subject: string;
@@ -16,6 +20,20 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   walletCash,
   openChat,
 }) => {
+  const portalContainer: any = document.getElementById("portal");
+
+  const orderRegistrationModalRef = useRef<any>(null);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useCloseByClickOutSide({
+    ref: orderRegistrationModalRef,
+    isOpened: isOpen,
+    setIsOpened: setIsOpen,
+  });
+
+  const handleOrderRegistration = () => setIsOpen(!isOpen);
+
   return (
     <div className="order-completion">
       <div className="subject">
@@ -41,11 +59,22 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
         <span className="wallet-title">موجودی کیف پول:</span>
         <div className="tools">
           <div className="price">{walletCash} تومان</div>
-          <button type="button" className="order-btn">
+          <button
+            type="button"
+            className="order-btn"
+            onClick={handleOrderRegistration}
+          >
             تکمیل سفارش
           </button>
         </div>
       </div>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <CustomPortal>
+            <ProductOrderRegistration elementRef={orderRegistrationModalRef} />
+          </CustomPortal>,
+          portalContainer
+        )}
     </div>
   );
 };

@@ -46,7 +46,9 @@ const Login = () => {
       setLoading(false);
       router.push("/admin/dashboard");
     } catch (err: any) {
-      Toaster.error(<ToastComponent title="خطایی در وارد شدن شما بروز داده است" />);
+      Toaster.error(
+        <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
+      );
     } finally {
       setBtnLoading(false);
       setLoading(false);

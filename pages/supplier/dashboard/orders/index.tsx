@@ -62,8 +62,8 @@ const Requests = () => {
     }
   };
 
-  const handleOpenChat = (groupId: string, ticketId: string) => {
-    routerPush(`/supplier/dashboard/chat/${groupId}?ticketId=${ticketId}`);
+  const handleOpenChat = (ticketId: string) => {
+    routerPush(`/supplier/dashboard/chat/${ticketId}/`);
   };
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const Requests = () => {
               <li
                 className="list-item"
                 key={index}
-                onClick={() => handleOpenChat(item.ticket_group, item.id)}
+                onClick={() => handleOpenChat(item.id)}
               >
                 <div className="title">
                   <span className="count">{index + 1}</span>

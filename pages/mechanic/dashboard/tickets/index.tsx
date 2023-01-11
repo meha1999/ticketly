@@ -9,10 +9,13 @@ import { TicketService } from "services/ticket.service";
 import DefaultTicket from "public/images/default-ticket.svg";
 import Delete from "public/images/icons/delete.svg";
 import { JalaliDateTime } from "jalali-date-time";
+import { useRouter } from "next/router";
 
 const ticketService = new TicketService();
 
 const Tickets = () => {
+  const { push: routerPush, query } = useRouter();
+
   const [ticketList, setTicketList] = useState([]);
 
   useEffect(() => {
@@ -43,6 +46,10 @@ const Tickets = () => {
     PROVIDED: "مکانیک پاسخ داده",
     RETURNED: "در انتظار پاسخ مکانیک",
     DELIVERED: "مکانیک پاسخ داده",
+  };
+
+  const handleOpenChat = (ticketId: string) => {
+    routerPush(`/mechanic/dashboard/chat/${ticketId}/`);
   };
 
   //   {
@@ -107,7 +114,11 @@ const Tickets = () => {
         <Divider />
         <div className="tickets-conatiner">
           {ticketList.map((ticket: any, key: any) => (
-            <div className="ticket-box" key={key}>
+            <div
+              className="ticket-box"
+              key={key}
+              onClick={() => handleOpenChat(ticket.id)}
+            >
               <div className="description">
                 <div className="number">
                   <div className="value">{key + 1}</div>

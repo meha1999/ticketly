@@ -69,7 +69,7 @@ const Chat = () => {
     [ReadyState.CLOSED]: "Closed",
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState as number];
-
+  
   return (
     <DashboardLayout>
       <ChatComponent data={messageHistory} onSend={handleClickSendMessage} ticketId={router.query.ticketId}/>

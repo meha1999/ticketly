@@ -12,6 +12,7 @@ import { TicketService } from "services/ticket.service";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useRouter } from "next/router";
+import Dropdown from "components/common/inputs/Dropdown";
 
 const ticketService = new TicketService();
 
@@ -34,40 +35,39 @@ const Create = () => {
   const [rootCategories, setRootCategories] = useState<Array<any>>([]);
   const [trunkCategories, setTrunkCategories] = useState<Array<any>>([]);
   const [branchCategories, setBranchCategories] = useState<Array<any>>([]);
-  const [branchCategoryId, setBranchCategoryId] = useState<number>(0);
 
-  // const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(event.currentTarget);
-  // };
+  const [selectedRoot, setSelectedRoot] = useState<any>();
+  const [selectedPartType, setSelectedPartType] = useState<any>();
+  const [selectedAccessoriesType, setSelectedAccessoriesType] = useState<any>();
 
-  const handleChangeRootCategory = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const items: any = rootCategories.filter(
-      (item: any) => item.name === event.currentTarget.value
+  const rootChangeHandler = (event: any) => {
+    const selectedRootId = +event.target.value;
+    setSelectedRoot(selectedRootId);
+    setTrunkCategories(
+      rootCategories.find((item) => item.id === selectedRootId).trunk_root
     );
-    setTrunkCategories(items[0]?.trunk_root);
-    if (items[0]?.trunk_root?.length === 0) {
-      setBranchCategories([]);
-    }
   };
 
-  const handleChangeTrunkCategory = (
+  const partTypeChangeHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const items: any = trunkCategories.filter(
-      (item: any) => item.name === event.currentTarget.value
+    const selectedTrunkId = +event.target.value;
+    setSelectedPartType(selectedTrunkId);
+    setBranchCategories(
+      trunkCategories.find((item) => item.id === selectedTrunkId).branch_trunk
     );
-    setBranchCategories(items[0]?.branch_trunk);
   };
 
-  const handleChangeBranchCategory = (
+  const accessoriesTypeHandleChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const items: any = branchCategories.filter(
-      (item: any) => item.name === event.currentTarget.value
+    const selectedAccessoriesTypeId = +event.target.value;
+    setSelectedAccessoriesType(selectedAccessoriesTypeId);
+    setBranchCategories(
+      branchCategories.filter(
+        (rootItem) => rootItem.id === selectedAccessoriesTypeId
+      )
     );
-    setBranchCategoryId(items[0]?.id);
   };
 
   const handleRequest = async (data: FieldValues) => {
@@ -79,7 +79,7 @@ const Create = () => {
         priority: "high",
         description: data.description,
         status: "UNREAD",
-        branch_category: branchCategoryId,
+        branch_category: selectedAccessoriesType,
       };
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {
@@ -98,12 +98,26 @@ const Create = () => {
       try {
         const res = await ticketService.getCategories();
         setRootCategories(res.data);
+        setSelectedRoot(res.data[0].id);
+        setTrunkCategories(res.data[0].trunk_root);
+        setBranchCategories(res.data[0].trunk_root[0].branch_trunk);
       } catch (error) {
         console.log(error);
       }
     };
     getCategories();
   }, []);
+
+  useEffect(() => {
+    setSelectedPartType(trunkCategories[0]?.id);
+    setBranchCategories(trunkCategories[0]?.branch_trunk);
+  }, [selectedRoot, trunkCategories]);
+
+  useEffect(() => {
+    setSelectedAccessoriesType(
+      branchCategories?.length ? branchCategories[0]?.id : null
+    );
+  }, [selectedPartType, branchCategories]);
 
   return (
     <DashboardLayout>
@@ -113,59 +127,41 @@ const Create = () => {
         <form className="content" onSubmit={handleSubmit(handleRequest)}>
           <div className="row">
             <div className="field">
-              <label htmlFor="category">{"دسته بندی:"}</label>
-              <select
+              <Dropdown
                 id="category"
-                {...register("category", { required: true })}
-                onChange={handleChangeRootCategory}
-              >
-                {rootCategories?.map((item: any) => (
-                  <option key={item.id} value={item.name}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-              {errors.category && <p>انتخاب دسته‌بندی اجباری است.</p>}
+                label="دسته بندی"
+                currentOptions={rootCategories}
+                currentValue={selectedRoot}
+                onChange={rootChangeHandler}
+              />
             </div>
             <div className="field">
-              <label htmlFor="part_type">{"نوع قطعه:"}</label>
-              <select
+              <Dropdown
                 id="part_type"
-                {...register("part_type", { required: true })}
-                onChange={handleChangeTrunkCategory}
-              >
-                {trunkCategories?.map((item: any) => (
-                  <option key={item.id} value={item.name}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-              {errors.part_type && <p>انتخاب نوع قطعه اجباری است.</p>}
+                label="دسته بندی"
+                disabled={!trunkCategories?.length}
+                currentOptions={trunkCategories}
+                currentValue={selectedPartType}
+                onChange={partTypeChangeHandler}
+              />
             </div>
           </div>
           <div className="row">
             <div className="field">
-              <label htmlFor="accessories_type">{"نوع لوازم قطعه:"}</label>
-              <select
+              <Dropdown
                 id="accessories_type"
-                {...register("accessories_type", { required: true })}
-                onChange={handleChangeBranchCategory}
-              >
-                {branchCategories?.map((item: any) => (
-                  <option key={item.id} value={item.name}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-              {errors.accessories_type && (
-                <p>انتخاب نوع لوازم قطعه اجباری است.</p>
-              )}
+                label="نوع لوازم قطعه"
+                disabled={!branchCategories?.length}
+                currentOptions={branchCategories}
+                currentValue={selectedAccessoriesType}
+                onChange={accessoriesTypeHandleChange}
+              />
             </div>
             <div className="field">
               <label htmlFor="name">{"نام کالا:"}</label>
               <input
-                type="text"
                 id="name"
+                type="text"
                 {...register("name", { required: true })}
               />
               {errors.name && <p>وارد کردن نام کالا اجباری است.</p>}

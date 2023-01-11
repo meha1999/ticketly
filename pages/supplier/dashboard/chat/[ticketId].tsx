@@ -1,5 +1,5 @@
 import ChatComponent from "components/common/chat";
-import DashboardLayout from "components/layouts/dashboard/mechanic";
+import DashboardLayout from "components/layouts/dashboard/supplier";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";

@@ -126,24 +126,24 @@ const Requests = () => {
                     <Image src={ProfileBold} alt="" width={20} height={20} />
                   </div>
                   <span className="name">
-                    {item.customer.full_name ?? "نام کاربر یافت نشد"}
+                    {item?.customer?.full_name ?? "نام کاربر یافت نشد"}
                   </span>
                 </div>
                 <div className="date">
                   {JalaliDateTime(dateTimeConfig).toFullText(
-                    new Date(item.updated_at)
+                    new Date(item?.updated_at)
                   )}
                 </div>
                 <div className="status">
                   <ReqStatusBtn
-                    status={item.status}
+                    status={item?.status}
                     text="در انتظار پاسخ ارزیاب"
                   />
                 </div>
                 <div className="ticket">
                   <ReqTicketBtn
-                    isClosed={item.closed}
-                    status={item.status}
+                    isClosed={item?.closed}
+                    status={item?.status}
                     onClick={() => getTicketRequest(item)}
                   />
                 </div>
@@ -161,7 +161,8 @@ export default Requests;
 export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
   const className: Record<string, string> = {
     UNREAD: "pending",
-    INPROCESS: "pending",
+    INPROGESS: "pending",
+    PENDING: "pending",
     CLOSED: "fulfilled",
     ACCEPTED: "pending-2",
     ANSWERED: "pending-2",
@@ -172,9 +173,10 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
 
   const translate: Record<string, string> = {
     UNREAD: "در انتظار تایید ارزیاب",
+    PENDING: "در انتظار پیام ارزیاب",
     ACCEPTED: "در انتظار پاسخ مکانیک",
     ANSWERED: "در انتظار پاسخ مکانیک",
-    INPROCESS: "در انتظار تامین کننده",
+    INPROGESS: "در انتظار تامین کننده",
     CLOSED: "مکانیک پاسخ داده",
     PROVIDED: "مکانیک پاسخ داده",
     RETURNED: "در انتظار پاسخ مکانیک",

@@ -72,10 +72,13 @@ const Chat = () => {
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState as number];
 
-  useEffect(() => {});
   return (
     <DashboardLayout>
-      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} />
+      <ChatComponent
+        data={messageHistory}
+        onSend={handleClickSendMessage}
+        ticketId={router.query.ticketId}
+      />
     </DashboardLayout>
   );
 };

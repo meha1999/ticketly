@@ -4,9 +4,16 @@ export class TicketService extends BaseService {
   getTickets() {
     return this.axiosInstanceWithToken.get("/ticket/");
   }
+  
+  getTicketById(id: string) {
+    return this.axiosInstanceWithToken.get(`/ticket/${id}/`);
+  }
 
-  takeTicket(ticket_id: string, user_info:any) {
-    return this.axiosInstanceWithToken.patch(`/ticket/${ticket_id}/`, user_info);
+  takeTicket(ticket_id: string, user_info: any) {
+    return this.axiosInstanceWithToken.patch(
+      `/ticket/${ticket_id}/`,
+      user_info
+    );
   }
 
   getGroups(groupId: string) {
@@ -25,5 +32,9 @@ export class TicketService extends BaseService {
 
   getSuppliersList(role: string) {
     return this.axiosInstanceWithToken.get(`/account/user/?role=${role}`);
+  }
+
+  addSuppliersToGroup(id: string, data: any) {
+    return this.axiosInstanceWithToken.patch(`/ticket/group/${id}/`, data);
   }
 }

@@ -12,8 +12,6 @@ const chatService = new ChatService();
 
 const Chat = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
@@ -72,10 +70,9 @@ const Chat = () => {
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState as number];
 
-  useEffect(() => {});
   return (
     <DashboardLayout>
-      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} />
+      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} ticketId={router.query.ticketId}/>
     </DashboardLayout>
   );
 };

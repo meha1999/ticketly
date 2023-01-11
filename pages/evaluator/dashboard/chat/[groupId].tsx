@@ -103,7 +103,6 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-  // console.log(state);
 
   return (
     <DashboardLayout>
@@ -121,11 +120,14 @@ const Chat = () => {
           data={suppliersTicket}
           onChatChange={setTicketId}
           ticketId={ticketId}
+          group={group}
+          onAddSuplier={fetchGroupInfo}
         />
         <div style={{ width: "75%" }}>
           <ChatComponent
             data={messageHistory}
             onSend={handleClickSendMessage}
+            ticketId={ticketId}
           />
         </div>
       </div>

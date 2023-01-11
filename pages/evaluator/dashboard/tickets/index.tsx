@@ -86,19 +86,19 @@ const Requests = () => {
               </div>
               <div className="tabs">
                 <NavLink
-                  href="supplying"
+                  href="/evaluator/dashboard/tickets/supplying"
                   className={activeTab === "supplying" ? "active" : ""}
                 >
                   درحال تامین
                 </NavLink>
                 <NavLink
-                  href="sending"
+                  href="/evaluator/dashboard/tickets/sending"
                   className={activeTab === "sending" ? "active" : ""}
                 >
                   درحال ارسال
                 </NavLink>
                 <NavLink
-                  href="closed"
+                  href="/evaluator/dashboard/tickets/closed"
                   className={activeTab === "closed" ? "active" : ""}
                 >
                   بسته شده
@@ -189,6 +189,7 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
     RETURNED: "در انتظار پاسخ مکانیک",
     DELIVERED: "مکانیک پاسخ داده",
   };
+  
   return (
     <div className={`btn-status-wrapper ${className[status]} `}>
       {translate[status]}

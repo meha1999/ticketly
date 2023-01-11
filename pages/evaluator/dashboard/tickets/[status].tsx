@@ -25,15 +25,20 @@ const Requests = () => {
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
+
+  const getTickets = async () => {
+    try {
+      const ticketRes = await ticketService.getTickets();
+      const data = ticketRes.data.filter(
+        (item: any) => status[item.status] === query.status
+      );
+      setTicketList(data);
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    const getTickets = async () => {
-      try {
-        const ticketRes = await ticketService.getTickets();
-        setTicketList(ticketRes.data);
-      } catch (error) {}
-    };
     getTickets();
-  }, []);
+  }, [query.status]);
 
   const dateTimeConfig = {
     timezone: "Asia/Tehran",
@@ -42,6 +47,18 @@ const Requests = () => {
     titleFormat: "W, D N Y ",
     dateFormat: "Y-M-D",
     timeFormat: "H:I:S",
+  };
+
+  const status: Record<string, string> = {
+    UNREAD: "supplying",
+    INPROCESS: "supplying",
+    CLOSED: "closed",
+    ACCEPTED: "sending",
+    ANSWERED: "sending",
+    PENDING: "sending",
+    PROVIDED: "sending",
+    RETURNED: "sending",
+    DELIVERED: "sending",
   };
 
   const getTicketRequest = async (ticket: Record<string, string>) => {

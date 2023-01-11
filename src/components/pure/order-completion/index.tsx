@@ -1,9 +1,12 @@
 import CustomPortal from "components/common/portal";
 import UserIcon from "images/icons/user_icon";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+import { TicketService } from "services/ticket.service";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import ProductOrderRegistration from "../product-order-registration";
+
+const ticketService = new TicketService();
 
 interface OrderCompletionProps {
   subject: string;
@@ -25,6 +28,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   const orderRegistrationModalRef = useRef<any>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [supplierList, setSupplierList] = useState<Array<any>>([]);
 
   useCloseByClickOutSide({
     ref: orderRegistrationModalRef,
@@ -32,7 +36,16 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
     setIsOpened: setIsOpen,
   });
 
+  const getSuppliersList = async () => {
+    const res = await ticketService.getSuppliersList("supplier");
+    setSupplierList(res.data);
+  };
+
   const handleOrderRegistration = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    isOpen && getSuppliersList();
+  }, [isOpen]);
 
   return (
     <div className="order-completion">
@@ -71,7 +84,13 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
       {isOpen &&
         ReactDOM.createPortal(
           <CustomPortal>
-            <ProductOrderRegistration elementRef={orderRegistrationModalRef} />
+            <ProductOrderRegistration
+              elementRef={orderRegistrationModalRef}
+              mechanicName="متین نوروزپور"
+              productName="لنت ترمز جلو پراید"
+              mechanicWalletCash={2000000}
+              suppliersList={supplierList}
+            />
           </CustomPortal>,
           portalContainer
         )}

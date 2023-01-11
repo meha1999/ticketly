@@ -63,6 +63,7 @@
           font-weight: 700;
           font-size: 16px;
           color: #4d4d4d;
+          height: 95px;
         }
       }
       .wallet-cash {
@@ -201,20 +202,23 @@
           align-items: center;
           gap: 12px;
           padding: 0 10px;
-          span:first-child {
+          .number {
             color: #5e7bec;
             font-weight: 700;
             font-size: 24px;
             line-height: 22px;
             padding-left: 15px;
             text-align: center;
-            width: fit-content;
+            width: 80%;
+            height: 22px;
             border-left: 0.5px solid #8d8d8d;
+            background-color: transparent;
           }
           span:last-child {
             font-weight: 400;
             font-size: 18px;
             color: #4d4d4d;
+            width: 15%;
           }
         }
       }

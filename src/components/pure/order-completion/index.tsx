@@ -11,7 +11,6 @@ const ticketService = new TicketService();
 interface OrderCompletionProps {
   subject: string;
   name: string;
-  address: string;
   walletCash: number;
   openChat: () => void;
 }
@@ -19,7 +18,6 @@ interface OrderCompletionProps {
 const OrderCompletion: FC<OrderCompletionProps> = ({
   subject,
   name,
-  address,
   walletCash,
   openChat,
 }) => {
@@ -64,10 +62,6 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           چت با مکانیک
         </button>
       </div>
-      <div className="address">
-        <span className="address-title">آدرس محل سکونت:</span>
-        <p className="address-content">{address}</p>
-      </div>
       <div className="wallet">
         <span className="wallet-title">موجودی کیف پول:</span>
         <div className="tools">
@@ -86,9 +80,9 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           <CustomPortal>
             <ProductOrderRegistration
               elementRef={orderRegistrationModalRef}
-              mechanicName="متین نوروزپور"
-              productName="لنت ترمز جلو پراید"
-              mechanicWalletCash={2000000}
+              mechanicName={name}
+              productName={subject}
+              mechanicWalletCash={walletCash}
               suppliersList={supplierList}
             />
           </CustomPortal>,

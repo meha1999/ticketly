@@ -1,8 +1,10 @@
 import UserIcon from "images/icons/user_icon";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
+import Image from "next/image";
+import { DatePicker } from "react-advance-jalaali-datepicker";
 
 interface ProductOrderRegistrationProps {
   elementRef: React.RefObject<HTMLDivElement>;
@@ -29,6 +31,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState<any>();
+  const [supplierAddress, setSupplierAddress] = useState<string>("");
 
   useCloseByClickOutSide({
     ref: suppliersListRef,
@@ -36,17 +39,30 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
     setIsOpened: setIsOpen,
   });
 
+  const handleChangeDate = (unix: any, formatted: any) => {
+    console.log(unix);
+    console.log(formatted);
+  };
+
+  const datePickerInput = (props: any) => {
+    return <input className="date" {...props} />;
+  };
+
   const handleSelectSupplier = (id: number) => {
     const item = suppliersList.filter((item: any) => item.id === id);
-    console.log(item);
-
-    setSelectedSupplier(item);
+    setSelectedSupplier(item[0]);
     setIsOpen(false);
   };
 
   const handleFinalPayment = () => {
     console.log("y");
   };
+
+  useEffect(() => {
+    if (selectedSupplier?.address === null) {
+      setSupplierAddress("آدرسی ثبت نشده است.");
+    }
+  }, [selectedSupplier]);
 
   return (
     <div className="product-order-registration" ref={elementRef}>
@@ -76,14 +92,20 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 زمان تحویل کالا:
               </label>
               <div className="input-shape">
-                <input type="date" id="date" className="date" />
+                <DatePicker
+                  inputComponent={datePickerInput}
+                  placeholder="انتخاب تاریخ"
+                  format="jYYYY/jMM/jDD"
+                  onChange={handleChangeDate}
+                  id="mechanicDate"
+                />
               </div>
             </div>
             <div className="field">
               <label htmlFor="address" className="label">
                 آدرس تحویل:
               </label>
-              <textarea id="address" rows={3} className="address"></textarea>
+              <textarea id="address" className="address"></textarea>
             </div>
             <div className="wallet-cash">
               <span>موجودی کیف پول:</span>
@@ -98,9 +120,18 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                   className="supplier-info"
                   onClick={() => setIsOpen(!isOpen)}
                 >
-                  <div className="profile-image">
-                    <UserIcon color="#F3C701" />
-                  </div>
+                  {selectedSupplier && (
+                    <div className="profile-image">
+                      {selectedSupplier?.photo ? (
+                        <Image
+                          src={selectedSupplier?.photo}
+                          alt="profile-photo"
+                        />
+                      ) : (
+                        <UserIcon color="#F3C701" />
+                      )}
+                    </div>
+                  )}
                   <span>{selectedSupplier?.username}</span>
                   {isOpen ? (
                     <IoIosArrowUp className="down-arrow" />
@@ -116,6 +147,16 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                         key={supplier.id}
                         onClick={() => handleSelectSupplier(supplier.id)}
                       >
+                        <div className="profile-image">
+                          {selectedSupplier?.photo ? (
+                            <Image
+                              src={selectedSupplier?.photo}
+                              alt="profile-photo"
+                            />
+                          ) : (
+                            <UserIcon color="#F3C701" />
+                          )}
+                        </div>
                         {supplier.username}
                       </div>
                     ))}
@@ -128,20 +169,30 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 زمان تحویل کالا:
               </label>
               <div className="input-shape">
-                <input type="date" id="date" className="date" />
+                <DatePicker
+                  inputComponent={datePickerInput}
+                  placeholder="انتخاب تاریخ"
+                  format="jYYYY/jMM/jDD"
+                  onChange={handleChangeDate}
+                  id="supplierDate"
+                />
               </div>
             </div>
             <div className="field">
               <label htmlFor="address" className="label">
                 آدرس تامین کننده:
               </label>
-              <div id="address" className="address">
-                {selectedSupplier.address}
-              </div>
+              <textarea
+                id="address"
+                className="address"
+                placeholder={supplierAddress}
+              >
+                {selectedSupplier?.address}
+              </textarea>
             </div>
             <div className="wallet-cash">
               <span>موجودی کیف پول:</span>
-              <span>2000000 تومان</span>
+              <span>{} تومان</span>
             </div>
           </div>
         </div>

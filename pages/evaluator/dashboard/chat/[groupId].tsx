@@ -111,7 +111,6 @@ const Chat = () => {
       <OrderCompletion
         subject={customerTicket.name}
         name={customerTicket.customer?.username}
-        address={customerTicket.customer?.address}
         walletCash={customerTicket.customer?.wallet_account?.amount}
         openChat={() => setTicketId(customerTicket.id)}
       />

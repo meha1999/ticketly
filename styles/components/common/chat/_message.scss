@@ -20,13 +20,12 @@
   .content {
     border: none;
     outline: none;
-    background-color: transparent;
     width: 70%;
-    height: 50px;
     resize: none;
     background: #f4f6f8;
     border-radius: 25px;
-    padding: 20px;
+    box-sizing: border-box;
+    padding: 10px;
   }
   .submit_btn {
     cursor: pointer;

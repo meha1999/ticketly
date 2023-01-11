@@ -32,8 +32,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       <textarea
         name="content"
         id="content"
-        rows={2}
         className="content"
+        rows={1}
         placeholder="متن پیام خود را در این قسمت بنویسید."
       ></textarea>
       <button

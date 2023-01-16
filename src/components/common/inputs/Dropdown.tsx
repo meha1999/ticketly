@@ -24,12 +24,15 @@ const Dropdown: FC<DropdownProps> = ({
       </label>
       <select
         id={id}
+        name={id}
         value={currentValue}
         className="drop-down"
         onChange={onChange}
-        name={id}
         disabled={disabled}
       >
+        <option selected disabled hidden>{
+          disabled ? "لیست موارد خالی میباشد" : ""
+        }</option>
         {currentOptions?.map((i) => (
           <option value={i.id} key={i.id}>
             {i.name}

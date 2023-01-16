@@ -170,7 +170,7 @@ const Profile = () => {
             <ImageInput
               id="photo"
               label="تصویر کاربر"
-              inputColor="#00A48A"
+              inputColor="#505050"
               onChange={userProfileHandler}
               image={userProfile ?? (user?.photo as string)}
             />
@@ -241,8 +241,8 @@ const Profile = () => {
               <button
                 style={{
                   color: "#fff",
-                  backgroundColor: "#00A48A",
-                  boxShadow: `0px 10px 20px #00A48A50 `,
+                  backgroundColor: "#505050",
+                  boxShadow: `0px 10px 20px #50505050 `,
                 }}
                 type="submit"
               >
@@ -283,8 +283,8 @@ const Profile = () => {
               <button
                 style={{
                   color: "#fff",
-                  backgroundColor: "#00A48A",
-                  boxShadow: `0px 10px 20px #00A48A50 `,
+                  backgroundColor: "#505050",
+                  boxShadow: `0px 10px 20px #50505050 `,
                 }}
                 type="submit"
               >

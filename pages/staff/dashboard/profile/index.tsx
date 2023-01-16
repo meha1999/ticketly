@@ -170,7 +170,7 @@ const Profile = () => {
             <ImageInput
               id="photo"
               label="تصویر کاربر"
-              inputColor="#00A48A"
+              inputColor="#5E7BEC"
               onChange={userProfileHandler}
               image={userProfile ?? (user?.photo as string)}
             />
@@ -207,6 +207,7 @@ const Profile = () => {
             <Dropdown
               id="ostan"
               label="استان"
+              disabled={!province.length}
               currentOptions={province}
               currentValue={profileForm?.ostan || undefined}
               onChange={setProfileDataHandler}
@@ -215,6 +216,7 @@ const Profile = () => {
               id="shahr"
               label="شهر"
               currentOptions={cities}
+              disabled={!cities.length}
               onChange={setProfileDataHandler}
               currentValue={profileForm?.shahr || undefined}
             />
@@ -241,8 +243,8 @@ const Profile = () => {
               <button
                 style={{
                   color: "#fff",
-                  backgroundColor: "#00A48A",
-                  boxShadow: `0px 10px 20px #00A48A50 `,
+                  backgroundColor: "#5E7BEC",
+                  boxShadow: `0px 10px 20px #5E7BEC50 `,
                 }}
                 type="submit"
               >
@@ -283,8 +285,8 @@ const Profile = () => {
               <button
                 style={{
                   color: "#fff",
-                  backgroundColor: "#00A48A",
-                  boxShadow: `0px 10px 20px #00A48A50 `,
+                  backgroundColor: "#5E7BEC",
+                  boxShadow: `0px 10px 20px #5E7BEC50 `,
                 }}
                 type="submit"
               >

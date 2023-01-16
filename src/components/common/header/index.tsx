@@ -9,7 +9,7 @@ import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const userType: Record<string, string> = {
   staff: "#5E7BEC",
-  mechanic: "#00A48A",
+  customer: "#00A48A",
   supplier: "#F2C901",
   superuser: "#505050",
 };

@@ -129,7 +129,7 @@ const Requests = () => {
         <div className="requests-list-wrapper">
           <div className="list-head">
             <span>عنوان</span>
-            <span>نام مکانیک</span>
+            <span>نام مشتری</span>
             <span>تاریخ</span>
             <span>وضعیت درخواست</span>
             <span> وضعیت تیکت</span>
@@ -197,14 +197,14 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
 
   const translate: Record<string, string> = {
     UNREAD: "در انتظار تایید ارزیاب",
-    ACCEPTED: "در انتظار پاسخ مکانیک",
-    ANSWERED: "در انتظار پاسخ مکانیک",
-    PENDING: "در انتظار پاسخ مکانیک",
+    ACCEPTED: "در انتظار پاسخ مشتری",
+    ANSWERED: "در انتظار پاسخ مشتری",
+    PENDING: "در انتظار پاسخ مشتری",
     INPROCESS: "در انتظار تامین کننده",
-    CLOSED: "مکانیک پاسخ داده",
-    PROVIDED: "مکانیک پاسخ داده",
-    RETURNED: "در انتظار پاسخ مکانیک",
-    DELIVERED: "مکانیک پاسخ داده",
+    CLOSED: "مشتری پاسخ داده",
+    PROVIDED: "مشتری پاسخ داده",
+    RETURNED: "در انتظار پاسخ مشتری",
+    DELIVERED: "مشتری پاسخ داده",
   };
   return (
     <div className={`btn-status-wrapper ${className[status]} `}>

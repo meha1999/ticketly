@@ -3,7 +3,7 @@ import Image from "next/image";
 import { GetServerSideProps } from "next";
 import Title from "components/common/title";
 import Divider from "components/common/divider";
-import DashboardLayout from "components/layouts/dashboard/mechanic";
+import DashboardLayout from "components/layouts/dashboard/customer";
 import TicketBold from "public/images/icons/ticket_bold.svg";
 import { TicketService } from "services/ticket.service";
 import DefaultTicket from "public/images/default-ticket.svg";
@@ -14,8 +14,9 @@ import { useRouter } from "next/router";
 const ticketService = new TicketService();
 
 const Tickets = () => {
-  const [ticketList, setTicketList] = useState([]);
   const { push: routerPush, query } = useRouter();
+
+  const [ticketList, setTicketList] = useState([]);
 
   useEffect(() => {
     const getTickets = async () => {
@@ -38,17 +39,17 @@ const Tickets = () => {
 
   const translate: Record<string, string> = {
     UNREAD: "در انتظار تایید ارزیاب",
-    ACCEPTED: "در انتظار پاسخ مکانیک",
-    ANSWERED: "در انتظار پاسخ مکانیک",
+    ACCEPTED: "در انتظار پاسخ مشتری",
+    ANSWERED: "در انتظار پاسخ مشتری",
     INPROCESS: "در انتظار تامین کننده",
-    CLOSED: "مکانیک پاسخ داده",
-    PROVIDED: "مکانیک پاسخ داده",
-    RETURNED: "در انتظار پاسخ مکانیک",
-    DELIVERED: "مکانیک پاسخ داده",
+    CLOSED: "مشتری پاسخ داده",
+    PROVIDED: "مشتری پاسخ داده",
+    RETURNED: "در انتظار پاسخ مشتری",
+    DELIVERED: "مشتری پاسخ داده",
   };
 
   const handleOpenChat = (ticketId: string) => {
-    routerPush(`/mechanic/dashboard/chat/${ticketId}/`);
+    routerPush(`/customer/dashboard/chat/${ticketId}/`);
   };
 
   //   {
@@ -169,7 +170,7 @@ export default Tickets;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
-    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.setHeader("Location", "/customer/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

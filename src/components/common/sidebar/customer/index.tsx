@@ -27,7 +27,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        RouterPush("/mechanic/auth/login");
+        RouterPush("/customer/auth/login");
       }
     } catch (err) {
       console.log("err", err);
@@ -39,7 +39,7 @@ const Sidebar = () => {
     {
       id: 1,
       title: "پیشخوان",
-      path: "/mechanic/dashboard",
+      path: "/customer/dashboard",
       icon: BsGridFill,
       exact: true,
       subLinks: [],
@@ -47,59 +47,59 @@ const Sidebar = () => {
     {
       id: 2,
       title: "پروفایل",
-      path: "/mechanic/dashboard/profile",
+      path: "/customer/dashboard/profile",
       icon: TiUser,
       subLinks: [],
     },
     {
       id: 3,
       title: "ثبت تیکت جدید",
-      path: "/mechanic/dashboard/tickets/create",
+      path: "/customer/dashboard/tickets/create",
       icon: SiHackthebox,
       subLinks: [],
     },
     {
       id: 4,
       title: "انبار",
-      path: "/mechanic/dashboard/store",
+      path: "/customer/dashboard/store",
       icon: GiCarWheel,
       subLinks: [],
     },
     {
       id: 5,
       title: "درخواست ها",
-      path: "/mechanic/dashboard/tickets",
+      path: "/customer/dashboard/tickets",
       icon: BiEdit,
       disable: true,
       subLinks: [
         {
           id: 1,
           title: "درخواست‌های در حال تامین",
-          path: "/mechanic/dashboard/tickets/supplying",
+          path: "/customer/dashboard/tickets/supplying",
         },
         {
           id: 2,
           title: "درخواست‌های در حال ارسال",
-          path: "/mechanic/dashboard/tickets/sending",
+          path: "/customer/dashboard/tickets/sending",
         },
         {
           id: 3,
           title: "درخواست‌های بسته شده",
-          path: "/mechanic/dashboard/tickets/closed",
+          path: "/customer/dashboard/tickets/closed",
         },
       ],
     },
     {
       id: 6,
       title: "سفارشات",
-      path: "/mechanic/dashboard/orders",
+      path: "/customer/dashboard/orders",
       icon: BsClipboardCheck,
       subLinks: [],
     },
     {
       id: 7,
       title: "کیف پول",
-      path: "/mechanic/dashboard/wallet",
+      path: "/customer/dashboard/wallet",
       icon: TfiWallet,
       subLinks: [],
     },
@@ -107,7 +107,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name mechanic">پنل مکانیک</div>
+      <div className="panel-name customer">پنل مشتری</div>
       <ul className="menus">
         {SIDE_BAR_LINK_ITEMS.map(
           ({ id, title, icon: Icon, path, subLinks, exact, disable }) => (
@@ -115,7 +115,7 @@ const Sidebar = () => {
               <NavLink
                 href={path}
                 exact={exact}
-                className={`menu mechanic ${disable ? "disable " : ""}`}
+                className={`menu customer ${disable ? "disable " : ""}`}
               >
                 <Icon />
                 <span>{title}</span>
@@ -124,7 +124,7 @@ const Sidebar = () => {
                 <ul className="sub-menus">
                   {subLinks.map(({ id, path, title, icon: Icon }: any) => (
                     <li key={id}>
-                      <NavLink href={path} className="menu mechanic">
+                      <NavLink href={path} className="menu customer">
                         {Icon && <Icon />}
                         <span>{title}</span>
                       </NavLink>

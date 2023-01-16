@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "public/images/logo.svg";
 import googleLogo from "public/images/icons/google_logo.svg";
-import authTools from "public/images/auth/mechanic.svg";
+import authTools from "public/images/auth/customer.svg";
 import { AuthService } from "services/auth.service";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
@@ -29,8 +29,8 @@ const SignUp = () => {
   const signUpUser = async (data: FieldValues) => {
     setLoading(true);
     try {
-      await authService.signUp(data, "mechanic");
-      router.push("/mechanic/auth/login");
+      await authService.signUp(data, "customer");
+      router.push("/customer/auth/login");
       Toaster.success(
         <ToastComponent
           title="موفقیت امیز"
@@ -95,9 +95,9 @@ const SignUp = () => {
         </div>
         <button
           type="submit"
-          className="sign-up-btn bg-mechanic box-shadow-mechanic"
+          className="sign-up-btn bg-customer box-shadow-customer"
         >
-          {loading  ?  "درحال انجام": "ثبت نام"}
+          {loading ? "درحال انجام" : "ثبت نام"}
         </button>
       </form>
       <Image src={authTools} alt="tools" className="tools-image" />
@@ -120,8 +120,8 @@ const Login = () => {
   const loginUser = async (data: FieldValues) => {
     try {
       setBtnLoading(true);
-      const res = await authService.login(data, "mechanic");
-      setCookies("role", "mechanic");
+      const res = await authService.login(data, "customer");
+      setCookies("role", "customer");
       setCookies("token", res.data.key);
       dispatch({
         type: REDUX_ACTION.SET_TOKEN,
@@ -135,7 +135,7 @@ const Login = () => {
         payload: userRes.data,
       });
       setLoading(false);
-      router.push("/mechanic/dashboard");
+      router.push("/customer/dashboard");
     } catch (err: any) {
       Toaster.error(
         <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
@@ -185,7 +185,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className={`login-btn bg-mechanic box-shadow-mechanic ${
+            className={`login-btn bg-customer box-shadow-customer ${
               btnLoading && "loading"
             }`}
             disabled={btnLoading}
@@ -215,13 +215,13 @@ const Auth = () => {
         <div className="auth-header">
           <div className="auth-tabs">
             <Link
-              href="/mechanic/auth/login"
+              href="/customer/auth/login"
               className={authType === "login" ? "selected tab" : "tab"}
             >
               {"ورود"}
             </Link>
             <Link
-              href="/mechanic/auth/signup"
+              href="/customer/auth/signup"
               className={authType === "signup" ? "selected tab" : "tab"}
             >
               {"ثبت نام"}
@@ -245,7 +245,7 @@ export default Auth;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (ctx.query.slug !== "login" && ctx.query.slug !== "signup") {
-    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.setHeader("Location", "/customer/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

@@ -1,4 +1,4 @@
-import DashboardLayout from "components/layouts/dashboard/mechanic";
+import DashboardLayout from "components/layouts/dashboard/customer";
 import Image from "next/image";
 import fileUploadIcon from "public/images/icons/file_upload.svg";
 import trashIcon from "public/images/icons/trash.svg";
@@ -83,7 +83,7 @@ const Create = () => {
       };
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {
-        router.push("/mechanic/dashboard/tickets");
+        router.push("/customer/dashboard/tickets");
       }
     } catch (err) {
       console.log("err", err);
@@ -218,7 +218,7 @@ export default Create;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
-    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.setHeader("Location", "/customer/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

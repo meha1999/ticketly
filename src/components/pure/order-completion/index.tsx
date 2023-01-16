@@ -59,7 +59,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           <span>{name}</span>
         </div>
         <button className="chat-user" onClick={openChat}>
-          چت با مکانیک
+          چت با مشتری
         </button>
       </div>
       <div className="wallet">

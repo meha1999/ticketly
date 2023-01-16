@@ -69,10 +69,14 @@ const Chat = () => {
     [ReadyState.CLOSED]: "Closed",
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState as number];
-  
+
   return (
     <DashboardLayout>
-      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} ticketId={router.query.ticketId}/>
+      <ChatComponent
+        data={messageHistory}
+        onSend={handleClickSendMessage}
+        ticketId={router.query.ticketId}
+      />
     </DashboardLayout>
   );
 };
@@ -81,7 +85,7 @@ export default Chat;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
-    ctx.res.setHeader("Location", "/mechanic/auth/login");
+    ctx.res.setHeader("Location", "/customer/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

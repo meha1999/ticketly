@@ -15,7 +15,7 @@
     font-weight: 700;
     font-size: 24px;
     color: #ffffff;
-    &.mechanic {
+    &.customer {
       background-color: #00a48a;
     }
     &.supplier {
@@ -50,7 +50,7 @@
       }
       &.active {
         font-weight: 700;
-        &.mechanic {
+        &.customer {
           color: #00a48a;
         }
         &.supplier {
@@ -76,7 +76,7 @@
       .menu {
         &.active {
           font-weight: 700;
-          &.mechanic {
+          &.customer {
             color: #00a48a;
           }
           &.supplier {

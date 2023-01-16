@@ -3,7 +3,7 @@ import { FC } from "react";
 interface TextInputProps {
   id?: string;
   label: string;
-  value: string;
+  value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isFullWidthInput?: boolean;
 }

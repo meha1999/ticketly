@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Title from "components/common/title";
 import ProfileBold from "public/images/icons/profile_bold.svg";
-import DashboardLayout from "components/layouts/dashboard/evaluator";
+import DashboardLayout from "components/layouts/dashboard/staff";
 import Divider from "components/common/divider";
 import TextInput from "components/common/inputs/TextInput";
 import ImageInput from "components/common/inputs/ImageInput";

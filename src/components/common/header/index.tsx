@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const userType: Record<string, string> = {
-  evaluator: "#5E7BEC",
+  staff: "#5E7BEC",
   mechanic: "#00A48A",
   supplier: "#F2C901",
   superuser: "#505050",

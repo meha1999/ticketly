@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "public/images/logo.svg";
 import googleLogo from "public/images/icons/google_logo.svg";
-import authTools from "public/images/auth/evaluator.svg";
+import authTools from "public/images/auth/staff.svg";
 import { AuthService } from "services/auth.service";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
@@ -25,13 +25,13 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const signUpUser = async (data: FieldValues) => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await authService.signUp(data, "evaluator");
-      router.push("/evaluator/auth/login");
+      await authService.signUp(data, "staff");
+      router.push("/staff/auth/login");
       Toaster.success(
         <ToastComponent
           title="موفقیت امیز"
@@ -41,7 +41,7 @@ const SignUp = () => {
     } catch (err) {
       console.log("err", err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -93,12 +93,8 @@ const SignUp = () => {
           <Image src={googleLogo} alt="google" />
           <span>ثبت نام با گوگل</span>
         </div>
-        <button
-          type="submit"
-          className="sign-up-btn bg-evaluator box-shadow-evaluator"
-        >
-          {loading  ?  "درحال انجام": "ثبت نام"}
-          
+        <button type="submit" className="sign-up-btn bg-staff box-shadow-staff">
+          {loading ? "درحال انجام" : "ثبت نام"}
         </button>
       </form>
       <Image src={authTools} alt="tools" className="tools-image" />
@@ -121,8 +117,8 @@ const Login = () => {
   const loginUser = async (data: FieldValues) => {
     try {
       setBtnLoading(true);
-      const res = await authService.login(data, "evaluator");
-      setCookies("role", "evaluator");
+      const res = await authService.login(data, "staff");
+      setCookies("role", "staff");
       setCookies("token", res.data.key);
       dispatch({
         type: REDUX_ACTION.SET_TOKEN,
@@ -136,7 +132,7 @@ const Login = () => {
         payload: userRes.data,
       });
       setLoading(false);
-      router.push("/evaluator/dashboard");
+      router.push("/staff/dashboard");
     } catch (err: any) {
       Toaster.error(
         <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
@@ -186,7 +182,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className={`login-btn bg-evaluator box-shadow-evaluator ${
+            className={`login-btn bg-staff box-shadow-staff ${
               btnLoading && "loading"
             }`}
             disabled={btnLoading}
@@ -216,13 +212,13 @@ const Auth = () => {
         <div className="auth-header">
           <div className="auth-tabs">
             <Link
-              href="/evaluator/auth/login"
+              href="/staff/auth/login"
               className={authType === "login" ? "selected tab" : "tab"}
             >
               {"ورود"}
             </Link>
             <Link
-              href="/evaluator/auth/signup"
+              href="/staff/auth/signup"
               className={authType === "signup" ? "selected tab" : "tab"}
             >
               {"ثبت نام"}
@@ -246,7 +242,7 @@ export default Auth;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (ctx.query.slug !== "login" && ctx.query.slug !== "signup") {
-    ctx.res.setHeader("Location", "/evaluator/auth/login");
+    ctx.res.setHeader("Location", "/staff/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

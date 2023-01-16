@@ -27,7 +27,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        RouterPush("/evaluator/auth/login");
+        RouterPush("/staff/auth/login");
       }
     } catch (err) {
       console.log("err", err);
@@ -39,7 +39,7 @@ const Sidebar = () => {
     {
       id: 1,
       title: "پیشخوان",
-      path: "/evaluator/dashboard",
+      path: "/staff/dashboard",
       icon: BsGridFill,
       exact: true,
       subLinks: [],
@@ -47,52 +47,52 @@ const Sidebar = () => {
     {
       id: 2,
       title: "پروفایل",
-      path: "/evaluator/dashboard/profile",
+      path: "/staff/dashboard/profile",
       icon: TiUser,
       subLinks: [],
     },
     {
       id: 3,
       title: "ثبت محصول",
-      path: "/evaluator/dashboard/register",
+      path: "/staff/dashboard/register",
       icon: SiHackthebox,
       subLinks: [],
     },
     {
       id: 4,
       title: "انبار",
-      path: "/evaluator/dashboard/store",
+      path: "/staff/dashboard/store",
       icon: GiCarWheel,
       subLinks: [],
     },
     {
       id: 5,
       title: "درخواست ها",
-      path: "/evaluator/dashboard/tickets",
+      path: "/staff/dashboard/tickets",
       icon: BiEdit,
       disable: true,
       subLinks: [
         {
           id: 1,
           title: "درخواست‌های در حال تامین",
-          path: "/evaluator/dashboard/tickets/supplying",
+          path: "/staff/dashboard/tickets/supplying",
         },
         {
           id: 2,
           title: "درخواست‌های در حال ارسال",
-          path: "/evaluator/dashboard/tickets/sending",
+          path: "/staff/dashboard/tickets/sending",
         },
         {
           id: 3,
           title: "درخواست‌های بسته شده",
-          path: "/evaluator/dashboard/tickets/closed",
+          path: "/staff/dashboard/tickets/closed",
         },
       ],
     },
     {
       id: 6,
       title: "لیست تامین کنندگان",
-      path: "/evaluator/dashboard/providers",
+      path: "/staff/dashboard/providers",
       icon: GrContactInfo,
       subLinks: [],
     },
@@ -100,7 +100,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name evaluator">پنل ارزیاب</div>
+      <div className="panel-name staff">پنل ارزیاب</div>
       <ul className="menus">
         {SIDE_BAR_LINK_ITEMS.map(
           ({ id, title, icon: Icon, path, subLinks, exact, disable }) => (
@@ -108,7 +108,7 @@ const Sidebar = () => {
               <NavLink
                 href={path}
                 exact={exact}
-                className={`menu evaluator ${disable ? "disable" : ""}`}
+                className={`menu staff ${disable ? "disable" : ""}`}
               >
                 <Icon />
                 <span>{title}</span>
@@ -117,7 +117,7 @@ const Sidebar = () => {
                 <ul className="sub-menus">
                   {subLinks.map(({ id, path, title, icon: Icon }: any) => (
                     <li key={id}>
-                      <NavLink href={path} className="menu evaluator">
+                      <NavLink href={path} className="menu staff">
                         {Icon && <Icon />}
                         <span>{title}</span>
                       </NavLink>

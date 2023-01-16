@@ -19,9 +19,9 @@
       background-color: #00a48a;
     }
     &.supplier {
-      background-color: #EED201;
+      background-color: #eed201;
     }
-    &.evaluator {
+    &.staff {
       background-color: #5e7bec;
     }
     &.superuser {
@@ -54,13 +54,13 @@
           color: #00a48a;
         }
         &.supplier {
-          color: #EED201;
+          color: #eed201;
         }
-        &.evaluator {
+        &.staff {
           color: #5e7bec;
         }
         &.superuser {
-          color: #BDBDBD;
+          color: #bdbdbd;
         }
       }
     }
@@ -80,16 +80,16 @@
             color: #00a48a;
           }
           &.supplier {
-            color: #EED201;
+            color: #eed201;
           }
-          &.evaluator {
+          &.staff {
             color: #5e7bec;
           }
           &.superuser {
-            color: #BDBDBD;
+            color: #bdbdbd;
           }
         }
-       }
+      }
     }
   }
   .logout-btn {
@@ -108,7 +108,7 @@
     color: #ffffff;
     margin-top: auto;
     svg {
-      color: #EED201;
+      color: #eed201;
       font-size: 25px;
     }
   }

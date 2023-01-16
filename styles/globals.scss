@@ -18,7 +18,7 @@
 @import "./components/pure/product-order-registration";
 
 @import "./pages/dashboard/profile/profile-page";
-@import "./pages/dashboard/requests/request-page-evaluator";
+@import "./pages/dashboard/requests/request-page-staff";
 @import "./pages/dashboard/requests/request-page-supplier";
 @import "./pages/dashboard/ticket/create";
 @import "./pages/dashboard/ticket/list";
@@ -92,7 +92,7 @@ li {
 .bg-superuser {
   background-color: #505050;
 }
-.bg-evaluator {
+.bg-staff {
   background-color: #5e7bec;
 }
 .bg-supplier {
@@ -105,7 +105,7 @@ li {
 .box-shadow-superuser {
   box-shadow: 0px 20px 30px rgba(83, 83, 83, 0.3);
 }
-.box-shadow-evaluator {
+.box-shadow-staff {
   box-shadow: 0px 20px 30px rgba(0, 106, 255, 0.3);
 }
 .box-shadow-supplier {

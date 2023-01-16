@@ -18,7 +18,6 @@ const dateTimeConfig = {
 
 const userType: Record<string, string> = {
   staff: "#5E7BEC",
-  evaluator: "#5E7BEC",
   customer: "#00A48A",
   mechanic: "#00A48A",
   supplier: "#F2C901",

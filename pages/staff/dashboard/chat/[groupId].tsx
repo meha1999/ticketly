@@ -1,6 +1,6 @@
 import ChatComponent from "components/common/chat";
 import Title from "components/common/title";
-import DashboardLayout from "components/layouts/dashboard/evaluator";
+import DashboardLayout from "components/layouts/dashboard/staff";
 import ChatList from "components/pure/chat-list";
 import OrderCompletion from "components/pure/order-completion";
 import { GetServerSideProps } from "next";
@@ -103,7 +103,6 @@ const Chat = () => {
     }
   }, [lastMessage, setMessageHistory]);
 
-
   return (
     <DashboardLayout>
       <Title titleText="صفحه چت" titleIcon={chatIcon} />
@@ -138,7 +137,7 @@ export default Chat;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
-    ctx.res.setHeader("Location", "/evaluator/auth/login");
+    ctx.res.setHeader("Location", "/staff/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

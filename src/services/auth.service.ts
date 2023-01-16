@@ -6,10 +6,10 @@ import { BaseService } from "./base.service";
 export class AuthService extends BaseService {
   login(
     payload: any,
-    type: "mechanic" | "admin" | "evaluator" | "supplier"
+    type: "mechanic" | "superuser" | "evaluator" | "supplier"
   ): Promise<any> {
     const userType = {
-      admin: "/superuser/",
+      superuser: "/superuser/",
       evaluator: "/staff/",
       mechanic: "/",
       supplier: "/supplier/",
@@ -22,10 +22,10 @@ export class AuthService extends BaseService {
 
   signUp(
     payload: any,
-    type: "mechanic" | "admin" | "evaluator" | "supplier"
+    type: "mechanic" | "superuser" | "evaluator" | "supplier"
   ): Promise<any> {
     const userType = {
-      admin: "/superuser/",
+      superuser: "/superuser/",
       evaluator: "/staff/",
       mechanic: "/customer/",
       supplier: "/supplier/",

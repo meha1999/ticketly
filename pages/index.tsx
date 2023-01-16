@@ -17,7 +17,7 @@ export default function Home() {
     >
       <Link href="mechanic/auth/login">صفحه ورود مکانیک</Link>
       <Link href="evaluator/auth/login">صفحه ورود ارزیاب</Link>
-      <Link href="admin/auth/login">صفحه ورود ادمین</Link>
+      <Link href="superuser/auth/login">صفحه ورود ادمین</Link>
     </div>
   );
 }

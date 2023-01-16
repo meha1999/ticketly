@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import logo from "public/images/logo.svg";
 import googleLogo from "public/images/icons/google_logo.svg";
-import authTools from "public/images/auth/admin.svg";
+import authTools from "public/images/auth/superuser.svg";
 import { AuthService } from "services/auth.service";
 import { useDispatch } from "react-redux";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
@@ -29,8 +29,8 @@ const Login = () => {
   const loginUser = async (data: FieldValues) => {
     try {
       setBtnLoading(true);
-      const res = await authService.login(data, "admin");
-      setCookies("role", "admin");
+      const res = await authService.login(data, "superuser");
+      setCookies("role", "superuser");
       setCookies("token", res.data.key);
       dispatch({
         type: REDUX_ACTION.SET_TOKEN,
@@ -44,7 +44,7 @@ const Login = () => {
         payload: userRes.data,
       });
       setLoading(false);
-      router.push("/admin/dashboard");
+      router.push("/superuser/dashboard");
     } catch (err: any) {
       Toaster.error(
         <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
@@ -94,7 +94,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className={`login-btn bg-admin box-shadow-admin ${
+            className={`login-btn bg-superuser box-shadow-superuser ${
               btnLoading && "loading"
             }`}
             disabled={btnLoading}
@@ -131,7 +131,7 @@ export default Auth;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (ctx.query.slug !== "login") {
-    ctx.res.setHeader("Location", "/admin/auth/login");
+    ctx.res.setHeader("Location", "/superuser/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

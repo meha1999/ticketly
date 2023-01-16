@@ -25,7 +25,7 @@ const Sidebar = () => {
         deleteCookie("token");
         dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
         dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        RouterPush("/admin/auth/login");
+        RouterPush("/superuser/auth/login");
       }
     } catch (err) {
       console.log("err", err);
@@ -39,7 +39,7 @@ const Sidebar = () => {
     {
       id: 1,
       title: "پیشخوان",
-      path: "/admin/dashboard",
+      path: "/superuser/dashboard",
       icon: BsGridFill,
       exact: true,
       subLinks: [],
@@ -47,44 +47,44 @@ const Sidebar = () => {
     {
       id: 2,
       title: "پروفایل",
-      path: "/admin/dashboard/profile",
+      path: "/superuser/dashboard/profile",
       icon: TiUser,
       subLinks: [],
     },
     {
       id: 5,
       title: "درخواست ها",
-      path: "/admin/dashboard/tickets",
+      path: "/superuser/dashboard/tickets",
       icon: BiEdit,
       subLinks: [
         {
           id: 1,
           title: "درخواست‌های در حال تامین",
-          path: "/admin/dashboard/tickets/supplying",
+          path: "/superuser/dashboard/tickets/supplying",
         },
         {
           id: 2,
           title: "درخواست‌های در حال ارسال",
-          path: "/admin/dashboard/tickets/sending",
+          path: "/superuser/dashboard/tickets/sending",
         },
         {
           id: 3,
           title: "درخواست‌های بسته شده",
-          path: "/admin/dashboard/tickets/closed",
+          path: "/superuser/dashboard/tickets/closed",
         },
       ],
     },
     {
       id: 3,
       title: "کاربران",
-      path: "/admin/dashboard/users",
+      path: "/superuser/dashboard/users",
       icon: IoIosPeople,
       subLinks: [],
     },
     {
       id: 4,
       title: "تنظیمات",
-      path: "/admin/dashboard/settings",
+      path: "/superuser/dashboard/settings",
       icon: AiOutlineSetting,
       subLinks: [],
     },
@@ -92,12 +92,12 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar-wrapper">
-      <div className="panel-name admin">پنل مدیریت</div>
+      <div className="panel-name superuser">پنل مدیریت</div>
       <ul className="menus">
         {SIDE_BAR_LINK_ITEMS.map(
           ({ id, title, icon: Icon, path, subLinks, exact }) => (
             <li key={id}>
-              <NavLink href={path} className="menu admin" exact={exact}>
+              <NavLink href={path} className="menu superuser" exact={exact}>
                 <Icon className={isActiveRoute(path) ? "active" : ""} />
                 <span>{title}</span>
               </NavLink>
@@ -106,7 +106,7 @@ const Sidebar = () => {
                   {subLinks.map(
                     ({ id, path: subPath, title, icon: Icon }: any) => (
                       <li key={id}>
-                        <NavLink href={subPath} className="menu admin">
+                        <NavLink href={subPath} className="menu superuser">
                           {Icon && (
                             <Icon
                               className={isActiveRoute(path) ? "active" : ""}

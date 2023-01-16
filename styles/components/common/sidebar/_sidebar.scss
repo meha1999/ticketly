@@ -24,7 +24,7 @@
     &.evaluator {
       background-color: #5e7bec;
     }
-    &.admin {
+    &.superuser {
       background-color: #505050;
     }
   }
@@ -59,7 +59,7 @@
         &.evaluator {
           color: #5e7bec;
         }
-        &.admin {
+        &.superuser {
           color: #BDBDBD;
         }
       }
@@ -85,7 +85,7 @@
           &.evaluator {
             color: #5e7bec;
           }
-          &.admin {
+          &.superuser {
             color: #BDBDBD;
           }
         }

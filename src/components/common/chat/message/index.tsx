@@ -3,6 +3,7 @@ import Microphone from "images/icons/microphone";
 import Attach from "images/icons/attach";
 import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
+import { useState } from "react";
 
 interface MessageProps {
   onSend: any;
@@ -10,6 +11,37 @@ interface MessageProps {
 }
 
 const Message: React.FC<MessageProps> = ({ onSend, color }) => {
+  const [audio, setAudio] = useState<any>(null);
+
+  const getMicrophone = async () => {
+    const audio = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false,
+    });
+    setAudio(audio);
+  };
+
+  const stopMicrophone = () => {
+    audio.getTracks().forEach((track: any) => track.stop());
+    setAudio(null);
+  };
+
+  const toggleMicrophone = () => {
+    if (audio) {
+      stopMicrophone();
+    } else {
+      getMicrophone();
+    }
+  };
+
+  const handleFileUpload = () => {
+    console.log("attach");
+  };
+
+  const handlePhotoUpload = () => {
+    console.log("photo");
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     onSend(e.target.children[1].value);
@@ -19,15 +51,42 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
   return (
     <form className="message-wrapper" onSubmit={handleSubmit}>
       <div className="tools">
-        <button type="button" className="tool_btn">
-          <Microphone color={color} />
+        <button type="button" className="tool_btn" onClick={toggleMicrophone}>
+          <Microphone
+            color={audio ? "#FA1744" : color}
+            classStyle={`${audio ? "fade-in" : ""}`}
+          />
         </button>
-        <button type="button" className="tool_btn">
-          <Attach color={color} />
-        </button>
-        <button type="button" className="tool_btn">
-          <ImageUpload color={color} />
-        </button>
+        <div className="file-upload">
+          <label htmlFor="file-input" className="file-input-label">
+            <button
+              type="button"
+              className="tool_btn"
+              onClick={handleFileUpload}
+            >
+              <Attach color={color} />
+            </button>
+          </label>
+          <input
+            id="file-input"
+            type="file"
+            className="file-input"
+            title=""
+            onChange={handleFileUpload}
+          />
+        </div>
+        <div className="photo-upload">
+          <label htmlFor="photo" className="photo-input-label">
+            <button
+              type="button"
+              className="tool_btn"
+              onClick={handlePhotoUpload}
+            >
+              <ImageUpload color={color} />
+            </button>
+          </label>
+          <input type="file" name="photo" id="photo" accept="image/*" />
+        </div>
       </div>
       <textarea
         name="content"

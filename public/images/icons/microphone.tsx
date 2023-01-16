@@ -2,9 +2,10 @@ import { FC } from "react";
 
 interface MicrophoneProps {
   color: string;
+  classStyle?: string;
 }
 
-const Microphone: FC<MicrophoneProps> = ({ color }) => {
+const Microphone: FC<MicrophoneProps> = ({ color, classStyle }) => {
   return (
     <svg
       width="26"
@@ -12,6 +13,7 @@ const Microphone: FC<MicrophoneProps> = ({ color }) => {
       viewBox="0 0 26 31"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={classStyle ? classStyle : ""}
     >
       <path
         fillRule="evenodd"

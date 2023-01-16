@@ -30,6 +30,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        img {
+          width: 45px;
+          height: 45px;
+          border-radius: 20px;
+          object-fit: cover;
+        }
       }
       .info {
         display: flex;

@@ -22,4 +22,6 @@ export interface UserModel {
   account_type: string;
   groups: string[];
   user_permissions: string[];
+  shahr: number | null;
+  ostan: number | null;
 }

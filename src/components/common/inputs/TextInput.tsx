@@ -3,6 +3,7 @@ import { FC } from "react";
 interface TextInputProps {
   id?: string;
   label: string;
+  value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isFullWidthInput?: boolean;
 }
@@ -10,6 +11,7 @@ interface TextInputProps {
 const TextInput: FC<TextInputProps> = ({
   id,
   label,
+  value,
   onChange,
   isFullWidthInput,
 }) => {
@@ -21,6 +23,7 @@ const TextInput: FC<TextInputProps> = ({
       <input
         id={id}
         name={id}
+        value={value}
         onChange={onChange}
         className={`input ${isFullWidthInput ? "full" : ""}`}
       />

@@ -1,7 +1,7 @@
 export interface UserModel {
   id: number;
   photo: string | ArrayBuffer | null;
-  role: "supperuser" | "mechanic" | "evaluator" | "supplier";
+  role: "superuser" | "mechanic" | "evaluator" | "supplier";
   last_login: string;
   username: string;
   full_name: string;
@@ -22,4 +22,6 @@ export interface UserModel {
   account_type: string;
   groups: string[];
   user_permissions: string[];
+  shahr: number | null;
+  ostan: number | null;
 }

@@ -22,13 +22,24 @@ const Header = () => {
 
   return (
     <div className="header-wrapper">
-      <Link href="/dashboard" className="logo">
+      <Link
+        href={`/${router.pathname.split("/")[1]}/dashboard`}
+        className="logo"
+      >
         <Image src={logo} alt="logo" />
       </Link>
       <div className="header-content">
-        <div className="user-profile">
+        <Link
+          href={`/${router.pathname.split("/")[1]}/dashboard/profile`}
+          className="user-profile"
+        >
           <div className="image-container">
-            <UserIcon color={userType[router.asPath.split("/")[1]]} />
+            {user?.photo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={user?.photo as string} alt="logo" />
+            ) : (
+              <UserIcon color={userType[router.asPath.split("/")[1]]} />
+            )}
           </div>
           <div className="info">
             <span
@@ -41,7 +52,7 @@ const Header = () => {
               {user?.email ?? "ایمیل در دسترس نیست"}
             </span>
           </div>
-        </div>
+        </Link>
         <div className="notification-container">
           <div className="notification">
             <Image src={bellIcon} alt="bell" />

@@ -9,16 +9,22 @@ import Dropdown from "components/common/inputs/Dropdown";
 import { ProfileService } from "services/profile.service";
 import { GetServerSideProps } from "next";
 import { toBase64 } from "src/tools/tobase64";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthService } from "services/auth.service";
+import { REDUX_ACTION } from "src/enum/redux-action.enum";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
+import { b64toBlob } from "src/tools/b64toBlob";
 
 interface ProfileFormState {
-  photo: string | ArrayBuffer | null;
-  userName: string;
+  full_name: string;
   mobile_phone: string;
   national_id: string;
   email: string;
   address: string;
-  province: number | null;
-  city: number | null;
+  ostan: number | null;
+  shahr: number | null;
 }
 interface ChangePassState {
   currentPass: string;
@@ -27,17 +33,17 @@ interface ChangePassState {
 }
 
 const profileService = new ProfileService();
+const authService = new AuthService();
 
 const Profile = () => {
   const [profileForm, setProfileForm] = useState<ProfileFormState>({
-    photo: null,
-    userName: "",
+    full_name: "",
     mobile_phone: "",
     national_id: "",
     email: "",
     address: "",
-    province: null,
-    city: null,
+    ostan: null,
+    shahr: null,
   });
   const [resetPass, setResetPass] = useState<ChangePassState>({
     currentPass: "",
@@ -48,31 +54,51 @@ const Profile = () => {
   const [cities, setCities] = useState<any>([]);
   const [province, setProvince] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [binaryImage, setBinaryImage] = useState<string | ArrayBuffer | null>(
+    null
+  );
+  const [userProfile, setUserProfile] = useState<string | ArrayBuffer | null>(
+    null
+  );
+  const dispatch = useDispatch();
+
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
 
   const submitProfileForm = async (e: FormEvent) => {
     e.preventDefault();
+    console.log("rrrr");
+
     try {
       setLoading(true);
-      await new Promise((res) => setTimeout(() => res(""), 5000));
-      // const formRes = await authService.userInfoPatch({
-      //   ...profileForm,
-      //   address: `${profileForm.province}-${profileForm.city}-${profileForm.address}`,
-      // });
-      console.log({
-        ...profileForm,
-        address: `${profileForm.province}-${profileForm.city}-${profileForm.address}`,
+      const formRes = await authService.userInfoPatch(profileForm);
+      dispatch({
+        type: REDUX_ACTION.SET_USER,
+        payload: formRes.data,
       });
 
+      Toaster.success(
+        <ToastComponent
+          title="موفقیت امیز"
+          description="اطلاعات شما با موفقیت ویرایش شد"
+        />
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
-    } catch (error) {}
+    }
   };
 
   const userProfileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     }
-    const data = await toBase64(e.target.files[0]);
-    setProfileForm({ ...profileForm, photo: data });
+    const dataBase64 = await toBase64(e.target.files[0]);
+    const datBaseBinary = await b64toBlob(e.target.files[0]);
+    setBinaryImage(datBaseBinary);
+    setUserProfile(dataBase64);
   };
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
@@ -96,11 +122,11 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (profileForm.province) {
+    if (profileForm.ostan) {
       const getCities = async () => {
         try {
           const citiesRes = await profileService.getCities(
-            profileForm.province ?? 8
+            profileForm.ostan ?? 8
           );
           setCities(citiesRes.data.shahrs);
         } catch (error) {
@@ -109,16 +135,30 @@ const Profile = () => {
       };
       getCities();
     }
-  }, [profileForm.province]);
+  }, [profileForm.ostan]);
 
   useEffect(() => {
-    if (profileForm.province && profileForm.city) return;
+    if (!profileForm.ostan && !profileForm.shahr)
+      setProfileForm((prev) => ({
+        ...prev,
+        province: province[7]?.id,
+        city: cities[0]?.id,
+      }));
+  }, [profileForm.ostan, profileForm.shahr, province, cities]);
+
+  useEffect(() => {
     setProfileForm((prev) => ({
       ...prev,
-      province: province[7]?.id,
-      city: cities[0]?.id,
+      email: user?.email || "",
+      full_name: user?.full_name || "",
+      national_id: user?.national_id || "",
+      mobile_phone: user?.mobile_phone || "",
+      shahr: user?.shahr || null,
+      ostan: user?.ostan || null,
+      address: user?.address || "",
     }));
-  }, [province, cities, profileForm]);
+    setUserProfile(user?.photo || null);
+  }, [user]);
 
   return (
     <DashboardLayout>
@@ -132,18 +172,20 @@ const Profile = () => {
               label="تصویر کاربر"
               inputColor="#00A48A"
               onChange={userProfileHandler}
-              image={profileForm.photo}
+              image={userProfile ?? (user?.photo as string)}
             />
           </div>
           <div className="form-item">
             <TextInput
+              id="full_name"
               label="نام و نام خانوادگی"
-              id="userDetail"
+              value={profileForm.full_name}
               onChange={setProfileDataHandler}
             />
             <TextInput
-              label="شماره موبایل"
               id="mobile_phone"
+              label="شماره موبایل"
+              value={profileForm.mobile_phone}
               onChange={setProfileDataHandler}
             />
           </div>
@@ -151,31 +193,39 @@ const Profile = () => {
             <TextInput
               label="کد ملی"
               id="national_id"
+              value={profileForm.national_id}
               onChange={setProfileDataHandler}
             />
             <TextInput
               label="ایمیل"
               id="email"
+              value={profileForm.email}
               onChange={setProfileDataHandler}
             />
           </div>
           <div className="form-item">
             <Dropdown
-              id="province"
+              id="ostan"
               label="استان"
               currentOptions={province}
-              currentValue={profileForm?.province || undefined}
+              currentValue={profileForm?.ostan || undefined}
               onChange={setProfileDataHandler}
             />
             <Dropdown
-              id="city"
+              id="shahr"
               label="شهر"
-              onChange={setProfileDataHandler}
-              currentValue={profileForm?.city || undefined}
               currentOptions={cities}
+              onChange={setProfileDataHandler}
+              currentValue={profileForm?.shahr || undefined}
             />
           </div>
-          <TextInput label="ادرس محل سکونت" isFullWidthInput id="address" />
+          <TextInput
+            id="address"
+            isFullWidthInput
+            label="ادرس محل سکونت"
+            value={profileForm.address}
+            onChange={setProfileDataHandler}
+          />
           <div>
             <div className="form-btns-container">
               <button
@@ -208,11 +258,13 @@ const Profile = () => {
               <TextInput
                 id="currentPass"
                 label="رمز عبور فعلی"
+                value={resetPass.currentPass}
                 onChange={resetPasswordHandler}
               />
               <TextInput
                 id="newPass"
                 label="رمز عبور جدید"
+                value={resetPass.newPass}
                 onChange={resetPasswordHandler}
               />
             </div>
@@ -220,6 +272,7 @@ const Profile = () => {
               <TextInput
                 id="newPassRepeat"
                 label="تکرار رمز عبور جدید"
+                value={resetPass.newPassRepeat}
                 onChange={resetPasswordHandler}
               />
             </div>

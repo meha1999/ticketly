@@ -1,5 +1,5 @@
 import ChatComponent from "components/common/chat";
-import DashboardLayout from "components/layouts/dashboard/supplier";
+import DashboardLayout from "components/layouts/dashboard/customer";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -69,14 +69,10 @@ const Chat = () => {
     [ReadyState.CLOSED]: "Closed",
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState as number];
-
+  
   return (
     <DashboardLayout>
-      <ChatComponent
-        data={messageHistory}
-        onSend={handleClickSendMessage}
-        ticketId={router.query.ticketId}
-      />
+      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} ticketId={router.query.ticketId}/>
     </DashboardLayout>
   );
 };

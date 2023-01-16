@@ -15,9 +15,10 @@
 @import "./components/pure/message-card";
 @import "./components/common/portal/portal";
 @import "./components/pure/suppliers-list";
+@import "./components/pure/product-order-registration";
 
 @import "./pages/dashboard/profile/profile-page";
-@import "./pages/dashboard/requests/request-page-evaluator";
+@import "./pages/dashboard/requests/request-page-staff";
 @import "./pages/dashboard/requests/request-page-supplier";
 @import "./pages/dashboard/ticket/create";
 @import "./pages/dashboard/ticket/list";
@@ -88,29 +89,29 @@ li {
   background: #e4e7ea;
 }
 
-.bg-admin {
+.bg-superuser {
   background-color: #505050;
 }
-.bg-evaluator {
+.bg-staff {
   background-color: #5e7bec;
 }
 .bg-supplier {
   background-color: #f2c901;
 }
-.bg-mechanic {
+.bg-customer {
   background-color: #00a48a;
 }
 
-.box-shadow-admin {
+.box-shadow-superuser {
   box-shadow: 0px 20px 30px rgba(83, 83, 83, 0.3);
 }
-.box-shadow-evaluator {
+.box-shadow-staff {
   box-shadow: 0px 20px 30px rgba(0, 106, 255, 0.3);
 }
 .box-shadow-supplier {
   box-shadow: 0px 20px 30px rgba(242, 201, 1, 0.3);
 }
-.box-shadow-mechanic {
+.box-shadow-customer {
   box-shadow: 0px 20px 30px rgba(0, 164, 138, 0.3);
 }
 
@@ -132,4 +133,15 @@ li {
     border-top: 2px solid #505050;
     animation: loading-spinner 1.5s linear infinite;
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

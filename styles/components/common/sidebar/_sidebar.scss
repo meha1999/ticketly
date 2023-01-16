@@ -15,16 +15,16 @@
     font-weight: 700;
     font-size: 24px;
     color: #ffffff;
-    &.mechanic {
+    &.customer {
       background-color: #00a48a;
     }
     &.supplier {
-      background-color: #EED201;
+      background-color: #eed201;
     }
-    &.evaluator {
+    &.staff {
       background-color: #5e7bec;
     }
-    &.admin {
+    &.superuser {
       background-color: #505050;
     }
   }
@@ -50,17 +50,17 @@
       }
       &.active {
         font-weight: 700;
-        &.mechanic {
+        &.customer {
           color: #00a48a;
         }
         &.supplier {
-          color: #EED201;
+          color: #eed201;
         }
-        &.evaluator {
+        &.staff {
           color: #5e7bec;
         }
-        &.admin {
-          color: #BDBDBD;
+        &.superuser {
+          color: #bdbdbd;
         }
       }
     }
@@ -76,20 +76,20 @@
       .menu {
         &.active {
           font-weight: 700;
-          &.mechanic {
+          &.customer {
             color: #00a48a;
           }
           &.supplier {
-            color: #EED201;
+            color: #eed201;
           }
-          &.evaluator {
+          &.staff {
             color: #5e7bec;
           }
-          &.admin {
-            color: #BDBDBD;
+          &.superuser {
+            color: #bdbdbd;
           }
         }
-       }
+      }
     }
   }
   .logout-btn {
@@ -108,7 +108,7 @@
     color: #ffffff;
     margin-top: auto;
     svg {
-      color: #EED201;
+      color: #eed201;
       font-size: 25px;
     }
   }

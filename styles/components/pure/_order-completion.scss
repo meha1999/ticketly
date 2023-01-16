@@ -63,23 +63,6 @@
       cursor: pointer;
     }
   }
-  .address {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-    width: 40%;
-    .address-title {
-      font-weight: 600;
-      font-size: 14px;
-      color: #999999;
-    }
-    .address-content {
-      font-weight: 600;
-      font-size: 16px;
-      color: #4d4d4d;
-    }
-  }
   .wallet {
     display: flex;
     flex-direction: column;

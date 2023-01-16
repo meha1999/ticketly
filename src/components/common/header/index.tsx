@@ -8,10 +8,10 @@ import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const userType: Record<string, string> = {
-  evaluator: "#5E7BEC",
-  mechanic: "#00A48A",
+  staff: "#5E7BEC",
+  customer: "#00A48A",
   supplier: "#F2C901",
-  admin: "#505050",
+  superuser: "#505050",
 };
 
 const Header = () => {

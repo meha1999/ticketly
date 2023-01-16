@@ -6,12 +6,12 @@ import { BaseService } from "./base.service";
 export class AuthService extends BaseService {
   login(
     payload: any,
-    type: "mechanic" | "admin" | "evaluator" | "supplier"
+    type: "customer" | "superuser" | "staff" | "supplier"
   ): Promise<any> {
     const userType = {
-      admin: "/superuser/",
-      evaluator: "/staff/",
-      mechanic: "/",
+      superuser: "/superuser/",
+      staff: "/staff/",
+      customer: "/",
       supplier: "/supplier/",
     };
     return this.axiosInstanceWithoutToken.post(
@@ -22,12 +22,12 @@ export class AuthService extends BaseService {
 
   signUp(
     payload: any,
-    type: "mechanic" | "admin" | "evaluator" | "supplier"
+    type: "customer" | "superuser" | "staff" | "supplier"
   ): Promise<any> {
     const userType = {
-      admin: "/superuser/",
-      evaluator: "/staff/",
-      mechanic: "/customer/",
+      superuser: "/superuser/",
+      staff: "/staff/",
+      customer: "/customer/",
       supplier: "/supplier/",
     };
     return this.axiosInstanceWithoutToken.post(

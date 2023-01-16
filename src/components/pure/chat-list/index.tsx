@@ -1,5 +1,5 @@
 import MessageCard from "../message-card";
-import img from "images/auth/admin.svg";
+import img from "images/auth/superuser.svg";
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import CustomPortal from "components/common/portal";
@@ -43,7 +43,9 @@ const ChatList: React.FC<ChatListProps> = ({
       const res = await ticketService.getSuppliersList("supplier");
       const finalData = res?.data?.filter(
         (item: any) =>
-          !group?.ticket_group?.some((ticket: any) => ticket?.supplier?.id === item.id)
+          !group?.ticket_group?.some(
+            (ticket: any) => ticket?.supplier?.id === item.id
+          )
       );
       console.log(finalData, res.data, group.ticket_group);
       setSuppliersList(finalData);

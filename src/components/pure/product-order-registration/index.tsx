@@ -73,10 +73,10 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
       </div>
       <form className="form" onSubmit={handleSubmit(handleFinalPayment)}>
         <div className="content">
-          <div className="mechanic-section">
+          <div className="customer-section">
             <div className="field">
-              <span className="label">مکانیک:</span>
-              <div className="mechanic-info">
+              <span className="label">مشتری:</span>
+              <div className="customer-info">
                 <div className="profile-image">
                   <UserIcon color="#00A48A" />
                 </div>

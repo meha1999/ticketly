@@ -1,14 +1,13 @@
 import { FormEvent, useEffect, useState } from "react";
 import Title from "components/common/title";
 import ProfileBold from "public/images/icons/profile_bold.svg";
-import DashboardLayout from "components/layouts/dashboard/supplier";
+import DashboardLayout from "components/layouts/dashboard/customer";
 import Divider from "components/common/divider";
 import TextInput from "components/common/inputs/TextInput";
 import ImageInput from "components/common/inputs/ImageInput";
 import Dropdown from "components/common/inputs/Dropdown";
 import { ProfileService } from "services/profile.service";
 import { GetServerSideProps } from "next";
-import { AuthService } from "services/auth.service";
 import { toBase64 } from "src/tools/tobase64";
 
 interface ProfileFormState {
@@ -28,7 +27,6 @@ interface ChangePassState {
 }
 
 const profileService = new ProfileService();
-const authService = new AuthService();
 
 const Profile = () => {
   const [profileForm, setProfileForm] = useState<ProfileFormState>({
@@ -47,35 +45,9 @@ const Profile = () => {
     newPassRepeat: "",
   });
 
-  const [cities, setCities] = useState([]);
-  const [province, setProvince] = useState([]);
+  const [cities, setCities] = useState<any>([]);
+  const [province, setProvince] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const getCities = async () => {
-      try {
-        const citiesRes = await profileService.getProvince();
-        setProvince(citiesRes.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getCities();
-  }, []);
-
-  useEffect(() => {
-    const getProvince = async () => {
-      try {
-        const provinceRes = await profileService.getCities(
-          profileForm.province ?? 8
-        );
-        setCities(provinceRes.data.shahrs);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getProvince();
-  }, [profileForm.province]);
 
   const submitProfileForm = async (e: FormEvent) => {
     e.preventDefault();
@@ -86,6 +58,11 @@ const Profile = () => {
       //   ...profileForm,
       //   address: `${profileForm.province}-${profileForm.city}-${profileForm.address}`,
       // });
+      console.log({
+        ...profileForm,
+        address: `${profileForm.province}-${profileForm.city}-${profileForm.address}`,
+      });
+
       setLoading(false);
     } catch (error) {}
   };
@@ -105,6 +82,43 @@ const Profile = () => {
   const resetPasswordHandler = (e: React.ChangeEvent<any>) => {
     setResetPass({ ...resetPass, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    const getProvince = async () => {
+      try {
+        const provinceRes = await profileService.getProvince();
+        setProvince(provinceRes.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProvince();
+  }, []);
+
+  useEffect(() => {
+    if (profileForm.province) {
+      const getCities = async () => {
+        try {
+          const citiesRes = await profileService.getCities(
+            profileForm.province ?? 8
+          );
+          setCities(citiesRes.data.shahrs);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getCities();
+    }
+  }, [profileForm.province]);
+
+  useEffect(() => {
+    if (profileForm.province && profileForm.city) return;
+    setProfileForm((prev) => ({
+      ...prev,
+      province: province[7]?.id,
+      city: cities[0]?.id,
+    }));
+  }, [province, cities, profileForm]);
 
   return (
     <DashboardLayout>
@@ -150,14 +164,14 @@ const Profile = () => {
               id="province"
               label="استان"
               currentOptions={province}
-              currentValue={profileForm.province ?? 8}
+              currentValue={profileForm?.province || undefined}
               onChange={setProfileDataHandler}
             />
             <Dropdown
               id="city"
               label="شهر"
               onChange={setProfileDataHandler}
-              currentValue={profileForm.city ?? 0}
+              currentValue={profileForm?.city || undefined}
               currentOptions={cities}
             />
           </div>

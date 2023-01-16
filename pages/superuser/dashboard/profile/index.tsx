@@ -1,14 +1,13 @@
 import { FormEvent, useEffect, useState } from "react";
 import Title from "components/common/title";
 import ProfileBold from "public/images/icons/profile_bold.svg";
-import DashboardLayout from "components/layouts/dashboard/supplier";
+import DashboardLayout from "components/layouts/dashboard/superuser";
 import Divider from "components/common/divider";
 import TextInput from "components/common/inputs/TextInput";
 import ImageInput from "components/common/inputs/ImageInput";
 import Dropdown from "components/common/inputs/Dropdown";
 import { ProfileService } from "services/profile.service";
 import { GetServerSideProps } from "next";
-import { AuthService } from "services/auth.service";
 import { toBase64 } from "src/tools/tobase64";
 
 interface ProfileFormState {
@@ -28,7 +27,6 @@ interface ChangePassState {
 }
 
 const profileService = new ProfileService();
-const authService = new AuthService();
 
 const Profile = () => {
   const [profileForm, setProfileForm] = useState<ProfileFormState>({

@@ -23,13 +23,7 @@ const ImageInput: FC<ImageInputProps> = ({
       </label>
       <div className="input-part">
         <label className="image-input" htmlFor={id}>
-          {image && (
-            <img
-              src={image as string}
-              alt={label}
-              className="image"
-            />
-          )}
+          {image && <img src={image as string} alt={label} className="image" />}
           <label
             htmlFor={id}
             className="image-input-label"
@@ -45,7 +39,7 @@ const ImageInput: FC<ImageInputProps> = ({
             name={id}
             type="file"
             onChange={onChange}
-            accept="image/*"
+            accept=".jpg, .png, .jpeg,*"
           />
         </label>
       </div>

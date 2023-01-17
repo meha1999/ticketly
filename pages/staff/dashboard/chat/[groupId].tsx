@@ -108,9 +108,11 @@ const Chat = () => {
       <Title titleText="صفحه چت" titleIcon={chatIcon} />
       <Divider />
       <OrderCompletion
-        subject={customerTicket.name}
-        name={customerTicket.customer?.username}
-        walletCash={customerTicket.customer?.wallet_account?.amount}
+        ticketSubject={customerTicket.name}
+        customerName={customerTicket.customer?.full_name}
+        customerWalletCash={customerTicket.customer?.wallet_account?.amount}
+        customerPhoto={customerTicket.customer?.photo}
+        customerId={customerTicket.customer?.id}
         openChat={() => setTicketId(customerTicket.id)}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>

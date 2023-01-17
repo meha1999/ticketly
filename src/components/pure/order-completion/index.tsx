@@ -84,6 +84,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
               productName={subject}
               mechanicWalletCash={walletCash}
               suppliersList={supplierList}
+              closeModal={() => setIsOpen(false)}
             />
           </CustomPortal>,
           portalContainer

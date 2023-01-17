@@ -36,15 +36,7 @@ const profileService = new ProfileService();
 const authService = new AuthService();
 
 const Profile = () => {
-  const [profileForm, setProfileForm] = useState<ProfileFormState>({
-    full_name: "",
-    mobile_phone: "",
-    national_id: "",
-    email: "",
-    address: "",
-    ostan: null,
-    shahr: null,
-  });
+  const [profileForm, setProfileForm] = useState<Partial<ProfileFormState>>({});
   const [resetPass, setResetPass] = useState<ChangePassState>({
     currentPass: "",
     newPass: "",

@@ -130,6 +130,7 @@ const Create = () => {
               <Dropdown
                 id="category"
                 label="دسته بندی"
+                disabled={!rootCategories.length}
                 currentOptions={rootCategories}
                 currentValue={selectedRoot}
                 onChange={rootChangeHandler}

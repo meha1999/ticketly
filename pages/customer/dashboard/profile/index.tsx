@@ -15,7 +15,6 @@ import { AuthService } from "services/auth.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
-import { b64toBlob } from "src/tools/b64toBlob";
 
 interface ProfileFormState {
   full_name: string;
@@ -46,9 +45,6 @@ const Profile = () => {
   const [cities, setCities] = useState<any>([]);
   const [province, setProvince] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [binaryImage, setBinaryImage] = useState<string | ArrayBuffer | null>(
-    null
-  );
   const [userProfile, setUserProfile] = useState<string | ArrayBuffer | null>(
     null
   );
@@ -60,8 +56,6 @@ const Profile = () => {
 
   const submitProfileForm = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("rrrr");
-
     try {
       setLoading(true);
       const formRes = await authService.userInfoPatch(profileForm);
@@ -69,7 +63,6 @@ const Profile = () => {
         type: REDUX_ACTION.SET_USER,
         payload: formRes.data,
       });
-
       Toaster.success(
         <ToastComponent
           title="موفقیت امیز"
@@ -88,8 +81,6 @@ const Profile = () => {
       return;
     }
     const dataBase64 = await toBase64(e.target.files[0]);
-    const datBaseBinary = await b64toBlob(e.target.files[0]);
-    setBinaryImage(datBaseBinary);
     setUserProfile(dataBase64);
   };
 

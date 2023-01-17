@@ -44,7 +44,7 @@ export class AuthService extends BaseService {
     return this.axiosInstanceWithToken.get("auth/user/");
   }
 
-  userInfoPatch(userInfo: Partial<ReduxStoreModel["user"]>) {
+  userInfoPatch(userInfo: any) {
     return this.axiosInstanceWithToken.patch("auth/user/", userInfo);
   }
 }

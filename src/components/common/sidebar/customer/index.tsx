@@ -71,6 +71,7 @@ const Sidebar = () => {
       path: "/customer/dashboard/tickets",
       icon: BiEdit,
       disable: true,
+      exact:true,
       subLinks: [
         {
           id: 1,

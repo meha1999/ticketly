@@ -4,8 +4,11 @@ import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import Image from "next/image";
-import { DatePicker } from "react-advance-jalaali-datepicker";
 import ResultPayment from "../result-payment";
+
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 interface ProductOrderRegistrationProps {
   elementRef: React.RefObject<HTMLDivElement>;
@@ -37,21 +40,18 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   const [isResultOpen, setIsResultOpen] = useState<boolean>(false);
   const [selectedSupplier, setSelectedSupplier] = useState<any>();
   const [supplierAddress, setSupplierAddress] = useState<string>("");
+  const [supplyDate, setSupplyDate] = useState<
+    DateObject | DateObject[] | Date | null
+  >(new Date());
+  const [deliveryDate, setDeliveryDate] = useState<
+    DateObject | DateObject[] | Date | null
+  >(new Date());
 
   useCloseByClickOutSide({
     ref: suppliersListRef,
     isOpened: isPaymentOpen,
     setIsOpened: setIsPaymentOpen,
   });
-
-  const handleChangeDate = (unix: any, formatted: any) => {
-    console.log(unix);
-    console.log(formatted);
-  };
-
-  const datePickerInput = (props: any) => {
-    return <input className="date" {...props} />;
-  };
 
   const handleSelectSupplier = (id: number) => {
     const item = suppliersList.filter((item: any) => item.id === id);
@@ -111,11 +111,11 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 </label>
                 <div className="input-shape">
                   <DatePicker
-                    inputComponent={datePickerInput}
-                    placeholder="انتخاب تاریخ"
-                    format="jYYYY/jMM/jDD"
-                    onChange={handleChangeDate}
-                    id="mechanicDate"
+                    value={deliveryDate}
+                    onChange={setDeliveryDate}
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
                   />
                 </div>
               </div>
@@ -188,11 +188,11 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 </label>
                 <div className="input-shape">
                   <DatePicker
-                    inputComponent={datePickerInput}
-                    placeholder="انتخاب تاریخ"
-                    format="jYYYY/jMM/jDD"
-                    onChange={handleChangeDate}
-                    id="supplierDate"
+                    value={supplyDate}
+                    onChange={setSupplyDate}
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
                   />
                 </div>
               </div>

@@ -5,16 +5,22 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import Image from "next/image";
 import ResultPayment from "../result-payment";
-
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { TicketService } from "services/ticket.service";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+
+const ticketService = new TicketService();
 
 interface ProductOrderRegistrationProps {
   elementRef: React.RefObject<HTMLDivElement>;
-  mechanicName: string;
+  customerName: string;
+  customerId: number;
+  customerPhoto: string;
   productName: string;
-  mechanicWalletCash: number;
+  customerWalletCash: number;
   suppliersList: Array<any>;
   closeModal: () => void;
 }
@@ -22,11 +28,17 @@ interface ProductOrderRegistrationProps {
 const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   elementRef,
   suppliersList,
-  mechanicName,
+  customerName,
+  customerId,
+  customerPhoto,
   productName,
-  mechanicWalletCash,
+  customerWalletCash,
   closeModal,
 }) => {
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
+
   const {
     register,
     handleSubmit,
@@ -34,12 +46,12 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   } = useForm();
 
   const suppliersListRef: any = useRef();
-  const paymentResultRef: any = useRef();
 
   const [isPaymentOpen, setIsPaymentOpen] = useState<boolean>(false);
   const [isResultOpen, setIsResultOpen] = useState<boolean>(false);
   const [selectedSupplier, setSelectedSupplier] = useState<any>();
   const [supplierAddress, setSupplierAddress] = useState<string>("");
+  const [paymentStatus, setPaymentStatus] = useState<string>("");
   const [supplyDate, setSupplyDate] = useState<
     DateObject | DateObject[] | Date | null
   >(new Date());
@@ -58,9 +70,33 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
     setSelectedSupplier(item[0]);
     setIsPaymentOpen(false);
   };
+  console.log(selectedSupplier);
 
-  const handleFinalPayment = () => {
-    console.log("y");
+  const handleFinalPayment = async (data: FieldValues) => {
+    try {
+      const finalData = {
+        customer: customerId,
+        name: productName,
+        staff_delivery_time: deliveryDate,
+        staff_delivery_address: data.staff_delivery_address,
+        staff: user?.id,
+        supplier: selectedSupplier?.id,
+        supplier_delivery_time: supplyDate,
+        supplier_delivery_address: data.supplier_delivery_address,
+        total_price: data.total_price,
+        items_order: [],
+      };
+      const res = await ticketService.finalPayment(finalData);
+      if (res.status === 201) {
+        setPaymentStatus("success");
+      } else {
+        setPaymentStatus("failure");
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
     setIsPaymentOpen(false);
     setIsResultOpen(true);
   };
@@ -96,9 +132,18 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 <span className="label">مشتری:</span>
                 <div className="customer-info">
                   <div className="profile-image">
-                    <UserIcon color="#00A48A" />
+                    {customerPhoto ? (
+                      <Image
+                        src={customerPhoto}
+                        alt="photo"
+                        width={43}
+                        height={43}
+                      />
+                    ) : (
+                      <UserIcon color="#00A48A" />
+                    )}
                   </div>
-                  <span>{mechanicName}</span>
+                  <span>{customerName}</span>
                 </div>
               </div>
               <div className="field">
@@ -120,14 +165,21 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 </div>
               </div>
               <div className="field">
-                <label htmlFor="address" className="label">
+                <label htmlFor="staff_delivery_address" className="label">
                   آدرس تحویل:
                 </label>
-                <textarea id="address" className="address"></textarea>
+                <textarea
+                  id="staff_delivery_address"
+                  className="address"
+                  {...register("staff_delivery_address", { required: true })}
+                ></textarea>
+                {errors.staff_delivery_address && (
+                  <p>وارد کردن آدرس اجباری است.</p>
+                )}
               </div>
               <div className="wallet-cash">
                 <span>موجودی کیف پول:</span>
-                <span>{mechanicWalletCash} تومان</span>
+                <span>{customerWalletCash} تومان</span>
               </div>
             </div>
             <div className="supplier-section">
@@ -144,13 +196,15 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                           <Image
                             src={selectedSupplier?.photo}
                             alt="profile-photo"
+                            width={43}
+                            height={43}
                           />
                         ) : (
                           <UserIcon color="#F3C701" />
                         )}
                       </div>
                     )}
-                    <span>{selectedSupplier?.username}</span>
+                    <span>{selectedSupplier?.full_name}</span>
                     {isPaymentOpen ? (
                       <IoIosArrowUp className="down-arrow" />
                     ) : (
@@ -166,16 +220,18 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                           onClick={() => handleSelectSupplier(supplier.id)}
                         >
                           <div className="profile-image">
-                            {selectedSupplier?.photo ? (
+                            {supplier?.photo ? (
                               <Image
-                                src={selectedSupplier?.photo}
+                                src={supplier?.photo}
                                 alt="profile-photo"
+                                width={43}
+                                height={43}
                               />
                             ) : (
                               <UserIcon color="#F3C701" />
                             )}
                           </div>
-                          {supplier.username}
+                          {supplier.full_name}
                         </div>
                       ))}
                     </div>
@@ -197,16 +253,19 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 </div>
               </div>
               <div className="field">
-                <label htmlFor="address" className="label">
+                <label htmlFor="supplier_delivery_address" className="label">
                   آدرس تامین کننده:
                 </label>
                 <textarea
-                  id="address"
+                  id="supplier_delivery_address"
                   className="address"
                   placeholder={supplierAddress}
-                >
-                  {selectedSupplier?.address}
-                </textarea>
+                  {...register("supplier_delivery_address", { required: true })}
+                  value={selectedSupplier?.address}
+                ></textarea>
+                {errors.supplier_delivery_address && (
+                  <p>وارد کردن آدرس اجباری است.</p>
+                )}
               </div>
               <div className="wallet-cash">
                 <span>موجودی کیف پول:</span>
@@ -216,13 +275,20 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
           </div>
           <div className="price-and-payment">
             <div className="final-price">
-              <label htmlFor="price" className="title">
+              <label htmlFor="total_price" className="title">
                 قیمت نهایی:
               </label>
               <div className="price">
-                <input type="number" id="price" min={0} className="number" />
+                <input
+                  type="number"
+                  id="total_price"
+                  min={0}
+                  className="number"
+                  {...register("total_price", { required: true })}
+                />
                 <span>تومان</span>
               </div>
+              {errors.total_price && <p>وارد کردن قیمت اجباری است.</p>}
             </div>
             <button type="submit">پرداخت نهایی</button>
           </div>
@@ -232,6 +298,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
         <ResultPayment
           closeModal={closeModal}
           deductWallet={handleDeductWallet}
+          paymentStatus={paymentStatus}
         />
       )}
     </div>

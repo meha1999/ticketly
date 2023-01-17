@@ -58,7 +58,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
   const handleFetchTicket = async () => {
     try {
-      console.log(ticketId)
       const res = await ticketService.getTicketById(ticketId);
       setTicketInfo(res.data);
     } catch (err) {
@@ -68,7 +67,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   };
 
   useEffect(() => {
-    ticketId&& handleFetchTicket();
+    ticketId && handleFetchTicket();
   }, [ticketId]);
 
   return (

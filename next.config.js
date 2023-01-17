@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [`172.16.151.170`],
+    domains: [`${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}`],
   },
 };
 

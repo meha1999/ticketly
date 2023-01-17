@@ -4,7 +4,7 @@ import React, { FC } from "react";
 interface ImageInputProps {
   id?: string;
   label: string;
-  image: string | ArrayBuffer | null;
+  image: string | ArrayBuffer | Blob;
   inputColor?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

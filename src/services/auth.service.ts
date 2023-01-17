@@ -45,6 +45,8 @@ export class AuthService extends BaseService {
   }
 
   userInfoPatch(userInfo: any) {
-    return this.axiosInstanceWithToken.patch("auth/user/", userInfo);
+    return this.axiosInstanceWithToken.patch("auth/user/", userInfo, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   }
 }

@@ -21,17 +21,15 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await authService.logout();
-      if (res.status === 200) {
-        deleteCookie("role");
-        deleteCookie("token");
-        dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
-        dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        RouterPush("/staff/auth/login");
-      }
+      await authService.logout();
     } catch (err) {
       console.log("err", err);
     } finally {
+      deleteCookie("role");
+      deleteCookie("token");
+      dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });
+      dispatch({ type: REDUX_ACTION.EMPTY_USER });
+      RouterPush("/staff/auth/login");
     }
   };
 

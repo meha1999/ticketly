@@ -145,3 +145,13 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.rmdp-input {
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.rmdp-input:focus {
+  box-shadow: none;
+  border: none;
+}

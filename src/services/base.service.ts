@@ -67,7 +67,10 @@ export abstract class BaseService {
 
     let axiosInstanceWithToken: AxiosInstance;
 
-    if (BaseService.token === null) {
+    if (
+      BaseService.token === null ||
+      BaseService.token !== store.getState().token
+    ) {
       token = store.getState().token;
       if (token) BaseService.setToken(token);
     }

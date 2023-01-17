@@ -4,6 +4,9 @@ import Attach from "images/icons/attach";
 import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
 import { useState } from "react";
+import { ChatService } from "services/chat.service";
+
+const chatService = new ChatService();
 
 interface MessageProps {
   onSend: any;
@@ -21,7 +24,10 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     setAudio(audio);
   };
 
-  const stopMicrophone = () => {
+  const stopMicrophone = async () => {
+    // let data = new FormData();
+    // data.append("file", audio);
+    // const res = await chatService.upload(audio);
     audio.getTracks().forEach((track: any) => track.stop());
     setAudio(null);
   };
@@ -34,8 +40,23 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     }
   };
 
-  const handleFileUpload = () => {
-    console.log("attach");
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let data = new FormData();
+    event.target?.files && data.append("file", event.target.files[0]);
+    console.log(data);
+
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    try {
+      // const res = await chatService.upload(data, config);
+      // console.log(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
   };
 
   const handlePhotoUpload = () => {
@@ -59,11 +80,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         </button>
         <div className="file-upload">
           <label htmlFor="file-input" className="file-input-label">
-            <button
-              type="button"
-              className="tool_btn"
-              onClick={handleFileUpload}
-            >
+            <button type="button" className="tool_btn">
               <Attach color={color} />
             </button>
           </label>
@@ -75,17 +92,20 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
             onChange={handleFileUpload}
           />
         </div>
-        <div className="photo-upload">
-          <label htmlFor="photo" className="photo-input-label">
-            <button
-              type="button"
-              className="tool_btn"
-              onClick={handlePhotoUpload}
-            >
+        <div className="file-upload">
+          <label htmlFor="photo" className="file-input-label">
+            <button type="button" className="tool_btn">
               <ImageUpload color={color} />
             </button>
           </label>
-          <input type="file" name="photo" id="photo" accept="image/*" />
+          <input
+            type="file"
+            id="photo"
+            accept="image/*"
+            className="file-input"
+            title=""
+            onChange={handlePhotoUpload}
+          />
         </div>
       </div>
       <textarea

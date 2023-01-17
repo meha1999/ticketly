@@ -18,20 +18,18 @@ const authService = new AuthService();
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const { pathname, push: RouterPush } = useRouter();
+  const {  push: RouterPush } = useRouter();
   const handleLogout = async () => {
     try {
-      const res = await authService.logout();
-      if (res.status === 200) {
-        deleteCookie("role");
-        deleteCookie("token");
-        dispatch({ type: REDUX_ACTION.EMPTY_TOKEN, payload: null });
-        dispatch({ type: REDUX_ACTION.EMPTY_USER });
-        RouterPush("/customer/auth/login");
-      }
+      await authService.logout();
     } catch (err) {
       console.log("err", err);
     } finally {
+      deleteCookie("role");
+      deleteCookie("token");
+      dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });
+      dispatch({ type: REDUX_ACTION.EMPTY_USER });
+      RouterPush("/customer/auth/login");
     }
   };
 
@@ -71,6 +69,7 @@ const Sidebar = () => {
       path: "/customer/dashboard/tickets",
       icon: BiEdit,
       disable: true,
+      exact: true,
       subLinks: [
         {
           id: 1,

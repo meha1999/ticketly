@@ -8,14 +8,12 @@ import ImageInput from "components/common/inputs/ImageInput";
 import Dropdown from "components/common/inputs/Dropdown";
 import { ProfileService } from "services/profile.service";
 import { GetServerSideProps } from "next";
-import { toBase64 } from "src/tools/tobase64";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthService } from "services/auth.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
-import { b64toBlob } from "src/tools/b64toBlob";
 
 interface ProfileFormState {
   full_name: string;
@@ -36,15 +34,7 @@ const profileService = new ProfileService();
 const authService = new AuthService();
 
 const Profile = () => {
-  const [profileForm, setProfileForm] = useState<ProfileFormState>({
-    full_name: "",
-    mobile_phone: "",
-    national_id: "",
-    email: "",
-    address: "",
-    ostan: null,
-    shahr: null,
-  });
+  const [profileForm, setProfileForm] = useState<Partial<ProfileFormState>>({});
   const [resetPass, setResetPass] = useState<ChangePassState>({
     currentPass: "",
     newPass: "",
@@ -54,9 +44,7 @@ const Profile = () => {
   const [cities, setCities] = useState<any>([]);
   const [province, setProvince] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [binaryImage, setBinaryImage] = useState<string | ArrayBuffer | null>(
-    null
-  );
+  const [binaryImage, setBinaryImage] = useState<string | Blob | null>(null);
   const [userProfile, setUserProfile] = useState<string | ArrayBuffer | null>(
     null
   );
@@ -68,11 +56,22 @@ const Profile = () => {
 
   const submitProfileForm = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("rrrr");
 
     try {
       setLoading(true);
-      const formRes = await authService.userInfoPatch(profileForm);
+      const formData = new FormData();
+      binaryImage && formData.append("photo", binaryImage);
+      profileForm.address && formData.append("address", profileForm.address);
+      profileForm.shahr && formData.append("shahr", `${profileForm.shahr}`);
+      profileForm.full_name &&
+        formData.append("full_name", profileForm.full_name);
+      profileForm.mobile_phone &&
+        formData.append("mobile_phone", profileForm.mobile_phone);
+      profileForm.national_id &&
+        formData.append("national_id", profileForm.national_id);
+      profileForm.ostan && formData.append("ostan", `${profileForm.ostan}`);
+
+      const formRes = await authService.userInfoPatch(formData);
       dispatch({
         type: REDUX_ACTION.SET_USER,
         payload: formRes.data,
@@ -95,10 +94,7 @@ const Profile = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     }
-    const dataBase64 = await toBase64(e.target.files[0]);
-    const datBaseBinary = await b64toBlob(e.target.files[0]);
-    setBinaryImage(datBaseBinary);
-    setUserProfile(dataBase64);
+    setBinaryImage(e.target.files[0]);
   };
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
@@ -138,13 +134,24 @@ const Profile = () => {
   }, [profileForm.ostan]);
 
   useEffect(() => {
-    if (!profileForm.ostan && !profileForm.shahr)
+    if (user?.ostan && !user?.shahr) {
+      const ostan = province.filter((item: any) => user?.ostan === item.id)[0];
       setProfileForm((prev) => ({
         ...prev,
-        province: province[7]?.id,
-        city: cities[0]?.id,
+        ostan: ostan?.id,
       }));
-  }, [profileForm.ostan, profileForm.shahr, province, cities]);
+    }
+    if (user?.ostan && user?.shahr) {
+      const ostan = province.filter((item: any) => user?.ostan === item.id)[0];
+      const shahr = cities.filter((item: any) => user?.shahr === item.id)[0];
+
+      setProfileForm((prev) => ({
+        ...prev,
+        ostan: ostan?.id,
+        shahr: shahr?.id,
+      }));
+    }
+  }, [user]);
 
   useEffect(() => {
     setProfileForm((prev) => ({
@@ -170,7 +177,7 @@ const Profile = () => {
             <ImageInput
               id="photo"
               label="تصویر کاربر"
-              inputColor="#00A48A"
+              inputColor="#5E7BEC"
               onChange={userProfileHandler}
               image={userProfile ?? (user?.photo as string)}
             />
@@ -207,6 +214,7 @@ const Profile = () => {
             <Dropdown
               id="ostan"
               label="استان"
+              disabled={!province.length}
               currentOptions={province}
               currentValue={profileForm?.ostan || undefined}
               onChange={setProfileDataHandler}
@@ -215,6 +223,7 @@ const Profile = () => {
               id="shahr"
               label="شهر"
               currentOptions={cities}
+              disabled={!cities.length}
               onChange={setProfileDataHandler}
               currentValue={profileForm?.shahr || undefined}
             />
@@ -241,8 +250,8 @@ const Profile = () => {
               <button
                 style={{
                   color: "#fff",
-                  backgroundColor: "#00A48A",
-                  boxShadow: `0px 10px 20px #00A48A50 `,
+                  backgroundColor: "#5E7BEC",
+                  boxShadow: `0px 10px 20px #5E7BEC50 `,
                 }}
                 type="submit"
               >
@@ -283,8 +292,8 @@ const Profile = () => {
               <button
                 style={{
                   color: "#fff",
-                  backgroundColor: "#00A48A",
-                  boxShadow: `0px 10px 20px #00A48A50 `,
+                  backgroundColor: "#5E7BEC",
+                  boxShadow: `0px 10px 20px #5E7BEC50 `,
                 }}
                 type="submit"
               >

@@ -13,6 +13,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { setCookies } from "cookies-next";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import OtpCodeModal from "components/common/modal/OtpCodeModal";
 
 const authService = new AuthService();
 
@@ -20,11 +21,17 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
+    resetField,
     formState: { errors },
   } = useForm();
-  const dispatch = useDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isValidateModalOpen, setIsValidateModalOpen] = useState(false);
+  const [signUpValidateType, setSignUpValidateType] = useState<
+    "email" | "mobile"
+  >("email");
 
   const signUpUser = async (data: FieldValues) => {
     setLoading(true);
@@ -44,25 +51,36 @@ const SignUp = () => {
     }
   };
 
+  const submitWithOtpCode = (otp: string) => {
+    console.log(otp);
+  };
+
+  useEffect(() => {
+    resetField(signUpValidateType);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signUpValidateType]);
+
   return (
     <div className="sign-up">
       <form className="form" onSubmit={handleSubmit(signUpUser)}>
         <div className="input-container">
+          <label htmlFor="full_name">نام و نام خانوادگی :</label>
+          <input
+            type="text"
+            id="full_name"
+            {...register("full_name", { required: true })}
+          />
+          {errors.full_name && <p>وارد کردن نام و نام خانوادگی اجباری است.</p>}
+        </div>
+        <div className="input-container">
           <label htmlFor="username">نام کاربری:</label>
+
           <input
             type="text"
             id="username"
             {...register("username", { required: true })}
           />
           {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
-        </div>
-        <div className="input-container">
-          <label htmlFor="name">آدرس ایمیل:</label>
-          <input
-            type="email"
-            id="email"
-            {...register("email", { required: true })}
-          />
         </div>
         <div className="password">
           <div className="input-container">
@@ -88,22 +106,62 @@ const SignUp = () => {
           <span>یا ثبت نام با</span>
           <div className="line"></div>
         </div>
-        <div className="google">
-          <Image src={googleLogo} alt="google" />
-          <span>ثبت نام با گوگل</span>
+        <div className="type-change">
+          <button
+            type="button"
+            className={`item ${
+              signUpValidateType === "email" ? "active" : ""
+            } `}
+            onClick={() => setSignUpValidateType("email")}
+          >
+            ایمیل
+          </button>
+          <button
+            type="button"
+            className={`item ${
+              signUpValidateType === "mobile" ? "active" : ""
+            } `}
+            onClick={() => setSignUpValidateType("mobile")}
+          >
+            شماره موبایل
+          </button>
+        </div>
+        <div className="input-container">
+          {signUpValidateType === "email" ? (
+            <input
+              id="email"
+              type="email"
+              {...register("email", { required: true })}
+            />
+          ) : (
+            <input
+              id="mobile"
+              type="mobile"
+              maxLength={11}
+              {...register("mobile", { required: true })}
+            />
+          )}
         </div>
         <button
-          type="submit"
+          // type="submit"
+          onClick={() => setIsValidateModalOpen(true)}
           className="sign-up-btn bg-supplier box-shadow-supplier"
         >
           {loading ? "درحال انجام" : "ثبت نام"}
         </button>
       </form>
       <Image src={authTools} alt="tools" className="tools-image" />
+      <OtpCodeModal
+        isOpen={isValidateModalOpen}
+        value={getValues(signUpValidateType)}
+        onClose={() => setIsValidateModalOpen(false)}
+        onSubmission={(otp) => submitWithOtpCode(otp)}
+        title={signUpValidateType === "email" ? "ایمیل" : "شماره تلفن"}
+        onChangeValue={(newValue) => setValue(signUpValidateType, newValue)}
+      />
     </div>
   );
 };
-
 const Login = () => {
   const {
     register,

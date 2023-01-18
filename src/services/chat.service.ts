@@ -7,7 +7,7 @@ export class ChatService extends BaseService {
     return this.axiosInstanceWithToken.get(`/chat/${ticketId}/messages/all/`);
   }
 
-  upload(payload: any, config: any): Promise<any> {
-    return this.axiosInstanceWithToken.put(`/file/upload/`, payload, config);
+  upload(data: any, config: any): Promise<any> {
+    return this.axiosInstanceWithToken.post("/file/upload/", data, config);
   }
 }

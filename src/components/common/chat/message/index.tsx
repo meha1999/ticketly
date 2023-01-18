@@ -3,7 +3,7 @@ import Microphone from "images/icons/microphone";
 import Attach from "images/icons/attach";
 import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
-import { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { ChatService } from "services/chat.service";
 
 const chatService = new ChatService();
@@ -25,9 +25,23 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
   };
 
   const stopMicrophone = async () => {
-    // let data = new FormData();
-    // data.append("file", audio);
-    // const res = await chatService.upload(audio);
+    if (!audio) {
+      return;
+    } else {
+      try {
+        const voice = new Blob([audio], { type: "audio/wav" });
+        const data = new FormData();
+        data.append("file", audio);
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        // const response = await chatService.upload(data, config);
+        // onSend(response.data.file);
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
+    }
     audio.getTracks().forEach((track: any) => track.stop());
     setAudio(null);
   };
@@ -40,27 +54,42 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     }
   };
 
-  const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let data = new FormData();
-    event.target?.files && data.append("file", event.target.files[0]);
-    console.log(data);
-
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
-    try {
-      // const res = await chatService.upload(data, config);
-      // console.log(res);
-    } catch (error) {
-      console.log(error);
-    } finally {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    } else {
+      try {
+        const data = new FormData();
+        data.append("file", e.target.files[0]);
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        const response = await chatService.upload(data, config);
+        onSend(response.data.file);
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
     }
   };
 
-  const handlePhotoUpload = () => {
-    console.log("photo");
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    } else {
+      try {
+        const data = new FormData();
+        data.append("file", e.target.files[0]);
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        const response = await chatService.upload(data, config);
+        onSend(response.data.file_pic);
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
+    }
   };
 
   const handleSubmit = (e: any) => {
@@ -101,7 +130,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           <input
             type="file"
             id="photo"
-            accept="image/*"
+            accept=".png, .jpg, .jpeg"
             className="file-input"
             title=""
             onChange={handlePhotoUpload}

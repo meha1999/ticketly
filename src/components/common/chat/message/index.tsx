@@ -31,12 +31,12 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       try {
         const voice = new Blob([audio], { type: "audio/wav" });
         const data = new FormData();
-        data.append("file", audio);
+        data.append("file", voice, `${new Date().toISOString()}.wav`);
         const config = {
           headers: { "content-type": "multipart/form-data" },
         };
-        // const response = await chatService.upload(data, config);
-        // onSend(response.data.file);
+        const response = await chatService.upload(data, config);
+        onSend(response.data.file);
       } catch (error) {
         console.log(error);
       } finally {

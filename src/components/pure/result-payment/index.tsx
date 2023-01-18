@@ -6,14 +6,14 @@ import { FC } from "react";
 interface ResultPaymentProps {
   closeModal: () => void;
   deductWallet: () => void;
+  paymentStatus: string;
 }
 
 const ResultPayment: FC<ResultPaymentProps> = ({
   closeModal,
   deductWallet,
+  paymentStatus,
 }) => {
-  const paymentStatus: string = "success";
-
   return (
     <div className="result-payment">
       <div className="content">

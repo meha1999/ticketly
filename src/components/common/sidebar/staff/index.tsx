@@ -65,6 +65,13 @@ const Sidebar = () => {
     },
     {
       id: 5,
+      title: "لیست تامین کنندگان",
+      path: "/staff/dashboard/providers",
+      icon: GrContactInfo,
+      subLinks: [],
+    },
+    {
+      id: 6,
       title: "درخواست ها",
       path: "/staff/dashboard/tickets",
       icon: BiEdit,
@@ -86,13 +93,6 @@ const Sidebar = () => {
           path: "/staff/dashboard/tickets/closed",
         },
       ],
-    },
-    {
-      id: 6,
-      title: "لیست تامین کنندگان",
-      path: "/staff/dashboard/providers",
-      icon: GrContactInfo,
-      subLinks: [],
     },
   ];
 

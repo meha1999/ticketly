@@ -179,7 +179,11 @@ const Profile = () => {
               label="تصویر کاربر"
               inputColor="#5E7BEC"
               onChange={userProfileHandler}
-              image={userProfile ?? (user?.photo as string)}
+              image={
+                binaryImage
+                  ? URL.createObjectURL(binaryImage as any)
+                  : userProfile ?? (user?.photo as string)
+              }
             />
           </div>
           <div className="form-item">

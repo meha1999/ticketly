@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-interface OrdersProps {
+interface OrdersIconProps {
   color: string;
 }
 
-const Orders: FC<OrdersProps> = ({ color }) => {
+const OrdersIcon: FC<OrdersIconProps> = ({ color }) => {
   return (
     <svg
       width="18"
@@ -27,4 +27,4 @@ const Orders: FC<OrdersProps> = ({ color }) => {
   );
 };
 
-export default Orders;
+export default OrdersIcon;

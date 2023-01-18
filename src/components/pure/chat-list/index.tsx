@@ -118,8 +118,8 @@ const ChatList: React.FC<ChatListProps> = ({
             <MessageCard
               key={index}
               onChatChange={() => onChatChange(item.id)}
-              profileImage={item?.profileImage}
-              name={item.supplier?.username}
+              profileImage={item.supplier?.photo}
+              name={item.supplier?.full_name}
               message={item.name}
               time={item.updated_at}
               selected={ticketId === item.id}

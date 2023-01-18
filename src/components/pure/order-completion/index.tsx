@@ -5,20 +5,25 @@ import ReactDOM from "react-dom";
 import { TicketService } from "services/ticket.service";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import ProductOrderRegistration from "../product-order-registration";
+import Image from "next/image";
 
 const ticketService = new TicketService();
 
 interface OrderCompletionProps {
-  subject: string;
-  name: string;
-  walletCash: number;
+  ticketSubject: string;
+  customerName: string;
+  customerWalletCash: number;
+  customerPhoto: string;
+  customerId: number;
   openChat: () => void;
 }
 
 const OrderCompletion: FC<OrderCompletionProps> = ({
-  subject,
-  name,
-  walletCash,
+  ticketSubject,
+  customerName,
+  customerWalletCash,
+  customerPhoto,
+  customerId,
   openChat,
 }) => {
   const portalContainer: any = document.getElementById("portal");
@@ -42,21 +47,25 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   const handleOrderRegistration = () => setIsOpen(!isOpen);
 
   useEffect(() => {
-    isOpen && getSuppliersList();
+    getSuppliersList();
   }, [isOpen]);
 
   return (
     <div className="order-completion">
       <div className="subject">
         <span className="subject-title">موضوع تیکت:</span>
-        <span className="subject-name">{subject}</span>
+        <span className="subject-name">{ticketSubject}</span>
       </div>
       <div className="user">
         <div className="heading">
           <div className="profile-image">
-            <UserIcon color="#00A48A" />
+            {customerPhoto ? (
+              <Image src={customerPhoto} alt="photo" width={35} height={35} />
+            ) : (
+              <UserIcon color="#00A48A" />
+            )}
           </div>
-          <span>{name}</span>
+          <span>{customerName}</span>
         </div>
         <button className="chat-user" onClick={openChat}>
           چت با مشتری
@@ -65,7 +74,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
       <div className="wallet">
         <span className="wallet-title">موجودی کیف پول:</span>
         <div className="tools">
-          <div className="price">{walletCash} تومان</div>
+          <div className="price">{customerWalletCash} تومان</div>
           <button
             type="button"
             className="order-btn"
@@ -80,10 +89,13 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           <CustomPortal>
             <ProductOrderRegistration
               elementRef={orderRegistrationModalRef}
-              mechanicName={name}
-              productName={subject}
-              mechanicWalletCash={walletCash}
+              customerName={customerName}
+              customerId={customerId}
+              customerPhoto={customerPhoto}
+              productName={ticketSubject}
+              customerWalletCash={customerWalletCash}
               suppliersList={supplierList}
+              closeModal={() => setIsOpen(false)}
             />
           </CustomPortal>,
           portalContainer

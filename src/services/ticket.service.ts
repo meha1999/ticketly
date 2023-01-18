@@ -4,7 +4,7 @@ export class TicketService extends BaseService {
   getTickets() {
     return this.axiosInstanceWithToken.get("/ticket/");
   }
-  
+
   getTicketById(id: string) {
     return this.axiosInstanceWithToken.get(`/ticket/${id}/`);
   }
@@ -36,5 +36,9 @@ export class TicketService extends BaseService {
 
   addSuppliersToGroup(id: string, data: any) {
     return this.axiosInstanceWithToken.patch(`/ticket/group/${id}/`, data);
+  }
+
+  finalPayment(data: any) {
+    return this.axiosInstanceWithToken.post(`/order/`, data);
   }
 }

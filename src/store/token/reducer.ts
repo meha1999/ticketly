@@ -11,7 +11,7 @@ export function reducer(
     case REDUX_ACTION.SET_TOKEN:
       return action.payload;
     case REDUX_ACTION.EMPTY_TOKEN:
-      return action.payload;
+      return null;
     default:
       return prevState ? prevState : null;
   }

@@ -67,7 +67,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   };
 
   useEffect(() => {
-    handleFetchTicket();
+    ticketId && handleFetchTicket();
   }, [ticketId]);
 
   return (

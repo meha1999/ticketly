@@ -68,54 +68,69 @@
         color: #5f5f5f;
       }
     }
-    .file-upload {
-      width: 89%;
+    .file-upload-content {
       display: flex;
-      .file {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      flex-direction: column;
+      gap: 15px;
+      width: 87.5%;
+      border-bottom: 1px solid #c5c5c5;
+      padding-bottom: 15px;
+      .inputs-container {
         width: 100%;
-        .file-input-label {
-          border: none;
-          background: #def1ee;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        .upload-input-container {
+          width: 176px;
+          height: 50px;
           border-radius: 25px;
-          display: inline-flex;
-          justify-content: center;
-          align-items: center;
-          gap: 5px;
-          padding: 10px 30px;
-          font-weight: 400;
-          font-size: 16px;
-          color: #00a48a;
-          outline: none;
-          user-select: none;
-          cursor: pointer;
-        }
-        div {
-          display: flex;
-          flex-direction: column;
-          padding-top: 20px;
-          gap: 5px;
-          width: 85%;
-          .file-input {
-            display: inline-flex;
+          .upload-input-label {
+            cursor: pointer;
+            border-radius: inherit;
+            background: #d7eeeb;
+            display: flex;
             justify-content: center;
             align-items: center;
-            background: #ffffff;
-            border-radius: 25px;
-            padding: 10px 30px;
-            font-weight: 400;
-            font-size: 16px;
             width: 100%;
+            height: 100%;
+            .title {
+              font-weight: 600;
+              font-size: 18px;
+              color: #00a48a;
+              margin-right: 7px;
+            }
+          }
+          .upload-input {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border-radius: inherit;
+            opacity: 0;
             &::file-selector-button {
               display: none;
             }
           }
-          .allowed-types {
-            font-weight: 400;
-            font-size: 14px;
-            color: #838383;
+        }
+      }
+      .uploaded-files {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 100px;
+        overflow-y: scroll;
+        .uploaded-file-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          .file {
+            font-weight: 600;
+            font-size: 18px;
+            color: #505050;
+          }
+          svg {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
           }
         }
       }

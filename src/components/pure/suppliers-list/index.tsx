@@ -60,7 +60,7 @@ const SuppliersList: FC<SuppliersListProps> = ({
                   <span className="row-number">{index + 1}</span>
                   <div className="profile-image">
                     {supplier.photo ? (
-                      <Image src={supplier.photo} alt="profile-image" />
+                      <Image src={supplier.photo} alt="profile-image"  width={42} height={42}/>
                     ) : (
                       <UserIcon color="#F3C701" />
                     )}

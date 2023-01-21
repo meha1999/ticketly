@@ -1,5 +1,4 @@
 import MessageCard from "../message-card";
-import img from "images/auth/superuser.svg";
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import CustomPortal from "components/common/portal";
@@ -76,6 +75,7 @@ const ChatList: React.FC<ChatListProps> = ({
         ticket_group: group.ticket_group[0].ticket_group,
         status: "PENDING",
         branch_category: group.ticket_group[0].branch_category,
+        order_ticket: [],
       };
     });
     const finalData = {

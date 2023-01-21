@@ -33,7 +33,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       console.log(audiofile);
       const data = new FormData();
       data.append("file", audiofile);
-      data.append("file_type", "FILE");
+      data.append("file_type", "VOICE");
       const config = {
         headers: { "content-type": "multipart/form-data" },
       };

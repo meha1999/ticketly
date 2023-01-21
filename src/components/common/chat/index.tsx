@@ -104,6 +104,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             key={index}
             hasSeen={item.seen}
             message={item.text}
+            file={item.file}
             name={item.sender.username}
             profileImage={item.sender.photo}
             color={userType[item.sender.role]}

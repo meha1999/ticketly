@@ -8,14 +8,14 @@ import ImageInput from "components/common/inputs/ImageInput";
 import Dropdown from "components/common/inputs/Dropdown";
 import { ProfileService } from "services/profile.service";
 import { GetServerSideProps } from "next";
-import { toBase64 } from "src/tools/tobase64";
+// import { toBase64 } from "src/tools/tobase64";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthService } from "services/auth.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
-import { b64toBlob } from "src/tools/b64toBlob";
+// import { b64toBlob } from "src/tools/b64toBlob";
 
 interface ProfileFormState {
   full_name: string;
@@ -60,8 +60,6 @@ const Profile = () => {
 
   const submitProfileForm = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("rrrr");
-
     try {
       setLoading(true);
       const formRes = await authService.userInfoPatch(profileForm);
@@ -87,10 +85,10 @@ const Profile = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     }
-    const dataBase64 = await toBase64(e.target.files[0]);
-    const datBaseBinary = await b64toBlob(e.target.files[0]);
-    setBinaryImage(datBaseBinary);
-    setUserProfile(dataBase64);
+    // const dataBase64 = await toBase64(e.target.files[0]);
+    // const datBaseBinary = await b64toBlob(e.target.files[0]);
+    // setBinaryImage(datBaseBinary);
+    // setUserProfile(dataBase64);
   };
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
@@ -99,6 +97,42 @@ const Profile = () => {
 
   const resetPasswordHandler = (e: React.ChangeEvent<any>) => {
     setResetPass({ ...resetPass, [e.target.name]: e.target.value });
+  };
+
+  const handleChangePassword = async () => {
+    if (
+      !resetPass.currentPass ||
+      !resetPass.newPass ||
+      !resetPass.newPassRepeat
+    ) {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="پر کردن هر سه فیلد اجباری است."
+        />
+      );
+      return;
+    } else {
+      try {
+        const data = {
+          new_password1: resetPass.newPass,
+          new_password2: resetPass.newPassRepeat,
+        };
+        const res = await authService.changePassword(data);
+        if (res.status === 200) {
+          setResetPass({ currentPass: "", newPass: "", newPassRepeat: "" });
+          Toaster.success(
+            <ToastComponent
+              title="موفقیت امیز"
+              description="رمز‌عبور شما با موفقیت تغییر یافت."
+            />
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
+    }
   };
 
   useEffect(() => {
@@ -278,7 +312,8 @@ const Profile = () => {
                   backgroundColor: "#505050",
                   boxShadow: `0px 10px 20px #50505050 `,
                 }}
-                type="submit"
+                type="button"
+                onClick={handleChangePassword}
               >
                 تایید
               </button>

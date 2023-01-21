@@ -105,6 +105,42 @@ const Profile = () => {
     setResetPass({ ...resetPass, [e.target.name]: e.target.value });
   };
 
+  const handleChangePassword = async () => {
+    if (
+      !resetPass.currentPass ||
+      !resetPass.newPass ||
+      !resetPass.newPassRepeat
+    ) {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="پر کردن هر سه فیلد اجباری است."
+        />
+      );
+      return;
+    } else {
+      try {
+        const data = {
+          new_password1: resetPass.newPass,
+          new_password2: resetPass.newPassRepeat,
+        };
+        const res = await authService.changePassword(data);
+        if (res.status === 200) {
+          setResetPass({ currentPass: "", newPass: "", newPassRepeat: "" });
+          Toaster.success(
+            <ToastComponent
+              title="موفقیت امیز"
+              description="رمز‌عبور شما با موفقیت تغییر یافت."
+            />
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+      }
+    }
+  };
+
   useEffect(() => {
     const getProvince = async () => {
       try {
@@ -183,7 +219,8 @@ const Profile = () => {
                 binaryImage
                   ? URL.createObjectURL(binaryImage as any)
                   : userProfile ?? (user?.photo as string)
-              }            />
+              }
+            />
           </div>
           <div className="form-item">
             <TextInput
@@ -298,7 +335,8 @@ const Profile = () => {
                   backgroundColor: "#5E7BEC",
                   boxShadow: `0px 10px 20px #5E7BEC50 `,
                 }}
-                type="submit"
+                type="button"
+                onClick={handleChangePassword}
               >
                 تایید
               </button>

@@ -49,4 +49,8 @@ export class AuthService extends BaseService {
       headers: { "Content-Type": "multipart/form-data" },
     });
   }
+
+  changePassword(data: any) {
+    return this.axiosInstanceWithToken.post("/auth/password/change/", data);
+  }
 }

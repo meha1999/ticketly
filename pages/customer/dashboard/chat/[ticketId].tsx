@@ -16,6 +16,10 @@ const Chat = () => {
     (store) => store.user
   );
 
+  const token: any = useSelector<ReduxStoreModel, ReduxStoreModel["token"]>(
+    (store: ReduxStoreModel) => store.token
+  );
+
   const [socketUrl, setSocketUrl] = useState(
     `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${router.query.ticketId}/`
   );
@@ -30,8 +34,10 @@ const Chat = () => {
 
   const [messageHistory, setMessageHistory] = useState<any>([]);
 
-  const { sendJsonMessage, lastMessage, readyState }: any =
-    useWebSocket(socketUrl);
+  const { sendJsonMessage, lastMessage, readyState }: any = useWebSocket(
+    socketUrl,
+    { queryParams: { token: token } }
+  );
 
   const fetchMessageHistory = async () => {
     try {
@@ -51,9 +57,13 @@ const Chat = () => {
   }, [lastMessage, setMessageHistory]);
 
   const handleClickSendMessage = useCallback(
-    (message: any) =>
+    (
+      message: string | number,
+      type?: "image" | "video" | "file" | "voice" | "text"
+    ) =>
       sendJsonMessage({
-        message: message,
+        text: type === "text" ? message : null,
+        file: type !== "text" ? message : null,
         sender: {
           pk: user?.id,
         },
@@ -69,10 +79,14 @@ const Chat = () => {
     [ReadyState.CLOSED]: "Closed",
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState as number];
-  
+
   return (
     <DashboardLayout>
-      <ChatComponent data={messageHistory} onSend={handleClickSendMessage} ticketId={router.query.ticketId}/>
+      <ChatComponent
+        data={messageHistory}
+        onSend={handleClickSendMessage}
+        ticketId={router.query.ticketId}
+      />
     </DashboardLayout>
   );
 };

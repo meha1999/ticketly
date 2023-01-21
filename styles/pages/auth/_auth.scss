@@ -82,9 +82,6 @@
       background-color: #f4f6f8;
       border-radius: 60px 0 60px 60px;
       height: 90%;
-      background-image: url("../../../public/images/auth.svg");
-      background-repeat: no-repeat;
-      background-size: cover;
       .login {
         width: 100%;
         height: 100%;
@@ -188,9 +185,12 @@
         }
         .tools-image {
           position: absolute;
-          left: -88px;
+          top: 0;
+          left: 0;
           width: 65%;
           height: 100%;
+          object-fit: cover;
+          border-radius: 60px 0 0 60px;
         }
       }
       .sign-up {
@@ -288,9 +288,12 @@
         }
         .tools-image {
           position: absolute;
-          left: -88px;
+          top: 0;
+          left: 0px;
           width: 65%;
           height: 100%;
+          object-fit: cover;
+          border-radius: 60px 0 0 60px;
         }
         .type-change {
           padding: 4px 6px;

@@ -1,10 +1,11 @@
-const path = require("path");
 /** @type {import('next').NextConfig} */
-
-module.exports = {
+console.log(process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL);
+const nextConfig = {
   reactStrictMode: true,
-  sassOptions: {
-    includePaths: [path.join(__dirname, "styles")],
+  output: "standalone",
+  images: {
+    domains: [`${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}`],
   },
-  output: 'standalone',
 };
+
+module.exports = nextConfig;

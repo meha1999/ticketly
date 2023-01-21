@@ -26,7 +26,10 @@ const userType: Record<string, string> = {
 interface ChatComponentProps {
   data: Array<any>;
   ticketId: any;
-  onSend: (message: any) => any;
+  onSend: (
+    message: string | number,
+    type: "image" | "video" | "file" | "voice" | "text"
+  ) => any;
 }
 
 const ticketService = new TicketService();
@@ -100,7 +103,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           <MessagePreview
             key={index}
             hasSeen={item.seen}
-            message={item.content}
+            message={item.text}
             name={item.sender.username}
             profileImage={item.sender.photo}
             color={userType[item.sender.role]}

@@ -5,52 +5,44 @@ import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
 import React, { FormEvent, useState } from "react";
 import { ChatService } from "services/chat.service";
+import { useReactMediaRecorder } from "react-media-recorder";
+import useRecorder from "src/tools/custom-hooks/use-recorder";
+import { UseRecorder } from "src/model/recorder";
 
 const chatService = new ChatService();
 
 interface MessageProps {
-  onSend: any;
+  onSend: (
+    message: string | number,
+    type: "image" | "video" | "file" | "voice" | "text"
+  ) => any;
   color: string;
 }
 
 const Message: React.FC<MessageProps> = ({ onSend, color }) => {
-  const [audio, setAudio] = useState<any>(null);
-
-  const getMicrophone = async () => {
-    const audio = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: false,
-    });
-    setAudio(audio);
-  };
+  const { recorderState, ...handlers }: UseRecorder = useRecorder();
 
   const stopMicrophone = async () => {
-    if (!audio) {
-      return;
-    } else {
-      try {
-        const voice = new Blob([audio], { type: "audio/wav" });
-        const data = new FormData();
-        data.append("file", voice, `${new Date().toISOString()}.wav`);
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
-        const response = await chatService.upload(data, config);
-        onSend(response.data.file);
-      } catch (error) {
-        console.log(error);
-      } finally {
-      }
-    }
-    audio.getTracks().forEach((track: any) => track.stop());
-    setAudio(null);
-  };
-
-  const toggleMicrophone = () => {
-    if (audio) {
-      stopMicrophone();
-    } else {
-      getMicrophone();
+    handlers.saveRecording();
+    try {
+      const audioBlob = await fetch(recorderState.audio as string).then((r) =>
+        r.blob()
+      );
+      const audiofile = new File([audioBlob], ".wav", {
+        type: "audio/wav",
+      });
+      console.log(audiofile);
+      const data = new FormData();
+      data.append("file", audiofile);
+      data.append("file_type", "FILE");
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      const response = await chatService.upload(data, config);
+      onSend(response.data.id, "voice");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -61,11 +53,13 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       try {
         const data = new FormData();
         data.append("file", e.target.files[0]);
+        data.append("file_type", "FILE");
+
         const config = {
           headers: { "content-type": "multipart/form-data" },
         };
         const response = await chatService.upload(data, config);
-        onSend(response.data.file);
+        onSend(response.data.id, "file");
       } catch (error) {
         console.log(error);
       } finally {
@@ -80,11 +74,12 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       try {
         const data = new FormData();
         data.append("file", e.target.files[0]);
+        data.append("file_type", "IMAGE");
         const config = {
           headers: { "content-type": "multipart/form-data" },
         };
         const response = await chatService.upload(data, config);
-        onSend(response.data.file_pic);
+        onSend(response.data.id, "image");
       } catch (error) {
         console.log(error);
       } finally {
@@ -92,19 +87,27 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     }
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSendTextMessage = (e: any) => {
     e.preventDefault();
-    onSend(e.target.children[1].value);
+    onSend(e.target.children[1].value, "text");
     e.target.children[1].value = "";
   };
 
   return (
-    <form className="message-wrapper" onSubmit={handleSubmit}>
+    <form className="message-wrapper" onSubmit={handleSendTextMessage}>
       <div className="tools">
-        <button type="button" className="tool_btn" onClick={toggleMicrophone}>
+        <button
+          type="button"
+          className="tool_btn"
+          onClick={() => {
+            !recorderState.initRecording
+              ? handlers.startRecording()
+              : stopMicrophone();
+          }}
+        >
           <Microphone
-            color={audio ? "#FA1744" : color}
-            classStyle={`${audio ? "fade-in" : ""}`}
+            color={recorderState.initRecording ? "#FA1744" : color}
+            classStyle={`${recorderState.initRecording ? "fade-in" : ""}`}
           />
         </button>
         <div className="file-upload">

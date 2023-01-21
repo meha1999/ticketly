@@ -3,9 +3,8 @@ import Microphone from "images/icons/microphone";
 import Attach from "images/icons/attach";
 import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
-import React, { FormEvent, useState } from "react";
+import React from "react";
 import { ChatService } from "services/chat.service";
-import { useReactMediaRecorder } from "react-media-recorder";
 import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
 

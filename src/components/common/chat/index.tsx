@@ -108,7 +108,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         {data?.map((item, index) => (
           <MessagePreview
             key={index}
-            type={index === data.length - 1 ? "image" : "text"}
             hasSeen={item.seen}
             message={item.text}
             file={item.file}

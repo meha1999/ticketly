@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FC, useEffect, useRef } from "react";
 import Seen from "images/icons/seen";
 import ImageMassageViewer from "../ImageMassageViewer";
+import FileMassageDownloader from "../FileMassageDownloader";
 
 interface MessagePreviewProps {
   profileImage: string;
@@ -34,6 +35,18 @@ const MessagePreview: FC<MessagePreviewProps> = ({
     });
   }, [count]);
 
+  const fileViewerHandler = (file: any) => {
+    const Components: Record<string, any> = {
+      IMAGE: (
+        <ImageMassageViewer thumbImg={file.file_pic} bigImage={file.file} />
+      ),
+      FILE: <FileMassageDownloader fileDownloadSrc={file.file} fileSize={file.size}/>,
+      VIDEO: <span />,
+      VOICE: <span />,
+    };
+    return Components[file.file_type] || "";
+  };
+
   return (
     <div className="message-preview" ref={first}>
       <div className="profile-image">
@@ -44,22 +57,11 @@ const MessagePreview: FC<MessagePreviewProps> = ({
         )}
       </div>
       <span className="name">{name}</span>
-      {message ? (
-        <div className="message">
-          {file === "image" ? (
-            <>
-              <ImageMassageViewer />
-            </>
-          ) : (
-            <>
-              <div className="content">{message!}</div>
-              <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />{" "}
-            </>
-          )}
-        </div>
+      {!message?.length ? (
+        <div className="message">{fileViewerHandler(file)}</div>
       ) : (
         <div className="message">
-          <div className="content">{file?.file}</div>
+          <div className="content">{message}</div>
           <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />
         </div>
       )}

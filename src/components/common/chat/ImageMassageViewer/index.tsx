@@ -1,11 +1,19 @@
 import Modal from "components/common/modal/Modal";
 import Image from "next/image";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { BsArrowDownCircle } from "react-icons/bs";
 
-const ImageMassageViewer = ({ img }: { img?: string }) => {
+interface ImageMassageViewerProps {
+  thumbImg: string;
+  bigImage: string;
+}
+
+const ImageMassageViewer: FC<ImageMassageViewerProps> = ({
+  thumbImg,
+  bigImage,
+}) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [openImage, setOpenImage] = useState(false);
 
   return (
@@ -17,16 +25,20 @@ const ImageMassageViewer = ({ img }: { img?: string }) => {
       }}
     >
       <Image
+        src={isImageLoaded ? bigImage : thumbImg}
         width={180}
         height={180}
+        alt="messaga image"
+        placeholder="blur"
+        blurDataURL={thumbImg}
         onClick={() => isImageLoaded && setOpenImage(true)}
         className={isImageLoaded ? "active" : ""}
-        // onLoadingComplete={() => {
-        //   setLoading(false);
-        //   setIsImageLoaded(true);
-        // }}
-        alt="messaga image"
-        src="http://172.16.151.226:5000/media/files/blured_79f3683a6263dc31b16276851991176633vw9afDE59p6lKY0_faypwT7.png"
+        onLoadStart={() => {
+          setLoading(true);
+        }}
+        onLoadingComplete={() => {
+          setLoading(false);
+        }}
       />
       {!isImageLoaded && (
         <span className="download-icon">
@@ -36,14 +48,12 @@ const ImageMassageViewer = ({ img }: { img?: string }) => {
       <Modal isOpen={openImage} onClose={() => setOpenImage(false)}>
         <Image
           width={600}
+          src={bigImage}
           height={600}
-          className={isImageLoaded ? "active" : ""}
-          onLoadingComplete={() => {
-            setLoading(false);
-            setIsImageLoaded(true);
-          }}
+          placeholder="blur"
+          blurDataURL={thumbImg}
           alt="messaga image"
-          src="http://172.16.151.226:5000/media/files/blured_79f3683a6263dc31b16276851991176633vw9afDE59p6lKY0_faypwT7.png"
+          className={isImageLoaded ? "active" : ""}
         />
       </Modal>
     </div>

@@ -6,6 +6,7 @@ interface MicrophoneProps {
 }
 
 const Microphone: FC<MicrophoneProps> = ({ color, classStyle }) => {
+  console.log(classStyle)
   return (
     <svg
       width="26"

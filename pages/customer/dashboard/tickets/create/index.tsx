@@ -20,12 +20,15 @@ import { TiDelete } from "react-icons/ti";
 import { ChatService } from "services/chat.service";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import useRecorder from "src/tools/custom-hooks/use-recorder";
+import { UseRecorder } from "src/model/recorder";
 
 const ticketService = new TicketService();
 const chatService = new ChatService();
 
 const Create = () => {
-  const portalContainer: any = document.getElementById("portal");
+  const { recorderState, ...handlers }: UseRecorder = useRecorder();
+  const router = useRouter();
 
   const {
     register,
@@ -33,8 +36,6 @@ const Create = () => {
     formState: { errors },
     reset,
   } = useForm();
-
-  const router = useRouter();
 
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
@@ -47,9 +48,6 @@ const Create = () => {
   const [selectedPartType, setSelectedPartType] = useState<any>();
   const [selectedAccessoriesType, setSelectedAccessoriesType] = useState<any>();
   const [selectedFiles, setSelectedFiles] = useState<Array<any>>([]);
-  const [uploadedFiles, setUploadedFiles] = useState<any>(null);
-  const [uploadedImages, setUploadedImages] = useState<any>(null);
-  const [uploadedVideos, setUploadedVideos] = useState<any>(null);
 
   const rootChangeHandler = (event: any) => {
     const selectedRootId = +event.target.value;
@@ -93,23 +91,60 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        if (res.status === 201) {
-          setUploadedFiles([...selectedFiles, res.data]);
-          setSelectedFiles([...selectedFiles, e.target.files[0]]);
-        }
+        setSelectedFiles([
+          ...selectedFiles,
+          { file: e.target.files[0], id: res.data.id },
+        ]);
+        e.target.files = null;
+        e.target.value = "";
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="فایل شما با موفقیت آپلود شد."
+          />
+        );
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
 
-  const handleUploadVoice = () => {
-    console.log("upload voice");
+  const handleUploadVoice = async () => {
+    handlers.saveRecording();
+    try {
+      const audioBlob = await fetch(recorderState.audio as string).then((r) =>
+        r.blob()
+      );
+      const audiofile = new File(
+        [audioBlob],
+        `${new Date().toISOString()}.wav`,
+        {
+          type: "audio/wav",
+        }
+      );
+      const data = new FormData();
+      data.append("file", audiofile);
+      data.append("file_type", "VOICE");
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      const res = await chatService.upload(data, config);
+      setSelectedFiles([
+        ...selectedFiles,
+        { file: audiofile, id: res.data.id },
+      ]);
+      Toaster.success(
+        <ToastComponent
+          title="موفق"
+          description="فایل شما با موفقیت آپلود شد."
+        />
+      );
+    } catch (error) {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    }
   };
 
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,17 +159,23 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        if (res.status === 201) {
-          setUploadedImages([...selectedFiles, res.data]);
-          setSelectedFiles([...selectedFiles, e.target.files[0]]);
-        }
+        setSelectedFiles([
+          ...selectedFiles,
+          { file: e.target.files[0], id: res.data.id },
+        ]);
+        e.target.files = null;
+        e.target.value = "";
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="عکس شما با موفقیت آپلود شد."
+          />
+        );
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
@@ -151,23 +192,45 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        if (res.status === 201) {
-          setUploadedVideos([...selectedFiles, res.data]);
-          setSelectedFiles([...selectedFiles, e.target.files[0]]);
-        }
+        setSelectedFiles([
+          ...selectedFiles,
+          { file: e.target.files[0], id: res.data.id },
+        ]);
+        e.target.files = null;
+        e.target.value = "";
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="ویدیو شما با موفقیت آپلود شد."
+          />
+        );
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
 
-  const handleDeleteAttachment = (item: any) => {
-    console.log(item);
+  const handleDeleteAttachment = async (id: any) => {
+    try {
+      const res = await chatService.deleteUploadedFile(id);
+      if (res.status === 204) {
+        const data = selectedFiles.filter((item) => item.id !== id);
+        setSelectedFiles(data);
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="فایل آپلود شده با موفقیت حذف شد."
+          />
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
+    }
   };
 
   const handleRequest = async (data: FieldValues) => {
@@ -180,18 +243,24 @@ const Create = () => {
         description: data.description,
         status: "UNREAD",
         branch_category: selectedAccessoriesType,
+        upload_ticket: selectedFiles.map((i: any) => {
+          return { id: i.id };
+        }),
+        order_ticket: [],
       };
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {
         router.push("/customer/dashboard/tickets");
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="تیکت شما با موفقیت ثبت شد."
+          />
+        );
       }
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -207,11 +276,9 @@ const Create = () => {
         setBranchCategories(res.data[0].trunk_root[0].branch_trunk);
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      }
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
     };
     getCategories();
   }, []);
@@ -304,10 +371,19 @@ const Create = () => {
                 </div>
                 <div
                   className="upload-input-container"
-                  onClick={handleUploadVoice}
+                  onClick={() =>
+                    !recorderState.initRecording
+                      ? handlers.startRecording()
+                      : handleUploadVoice()
+                  }
                 >
                   <label className="upload-input-label">
-                    <Microphone color="#00A48A" />
+                    <Microphone
+                      color={recorderState.initRecording ? "#FA1744" : '#00A48A'}
+                      classStyle={`${
+                        recorderState.initRecording ? "fade-in" : ""
+                      }`}
+                    />
                     <span className="title">ضبط صدا</span>
                   </label>
                 </div>
@@ -341,15 +417,16 @@ const Create = () => {
                 </div>
               </div>
               <div className="uploaded-files">
-                {selectedFiles?.map((item: any, index: number) => (
-                  <div className="uploaded-file-container" key={index}>
-                    <p className="file">{item.name}</p>
-                    <TiDelete
-                      color="#FF2055"
-                      onClick={() => handleDeleteAttachment(item)}
-                    />
-                  </div>
-                ))}
+                {selectedFiles &&
+                  selectedFiles?.map((item: any, index: number) => (
+                    <div className="uploaded-file-container" key={index}>
+                      <p className="file">{item?.file?.name}</p>
+                      <TiDelete
+                        color="#FF2055"
+                        onClick={() => handleDeleteAttachment(item?.id)}
+                      />
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

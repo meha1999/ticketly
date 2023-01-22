@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 const ticketService = new TicketService();
 
 const Tickets = () => {
-  const { push: routerPush, query } = useRouter();
+  const { push: routerPush } = useRouter();
 
   const [ticketList, setTicketList] = useState([]);
 
@@ -51,58 +51,7 @@ const Tickets = () => {
   const handleOpenChat = (ticketId: string) => {
     routerPush(`/customer/dashboard/chat/${ticketId}/`);
   };
-
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  // ];
+  
   return (
     <DashboardLayout>
       <div className="tickets">

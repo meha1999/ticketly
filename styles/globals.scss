@@ -1,6 +1,14 @@
 @import "./components/fonts/FontYekan/style.scss";
 @import "./animations.scss";
 @import "./pages/auth/auth";
+@import "./pages/dashboard/orders/customer-orders";
+@import "./pages/dashboard/dashboard";
+@import "./pages/dashboard/profile/profile-page";
+@import "./pages/dashboard/requests/request-page-staff";
+@import "./pages/dashboard/requests/request-page-supplier";
+@import "./pages/dashboard/ticket/create";
+@import "./pages/dashboard/ticket/list";
+
 @import "./components/layouts/dashboard";
 @import "./components/common/tittle";
 @import "./components/common/divider";
@@ -12,6 +20,7 @@
 @import "./components/common/chat/message";
 @import "./components/common/chat/image-massage-viewer";
 @import "./components/common/chat/file-download-massage";
+@import "./components/common/chat/video-massage-viewer";
 @import "./components/pure/order-completion";
 @import "./components/pure/chat-list";
 @import "./components/pure/message-card";
@@ -21,14 +30,9 @@
 @import "./components/pure/result-payment";
 @import "./components/pure/customer-orders";
 @import "./components/pure/customer-order-card";
-
-@import "./pages/dashboard/profile/profile-page";
-@import "./pages/dashboard/requests/request-page-staff";
-@import "./pages/dashboard/requests/request-page-supplier";
-@import "./pages/dashboard/ticket/create";
-@import "./pages/dashboard/ticket/list";
 @import "./components/common/toaster/toaster";
 @import "./components//common/modal/modal.scss";
+@import "./components/common/dashboardCard/dashboardCard";
 
 * {
   margin: 0;

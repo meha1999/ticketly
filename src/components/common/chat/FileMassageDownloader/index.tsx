@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import { formatBytes } from "src/tools/bitTobite";
 import { RxDownload } from "react-icons/rx";
 import { BsCheckLg } from "react-icons/bs";
+import useUserTypeFinder from "src/tools/custom-hooks/useUserType";
 
 interface FileMassageDownloaderProps {
   fileDownloadSrc: string;
@@ -15,6 +16,7 @@ const FileMassageDownloader: FC<FileMassageDownloaderProps> = ({
 }) => {
   const [percentage, setPercentage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { userColorConfig } = useUserTypeFinder();
 
   const downloadFileData = async () => {
     const data = await axios.get(fileDownloadSrc, {
@@ -40,16 +42,20 @@ const FileMassageDownloader: FC<FileMassageDownloaderProps> = ({
   const fileName = filePathArr[filePathArr.length - 1];
 
   return (
-    <div className="file-download-massage-wrapper">
+    <div
+      className="file-download-massage-wrapper"
+      style={{ background: userColorConfig + "20", color: userColorConfig }}
+    >
       <span>{formatBytes(fileSize)}</span>
       <div className="file-detail">
         <p>
-          {fileName.substring(0, 25) +
+          {fileName.substring(0, 23) +
             "..." +
             fileName.split(".")[fileName.split(".").length - 1]}
         </p>
         <button
           className="download"
+          style={{ background: userColorConfig }}
           onClick={() => {
             setLoading(true);
             downloadFileData();

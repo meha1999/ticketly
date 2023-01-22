@@ -2,6 +2,7 @@ import Modal from "components/common/modal/Modal";
 import Image from "next/image";
 import { FC, useState } from "react";
 import { BsArrowDownCircle } from "react-icons/bs";
+import useUserTypeFinder from "src/tools/custom-hooks/useUserType";
 
 interface ImageMassageViewerProps {
   thumbImg: string;
@@ -15,10 +16,12 @@ const ImageMassageViewer: FC<ImageMassageViewerProps> = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openImage, setOpenImage] = useState(false);
+  const { userColorConfig } = useUserTypeFinder();
 
   return (
     <div
       className={`image-massage-viewer-wrapper ${loading ? "loading" : ""} `}
+      style={{ outlineColor: userColorConfig }}
       onClick={() => {
         setLoading(false);
         setIsImageLoaded(true);

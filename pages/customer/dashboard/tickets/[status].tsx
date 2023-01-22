@@ -16,6 +16,7 @@ const ticketService = new TicketService();
 const Tickets = () => {
   const [ticketList, setTicketList] = useState([]);
   const { push: routerPush, query } = useRouter();
+  console.log(query);
 
   useEffect(() => {
     const getTickets = async () => {
@@ -51,57 +52,6 @@ const Tickets = () => {
     routerPush(`/customer/dashboard/chat/${ticketId}/`);
   };
 
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  //   {
-  //     name: "لنت ترمز جلو پراید",
-  //     brand: "برند : پارس آبی",
-  //     supplier: "جت مت",
-  //     price: "25.000.000",
-  //     id: "TFCds545f58egtr",
-  //     date: "7 دی ماه 1401",
-  //     time: "13:19",
-  //     status: "در حال آماده سازی",
-  //   },
-  // ];
   return (
     <DashboardLayout>
       <div className="tickets">
@@ -152,9 +102,11 @@ const Tickets = () => {
                 </div>
               </div>
               <div className="operation">
-                <div className="delete-icon">
-                  <Image src={Delete} alt="delete" />
-                </div>
+                {query?.status === "supplying" && (
+                  <div className="delete-icon">
+                    <Image src={Delete} alt="delete" />
+                  </div>
+                )}
                 <div className="status">{translate[ticket.status]}</div>
               </div>
             </div>

@@ -10,4 +10,8 @@ export class ChatService extends BaseService {
   upload(data: any, config: any): Promise<any> {
     return this.axiosInstanceWithToken.post("/file/upload/", data, config);
   }
+
+  deleteUploadedFile(id: number) {
+    return this.axiosInstanceWithToken.delete(`/file/upload/${id}/`);
+  }
 }

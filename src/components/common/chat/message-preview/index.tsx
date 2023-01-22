@@ -4,6 +4,8 @@ import { FC, useEffect, useRef } from "react";
 import Seen from "images/icons/seen";
 import ImageMassageViewer from "../ImageMassageViewer";
 import FileMassageDownloader from "../FileMassageDownloader";
+import VideoMassageViewer from "../VideoMassageViewer";
+import VoiceMassageDownloader from "../VoiceMassageViewer";
 
 interface MessagePreviewProps {
   profileImage: string;
@@ -40,9 +42,14 @@ const MessagePreview: FC<MessagePreviewProps> = ({
       IMAGE: (
         <ImageMassageViewer thumbImg={file.file_pic} bigImage={file.file} />
       ),
-      FILE: <FileMassageDownloader fileDownloadSrc={file.file} fileSize={file.size}/>,
-      VIDEO: <span />,
-      VOICE: <span />,
+      FILE: (
+        <FileMassageDownloader
+          fileDownloadSrc={file.file}
+          fileSize={file.size}
+        />
+      ),
+      VIDEO: <VideoMassageViewer videoSrc={file.file} />,
+      VOICE: <VoiceMassageDownloader voiceSrc={file.file} fileSize={file.size} />,
     };
     return Components[file.file_type] || "";
   };

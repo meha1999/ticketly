@@ -2,6 +2,7 @@ import UserIcon from "images/icons/user_icon";
 import Image from "next/image";
 import { FC, useEffect, useRef } from "react";
 import Seen from "images/icons/seen";
+import ImageMassageViewer from "../ImageMassageViewer";
 
 interface MessagePreviewProps {
   profileImage: string;
@@ -11,6 +12,7 @@ interface MessagePreviewProps {
   date?: string;
   color: string;
   hasSeen: boolean;
+  type?: "image" | "video" | "file" | "voice" | "text";
 }
 
 const MessagePreview: FC<MessagePreviewProps> = ({
@@ -20,6 +22,7 @@ const MessagePreview: FC<MessagePreviewProps> = ({
   date,
   count,
   color,
+  type,
   hasSeen,
 }) => {
   const first = useRef<HTMLDivElement>(null);
@@ -43,8 +46,16 @@ const MessagePreview: FC<MessagePreviewProps> = ({
       <span className="name">{name}</span>
       {message && (
         <div className="message">
-          <div className="content">{message!}</div>
-          <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />
+          {type === "image" ? (
+            <>
+              <ImageMassageViewer  />
+            </>
+          ) : (
+            <>
+              <div className="content">{message!}</div>
+              <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />{" "}
+            </>
+          )}
         </div>
       )}
       {date && (

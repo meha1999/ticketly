@@ -85,12 +85,12 @@ const Login = () => {
           </div>
           <div className="login-with-google">
             <div className="line"></div>
-            <span>یا ورود با</span>
+            <span>یا</span>
             <div className="line"></div>
           </div>
           <div className="google">
             <Image src={googleLogo} alt="google" />
-            <span>ثبت نام با گوگل</span>
+            <span>ورود با گوگل</span>
           </div>
           <button
             type="submit"

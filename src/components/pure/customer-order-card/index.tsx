@@ -25,8 +25,11 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
   status,
 }) => {
   const statusTypes: Record<string, string> = {
-    PENDING_ACCEPTION: "در انتظار تایید ارزیاب",
-    DELIVERED: "تحویل داده شده است",
+    SUBMITTED: "ثبت‌ شده",
+    SENT: "ارسال شده",
+    RECEIVED: "تحویل داده شده",
+    REJECTED: "عودت داده شده",
+    CONFIRMED: "تکمیل شده",
   };
 
   const dateTimeConfig = {
@@ -62,7 +65,9 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
       <p className="date-and-time">
         {JalaliDateTime(dateTimeConfig).toFullText(new Date(dateAndTime))}
       </p>
-      <div className="status">{statusTypes[status]}</div>
+      <div className="status">
+        {status ? statusTypes[status] : statusTypes.SUBMITTED}
+      </div>
     </div>
   );
 };

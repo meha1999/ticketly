@@ -22,20 +22,20 @@ const VoiceMassageDownloader: FC<FileMassageDownloaderProps> = ({
   const audio = new Audio();
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const downloadFileData = async () => {
-    const data = await axios.get(voiceSrc, {
-      responseType: "blob",
-      onDownloadProgress: (progressEvent) => {
-        let percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / (progressEvent.total || 1)
-        );
-        setPercentage(percentCompleted);
-      },
-    });
-    const url = URL.createObjectURL(data.data);
-    audio.src = url;
-    setAudioContext(url);
-  };
+  // const downloadFileData = async () => {
+  //   const data = await axios.get(voiceSrc, {
+  //     responseType: "blob",
+  //     onDownloadProgress: (progressEvent) => {
+  //       let percentCompleted = Math.round(
+  //         (progressEvent.loaded * 100) / (progressEvent.total || 1)
+  //       );
+  //       setPercentage(percentCompleted);
+  //     },
+  //   });
+  //   const url = URL.createObjectURL(data.data);
+  //   audio.src = url;
+  //   setAudioContext(url);
+  // };
 
   const playAndPause = () => {
     if (isPlaying) {
@@ -66,27 +66,22 @@ const VoiceMassageDownloader: FC<FileMassageDownloaderProps> = ({
         </p>
         <button className="download" style={{ background: userColorConfig }}>
           {downloaded ? (
-            percentage === 100 ? (
-              isPlaying ? (
-                <BsFillPauseFill onClick={playAndPause} />
-              ) : (
-                <BsFillPlayFill onClick={playAndPause} />
-              )
+            isPlaying ? (
+              <BsFillPauseFill onClick={playAndPause} />
             ) : (
-              percentage
+              <BsFillPlayFill onClick={playAndPause} />
             )
           ) : (
             <RxDownload
               onClick={() => {
                 setDownloaded(true);
-                downloadFileData();
               }}
             />
           )}
         </button>
         <audio
           ref={audioRef}
-          src={audioContext}
+          src={voiceSrc}
           onEnded={() => setIsPlaying(false)}
         />
       </div>

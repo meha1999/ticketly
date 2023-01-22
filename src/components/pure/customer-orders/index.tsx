@@ -14,11 +14,11 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({ list }) => {
             <CustomerOrderCard
               image={item.image}
               id={item.id}
-              supplierName={item.supplierName}
+              manufacturer={""}
               name={item.name}
               brand={item.brand}
-              price={item.price}
-              dateAndTime={item.dateAndTime}
+              price={item.total_price}
+              dateAndTime={item.created_at}
               status={item.status}
             />
           </li>

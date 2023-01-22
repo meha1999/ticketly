@@ -4,76 +4,34 @@ import DashboardLayout from "components/layouts/dashboard/customer";
 import CustomerOrders from "components/pure/customer-orders";
 import OrdersIcon from "images/icons/orders_icon";
 import { GetServerSideProps } from "next";
+import { useEffect, useState } from "react";
+import { OrderService } from "services/order.service";
+
+const orderService = new OrderService();
 
 const Orders = () => {
-  const fakeList: Array<any> = [
-    {
-      image: "",
-      id: "TLY-425001",
-      supplierName: "جت خودرو",
-      name: "لنت ترمز جلو پراید",
-      brand: "پارس آبی",
-      price: 145000,
-      dateAndTime: "7 دی ماه 1401   13:19",
-      status: "تحویل داده شده است",
-    },
-    {
-      image: "",
-      id: "TLY-425002",
-      supplierName: "جت خودرو",
-      name: "لنت ترمز جلو پراید",
-      brand: "پارس آبی",
-      price: 145000,
-      dateAndTime: "7 دی ماه 1401   13:19",
-      status: "تحویل داده شده است",
-    },
-    {
-      image: "",
-      id: "TLY-425003",
-      supplierName: "جت خودرو",
-      name: "لنت ترمز جلو پراید",
-      brand: "پارس آبی",
-      price: 145000,
-      dateAndTime: "7 دی ماه 1401   13:19",
-      status: "تحویل داده شده است",
-    },
-    {
-      image: "",
-      id: "TLY-425004",
-      supplierName: "جت خودرو",
-      name: "لنت ترمز جلو پراید",
-      brand: "پارس آبی",
-      price: 145000,
-      dateAndTime: "7 دی ماه 1401   13:19",
-      status: "تحویل داده شده است",
-    },
-    {
-      image: "",
-      id: "TLY-425005",
-      supplierName: "جت خودرو",
-      name: "لنت ترمز جلو پراید",
-      brand: "پارس آبی",
-      price: 145000,
-      dateAndTime: "7 دی ماه 1401   13:19",
-      status: "تحویل داده شده است",
-    },
-    {
-      image: "",
-      id: "TLY-425006",
-      supplierName: "جت خودرو",
-      name: "لنت ترمز جلو پراید",
-      brand: "پارس آبی",
-      price: 145000,
-      dateAndTime: "7 دی ماه 1401   13:19",
-      status: "تحویل داده شده است",
-    },
-  ];
+  const [orders, setOrders] = useState<Array<any>>([]);
+
+  const getOrders = async () => {
+    try {
+      const res = await orderService.getOrders();
+      console.log(res);
+      setOrders(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, []);
 
   return (
     <DashboardLayout>
       <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
       <Divider />
-      <CustomerOrders list={fakeList} />
+      <CustomerOrders list={orders} />
     </DashboardLayout>
   );
 };

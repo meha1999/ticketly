@@ -12,6 +12,8 @@ import { BiEdit } from "react-icons/bi";
 import { GiCarWheel } from "react-icons/gi";
 import { SiHackthebox } from "react-icons/si";
 import { GrContactInfo } from "react-icons/gr";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const authService = new AuthService();
 
@@ -23,8 +25,12 @@ const Sidebar = () => {
     try {
       await authService.logout();
     } catch (err) {
-      console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
       deleteCookie("role");
       deleteCookie("token");
       dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });

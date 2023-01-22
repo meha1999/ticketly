@@ -1,4 +1,6 @@
 import ChatComponent from "components/common/chat";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 import DashboardLayout from "components/layouts/dashboard/customer";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -44,8 +46,12 @@ const Chat = () => {
       const res = await chatService.allChats(router.query.ticketId);
       setMessageHistory(res.data);
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 

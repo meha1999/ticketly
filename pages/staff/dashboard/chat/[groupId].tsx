@@ -14,6 +14,8 @@ import Divider from "components/common/divider";
 import { TicketService } from "services/ticket.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useSSE } from "react-hooks-sse";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const chatService = new ChatService();
 const ticketService = new TicketService();
@@ -53,8 +55,12 @@ const Chat = () => {
       const res = await chatService.allChats(ticketId);
       setMessageHistory(res.data);
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 
@@ -73,8 +79,12 @@ const Chat = () => {
       setCustomerTicket(mechanics.length ? mechanics[0] : {});
       setSuppliersTicket(suppliers);
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 

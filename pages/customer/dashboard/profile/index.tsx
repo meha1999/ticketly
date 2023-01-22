@@ -84,8 +84,12 @@ const Profile = () => {
         />
       );
     } catch (error) {
-      console.log(error);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
       setLoading(false);
     }
   };
@@ -135,8 +139,12 @@ const Profile = () => {
           );
         }
       } catch (error) {
-        console.log(error);
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
       }
     }
   };
@@ -147,8 +155,12 @@ const Profile = () => {
         const provinceRes = await profileService.getProvince();
         setProvince(provinceRes.data);
       } catch (error) {
-        console.log(error);
-      }
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      }
     };
     getProvince();
   }, []);
@@ -162,8 +174,12 @@ const Profile = () => {
           );
           setCities(citiesRes.data.shahrs);
         } catch (error) {
-          console.log(error);
-        }
+          Toaster.error(
+            <ToastComponent
+              title="ناموفق"
+              description="خطای سرور"
+            />
+          );        }
       };
       getCities();
     }

@@ -7,6 +7,8 @@ import React from "react";
 import { ChatService } from "services/chat.service";
 import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const chatService = new ChatService();
 
@@ -30,7 +32,6 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       const audiofile = new File([audioBlob], ".wav", {
         type: "audio/wav",
       });
-      console.log(audiofile);
       const data = new FormData();
       data.append("file", audiofile);
       data.append("file_type", "VOICE");
@@ -41,8 +42,12 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       onSend(response.data.id, "voice");
       console.log(response);
     } catch (error) {
-      console.log(error);
-    }
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,8 +65,12 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         const response = await chatService.upload(data, config);
         onSend(response.data.id, "file");
       } catch (error) {
-        console.log(error);
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
       }
     }
   };
@@ -80,8 +89,12 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         const response = await chatService.upload(data, config);
         onSend(response.data.id, "image");
       } catch (error) {
-        console.log(error);
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
       }
     }
   };

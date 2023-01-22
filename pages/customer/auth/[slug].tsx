@@ -45,7 +45,12 @@ const SignUp = () => {
         />
       );
     } catch (err) {
-      console.log("err", err);
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );
     } finally {
       setLoading(false);
     }

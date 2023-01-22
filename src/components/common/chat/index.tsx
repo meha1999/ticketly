@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
 import { TicketService } from "services/ticket.service";
+import ToastComponent from "../toast/ToastComponent";
+import { Toaster } from "../toast/Toaster";
 
 const dateTimeConfig = {
   timezone: "Asia/Tehran",
@@ -64,8 +66,12 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       const res = await ticketService.getTicketById(ticketId);
       setTicketInfo(res.data);
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 

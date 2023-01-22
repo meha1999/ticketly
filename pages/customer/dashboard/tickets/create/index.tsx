@@ -18,6 +18,8 @@ import ImageUpload from "images/icons/image_upload";
 import Play from "images/icons/paly";
 import { TiDelete } from "react-icons/ti";
 import { ChatService } from "services/chat.service";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const ticketService = new TicketService();
 const chatService = new ChatService();
@@ -96,8 +98,12 @@ const Create = () => {
           setSelectedFiles([...selectedFiles, e.target.files[0]]);
         }
       } catch (error) {
-        console.log(error);
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
       }
     }
   };
@@ -123,8 +129,12 @@ const Create = () => {
           setSelectedFiles([...selectedFiles, e.target.files[0]]);
         }
       } catch (error) {
-        console.log(error);
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
       }
     }
   };
@@ -146,8 +156,12 @@ const Create = () => {
           setSelectedFiles([...selectedFiles, e.target.files[0]]);
         }
       } catch (error) {
-        console.log(error);
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
       }
     }
   };
@@ -172,8 +186,12 @@ const Create = () => {
         router.push("/customer/dashboard/tickets");
       }
     } catch (err) {
-      console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 
@@ -188,8 +206,12 @@ const Create = () => {
         setTrunkCategories(res.data[0].trunk_root);
         setBranchCategories(res.data[0].trunk_root[0].branch_trunk);
       } catch (error) {
-        console.log(error);
-      }
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      }
     };
     getCategories();
   }, []);

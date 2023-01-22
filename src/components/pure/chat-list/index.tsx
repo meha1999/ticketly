@@ -5,6 +5,8 @@ import CustomPortal from "components/common/portal";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import SuppliersList from "../suppliers-list";
 import { TicketService } from "services/ticket.service";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const ticketService = new TicketService();
 
@@ -49,8 +51,12 @@ const ChatList: React.FC<ChatListProps> = ({
       console.log(finalData, res.data, group.ticket_group);
       setSuppliersList(finalData);
     } catch (error) {
-      console.log(error);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 
@@ -86,8 +92,12 @@ const ChatList: React.FC<ChatListProps> = ({
       onAddSuplier();
       handleCancel();
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 

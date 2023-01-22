@@ -15,6 +15,7 @@ import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useRouter } from "next/router";
 import { Toaster } from "components/common/toast/Toaster";
 import { NavLink } from "src/tools/NavLink";
+import ToastComponent from "components/common/toast/ToastComponent";
 
 const ticketService = new TicketService();
 
@@ -57,8 +58,12 @@ const Requests = () => {
         );
         setTicketList(newList);
       } catch (error) {
-        console.log(error);
-      }
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      }
     }
   };
 

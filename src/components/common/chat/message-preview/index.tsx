@@ -50,7 +50,7 @@ const MessagePreview: FC<MessagePreviewProps> = ({
         </div>
       ) : (
         <div className="message">
-          <div className="content">{file.file}</div>
+          <div className="content">{file?.file}</div>
           <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />
         </div>
       )}

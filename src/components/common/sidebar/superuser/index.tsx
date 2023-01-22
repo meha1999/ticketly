@@ -11,6 +11,8 @@ import { TiUser } from "react-icons/ti";
 import { IoIosPeople } from "react-icons/io";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const authService = new AuthService();
 
@@ -21,8 +23,12 @@ const Sidebar = () => {
     try {
       await authService.logout();
     } catch (err) {
-      console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
       deleteCookie("role");
       deleteCookie("token");
       dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });

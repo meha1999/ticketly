@@ -93,17 +93,22 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        if (res.status === 201) {
-          setUploadedFiles([...selectedFiles, res.data]);
-          setSelectedFiles([...selectedFiles, e.target.files[0]]);
-        }
+        setUploadedFiles([...selectedFiles, res.data]);
+        setSelectedFiles([
+          ...selectedFiles,
+          { file: e.target.files[0], id: res.data.id },
+        ]);
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="فایل شما با موفقیت آپلود شد."
+          />
+        );
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
@@ -124,17 +129,22 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        if (res.status === 201) {
-          setUploadedImages([...selectedFiles, res.data]);
-          setSelectedFiles([...selectedFiles, e.target.files[0]]);
-        }
+        setUploadedFiles([...uploadedFiles, res.data]);
+        setSelectedFiles([
+          ...selectedFiles,
+          { file: e.target.files[0], id: res.data.id },
+        ]);
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="عکس شما با موفقیت آپلود شد."
+          />
+        );
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
@@ -151,23 +161,42 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        if (res.status === 201) {
-          setUploadedVideos([...selectedFiles, res.data]);
-          setSelectedFiles([...selectedFiles, e.target.files[0]]);
-        }
+        setUploadedFiles([...uploadedFiles, res.data]);
+        setSelectedFiles([
+          ...selectedFiles,
+          { file: e.target.files[0], id: res.data.id },
+        ]);
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="ویدیو شما با موفقیت آپلود شد."
+          />
+        );
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
 
-  const handleDeleteAttachment = (item: any) => {
-    console.log(item);
+  const handleDeleteAttachment = async (id: any) => {
+    try {
+      const res = await chatService.deleteUploadedFile(id);
+      if (res.status === 204) {
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="فایل آپلود شده با موفقیت حذف شد."
+          />
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
+    }
   };
 
   const handleRequest = async (data: FieldValues) => {
@@ -180,18 +209,24 @@ const Create = () => {
         description: data.description,
         status: "UNREAD",
         branch_category: selectedAccessoriesType,
+        upload_ticket: uploadedFiles.map((i: any) => {
+          return { id: i.id };
+        }),
+        order_ticket: [],
       };
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {
         router.push("/customer/dashboard/tickets");
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="تیکت شما با موفقیت ثبت شد."
+          />
+        );
       }
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -207,11 +242,9 @@ const Create = () => {
         setBranchCategories(res.data[0].trunk_root[0].branch_trunk);
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      }
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
     };
     getCategories();
   }, []);
@@ -341,15 +374,16 @@ const Create = () => {
                 </div>
               </div>
               <div className="uploaded-files">
-                {selectedFiles?.map((item: any, index: number) => (
-                  <div className="uploaded-file-container" key={index}>
-                    <p className="file">{item.name}</p>
-                    <TiDelete
-                      color="#FF2055"
-                      onClick={() => handleDeleteAttachment(item)}
-                    />
-                  </div>
-                ))}
+                {selectedFiles &&
+                  selectedFiles?.map((item: any, index: number) => (
+                    <div className="uploaded-file-container" key={index}>
+                      <p className="file">{item.file.name}</p>
+                      <TiDelete
+                        color="#FF2055"
+                        onClick={() => handleDeleteAttachment(item.id)}
+                      />
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

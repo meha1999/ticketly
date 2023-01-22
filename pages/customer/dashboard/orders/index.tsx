@@ -4,19 +4,34 @@ import DashboardLayout from "components/layouts/dashboard/customer";
 import CustomerOrders from "components/pure/customer-orders";
 import OrdersIcon from "images/icons/orders_icon";
 import { GetServerSideProps } from "next";
+import { useEffect, useState } from "react";
+import { OrderService } from "services/order.service";
+
+const orderService = new OrderService();
 
 const Orders = () => {
-  const fakeList: Array<any> = [
-    {
-      name: "item1",
-    },
-  ];
+  const [orders, setOrders] = useState<Array<any>>([]);
+
+  const getOrders = async () => {
+    try {
+      const res = await orderService.getOrders();
+      console.log(res);
+      setOrders(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, []);
 
   return (
     <DashboardLayout>
       <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
       <Divider />
-      <CustomerOrders list={fakeList} />
+      <CustomerOrders list={orders} />
     </DashboardLayout>
   );
 };

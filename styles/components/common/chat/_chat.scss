@@ -43,7 +43,7 @@
     }
   }
   .messages-list {
-    height: 380px;
+    height: max-content;
     overflow-y: auto;
     margin-bottom: 40px;
   }

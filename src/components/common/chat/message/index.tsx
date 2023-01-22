@@ -168,7 +168,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         className="submit_btn"
         style={{
           backgroundColor: `${color}`,
-          boxShadow: `0px 10px 20px ${color}`,
+          boxShadow: `0px 10px 20px ${color}35`,
         }}
       >
         <span>ارسال پیام</span>

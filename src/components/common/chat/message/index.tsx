@@ -64,6 +64,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         };
         const response = await chatService.upload(data, config);
         onSend(response.data.id, "file");
+        e.target.files = null;
+        e.target.value = "";
       } catch (error) {
         Toaster.error(
           <ToastComponent
@@ -88,6 +90,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         };
         const response = await chatService.upload(data, config);
         onSend(response.data.id, "image");
+        e.target.files = null;
+        e.target.value = "";
       } catch (error) {
         Toaster.error(
           <ToastComponent

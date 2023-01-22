@@ -47,9 +47,6 @@ const Create = () => {
   const [selectedPartType, setSelectedPartType] = useState<any>();
   const [selectedAccessoriesType, setSelectedAccessoriesType] = useState<any>();
   const [selectedFiles, setSelectedFiles] = useState<Array<any>>([]);
-  const [uploadedFiles, setUploadedFiles] = useState<any>(null);
-  const [uploadedImages, setUploadedImages] = useState<any>(null);
-  const [uploadedVideos, setUploadedVideos] = useState<any>(null);
 
   const rootChangeHandler = (event: any) => {
     const selectedRootId = +event.target.value;
@@ -82,6 +79,7 @@ const Create = () => {
   };
 
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
@@ -93,11 +91,12 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        setUploadedFiles([...selectedFiles, res.data]);
         setSelectedFiles([
           ...selectedFiles,
           { file: e.target.files[0], id: res.data.id },
         ]);
+        e.target.files = null;
+        e.target.value = "";
         Toaster.success(
           <ToastComponent
             title="موفق"
@@ -129,11 +128,12 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        setUploadedFiles([...uploadedFiles, res.data]);
         setSelectedFiles([
           ...selectedFiles,
           { file: e.target.files[0], id: res.data.id },
         ]);
+        e.target.files = null;
+        e.target.value = "";
         Toaster.success(
           <ToastComponent
             title="موفق"
@@ -161,11 +161,12 @@ const Create = () => {
           headers: { "content-type": "multipart/form-data" },
         };
         const res = await chatService.upload(data, config);
-        setUploadedFiles([...uploadedFiles, res.data]);
         setSelectedFiles([
           ...selectedFiles,
           { file: e.target.files[0], id: res.data.id },
         ]);
+        e.target.files = null;
+        e.target.value = "";
         Toaster.success(
           <ToastComponent
             title="موفق"
@@ -185,6 +186,8 @@ const Create = () => {
     try {
       const res = await chatService.deleteUploadedFile(id);
       if (res.status === 204) {
+        const data = selectedFiles.filter((item) => item.id !== id);
+        setSelectedFiles(data);
         Toaster.success(
           <ToastComponent
             title="موفق"
@@ -209,7 +212,7 @@ const Create = () => {
         description: data.description,
         status: "UNREAD",
         branch_category: selectedAccessoriesType,
-        upload_ticket: uploadedFiles.map((i: any) => {
+        upload_ticket: selectedFiles.map((i: any) => {
           return { id: i.id };
         }),
         order_ticket: [],
@@ -377,10 +380,10 @@ const Create = () => {
                 {selectedFiles &&
                   selectedFiles?.map((item: any, index: number) => (
                     <div className="uploaded-file-container" key={index}>
-                      <p className="file">{item.file.name}</p>
+                      <p className="file">{item?.file?.name}</p>
                       <TiDelete
                         color="#FF2055"
-                        onClick={() => handleDeleteAttachment(item.id)}
+                        onClick={() => handleDeleteAttachment(item?.id)}
                       />
                     </div>
                   ))}

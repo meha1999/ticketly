@@ -1,12 +1,10 @@
-import { FC } from "react";
 
 interface MicrophoneProps {
   color: string;
   classStyle?: string;
 }
 
-const Microphone: FC<MicrophoneProps> = ({ color, classStyle }) => {
-  console.log(classStyle)
+const Microphone: React.FC<MicrophoneProps> = ({ color, classStyle }) => {
   return (
     <svg
       width="26"

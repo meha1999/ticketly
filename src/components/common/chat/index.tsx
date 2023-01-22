@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
 import { TicketService } from "services/ticket.service";
+import ToastComponent from "../toast/ToastComponent";
+import { Toaster } from "../toast/Toaster";
 
 const dateTimeConfig = {
   timezone: "Asia/Tehran",
@@ -26,7 +28,10 @@ const userType: Record<string, string> = {
 interface ChatComponentProps {
   data: Array<any>;
   ticketId: any;
-  onSend: (message: any) => any;
+  onSend: (
+    message: string | number,
+    type: "image" | "video" | "file" | "voice" | "text"
+  ) => any;
 }
 
 const ticketService = new TicketService();
@@ -61,8 +66,12 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       const res = await ticketService.getTicketById(ticketId);
       setTicketInfo(res.data);
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 
@@ -101,7 +110,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             key={index}
             type={index === data.length - 1 ? "image" : "text"}
             hasSeen={item.seen}
-            message={item.content}
+            message={item.text}
+            file={item.file}
             name={item.sender.username}
             profileImage={item.sender.photo}
             color={userType[item.sender.role]}

@@ -1,6 +1,5 @@
 import DashboardLayout from "components/layouts/dashboard/customer";
 import Image from "next/image";
-import fileUploadIcon from "public/images/icons/file_upload.svg";
 import trashIcon from "public/images/icons/trash.svg";
 import createTicket from "public/images/icons/create_ticket_fill.svg";
 import Title from "components/common/title";
@@ -13,8 +12,17 @@ import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useRouter } from "next/router";
 import Dropdown from "components/common/inputs/Dropdown";
+import Attach from "images/icons/attach";
+import Microphone from "images/icons/microphone";
+import ImageUpload from "images/icons/image_upload";
+import Play from "images/icons/paly";
+import { TiDelete } from "react-icons/ti";
+import { ChatService } from "services/chat.service";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const ticketService = new TicketService();
+const chatService = new ChatService();
 
 const Create = () => {
   const portalContainer: any = document.getElementById("portal");
@@ -35,10 +43,13 @@ const Create = () => {
   const [rootCategories, setRootCategories] = useState<Array<any>>([]);
   const [trunkCategories, setTrunkCategories] = useState<Array<any>>([]);
   const [branchCategories, setBranchCategories] = useState<Array<any>>([]);
-
   const [selectedRoot, setSelectedRoot] = useState<any>();
   const [selectedPartType, setSelectedPartType] = useState<any>();
   const [selectedAccessoriesType, setSelectedAccessoriesType] = useState<any>();
+  const [selectedFiles, setSelectedFiles] = useState<Array<any>>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<any>(null);
+  const [uploadedImages, setUploadedImages] = useState<any>(null);
+  const [uploadedVideos, setUploadedVideos] = useState<any>(null);
 
   const rootChangeHandler = (event: any) => {
     const selectedRootId = +event.target.value;
@@ -70,6 +81,95 @@ const Create = () => {
     );
   };
 
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    } else {
+      try {
+        const data = new FormData();
+        data.append("file", e.target.files[0]);
+        data.append("file_type", "FILE");
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        const res = await chatService.upload(data, config);
+        if (res.status === 201) {
+          setUploadedFiles([...selectedFiles, res.data]);
+          setSelectedFiles([...selectedFiles, e.target.files[0]]);
+        }
+      } catch (error) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
+      }
+    }
+  };
+
+  const handleUploadVoice = () => {
+    console.log("upload voice");
+  };
+
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    } else {
+      try {
+        const data = new FormData();
+        data.append("file", e.target.files[0]);
+        data.append("file_type", "IMAGE");
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        const res = await chatService.upload(data, config);
+        if (res.status === 201) {
+          setUploadedImages([...selectedFiles, res.data]);
+          setSelectedFiles([...selectedFiles, e.target.files[0]]);
+        }
+      } catch (error) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
+      }
+    }
+  };
+
+  const handleUploadVideo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    } else {
+      try {
+        const data = new FormData();
+        data.append("file", e.target.files[0]);
+        data.append("file_type", "VIDEO");
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        const res = await chatService.upload(data, config);
+        if (res.status === 201) {
+          setUploadedVideos([...selectedFiles, res.data]);
+          setSelectedFiles([...selectedFiles, e.target.files[0]]);
+        }
+      } catch (error) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      } finally {
+      }
+    }
+  };
+
+  const handleDeleteAttachment = (item: any) => {
+    console.log(item);
+  };
+
   const handleRequest = async (data: FieldValues) => {
     try {
       const finalData = {
@@ -86,8 +186,12 @@ const Create = () => {
         router.push("/customer/dashboard/tickets");
       }
     } catch (err) {
-      console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 
@@ -102,8 +206,12 @@ const Create = () => {
         setTrunkCategories(res.data[0].trunk_root);
         setBranchCategories(res.data[0].trunk_root[0].branch_trunk);
       } catch (error) {
-        console.log(error);
-      }
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="خطای سرور"
+          />
+        );      }
     };
     getCategories();
   }, []);
@@ -177,30 +285,74 @@ const Create = () => {
             ></textarea>
             {errors.description && <p>وارد کردن پیام اجباری است.</p>}
           </div>
-          {/* <div className="row">
-            <label htmlFor="attached_file">{"فایل پیوست:"}</label>
-            <div className="file-upload">
-              <div className="file">
-                <label htmlFor="file-input" className="file-input-label">
-                  <Image src={fileUploadIcon} alt="receive-square" />
-                  <span>{"آپلود فایل"}</span>
-                </label>
-                <div>
+          <div className="row">
+            <label>{"فایل پیوست:"}</label>
+            <div className="file-upload-content">
+              <div className="inputs-container">
+                <div className="upload-input-container">
+                  <label htmlFor="file" className="upload-input-label">
+                    <Attach color="#00A48A" />
+                    <span className="title">فایل</span>
+                  </label>
                   <input
                     type="file"
-                    id="file-input"
-                    className="file-input"
-                    title=""
-                    accept=".png, .jpg, .jpeg"
-                    onChange={handleUpload}
+                    id="file"
+                    className="upload-input"
+                    {...register("file")}
+                    onChange={handleUploadFile}
                   />
-                  <span className="allowed-types">
-                    {"پسوند های مجاز: .jpg, .jpeg, .png"}
-                  </span>
+                </div>
+                <div
+                  className="upload-input-container"
+                  onClick={handleUploadVoice}
+                >
+                  <label className="upload-input-label">
+                    <Microphone color="#00A48A" />
+                    <span className="title">ضبط صدا</span>
+                  </label>
+                </div>
+                <div className="upload-input-container">
+                  <label htmlFor="image" className="upload-input-label">
+                    <ImageUpload color="#00A48A" />
+                    <span className="title">عکس</span>
+                  </label>
+                  <input
+                    type="file"
+                    id="image"
+                    accept=".png, .jpg, .jpeg"
+                    className="upload-input"
+                    {...register("image")}
+                    onChange={handleUploadImage}
+                  />
+                </div>
+                <div className="upload-input-container">
+                  <label htmlFor="video" className="upload-input-label">
+                    <Play color="#00A48A" />
+                    <span className="title">ویدیو</span>
+                  </label>
+                  <input
+                    type="file"
+                    id="video"
+                    accept="video/mp4"
+                    className="upload-input"
+                    {...register("video")}
+                    onChange={handleUploadVideo}
+                  />
                 </div>
               </div>
+              <div className="uploaded-files">
+                {selectedFiles?.map((item: any, index: number) => (
+                  <div className="uploaded-file-container" key={index}>
+                    <p className="file">{item.name}</p>
+                    <TiDelete
+                      color="#FF2055"
+                      onClick={() => handleDeleteAttachment(item)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div> */}
+          </div>
           <div className="action-buttons">
             <button type="button" className="trash" onClick={handleReset}>
               <Image src={trashIcon} alt="trash" />

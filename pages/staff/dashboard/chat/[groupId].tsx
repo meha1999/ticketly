@@ -14,6 +14,8 @@ import Divider from "components/common/divider";
 import { TicketService } from "services/ticket.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import { useSSE } from "react-hooks-sse";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const chatService = new ChatService();
 const ticketService = new TicketService();
@@ -23,6 +25,11 @@ const Chat = () => {
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
+
+  const token: any = useSelector<ReduxStoreModel, ReduxStoreModel["token"]>(
+    (store: ReduxStoreModel) => store.token
+  );
+
   // const state = useSSE("message", {});
   const [ticketId, setTicketId] = useState<string>("");
   const [group, setGroup] = useState();
@@ -31,7 +38,8 @@ const Chat = () => {
   const [suppliersTicket, setSuppliersTicket] = useState<any>([]);
 
   const { sendJsonMessage, lastMessage, readyState }: any = useWebSocket(
-    `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${ticketId}/`
+    `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${ticketId}/`,
+    { queryParams: { token: token } }
   );
 
   const connectionStatus = {
@@ -47,8 +55,12 @@ const Chat = () => {
       const res = await chatService.allChats(ticketId);
       setMessageHistory(res.data);
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 
@@ -67,15 +79,23 @@ const Chat = () => {
       setCustomerTicket(mechanics.length ? mechanics[0] : {});
       setSuppliersTicket(suppliers);
     } catch (err) {
-      // console.log("err", err);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
   };
 
   const handleClickSendMessage = useCallback(
-    (message: any) =>
+    (
+      message: string | number,
+      type?: "image" | "video" | "file" | "voice" | "text"
+    ) =>
       sendJsonMessage({
-        message: message,
+        text: type === "text" ? message : null,
+        file: type !== "text" ? message : null,
         sender: {
           pk: user?.id,
         },

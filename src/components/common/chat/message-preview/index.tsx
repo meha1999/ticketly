@@ -12,7 +12,7 @@ interface MessagePreviewProps {
   date?: string;
   color: string;
   hasSeen: boolean;
-  type?: "image" | "video" | "file" | "voice" | "text";
+  file: any;
 }
 
 const MessagePreview: FC<MessagePreviewProps> = ({
@@ -22,8 +22,8 @@ const MessagePreview: FC<MessagePreviewProps> = ({
   date,
   count,
   color,
-  type,
   hasSeen,
+  file,
 }) => {
   const first = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -44,11 +44,11 @@ const MessagePreview: FC<MessagePreviewProps> = ({
         )}
       </div>
       <span className="name">{name}</span>
-      {message && (
+      {message ? (
         <div className="message">
-          {type === "image" ? (
+          {file === "image" ? (
             <>
-              <ImageMassageViewer  />
+              <ImageMassageViewer />
             </>
           ) : (
             <>
@@ -56,6 +56,11 @@ const MessagePreview: FC<MessagePreviewProps> = ({
               <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />{" "}
             </>
           )}
+        </div>
+      ) : (
+        <div className="message">
+          <div className="content">{file?.file}</div>
+          <Seen color={`${hasSeen ? "#499DFF" : "#7D7D7D"}`} />
         </div>
       )}
       {date && (

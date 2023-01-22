@@ -11,6 +11,8 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { TicketService } from "services/ticket.service";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 
 const ticketService = new TicketService();
 
@@ -94,8 +96,12 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
       }
       console.log(res);
     } catch (error) {
-      console.log(error);
-    } finally {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="خطای سرور"
+        />
+      );    } finally {
     }
     setIsPaymentOpen(false);
     setIsResultOpen(true);

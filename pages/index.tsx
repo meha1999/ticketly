@@ -1,7 +1,5 @@
-import { Inter } from "@next/font/google";
 import Link from "next/link";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
@@ -17,6 +15,7 @@ export default function Home() {
     >
       <Link href="customer/auth/login">صفحه ورود مشتری</Link>
       <Link href="staff/auth/login">صفحه ورود ارزیاب</Link>
+      <Link href="supplier/auth/login">صفحه ورود تامیین کننده</Link>
       <Link href="superuser/auth/login">صفحه ورود ادمین</Link>
     </div>
   );

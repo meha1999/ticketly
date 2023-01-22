@@ -3,7 +3,7 @@ import Microphone from "images/icons/microphone";
 import Attach from "images/icons/attach";
 import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
-import React from "react";
+import React, { useEffect } from "react";
 import { ChatService } from "services/chat.service";
 import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
@@ -24,7 +24,6 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
   const { recorderState, ...handlers }: UseRecorder = useRecorder();
 
   const stopMicrophone = async () => {
-    handlers.saveRecording();
     try {
       const audioBlob = await fetch(recorderState.audio as string).then((r) =>
         r.blob()
@@ -42,12 +41,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       onSend(response.data.id, "voice");
       console.log(response);
     } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    }
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,11 +63,9 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         e.target.value = "";
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
@@ -94,11 +87,9 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         e.target.value = "";
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
@@ -109,6 +100,10 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     e.target.children[1].value = "";
   };
 
+  useEffect(() => {
+    recorderState.audio && stopMicrophone();
+  }, [recorderState.audio]);
+
   return (
     <form className="message-wrapper" onSubmit={handleSendTextMessage}>
       <div className="tools">
@@ -118,7 +113,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           onClick={() => {
             !recorderState.initRecording
               ? handlers.startRecording()
-              : stopMicrophone();
+              : handlers.saveRecording();
           }}
         >
           <Microphone

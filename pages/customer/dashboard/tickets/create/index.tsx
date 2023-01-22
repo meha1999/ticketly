@@ -294,6 +294,10 @@ const Create = () => {
     );
   }, [selectedPartType, branchCategories]);
 
+  useEffect(() => {
+    recorderState.audio && handleUploadVoice();
+  }, [recorderState.audio]);
+
   return (
     <DashboardLayout>
       <div className="create">
@@ -374,12 +378,14 @@ const Create = () => {
                   onClick={() =>
                     !recorderState.initRecording
                       ? handlers.startRecording()
-                      : handleUploadVoice()
+                      : handlers.saveRecording()
                   }
                 >
                   <label className="upload-input-label">
                     <Microphone
-                      color={recorderState.initRecording ? "#FA1744" : '#00A48A'}
+                      color={
+                        recorderState.initRecording ? "#FA1744" : "#00A48A"
+                      }
                       classStyle={`${
                         recorderState.initRecording ? "fade-in" : ""
                       }`}

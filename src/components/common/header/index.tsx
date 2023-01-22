@@ -56,7 +56,7 @@ const Header = () => {
         <div className="notification-container">
           <div className="notification">
             <Image src={bellIcon} alt="bell" />
-            <span className="count">3</span>
+            {/* <span className="count">3</span> */}
           </div>
         </div>
       </div>

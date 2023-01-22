@@ -10,6 +10,8 @@
 @import "./components/common/chat/chat";
 @import "./components/common/chat/message-preview";
 @import "./components/common/chat/message";
+@import "./components/common/chat/image-massage-viewer";
+@import "./components/common/chat/file-download-massage";
 @import "./components/pure/order-completion";
 @import "./components/pure/chat-list";
 @import "./components/pure/message-card";
@@ -158,4 +160,16 @@ input[type="number"] {
 .rmdp-input:focus {
   box-shadow: none;
   border: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-in {
+  animation: fadeIn 0.7s ease-in infinite alternate;
 }

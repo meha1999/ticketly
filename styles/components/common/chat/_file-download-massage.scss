@@ -1,0 +1,36 @@
+.file-download-massage-wrapper {
+  width: 100%;
+  max-width: 389px;
+  padding: 7px;
+  padding-right: 20px;
+  color: #5e7bec;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  border-radius: 30px;
+  background: #e2e8ff;
+  justify-content: space-between;
+  .file-detail {
+    gap: 10px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .download {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+    background-color: #5e7bec;
+  }
+}

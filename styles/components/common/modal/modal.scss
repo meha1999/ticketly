@@ -1,11 +1,62 @@
 @import "./otp-code.modal";
 
-@keyframes pop-in {
+@keyframes pop-in-swipe {
   from {
     transform: translateY(-50%) scale(0);
   }
   to {
     transform: translateY(0) scale(1);
+  }
+}
+@keyframes pop-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes pop-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes swipe-out {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(5%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+@keyframes fade-out {
+  0% {
+    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    backdrop-filter: blur(0px);
+    background: rgba(0, 0, 0, 0);
+  }
+}
+@keyframes fade-in {
+  0% {
+    backdrop-filter: blur(0px);
+    background: rgba(0, 0, 0, 0);
+  }
+  100% {
+    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -27,6 +78,10 @@
     position: fixed;
     top: 0;
     right: 0;
+    animation: fade-in 0.5s both cubic-bezier(0.215, 0.61, 0.355, 1);
+    &.fade-out {
+      animation: fade-out 0.5s both cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
   }
   & > .container__modal {
     position: fixed;
@@ -38,7 +93,17 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    animation: pop-in 0.5s both cubic-bezier(0.215, 0.610, 0.355, 1);
-    
+    &.no-animation {
+      animation: pop-in 0.5s both cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    &.swipe {
+      animation: pop-in-swipe 0.5s both cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    &.pop-out {
+      animation: pop-out 0.5s both cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    &.swipe-out {
+      animation: swipe-out 0.5s both cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
   }
 }

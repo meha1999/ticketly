@@ -1,0 +1,19 @@
+.dashboard {
+  .welcome-message {
+    .name {
+      font-weight: 700;
+      font-size: 26px;
+    }
+    .message {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    padding-top: 30px;
+  }
+  .dashboard-cards {
+    display: flex;
+    gap: 50px;
+    padding: 40px 0;
+  }
+}

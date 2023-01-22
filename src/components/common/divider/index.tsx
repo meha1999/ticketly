@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
-const Divider = () => {
-  return (
-    <div className='divider'/>
-  )
+interface DividerProps {
+  className?: string;
 }
 
-export default Divider
+const Divider: React.FC<DividerProps> = ({ className }) => {
+  return <div className={`divider ${className ? className : ""}`} />;
+};
+
+export default Divider;

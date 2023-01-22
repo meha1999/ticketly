@@ -23,6 +23,8 @@ const Requests = () => {
   const { push: routerPush, query } = useRouter();
   const [activeTab, setActiveTab] = useState("supplying");
   const [ticketList, setTicketList] = useState<any>([]);
+  const [newTickets, setNewTickets] = useState<number>(0);
+
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
@@ -33,6 +35,10 @@ const Requests = () => {
       const data = ticketRes.data.filter(
         (item: any) => status[item.status] === query.status
       );
+      const unreadTickets = ticketRes.data.filter(
+        (item: any) => status[item.status] === 'supplying'
+      );
+      setNewTickets(unreadTickets.length)
       setTicketList(data);
     } catch (error) {}
   };
@@ -102,7 +108,7 @@ const Requests = () => {
             <div className="requests-title-component">
               <div className="unseen-massages">
                 <span>خوانده نشده</span>
-                <span className="count">4</span>
+                <span className="count">{newTickets}</span>
               </div>
               <div className="tabs">
                 <NavLink

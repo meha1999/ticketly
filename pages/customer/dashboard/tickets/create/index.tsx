@@ -20,12 +20,15 @@ import { TiDelete } from "react-icons/ti";
 import { ChatService } from "services/chat.service";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import useRecorder from "src/tools/custom-hooks/use-recorder";
+import { UseRecorder } from "src/model/recorder";
 
 const ticketService = new TicketService();
 const chatService = new ChatService();
 
 const Create = () => {
-  const portalContainer: any = document.getElementById("portal");
+  const { recorderState, ...handlers }: UseRecorder = useRecorder();
+  const router = useRouter();
 
   const {
     register,
@@ -33,8 +36,6 @@ const Create = () => {
     formState: { errors },
     reset,
   } = useForm();
-
-  const router = useRouter();
 
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
@@ -79,7 +80,6 @@ const Create = () => {
   };
 
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
@@ -112,8 +112,39 @@ const Create = () => {
     }
   };
 
-  const handleUploadVoice = () => {
-    console.log("upload voice");
+  const handleUploadVoice = async () => {
+    handlers.saveRecording();
+    try {
+      const audioBlob = await fetch(recorderState.audio as string).then((r) =>
+        r.blob()
+      );
+      const audiofile = new File(
+        [audioBlob],
+        `${new Date().toISOString()}.wav`,
+        {
+          type: "audio/wav",
+        }
+      );
+      const data = new FormData();
+      data.append("file", audiofile);
+      data.append("file_type", "VOICE");
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+      };
+      const res = await chatService.upload(data, config);
+      setSelectedFiles([
+        ...selectedFiles,
+        { file: audiofile, id: res.data.id },
+      ]);
+      Toaster.success(
+        <ToastComponent
+          title="موفق"
+          description="فایل شما با موفقیت آپلود شد."
+        />
+      );
+    } catch (error) {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    }
   };
 
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -340,10 +371,19 @@ const Create = () => {
                 </div>
                 <div
                   className="upload-input-container"
-                  onClick={handleUploadVoice}
+                  onClick={() =>
+                    !recorderState.initRecording
+                      ? handlers.startRecording()
+                      : handleUploadVoice()
+                  }
                 >
                   <label className="upload-input-label">
-                    <Microphone color="#00A48A" />
+                    <Microphone
+                      color={recorderState.initRecording ? "#FA1744" : '#00A48A'}
+                      classStyle={`${
+                        recorderState.initRecording ? "fade-in" : ""
+                      }`}
+                    />
                     <span className="title">ضبط صدا</span>
                   </label>
                 </div>

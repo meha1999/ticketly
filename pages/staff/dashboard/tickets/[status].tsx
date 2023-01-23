@@ -59,7 +59,7 @@ const Requests = () => {
   const ticketAction = async (ticket: Record<string, string>) => {
     if (ticket.status === "UNREAD") {
       try {
-        await ticketService.takeTicket(ticket.id, {
+        await ticketService.changeTicketInfo(ticket.id, {
           staff: user?.id,
           status: "ACCEPTED",
         });
@@ -82,7 +82,7 @@ const Requests = () => {
     }
     if (ticket.status !== "CLOSED " && ticket.status !== "UNREAD") {
       try {
-        await ticketService.closeTicket(ticket.id, {
+        await ticketService.changeTicketInfo(ticket.id, {
           status: "CLOSED",
         });
         Toaster.success(
@@ -216,7 +216,7 @@ export const ReqStatusBtn = ({ status }: { status: string }) => {
     ANSWERED: "در انتظار پاسخ مشتری",
     PENDING: "در انتظار پاسخ مشتری",
     INPROCESS: "در انتظار تامین کننده",
-    CLOSED: "مشتری پاسخ داده",
+    CLOSED: "بسته شد",
     PROVIDED: "مشتری پاسخ داده",
     RETURNED: "در انتظار پاسخ مشتری",
     DELIVERED: "مشتری پاسخ داده",

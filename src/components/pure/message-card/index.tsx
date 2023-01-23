@@ -48,7 +48,7 @@ const MessageCard: FC<MessageCardProps> = ({
         <div className="message">{message}</div>
       </div>
       <div className="notification-and-time">
-        {unreadMessagesCount && (
+        {!!unreadMessagesCount && (
           <div className="count">{unreadMessagesCount}</div>
         )}
         <span>{JalaliDateTime(dateTimeConfig).toFullText(new Date(time))}</span>

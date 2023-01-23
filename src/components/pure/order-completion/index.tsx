@@ -6,6 +6,9 @@ import { TicketService } from "services/ticket.service";
 import { useCloseByClickOutSide } from "src/tools/custom-hooks/closeByClickOutside";
 import ProductOrderRegistration from "../product-order-registration";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { useRouter } from "next/router";
 
 const ticketService = new TicketService();
 
@@ -16,6 +19,7 @@ interface OrderCompletionProps {
   customerPhoto: string;
   customerId: number;
   ticketStatus: string;
+  ticketId: string;
   openChat: () => void;
 }
 
@@ -26,8 +30,15 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   customerPhoto,
   customerId,
   ticketStatus,
+  ticketId,
   openChat,
 }) => {
+  const router = useRouter();
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
+
   const portalContainer: any = document.getElementById("portal");
 
   const orderRegistrationModalRef = useRef<any>(null);
@@ -52,6 +63,10 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
     getSuppliersList();
   }, [isOpen]);
 
+  const sse = notification?.detail
+    ?.filter((message) => message?.ticket_group == router.query.groupId)[0]
+    ?.data?.filter((event) => event?.ticket == ticketId)[0];
+
   return (
     <div className="order-completion">
       <div className="subject">
@@ -73,13 +88,25 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           چت با مشتری
         </button>
       </div>
-      <div className="wallet">
+      <div className="wallet" style={{ alignItems: "center" }}>
+        <span className="wallet-title">تعداد پیام خوانده نشده:</span>
+        <div className="tools">
+          <div className="price">{sse?.unread_message} پیام</div>
+        </div>
+      </div>
+      <div className="wallet" style={{ marginRight: 20 }}>
         <span className="wallet-title">موجودی کیف پول:</span>
         <div className="tools">
           <div className="price">{customerWalletCash} تومان</div>
           <button
             type="button"
             className="order-btn"
+            style={{
+              cursor:
+                ticketStatus !== "INPROCESS" && ticketStatus !== "CLOSED"
+                  ? "default"
+                  : "pointer",
+            }}
             onClick={() =>
               ticketStatus !== "INPROCESS" &&
               ticketStatus !== "CLOSED" &&

@@ -40,18 +40,13 @@ const Chat = () => {
     { queryParams: { token: token } }
   );
 
-
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(ticketId);
       setMessageHistory(res.data);
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -70,12 +65,8 @@ const Chat = () => {
       setCustomerTicket(mechanics.length ? mechanics[0] : {});
       setSuppliersTicket(suppliers);
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -126,6 +117,7 @@ const Chat = () => {
         customerId={customerTicket.customer?.id}
         ticketStatus={customerTicket.status}
         openChat={() => setTicketId(customerTicket.id)}
+        ticketId={customerTicket.id}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <ChatList
@@ -135,7 +127,7 @@ const Chat = () => {
           group={group}
           onAddSuplier={fetchGroupInfo}
         />
-        <div style={{ width: "75%" }}>
+        <div style={{ width: "75%", maxHeight: 500 }}>
           <ChatComponent
             data={messageHistory}
             onSend={handleClickSendMessage}

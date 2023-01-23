@@ -114,26 +114,46 @@ const ChatList: React.FC<ChatListProps> = ({
     isOpen && getSuppliersList();
   }, [isOpen]);
 
+  const translate = {
+    VOICE: "صدا",
+    IMAGE: "عکس",
+    VIDEO: "ویدیو",
+    FILE: "فایل",
+  };
+
   return (
     <div className="chat-list">
       <div className="unread-messages">
         <span>خوانده نشده ها</span>
-        <div className="count">۳</div>
+        <div className="count">
+          {
+            notification?.detail?.filter(
+              (message) => message?.ticket_group == group?.id
+            )[0]?.unread_message
+          }
+        </div>
       </div>
       <div className="suppliers">
         <h3>تامین کنندگان:</h3>
         <div className="suppliers-list">
           {data?.map((item: any, index: number) => {
             const sse = notification?.detail
-              ?.filter((message) => message?.ticket_group === group?.id)[0]
-              ?.data?.filter((event) => event?.ticket === item.id)[0];
+              ?.filter((message) => message?.ticket_group == group?.id)[0]
+              ?.data?.filter((event) => event?.ticket == item.id)[0];
+            console.log(notification);
             return (
               <MessageCard
                 key={index}
                 onChatChange={() => onChatChange(item.id)}
                 profileImage={item.supplier?.photo}
                 name={item.supplier?.full_name}
-                message={sse?.text || sse?.file_type || ""}
+                message={
+                  sse?.text
+                    ? sse?.text
+                    : sse?.file_type
+                    ? translate[sse?.file_type]
+                    : ""
+                }
                 time={item.updated_at}
                 selected={ticketId === item.id}
                 unreadMessagesCount={sse?.unread_message}

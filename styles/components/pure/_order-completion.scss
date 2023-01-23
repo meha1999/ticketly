@@ -31,17 +31,17 @@
     flex-direction: column;
     justify-content: center;
     gap: 8px;
-    width: 15%;
+    width: 40%;
     .heading {
       display: flex;
       align-items: center;
       gap: 5px;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 14px;
       color: #4d4d4d;
       .profile-image {
-        width: 35px;
-        height: 35px;
+        width: 45px;
+        height: 45px;
         background: #f4f6f8;
         border-radius: 50%;
         display: flex;

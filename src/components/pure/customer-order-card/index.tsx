@@ -1,4 +1,7 @@
 import { FC } from "react";
+import { FiPackage } from "react-icons/fi";
+import { TbArrowBackUp } from "react-icons/tb";
+import { CiCircleCheck } from "react-icons/ci";
 import Image from "next/image";
 import notFoundImage from "images/icons/image_not_found.svg";
 import { JalaliDateTime } from "jalali-date-time";
@@ -25,11 +28,11 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
   status,
 }) => {
   const statusTypes: Record<string, string> = {
-    SUBMITTED: "ثبت‌ شده",
-    SENT: "ارسال شده",
-    RECEIVED: "تحویل داده شده",
+    SUBMITED: "سفارش ثبت شده",
+    SENT: " در حال ارسال",
+    RECEIVED: "دریافت شده",
     REJECTED: "عودت داده شده",
-    CONFIRMED: "تکمیل شده",
+    CONFIRMED: "تحویل داده شده است ",
   };
 
   const dateTimeConfig = {
@@ -39,6 +42,31 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
     titleFormat: "W, D N Y ",
     dateFormat: "Y-M-D",
     timeFormat: "H:I:S",
+  };
+
+  const statusIconsConfig: Record<string, any> = {
+    SENT: (
+      <button className="icon dark-green">
+        <FiPackage />
+      </button>
+    ),
+    RECEIVED: (
+      <>
+        <button className="icon dark">
+          <TbArrowBackUp />
+        </button>
+        <button className="icon  light-green">
+          <CiCircleCheck />
+        </button>
+      </>
+    ),
+  };
+  const statusTextColorClass: Record<string, any> = {
+    SUBMITED: "norm",
+    SENT: "danger",
+    CONFIRMED: "norm",
+    RECEIVED: "norm",
+    REJECTED: "alert",
   };
 
   return (
@@ -66,7 +94,10 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
         {JalaliDateTime(dateTimeConfig).toFullText(new Date(dateAndTime))}
       </p>
       <div className="status">
-        {status ? statusTypes[status] : statusTypes.SUBMITTED}
+        <button className={"btn" + " " + statusTextColorClass["REJECTED"] || ""}>
+          {statusTypes["REJECTED"]}
+        </button>
+        {statusIconsConfig["REJECTED"] || ""}
       </div>
     </div>
   );

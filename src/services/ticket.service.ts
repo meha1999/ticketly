@@ -16,6 +16,13 @@ export class TicketService extends BaseService {
     );
   }
 
+  closeTicket(ticket_id: string, ticket_close: any) {
+    return this.axiosInstanceWithToken.patch(
+      `/ticket/${ticket_id}/`,
+      ticket_close
+    );
+  }
+
   getGroups(groupId: string) {
     return this.axiosInstanceWithToken.get(`/ticket/group/${groupId}/`);
   }

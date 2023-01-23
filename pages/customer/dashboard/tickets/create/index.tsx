@@ -250,7 +250,7 @@ const Create = () => {
       };
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {
-        router.push("/customer/dashboard/tickets");
+        router.push("/customer/dashboard/tickets/supplying");
         Toaster.success(
           <ToastComponent
             title="موفق"

@@ -10,6 +10,7 @@ import DefaultTicket from "public/images/default-ticket.svg";
 import Delete from "public/images/icons/delete.svg";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
+import { NavLink } from "src/tools/NavLink";
 
 const ticketService = new TicketService();
 
@@ -51,14 +52,22 @@ const Tickets = () => {
   const handleOpenChat = (ticketId: string) => {
     routerPush(`/customer/dashboard/chat/${ticketId}/`);
   };
-  
+
   return (
     <DashboardLayout>
       <div className="tickets">
         <Title
           titleIcon={TicketBold}
           titleText="درخواست ها"
-          titleSideComponent={<></>}
+          titleSideComponent={
+            <>
+              <div className="tabs">
+                <NavLink href="supplying">درحال تامین</NavLink>
+                <NavLink href="sending">درحال ارسال</NavLink>
+                <NavLink href="closed">بسته شده</NavLink>
+              </div>
+            </>
+          }
         />
         <Divider />
         <div className="tickets-conatiner">
@@ -72,7 +81,7 @@ const Tickets = () => {
                 <div className="number">
                   <div className="value">{key + 1}</div>
                 </div>
-                <div>
+                <div className="image">
                   <Image
                     src={DefaultTicket}
                     alt="tikcet"

@@ -33,12 +33,12 @@ const Requests = () => {
     try {
       const ticketRes = await ticketService.getTickets();
       const data = ticketRes.data.filter(
-        (item: any) => status[item.status] === query.status
+        (item: any) => SHOW_LIST_BASE_ROUTE_CONFIG[item.status] === query.status
       );
       const unreadTickets = ticketRes.data.filter(
-        (item: any) => status[item.status] === 'supplying'
+        (item: any) => SHOW_LIST_BASE_ROUTE_CONFIG[item.status] === "supplying"
       );
-      setNewTickets(unreadTickets.length)
+      setNewTickets(unreadTickets.length);
       setTicketList(data);
     } catch (error) {}
   };
@@ -56,33 +56,46 @@ const Requests = () => {
     timeFormat: "H:I:S",
   };
 
-  const status: Record<string, string> = {
-    UNREAD: "supplying",
-    INPROCESS: "supplying",
-    CLOSED: "closed",
-    ACCEPTED: "sending",
-    ANSWERED: "sending",
-    PENDING: "sending",
-    PROVIDED: "sending",
-    RETURNED: "sending",
-    DELIVERED: "sending",
-  };
-
-  const getTicketRequest = async (ticket: Record<string, string>) => {
+  const ticketAction = async (ticket: Record<string, string>) => {
     if (ticket.status === "UNREAD") {
       try {
-        const res = await ticketService.takeTicket(ticket.id, {
+        await ticketService.takeTicket(ticket.id, {
           staff: user?.id,
           status: "ACCEPTED",
         });
-        Toaster.success("قبول درخواست با موفقیت انجام شد.");
-        const newList = ticketList.map((item: any) =>
-          item.id === ticket.id ? res.data : item
+        Toaster.success(
+          <ToastComponent
+            title="موفقیت آمیز"
+            description=" قبول درخواست با موفقیت انجام شد."
+          />
         );
+        routerPush(
+          `/staff/dashboard/chat/${ticket.ticket_group}?ticketId=${ticket.id}`
+        );
+        const newList = ticketList.filter((item: any) => item.id !== ticket.id);
         setTicketList(newList);
       } catch (error) {
         Toaster.error(
           <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
+    }
+    if (ticket.status !== "CLOSED " && ticket.status !== "UNREAD") {
+      try {
+        await ticketService.closeTicket(ticket.id, {
+          status: "CLOSED",
+        });
+        Toaster.success(
+          <ToastComponent
+            title="موفقیت آمیز"
+            description="بستن تیکت با موفقیت انجام شد."
+          />
+        );
+        const newList = ticketList.filter((item: any) => item.id !== ticket.id);
+        setTicketList(newList);
+      } catch (error) {
+        Toaster.error(
+          <ToastComponent title="ناموفق" description="خطایی در سرور بروز داد" />
         );
       }
     }
@@ -98,6 +111,15 @@ const Requests = () => {
     }
   }, [query.status, activeTab]);
 
+  const SHOW_LIST_BASE_ROUTE_CONFIG: Record<string, string> = {
+    UNREAD: "supplying",
+    ACCEPTED: "sending",
+    PENDING: "sending",
+    ANSWERED: "sending",
+    INPROCESS: "closed",
+    CLOSED: "closed",
+  };
+
   return (
     <DashboardLayout>
       <div className="ev-request-page-wrapper">
@@ -111,24 +133,9 @@ const Requests = () => {
                 <span className="count">{newTickets}</span>
               </div>
               <div className="tabs">
-                <NavLink
-                  href="supplying"
-                  className={activeTab === "supplying" ? "active" : ""}
-                >
-                  درحال تامین
-                </NavLink>
-                <NavLink
-                  href="sending"
-                  className={activeTab === "sending" ? "active" : ""}
-                >
-                  درحال ارسال
-                </NavLink>
-                <NavLink
-                  href="closed"
-                  className={activeTab === "closed" ? "active" : ""}
-                >
-                  بسته شده
-                </NavLink>
+                <NavLink href="supplying">درحال تامین</NavLink>
+                <NavLink href="sending">درحال ارسال</NavLink>
+                <NavLink href="closed">بسته شده</NavLink>
               </div>
             </div>
           }
@@ -168,16 +175,15 @@ const Requests = () => {
                   )}
                 </div>
                 <div className="status">
-                  <ReqStatusBtn
-                    status={item.status}
-                    text="در انتظار پاسخ ارزیاب"
-                  />
+                  <ReqStatusBtn status={item.status} />
                 </div>
                 <div className="ticket">
                   <ReqTicketBtn
-                    isClosed={item.closed}
                     status={item.status}
-                    onClick={() => getTicketRequest(item)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      ticketAction(item);
+                    }}
                   />
                 </div>
               </li>
@@ -191,7 +197,7 @@ const Requests = () => {
 
 export default Requests;
 
-export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
+export const ReqStatusBtn = ({ status }: { status: string }) => {
   const className: Record<string, string> = {
     UNREAD: "pending",
     INPROCESS: "pending",
@@ -224,13 +230,19 @@ export const ReqStatusBtn = ({ status }: { status: string; text: string }) => {
 
 export const ReqTicketBtn = ({
   status,
-  isClosed,
   onClick,
 }: {
   status: string;
-  isClosed: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
 }) => {
+  const translate: Record<string, string> = {
+    UNREAD: "قبول درخواست",
+    ACCEPTED: "بستن تیکت",
+    PENDING: "بستن تیکت",
+    ANSWERED: "بستن تیکت",
+    INPROCESS: "در حال تامین",
+    CLOSED: "تیکت بسته شده",
+  };
   return (
     <div
       className={`ticket-status-wrapper ${
@@ -239,11 +251,7 @@ export const ReqTicketBtn = ({
       onClick={onClick}
     >
       {status === "UNREAD" && <BsCheckLg />}
-      {status === "UNREAD"
-        ? "قبول درخواست"
-        : isClosed
-        ? "تیکت بسته شده"
-        : " بستن تیکت"}
+      {translate[status]}
     </div>
   );
 };

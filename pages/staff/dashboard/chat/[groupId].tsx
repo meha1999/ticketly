@@ -13,7 +13,6 @@ import chatIcon from "images/icons/chat_page.svg";
 import Divider from "components/common/divider";
 import { TicketService } from "services/ticket.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
-import { useSSE } from "react-hooks-sse";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 
@@ -30,7 +29,6 @@ const Chat = () => {
     (store: ReduxStoreModel) => store.token
   );
 
-  // const state = useSSE("message", {});
   const [ticketId, setTicketId] = useState<string>("");
   const [group, setGroup] = useState();
   const [messageHistory, setMessageHistory] = useState<any>([]);
@@ -42,13 +40,6 @@ const Chat = () => {
     { queryParams: { token: token } }
   );
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState as number];
 
   const fetchMessageHistory = async () => {
     try {
@@ -133,6 +124,7 @@ const Chat = () => {
         customerWalletCash={customerTicket.customer?.wallet_account?.amount}
         customerPhoto={customerTicket.customer?.photo}
         customerId={customerTicket.customer?.id}
+        ticketStatus={customerTicket.status}
         openChat={() => setTicketId(customerTicket.id)}
       />
       <div style={{ display: "flex", justifyContent: "space-between" }}>

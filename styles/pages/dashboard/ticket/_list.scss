@@ -25,7 +25,7 @@
           display: flex;
           justify-content: center;
           .value {
-            color: #7D7D7D;
+            color: #7d7d7d;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -66,21 +66,21 @@
               padding-left: 5px;
               width: 110px;
             }
-            .supplier {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 90px;
-              padding: 4px;
-              background-color: #f3c701;
-              border-radius: 20px;
-              margin-left: 10px;
-              font-weight: 700;
-              font-size: 14px;
-              line-height: 22px;
-            }
           }
         }
+      }
+      .unread-notification {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 10px;
+        background-color: #f3c701;
+        border-radius: 20px;
+        margin-left: 10px;
+        margin-right: 50px;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 22px;
       }
       .price {
         margin: 0 10px;

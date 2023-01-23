@@ -11,10 +11,17 @@ import Delete from "public/images/icons/delete.svg";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
 import { NavLink } from "src/tools/NavLink";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const ticketService = new TicketService();
 
 const Tickets = () => {
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
+
   const [ticketList, setTicketList] = useState([]);
   const { push: routerPush, query } = useRouter();
 
@@ -76,55 +83,62 @@ const Tickets = () => {
         />
         <Divider />
         <div className="tickets-conatiner">
-          {ticketList.map((ticket: any, key: any) => (
-            <div
-              className="ticket-box"
-              key={key}
-              onClick={() => handleOpenChat(ticket.id)}
-            >
-              <div className="description">
-                <div className="number">
-                  <div className="value">{key + 1}</div>
-                </div>
-                <div className="image">
-                  <Image
-                    src={DefaultTicket}
-                    alt="tikcet"
-                    className="ticket-img"
-                  />
-                </div>
-                <div className="info">
-                  <div className="name">{ticket.name}</div>
-                  <div className="further-info">
-                    <div className="brand">{ticket.brand ?? "بدون برند"}</div>
-                    <div className="supplier">
-                      {ticket.supplier ?? "بدون تامین"}
+          {ticketList.map((ticket: any, key: any) => {
+            const unread = notification?.detail.filter(
+              (item) => item.data[0].ticket === ticket.id
+            )[0];
+            return (
+              <div
+                className="ticket-box"
+                key={key}
+                onClick={() => handleOpenChat(ticket.id)}
+              >
+                <div className="description">
+                  <div className="number">
+                    <div className="value">{key + 1}</div>
+                  </div>
+                  <div className="image">
+                    <Image
+                      src={DefaultTicket}
+                      alt="tikcet"
+                      className="ticket-img"
+                    />
+                  </div>
+                  <div className="info">
+                    <div className="name">{ticket.name}</div>
+                    <div className="further-info">
+                      <div className="brand">{ticket.brand ?? "بدون برند"}</div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="price">
-                <div className="amount">{ticket.price ?? "******"} تومان</div>
-                <div className="code">{ticket.id}</div>
-              </div>
-              <div className="date-time">
-                <div className="date">{ticket.date}</div>
-                <div className="time">
-                  {JalaliDateTime(dateTimeConfig).toFullText(
-                    new Date(ticket.updated_at)
+                  {unread?.data[0].unread_message && (
+                    <div className="unread-notification">
+                      {unread?.data[0].unread_message}
+                    </div>
                   )}
                 </div>
-              </div>
-              <div className="operation">
-                {query?.status === "supplying" && (
-                  <div className="delete-icon">
-                    <Image src={Delete} alt="delete" />
+                <div className="price">
+                  <div className="amount">{ticket.price ?? "******"} تومان</div>
+                  <div className="code">{ticket.id}</div>
+                </div>
+                <div className="date-time">
+                  <div className="date">{ticket.date}</div>
+                  <div className="time">
+                    {JalaliDateTime(dateTimeConfig).toFullText(
+                      new Date(ticket.updated_at)
+                    )}
                   </div>
-                )}
-                <div className="status">{translate[ticket.status]}</div>
+                </div>
+                <div className="operation">
+                  {query?.status === "supplying" && (
+                    <div className="delete-icon">
+                      <Image src={Delete} alt="delete" />
+                    </div>
+                  )}
+                  <div className="status">{translate[ticket.status]}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </DashboardLayout>

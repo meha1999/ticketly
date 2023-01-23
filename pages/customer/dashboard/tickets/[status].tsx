@@ -16,17 +16,20 @@ const ticketService = new TicketService();
 const Tickets = () => {
   const [ticketList, setTicketList] = useState([]);
   const { push: routerPush, query } = useRouter();
-  console.log(query);
+
+  const getTickets = async () => {
+    try {
+      const ticketRes = await ticketService.getTickets();
+      const data = ticketRes.data.filter(
+        (item: any) => pageConfig[item.status] === query.status 
+      );
+      setTicketList(data);
+    } catch (error) {}
+  };
 
   useEffect(() => {
-    const getTickets = async () => {
-      try {
-        const ticketRes = await ticketService.getTickets();
-        setTicketList(ticketRes.data);
-      } catch (error) {}
-    };
     getTickets();
-  }, []);
+  }, [query.status]);
 
   const dateTimeConfig = {
     timezone: "Asia/Tehran",
@@ -43,9 +46,17 @@ const Tickets = () => {
     ANSWERED: "در انتظار پاسخ مشتری",
     INPROCESS: "در انتظار تامین کننده",
     CLOSED: "مشتری پاسخ داده",
-    PROVIDED: "مشتری پاسخ داده",
-    RETURNED: "در انتظار پاسخ مشتری",
-    DELIVERED: "مشتری پاسخ داده",
+    // PROVIDED: "مشتری پاسخ داده",
+    // RETURNED: "در انتظار پاسخ مشتری",
+    // DELIVERED: "مشتری پاسخ داده",
+  };
+
+  const pageConfig: Record<string, string> = {
+    UNREAD: "supplying",
+    ACCEPTED: "sending",
+    ANSWERED: "sending",
+    INPROCESS: "closed",
+    CLOSED: "closed",
   };
 
   const handleOpenChat = (ticketId: string) => {

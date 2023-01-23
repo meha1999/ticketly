@@ -10,6 +10,7 @@ import DefaultTicket from "public/images/default-ticket.svg";
 import Delete from "public/images/icons/delete.svg";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
+import { NavLink } from "src/tools/NavLink";
 
 const ticketService = new TicketService();
 
@@ -21,10 +22,12 @@ const Tickets = () => {
     try {
       const ticketRes = await ticketService.getTickets();
       const data = ticketRes.data.filter(
-        (item: any) => pageConfig[item.status] === query.status 
+        (item: any) => pageConfig[item.status] === query.status
       );
       setTicketList(data);
-    } catch (error) {}
+    } catch (error) {
+      setTicketList([]);
+    }
   };
 
   useEffect(() => {
@@ -83,7 +86,7 @@ const Tickets = () => {
                 <div className="number">
                   <div className="value">{key + 1}</div>
                 </div>
-                <div>
+                <div className="image">
                   <Image
                     src={DefaultTicket}
                     alt="tikcet"

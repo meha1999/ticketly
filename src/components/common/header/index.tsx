@@ -19,6 +19,12 @@ const Header = () => {
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
+  
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
+
 
   return (
     <div className="header-wrapper">
@@ -56,7 +62,9 @@ const Header = () => {
         <div className="notification-container">
           <div className="notification">
             <Image src={bellIcon} alt="bell" />
-            {/* <span className="count">3</span> */}
+            {notification?.unread_message && (
+              <span className="count">{notification?.unread_message}</span>
+            )}
           </div>
         </div>
       </div>

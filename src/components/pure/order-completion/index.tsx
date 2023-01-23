@@ -15,6 +15,7 @@ interface OrderCompletionProps {
   customerWalletCash: number;
   customerPhoto: string;
   customerId: number;
+  ticketStatus: string;
   openChat: () => void;
 }
 
@@ -24,6 +25,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   customerWalletCash,
   customerPhoto,
   customerId,
+  ticketStatus,
   openChat,
 }) => {
   const portalContainer: any = document.getElementById("portal");
@@ -78,9 +80,15 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           <button
             type="button"
             className="order-btn"
-            onClick={handleOrderRegistration}
+            onClick={() =>
+              ticketStatus !== "INPROCESS" &&
+              ticketStatus !== "CLOSED" &&
+              handleOrderRegistration()
+            }
           >
-            تکمیل سفارش
+            {ticketStatus !== "INPROCESS" && ticketStatus !== "CLOSED"
+              ? " تکمیل سفارش"
+              : "سفارش ثبت شده"}
           </button>
         </div>
       </div>

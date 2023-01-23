@@ -15,6 +15,7 @@ const Dashboard = () => {
     (store) => store.user
   );
 
+
   const userType: Record<string, string> = {
     staff: "#5E7BEC",
     customer: "#00A48A",

@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import { useRouter } from "next/router";
 
 const ticketService = new TicketService();
 
@@ -37,6 +38,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   customerWalletCash,
   closeModal,
 }) => {
+  const router = useRouter();
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
@@ -87,6 +89,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
         supplier_delivery_address: data.supplier_delivery_address,
         total_price: data.total_price,
         items_order: [],
+        ticket_group: router.query.groupId,
       };
       const res = await ticketService.finalPayment(finalData);
       if (res.status === 201) {

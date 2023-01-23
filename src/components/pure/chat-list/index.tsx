@@ -7,6 +7,8 @@ import SuppliersList from "../suppliers-list";
 import { TicketService } from "services/ticket.service";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const ticketService = new TicketService();
 
@@ -33,6 +35,11 @@ const ChatList: React.FC<ChatListProps> = ({
   const [suppliersList, setSuppliersList] = useState<Array<any>>([]);
   const [selectedSuppliers, setSelectedSuppliers] = useState<Array<number>>([]);
 
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
+
   useCloseByClickOutSide({
     ref: addSupplierPortalRef,
     isOpened: isOpen,
@@ -51,12 +58,8 @@ const ChatList: React.FC<ChatListProps> = ({
       console.log(finalData, res.data, group.ticket_group);
       setSuppliersList(finalData);
     } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -92,12 +95,8 @@ const ChatList: React.FC<ChatListProps> = ({
       onAddSuplier();
       handleCancel();
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -124,17 +123,23 @@ const ChatList: React.FC<ChatListProps> = ({
       <div className="suppliers">
         <h3>تامین کنندگان:</h3>
         <div className="suppliers-list">
-          {data?.map((item: any, index: number) => (
-            <MessageCard
-              key={index}
-              onChatChange={() => onChatChange(item.id)}
-              profileImage={item.supplier?.photo}
-              name={item.supplier?.full_name}
-              message={item.name}
-              time={item.updated_at}
-              selected={ticketId === item.id}
-            />
-          ))}
+          {data?.map((item: any, index: number) => {
+            const sse = notification?.detail
+              ?.filter((message) => message?.ticket_group === group?.id)[0]
+              ?.data?.filter((event) => event?.ticket === item.id)[0];
+            return (
+              <MessageCard
+                key={index}
+                onChatChange={() => onChatChange(item.id)}
+                profileImage={item.supplier?.photo}
+                name={item.supplier?.full_name}
+                message={sse?.text || sse?.file_type || ""}
+                time={item.updated_at}
+                selected={ticketId === item.id}
+                unreadMessagesCount={sse?.unread_message}
+              />
+            );
+          })}
         </div>
       </div>
       <button className="add-supplier-btn" onClick={handleAddSupplier}>

@@ -54,7 +54,7 @@ const Requests = () => {
   const getTicketRequest = async (ticket: Record<string, string>) => {
     if (ticket.status === "UNREAD") {
       try {
-        const res = await ticketService.takeTicket(ticket.id, {
+        const res = await ticketService.changeTicketInfo(ticket.id, {
           staff: user?.id,
           status: "ACCEPTED",
         });

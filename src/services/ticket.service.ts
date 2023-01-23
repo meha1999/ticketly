@@ -9,17 +9,10 @@ export class TicketService extends BaseService {
     return this.axiosInstanceWithToken.get(`/ticket/${id}/`);
   }
 
-  takeTicket(ticket_id: string, user_info: any) {
+  changeTicketInfo(ticket_id: string, user_info: any) {
     return this.axiosInstanceWithToken.patch(
       `/ticket/${ticket_id}/`,
       user_info
-    );
-  }
-
-  closeTicket(ticket_id: string, ticket_close: any) {
-    return this.axiosInstanceWithToken.patch(
-      `/ticket/${ticket_id}/`,
-      ticket_close
     );
   }
 

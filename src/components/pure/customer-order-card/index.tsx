@@ -15,6 +15,8 @@ interface CustomerOrderCardProps {
   price: number;
   dateAndTime: string;
   status: string;
+  isSupplier?: boolean;
+  onSend?: (OrderId: string) => void;
 }
 
 const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
@@ -25,7 +27,9 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
   brand,
   price,
   dateAndTime,
+  isSupplier,
   status,
+  onSend = () => {},
 }) => {
   const statusTypes: Record<string, string> = {
     SUBMITED: "سفارش ثبت شده",
@@ -46,8 +50,8 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
 
   const statusIconsConfig: Record<string, any> = {
     SENT: (
-      <button className="icon dark-green">
-        <FiPackage />
+      <button className="icon dark-green" onClick={() => onSend(id)}>
+        <FiPackage title="تحویل گرفتن" />
       </button>
     ),
     RECEIVED: (
@@ -61,6 +65,15 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
       </>
     ),
   };
+
+  const statusIconsConfigSupplier: Record<string, any> = {
+    SUBMITED: (
+      <button className="icon dark-green" onClick={() => onSend(id)}>
+        <FiPackage title="ارسال" />
+      </button>
+    ),
+  };
+
   const statusTextColorClass: Record<string, any> = {
     SUBMITED: "norm",
     SENT: "danger",
@@ -94,10 +107,12 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
         {JalaliDateTime(dateTimeConfig).toFullText(new Date(dateAndTime))}
       </p>
       <div className="status">
-        <button className={"btn" + " " + statusTextColorClass["REJECTED"] || ""}>
-          {statusTypes["REJECTED"]}
+        <button className={"btn" + " " + statusTextColorClass[status] || ""}>
+          {statusTypes[status]}
         </button>
-        {statusIconsConfig["REJECTED"] || ""}
+        {isSupplier
+          ? statusIconsConfigSupplier[status]
+          : statusIconsConfig[status] || ""}
       </div>
     </div>
   );

@@ -8,10 +8,8 @@ import OrdersIcon from "images/icons/orders_icon";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { OrderService } from "services/order.service";
-import { TicketService } from "services/ticket.service";
 
 const orderService = new OrderService();
-const ticketService = new TicketService()
 
 const Orders = () => {
   const [orders, setOrders] = useState<Array<any>>([]);
@@ -33,7 +31,7 @@ const Orders = () => {
 
   const sendPackageHandler = async (order_id: string) => {
     try {
-      const res = await ticketService.changeTicketInfo(order_id, { status: "SENT" });
+      const res = await orderService.changeOrderInfo(order_id, { status: "SENT" });
       Toaster.success(
         <ToastComponent title="موفقیت آمیز" description="بسته شما ارسال شد" />
       );

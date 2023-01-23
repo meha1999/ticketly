@@ -107,14 +107,12 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
         {JalaliDateTime(dateTimeConfig).toFullText(new Date(dateAndTime))}
       </p>
       <div className="status">
-        <button
-          className={"btn" + " " + statusTextColorClass["SUBMITED"] || ""}
-        >
-          {statusTypes["SUBMITED"]}
+        <button className={"btn" + " " + statusTextColorClass[status] || ""}>
+          {statusTypes[status]}
         </button>
         {isSupplier
-          ? statusIconsConfigSupplier["SUBMITED"]
-          : statusIconsConfig["SUBMITED"] || ""}
+          ? statusIconsConfigSupplier[status]
+          : statusIconsConfig[status] || ""}
       </div>
     </div>
   );

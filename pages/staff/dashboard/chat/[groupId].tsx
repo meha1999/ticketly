@@ -119,6 +119,7 @@ const Chat = () => {
           customerId={customerTicket.customer?.id}
           ticketStatus={customerTicket.status}
           openChat={() => setTicketId(customerTicket.id)}
+          selectedTikcet={ticketId}
           ticketId={customerTicket.id}
         />
         <div style={{ display: "flex", justifyContent: "space-between" }}>

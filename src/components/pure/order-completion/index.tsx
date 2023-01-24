@@ -20,6 +20,7 @@ interface OrderCompletionProps {
   customerId: number;
   ticketStatus: string;
   ticketId: string;
+  selectedTikcet: string;
   openChat: () => void;
 }
 
@@ -31,6 +32,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   customerId,
   ticketStatus,
   ticketId,
+  selectedTikcet,
   openChat,
 }) => {
   const router = useRouter();
@@ -84,7 +86,15 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
           </div>
           <span>{customerName}</span>
         </div>
-        <button className="chat-user" onClick={openChat}>
+        <button
+          className="chat-user"
+          style={{
+            backgroundColor:
+              selectedTikcet === ticketId ? "#00A48A" : "#defffa",
+            color: selectedTikcet === ticketId ? "#FFFFFF" : "#00A48A",
+          }}
+          onClick={openChat}
+        >
           چت با مشتری
         </button>
       </div>

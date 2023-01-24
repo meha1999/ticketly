@@ -8,6 +8,7 @@ import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import DashboardBold from "public/images/icons/dashboard_bold.svg";
 import DashboardCardChat from "public/images/dashboard_card_chat.svg";
 import DashboardCardWarehouse from "public/images/dashboard_card_warehouse.svg";
+import SeoHead from "components/common/seo-head";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -23,54 +24,57 @@ const Dashboard = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="dashboard">
-        <Title
-          titleIcon={DashboardBold}
-          titleText="پیشخوان"
-          titleSideComponent={<></>}
-        />
-        <div className="welcome-message">
-          <span
-            className="name"
-            style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
-          >
-            {user?.full_name ?? user?.username ?? ""}
-          </span>
-          <span style={{ color: `${userType[router.asPath.split("/")[1]]}` }}>
-            {" به کلپ خوش آمدید "}
-          </span>
-        </div>
-        <div className="dashboard-cards">
-          <DashboardCard
-            backgroundColor="#5E7BEC"
-            btnBgColor="#F3C701"
-            btnColor="#FFFFFF"
-            btnText="مشاهده"
-            dir="rtl"
-            image={DashboardCardChat}
-            onClick={() => {
-              router.push("/staff/dashboard/tickets/sending");
-            }}
-            text="درخواست‌های مکـــــــــــــــــانیک"
-            textColor="#FFFFFF"
+    <>
+      <DashboardLayout>
+        <div className="dashboard">
+          <Title
+            titleIcon={DashboardBold}
+            titleText="پیشخوان"
+            titleSideComponent={<></>}
           />
-          <DashboardCard
-            backgroundColor="#FFEB5C"
-            btnBgColor="#505050"
-            btnColor="#FFFFFF"
-            btnText="مشاهده"
-            textColor="#505050"
-            dir="ltr"
-            image={DashboardCardWarehouse}
-            onClick={() => {
-              router.push("/staff/dashboard/store");
-            }}
-            text="انبار محصولات"
-          />
+          <div className="welcome-message">
+            <span
+              className="name"
+              style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
+            >
+              {user?.full_name ?? user?.username ?? ""}
+            </span>
+            <span style={{ color: `${userType[router.asPath.split("/")[1]]}` }}>
+              {" به کلپ خوش آمدید "}
+            </span>
+          </div>
+          <div className="dashboard-cards">
+            <DashboardCard
+              backgroundColor="#5E7BEC"
+              btnBgColor="#F3C701"
+              btnColor="#FFFFFF"
+              btnText="مشاهده"
+              dir="rtl"
+              image={DashboardCardChat}
+              onClick={() => {
+                router.push("/staff/dashboard/tickets/sending");
+              }}
+              text="درخواست‌های مکـــــــــــــــــانیک"
+              textColor="#FFFFFF"
+            />
+            <DashboardCard
+              backgroundColor="#FFEB5C"
+              btnBgColor="#505050"
+              btnColor="#FFFFFF"
+              btnText="مشاهده"
+              textColor="#505050"
+              dir="ltr"
+              image={DashboardCardWarehouse}
+              onClick={() => {
+                router.push("/staff/dashboard/store");
+              }}
+              text="انبار محصولات"
+            />
+          </div>
         </div>
-      </div>
-    </DashboardLayout>
+      </DashboardLayout>
+      <SeoHead title="پیشخوان" description="" />
+    </>
   );
 };
 

@@ -1,8 +1,14 @@
 import { GetServerSideProps } from "next";
 import DashboardLayout from "components/layouts/dashboard/supplier";
+import SeoHead from "components/common/seo-head";
 
 const Tickets = () => {
-  return <DashboardLayout>Tickets</DashboardLayout>;
+  return (
+    <>
+      <DashboardLayout>Tickets</DashboardLayout>{" "}
+      <SeoHead title="" description="" />
+    </>
+  );
 };
 
 export default Tickets;

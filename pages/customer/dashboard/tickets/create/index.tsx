@@ -22,6 +22,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
+import SeoHead from "components/common/seo-head";
 
 const ticketService = new TicketService();
 const chatService = new ChatService();
@@ -299,154 +300,157 @@ const Create = () => {
   }, [recorderState.audio]);
 
   return (
-    <DashboardLayout>
-      <div className="create">
-        <Title titleText="ثبت تیکت جدید" titleIcon={createTicket} />
-        <Divider />
-        <form className="content" onSubmit={handleSubmit(handleRequest)}>
-          <div className="row">
-            <div className="field">
-              <Dropdown
-                id="category"
-                label="دسته بندی"
-                disabled={!rootCategories.length}
-                currentOptions={rootCategories}
-                currentValue={selectedRoot}
-                onChange={rootChangeHandler}
-              />
+    <>
+      <DashboardLayout>
+        <div className="create">
+          <Title titleText="ثبت تیکت جدید" titleIcon={createTicket} />
+          <Divider />
+          <form className="content" onSubmit={handleSubmit(handleRequest)}>
+            <div className="row">
+              <div className="field">
+                <Dropdown
+                  id="category"
+                  label="دسته بندی"
+                  disabled={!rootCategories.length}
+                  currentOptions={rootCategories}
+                  currentValue={selectedRoot}
+                  onChange={rootChangeHandler}
+                />
+              </div>
+              <div className="field">
+                <Dropdown
+                  id="part_type"
+                  label="دسته بندی"
+                  disabled={!trunkCategories?.length}
+                  currentOptions={trunkCategories}
+                  currentValue={selectedPartType}
+                  onChange={partTypeChangeHandler}
+                />
+              </div>
             </div>
-            <div className="field">
-              <Dropdown
-                id="part_type"
-                label="دسته بندی"
-                disabled={!trunkCategories?.length}
-                currentOptions={trunkCategories}
-                currentValue={selectedPartType}
-                onChange={partTypeChangeHandler}
-              />
+            <div className="row">
+              <div className="field">
+                <Dropdown
+                  id="accessories_type"
+                  label="نوع لوازم قطعه"
+                  disabled={!branchCategories?.length}
+                  currentOptions={branchCategories}
+                  currentValue={selectedAccessoriesType}
+                  onChange={accessoriesTypeHandleChange}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="name">{"نام کالا:"}</label>
+                <input
+                  id="name"
+                  type="text"
+                  {...register("name", { required: true })}
+                />
+                {errors.name && <p>وارد کردن نام کالا اجباری است.</p>}
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="field">
-              <Dropdown
-                id="accessories_type"
-                label="نوع لوازم قطعه"
-                disabled={!branchCategories?.length}
-                currentOptions={branchCategories}
-                currentValue={selectedAccessoriesType}
-                onChange={accessoriesTypeHandleChange}
-              />
+            <div className="message">
+              <label htmlFor="description">{"پیام:"}</label>
+              <textarea
+                id="description"
+                rows={10}
+                {...register("description", { required: true })}
+              ></textarea>
+              {errors.description && <p>وارد کردن پیام اجباری است.</p>}
             </div>
-            <div className="field">
-              <label htmlFor="name">{"نام کالا:"}</label>
-              <input
-                id="name"
-                type="text"
-                {...register("name", { required: true })}
-              />
-              {errors.name && <p>وارد کردن نام کالا اجباری است.</p>}
-            </div>
-          </div>
-          <div className="message">
-            <label htmlFor="description">{"پیام:"}</label>
-            <textarea
-              id="description"
-              rows={10}
-              {...register("description", { required: true })}
-            ></textarea>
-            {errors.description && <p>وارد کردن پیام اجباری است.</p>}
-          </div>
-          <div className="row">
-            <label>{"فایل پیوست:"}</label>
-            <div className="file-upload-content">
-              <div className="inputs-container">
-                <div className="upload-input-container">
-                  <label htmlFor="file" className="upload-input-label">
-                    <Attach color="#00A48A" />
-                    <span className="title">فایل</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    className="upload-input"
-                    {...register("file")}
-                    onChange={handleUploadFile}
-                  />
-                </div>
-                <div
-                  className="upload-input-container"
-                  onClick={() =>
-                    !recorderState.initRecording
-                      ? handlers.startRecording()
-                      : handlers.saveRecording()
-                  }
-                >
-                  <label className="upload-input-label">
-                    <Microphone
-                      color={
-                        recorderState.initRecording ? "#FA1744" : "#00A48A"
-                      }
-                      classStyle={`${
-                        recorderState.initRecording ? "fade-in" : ""
-                      }`}
+            <div className="row">
+              <label>{"فایل پیوست:"}</label>
+              <div className="file-upload-content">
+                <div className="inputs-container">
+                  <div className="upload-input-container">
+                    <label htmlFor="file" className="upload-input-label">
+                      <Attach color="#00A48A" />
+                      <span className="title">فایل</span>
+                    </label>
+                    <input
+                      type="file"
+                      id="file"
+                      className="upload-input"
+                      {...register("file")}
+                      onChange={handleUploadFile}
                     />
-                    <span className="title">ضبط صدا</span>
-                  </label>
-                </div>
-                <div className="upload-input-container">
-                  <label htmlFor="image" className="upload-input-label">
-                    <ImageUpload color="#00A48A" />
-                    <span className="title">عکس</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="image"
-                    accept=".png, .jpg, .jpeg"
-                    className="upload-input"
-                    {...register("image")}
-                    onChange={handleUploadImage}
-                  />
-                </div>
-                <div className="upload-input-container">
-                  <label htmlFor="video" className="upload-input-label">
-                    <Play color="#00A48A" />
-                    <span className="title">ویدیو</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="video"
-                    accept="video/mp4"
-                    className="upload-input"
-                    {...register("video")}
-                    onChange={handleUploadVideo}
-                  />
-                </div>
-              </div>
-              <div className="uploaded-files">
-                {selectedFiles &&
-                  selectedFiles?.map((item: any, index: number) => (
-                    <div className="uploaded-file-container" key={index}>
-                      <p className="file">{item?.file?.name}</p>
-                      <TiDelete
-                        color="#FF2055"
-                        onClick={() => handleDeleteAttachment(item?.id)}
+                  </div>
+                  <div
+                    className="upload-input-container"
+                    onClick={() =>
+                      !recorderState.initRecording
+                        ? handlers.startRecording()
+                        : handlers.saveRecording()
+                    }
+                  >
+                    <label className="upload-input-label">
+                      <Microphone
+                        color={
+                          recorderState.initRecording ? "#FA1744" : "#00A48A"
+                        }
+                        classStyle={`${
+                          recorderState.initRecording ? "fade-in" : ""
+                        }`}
                       />
-                    </div>
-                  ))}
+                      <span className="title">ضبط صدا</span>
+                    </label>
+                  </div>
+                  <div className="upload-input-container">
+                    <label htmlFor="image" className="upload-input-label">
+                      <ImageUpload color="#00A48A" />
+                      <span className="title">عکس</span>
+                    </label>
+                    <input
+                      type="file"
+                      id="image"
+                      accept=".png, .jpg, .jpeg"
+                      className="upload-input"
+                      {...register("image")}
+                      onChange={handleUploadImage}
+                    />
+                  </div>
+                  <div className="upload-input-container">
+                    <label htmlFor="video" className="upload-input-label">
+                      <Play color="#00A48A" />
+                      <span className="title">ویدیو</span>
+                    </label>
+                    <input
+                      type="file"
+                      id="video"
+                      accept="video/mp4"
+                      className="upload-input"
+                      {...register("video")}
+                      onChange={handleUploadVideo}
+                    />
+                  </div>
+                </div>
+                <div className="uploaded-files">
+                  {selectedFiles &&
+                    selectedFiles?.map((item: any, index: number) => (
+                      <div className="uploaded-file-container" key={index}>
+                        <p className="file">{item?.file?.name}</p>
+                        <TiDelete
+                          color="#FF2055"
+                          onClick={() => handleDeleteAttachment(item?.id)}
+                        />
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="action-buttons">
-            <button type="button" className="trash" onClick={handleReset}>
-              <Image src={trashIcon} alt="trash" />
-            </button>
-            <button type="submit" className="submit">
-              {"ثبت و درخواست از ارزیاب"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </DashboardLayout>
+            <div className="action-buttons">
+              <button type="button" className="trash" onClick={handleReset}>
+                <Image src={trashIcon} alt="trash" />
+              </button>
+              <button type="submit" className="submit">
+                {"ثبت و درخواست از ارزیاب"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </DashboardLayout>
+      <SeoHead title="ثبت درخواست جدید" description="" />
+    </>
   );
 };
 

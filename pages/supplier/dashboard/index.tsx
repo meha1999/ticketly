@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import DashboardBold from "public/images/icons/dashboard_bold.svg";
 import DashboardCardCarParts from "public/images/dashboard_card_car_parts.svg";
+import SeoHead from "components/common/seo-head";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -22,41 +23,44 @@ const Dashboard = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="dashboard">
-        <Title
-          titleIcon={DashboardBold}
-          titleText="پیشخوان"
-          titleSideComponent={<></>}
-        />
-        <div className="welcome-message">
-          <span
-            className="name"
-            style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
-          >
-            {user?.full_name ?? user?.username ?? ""}
-          </span>
-          <span style={{ color: `${userType[router.asPath.split("/")[1]]}` }}>
-            {" به کلپ خوش آمدید "}
-          </span>
-        </div>
-        <div className="dashboard-cards">
-          <DashboardCard
-            backgroundColor="#64CAB1"
-            btnBgColor="#F3C701"
-            btnColor="#FFFFFF"
-            btnText="ثبت محصول"
-            dir="ltr"
-            image={DashboardCardCarParts}
-            onClick={() => {
-              router.push("/supplier/dashboard/register");
-            }}
-            text="محصولات خود را به فروش برسانید!"
-            textColor="#FFFFFF"
+    <>
+      <DashboardLayout>
+        <div className="dashboard">
+          <Title
+            titleIcon={DashboardBold}
+            titleText="پیشخوان"
+            titleSideComponent={<></>}
           />
+          <div className="welcome-message">
+            <span
+              className="name"
+              style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
+            >
+              {user?.full_name ?? user?.username ?? ""}
+            </span>
+            <span style={{ color: `${userType[router.asPath.split("/")[1]]}` }}>
+              {" به کلپ خوش آمدید "}
+            </span>
+          </div>
+          <div className="dashboard-cards">
+            <DashboardCard
+              backgroundColor="#64CAB1"
+              btnBgColor="#F3C701"
+              btnColor="#FFFFFF"
+              btnText="ثبت محصول"
+              dir="ltr"
+              image={DashboardCardCarParts}
+              onClick={() => {
+                router.push("/supplier/dashboard/register");
+              }}
+              text="محصولات خود را به فروش برسانید!"
+              textColor="#FFFFFF"
+            />
+          </div>
         </div>
-      </div>
-    </DashboardLayout>
+      </DashboardLayout>
+      <SeoHead title="پیشخوان" description="" />
+    </>
   );
 };
 

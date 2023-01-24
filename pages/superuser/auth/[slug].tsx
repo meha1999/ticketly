@@ -12,6 +12,7 @@ import { setCookies } from "cookies-next";
 import { useState } from "react";
 import { Toaster } from "components/common/toast/Toaster";
 import ToastComponent from "components/common/toast/ToastComponent";
+import SeoHead from "components/common/seo-head";
 
 const authService = new AuthService();
 
@@ -110,21 +111,24 @@ const Login = () => {
 
 const Auth = () => {
   return (
-    <div className="auth">
-      <div className="auth-container">
-        <div className="auth-header" style={{ justifyContent: "flex-end" }}>
-          <div className="logo">
-            <Image src={logo} alt="logo" />
-            <div className="title">
-              <span>سامانه خرید و مشاوره قطعات خودرو</span>
+    <>
+      <div className="auth">
+        <div className="auth-container">
+          <div className="auth-header" style={{ justifyContent: "flex-end" }}>
+            <div className="logo">
+              <Image src={logo} alt="logo" />
+              <div className="title">
+                <span>سامانه خرید و مشاوره قطعات خودرو</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="auth-form" style={{ borderRadius: "60px" }}>
-          <Login />
+          <div className="auth-form" style={{ borderRadius: "60px" }}>
+            <Login />
+          </div>
         </div>
       </div>
-    </div>
+      <SeoHead title={"ورود"} description="" />
+    </>
   );
 };
 export default Auth;

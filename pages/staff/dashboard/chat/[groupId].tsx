@@ -15,6 +15,7 @@ import { TicketService } from "services/ticket.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import SeoHead from "components/common/seo-head";
 
 const chatService = new ChatService();
 const ticketService = new TicketService();
@@ -106,36 +107,39 @@ const Chat = () => {
   }, [lastMessage, setMessageHistory]);
 
   return (
-    <DashboardLayout>
-      <Title titleText="صفحه چت" titleIcon={chatIcon} />
-      <Divider />
-      <OrderCompletion
-        ticketSubject={customerTicket.name}
-        customerName={customerTicket.customer?.full_name}
-        customerWalletCash={customerTicket.customer?.wallet_account?.amount}
-        customerPhoto={customerTicket.customer?.photo}
-        customerId={customerTicket.customer?.id}
-        ticketStatus={customerTicket.status}
-        openChat={() => setTicketId(customerTicket.id)}
-        ticketId={customerTicket.id}
-      />
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ChatList
-          data={suppliersTicket}
-          onChatChange={setTicketId}
-          ticketId={ticketId}
-          group={group}
-          onAddSuplier={fetchGroupInfo}
+    <>
+      <DashboardLayout>
+        <Title titleText="صفحه چت" titleIcon={chatIcon} />
+        <Divider />
+        <OrderCompletion
+          ticketSubject={customerTicket.name}
+          customerName={customerTicket.customer?.full_name}
+          customerWalletCash={customerTicket.customer?.wallet_account?.amount}
+          customerPhoto={customerTicket.customer?.photo}
+          customerId={customerTicket.customer?.id}
+          ticketStatus={customerTicket.status}
+          openChat={() => setTicketId(customerTicket.id)}
+          ticketId={customerTicket.id}
         />
-        <div style={{ width: "75%", maxHeight: 500 }}>
-          <ChatComponent
-            data={messageHistory}
-            onSend={handleClickSendMessage}
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <ChatList
+            data={suppliersTicket}
+            onChatChange={setTicketId}
             ticketId={ticketId}
+            group={group}
+            onAddSuplier={fetchGroupInfo}
           />
+          <div style={{ width: "75%", maxHeight: 500 }}>
+            <ChatComponent
+              data={messageHistory}
+              onSend={handleClickSendMessage}
+              ticketId={ticketId}
+            />
+          </div>
         </div>
-      </div>
-    </DashboardLayout>
+      </DashboardLayout>
+      <SeoHead title="چت" description="" />
+    </>
   );
 };
 

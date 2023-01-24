@@ -1,4 +1,5 @@
 import Divider from "components/common/divider";
+import SeoHead from "components/common/seo-head";
 import Title from "components/common/title";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
@@ -52,32 +53,35 @@ const Orders = () => {
   };
 
   return (
-    <DashboardLayout>
-      <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
-      <Divider />
-      <ul className="customer-orders">
-        {orders.length ? (
-          orders?.map((item: any) => (
-            <li key={item.id}>
-              <CustomerOrderCard
-                isSupplier
-                id={item.id}
-                name={item.name}
-                manufacturer={""}
-                image={item.image}
-                brand={item.brand}
-                status={item.status}
-                price={item.total_price}
-                dateAndTime={item.created_at}
-                onSupplierAction={sendPackageHandler}
-              />
-            </li>
-          ))
-        ) : (
-          <p>لیست سفارشات خالی است.</p>
-        )}
-      </ul>
-    </DashboardLayout>
+    <>
+      <DashboardLayout>
+        <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
+        <Divider />
+        <ul className="customer-orders">
+          {orders.length ? (
+            orders?.map((item: any) => (
+              <li key={item.id}>
+                <CustomerOrderCard
+                  isSupplier
+                  id={item.id}
+                  name={item.name}
+                  manufacturer={""}
+                  image={item.image}
+                  brand={item.brand}
+                  status={item.status}
+                  price={item.total_price}
+                  dateAndTime={item.created_at}
+                  onSupplierAction={sendPackageHandler}
+                />
+              </li>
+            ))
+          ) : (
+            <p>لیست سفارشات خالی است.</p>
+          )}
+        </ul>
+      </DashboardLayout>
+      <SeoHead title="سفارشات" description="" />
+    </>
   );
 };
 

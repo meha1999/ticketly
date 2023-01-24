@@ -14,6 +14,7 @@ import { setCookies } from "cookies-next";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import OtpCodeModal from "components/common/modal/OtpCodeModal";
+import SeoHead from "components/common/seo-head";
 
 const authService = new AuthService();
 
@@ -268,35 +269,41 @@ const Auth = () => {
   }, [router.query.slug]);
 
   return (
-    <div className="auth">
-      <div className="auth-container">
-        <div className="auth-header">
-          <div className="auth-tabs">
-            <Link
-              href="/customer/auth/login"
-              className={authType === "login" ? "selected tab" : "tab"}
-            >
-              {"ورود"}
-            </Link>
-            <Link
-              href="/customer/auth/signup"
-              className={authType === "signup" ? "selected tab" : "tab"}
-            >
-              {"ثبت نام"}
-            </Link>
-          </div>
-          <div className="logo">
-            <Image src={logo} alt="logo" />
-            <div className="title">
-              <span>سامانه خرید و مشاوره قطعات خودرو</span>
+    <>
+      <div className="auth">
+        <div className="auth-container">
+          <div className="auth-header">
+            <div className="auth-tabs">
+              <Link
+                href="/customer/auth/login"
+                className={authType === "login" ? "selected tab" : "tab"}
+              >
+                {"ورود"}
+              </Link>
+              <Link
+                href="/customer/auth/signup"
+                className={authType === "signup" ? "selected tab" : "tab"}
+              >
+                {"ثبت نام"}
+              </Link>
+            </div>
+            <div className="logo">
+              <Image src={logo} alt="logo" />
+              <div className="title">
+                <span>سامانه خرید و مشاوره قطعات خودرو</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="auth-form">
-          {authType === "login" ? <Login /> : <SignUp />}
+          <div className="auth-form">
+            {authType === "login" ? <Login /> : <SignUp />}
+          </div>
         </div>
       </div>
-    </div>
+      <SeoHead
+        title={router.query.slug === "login" ? "ورود" : "ثبت نام"}
+        description=""
+      />
+    </>
   );
 };
 export default Auth;

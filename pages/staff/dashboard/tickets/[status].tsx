@@ -30,6 +30,11 @@ const Requests = () => {
     (store) => store.user
   );
 
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
+
   const getTickets = async () => {
     try {
       const ticketRes = await ticketService.getTickets();
@@ -46,7 +51,7 @@ const Requests = () => {
 
   useEffect(() => {
     getTickets();
-  }, [query.status]);
+  }, [query.status, notification]);
 
   const dateTimeConfig = {
     timezone: "Asia/Tehran",
@@ -155,7 +160,11 @@ const Requests = () => {
             <ul className="list-wrapper">
               {ticketList?.map((item: any, index: any) => (
                 <li
-                  className="list-item"
+                  className={`list-item ${
+                    item.status === "PENDING" || item.status === "ACCEPTED"
+                      ? "unread-item"
+                      : ""
+                  }`}
                   key={index}
                   onClick={() => handleOpenChat(item.ticket_group, item.id)}
                 >
@@ -216,15 +225,16 @@ export const ReqStatusBtn = ({ status }: { status: string }) => {
 
   const translate: Record<string, string> = {
     UNREAD: "در انتظار تایید ارزیاب",
-    ACCEPTED: "در انتظار پاسخ مشتری",
+    ACCEPTED: "در انتظار پیام ارزیاب",
     ANSWERED: "در انتظار پاسخ مشتری",
-    PENDING: "در انتظار پاسخ مشتری",
+    PENDING: "در انتظار پاسخ ارزیاب",
     INPROCESS: "در انتظار تامین کننده",
     CLOSED: "بسته شد",
-    PROVIDED: "مشتری پاسخ داده",
-    RETURNED: "در انتظار پاسخ مشتری",
-    DELIVERED: "مشتری پاسخ داده",
+    // PROVIDED: "مشتری پاسخ داده",
+    // RETURNED: "در انتظار پاسخ مشتری",
+    // DELIVERED: "مشتری پاسخ داده",
   };
+
   return (
     <div className={`btn-status-wrapper ${className[status]} `}>
       {translate[status]}

@@ -28,19 +28,26 @@ const Requests = () => {
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
+
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
+
+  const getTickets = async () => {
+    try {
+      const ticketRes = await ticketService.getTickets();
+      const unreadTickets = ticketRes.data.filter(
+        (item: any) => status[item.status] === "supplying"
+      );
+      setNewTickets(unreadTickets.length);
+      setTicketList(ticketRes.data);
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    const getTickets = async () => {
-      try {
-        const ticketRes = await ticketService.getTickets();
-        const unreadTickets = ticketRes.data.filter(
-          (item: any) => status[item.status] === 'supplying'
-        );
-        setNewTickets(unreadTickets.length)
-        setTicketList(ticketRes.data);
-      } catch (error) {}
-    };
     getTickets();
-  }, []);
+  }, [notification]);
 
   const dateTimeConfig = {
     timezone: "Asia/Tehran",
@@ -65,11 +72,9 @@ const Requests = () => {
         setTicketList(newList);
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      }
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
     }
   };
 

@@ -9,37 +9,63 @@ import DashboardBold from "public/images/icons/dashboard_bold.svg";
 import DashboardCardChat from "public/images/dashboard_card_chat.svg";
 import DashboardCardWallet from "public/images/dashboard_card_wallet.svg";
 import SeoHead from "components/common/seo-head";
+import Divider from "components/common/divider";
+import { useEffect, useState } from "react";
+import { TicketService } from "services/ticket.service";
+import Image from "next/image";
+import DefaultTicket from "public/images/default-ticket.svg";
+import Delete from "public/images/icons/delete.svg";
+import { JalaliDateTime } from "jalali-date-time";
+import { DATE_TIME_CONFIG } from "src/static/dateConfig";
+import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
+import { TicketStatusChoicesEnum } from "src/model/status";
+
+const userType: Record<string, string> = {
+  staff: "#5E7BEC",
+  customer: "#00A48A",
+  supplier: "#F2C901",
+  superuser: "#505050",
+};
+const ticketService = new TicketService();
 
 const Dashboard = () => {
-  const router = useRouter();
+  const { asPath, push: routerPush } = useRouter();
+  const [ticketList, setTicketList] = useState<any[]>([]);
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
 
-  const userType: Record<string, string> = {
-    staff: "#5E7BEC",
-    customer: "#00A48A",
-    supplier: "#F2C901",
-    superuser: "#505050",
+  const getTickets = async () => {
+    try {
+      const ticketRes = await ticketService.getTickets();
+      const data: any[] = ticketRes.data.filter(
+        (item: any) => item.status === "UNREAD"
+      );
+      setTicketList(data.splice(0, 3));
+    } catch (error) {}
   };
+
+  const handleOpenChat = (ticketId: string) => {
+    routerPush(`/customer/dashboard/chat/${ticketId}/`);
+  };
+
+  useEffect(() => {
+    getTickets();
+  }, []);
 
   return (
     <>
       <DashboardLayout>
         <div className="dashboard">
-          <Title
-            titleIcon={DashboardBold}
-            titleText="پیشخوان"
-            titleSideComponent={<></>}
-          />
+          <Title titleIcon={DashboardBold} titleText="پیشخوان" />
           <div className="welcome-message">
             <span
               className="name"
-              style={{ color: `${userType[router.asPath.split("/")[1]]}` }}
+              style={{ color: `${userType[asPath.split("/")[1]]}` }}
             >
               {user?.full_name ?? user?.username ?? ""}
             </span>
-            <span style={{ color: `${userType[router.asPath.split("/")[1]]}` }}>
+            <span style={{ color: `${userType[asPath.split("/")[1]]}` }}>
               {" به کلپ خوش آمدید "}
             </span>
           </div>
@@ -52,7 +78,7 @@ const Dashboard = () => {
               dir="rtl"
               image={DashboardCardChat}
               onClick={() => {
-                router.push("/customer/dashboard/tickets/create");
+                routerPush("/customer/dashboard/tickets/create");
               }}
               text="ثبت تیکت جدید"
               textColor="#FFFFFF"
@@ -66,10 +92,68 @@ const Dashboard = () => {
               dir="ltr"
               image={DashboardCardWallet}
               onClick={() => {
-                router.push("/customer/dashboard/wallet");
+                routerPush("/customer/dashboard/wallet");
               }}
               text="کیف پول شخصی"
             />
+          </div>
+          <Title titleText="آخرین درخواست‌ها" />
+          <Divider margin />
+          <div className="tickets-conatiner">
+            {ticketList.map((ticket: any, key: any) => {
+              return (
+                <div
+                  className="ticket-box"
+                  key={key}
+                  onClick={() => handleOpenChat(ticket.id)}
+                >
+                  <div className="description">
+                    <div className="number">
+                      <div className="value">{key + 1}</div>
+                    </div>
+                    <div className="image">
+                      <Image
+                        src={DefaultTicket}
+                        alt="tikcet"
+                        className="ticket-img"
+                      />
+                    </div>
+                    <div className="info">
+                      <div className="name">{ticket.name}</div>
+                      <div className="further-info">
+                        <div className="brand">
+                          {ticket.brand ?? "بدون برند"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="price">
+                    <div className="amount">شماره سفارش</div>
+                    <div className="code">{ticket.id}</div>
+                  </div>
+                  <div className="date-time">
+                    <div className="date">{ticket.date}</div>
+                    <div className="time">
+                      {JalaliDateTime(DATE_TIME_CONFIG).toFullText(
+                        new Date(ticket.updated_at)
+                      )}
+                    </div>
+                  </div>
+                  <div className="operation">
+                    <div className="delete-icon">
+                      <Image src={Delete} alt="delete" />
+                    </div>
+                    <div className="status">
+                      {
+                        TICKET_STATUS_PERSIAN[
+                          ticket.status as TicketStatusChoicesEnum
+                        ]
+                      }
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </DashboardLayout>

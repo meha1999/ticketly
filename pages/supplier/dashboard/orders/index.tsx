@@ -38,7 +38,10 @@ const Orders = () => {
       Toaster.success(
         <ToastComponent title="موفقیت آمیز" description="بسته شما ارسال شد" />
       );
-      console.log(res);
+      const updatedList = orders.map((order: any) =>
+        order.id === order_id ? res.data : order
+      );
+      setOrders(updatedList);
     } catch (error) {
       Toaster.error(
         <ToastComponent
@@ -60,15 +63,15 @@ const Orders = () => {
               <li key={item.id}>
                 <CustomerOrderCard
                   isSupplier
-                  image={item.image}
                   id={item.id}
-                  manufacturer={""}
                   name={item.name}
+                  manufacturer={""}
+                  image={item.image}
                   brand={item.brand}
-                  onSend={sendPackageHandler}
+                  status={item.status}
                   price={item.total_price}
                   dateAndTime={item.created_at}
-                  status={item.status}
+                  onSupplierAction={sendPackageHandler}
                 />
               </li>
             ))

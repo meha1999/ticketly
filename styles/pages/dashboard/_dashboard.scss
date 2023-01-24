@@ -1,5 +1,6 @@
 .dashboard {
   .welcome-message {
+    padding-top: 20px;
     .name {
       font-weight: 700;
       font-size: 26px;
@@ -9,11 +10,258 @@
       font-size: 18px;
       line-height: 28px;
     }
-    padding-top: 30px;
   }
   .dashboard-cards {
     display: flex;
     gap: 50px;
-    padding: 40px 0;
+    padding: 35px 0 20px 0;
+  }
+  .list-wrapper {
+    gap: 10px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    justify-content: flex-start;
+    .list-item {
+      width: 100%;
+      padding: 15px;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 25px;
+      display: grid;
+      grid-template-columns: 5fr 4fr 3fr 3fr 2fr;
+      vertical-align: middle;
+      border-radius: 20px;
+      background: #ffffff;
+      cursor: pointer;
+      &:hover {
+        background: #e7eaec;
+      }
+      & > div {
+        padding-right: 20px;
+        display: flex;
+        line-height: 30px;
+        vertical-align: middle;
+        align-items: center;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        border-left: 1px solid #b9b9b9;
+      }
+      .title {
+        padding: 0;
+        color: #505050;
+        vertical-align: middle;
+        .count {
+          width: 45px;
+          text-align: center;
+        }
+      }
+      .user {
+        .logo {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 7px;
+          background-color: #fff;
+          border-radius: 50%;
+          img {
+            filter: drop-shadow(0px 5px 10px rgba(70, 106, 255, 0.3));
+          }
+        }
+      }
+      .date {
+        color: #7d7d7d;
+        justify-content: center;
+        font-weight: 400;
+        font-size: 12px;
+        padding: 0;
+      }
+      .status {
+        padding: 0;
+        padding: 0 12px;
+        justify-content: center;
+      }
+      .ticket {
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .unread-notification {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 14px;
+        background-color: #fa1744;
+        color: #ffffff;
+        border-radius: 20px;
+        margin-left: 10px;
+        margin-right: 15px;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 22px;
+      }
+      :last-child {
+        border: none;
+      }
+    }
+  }
+  .tickets-conatiner {
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    .ticket-box {
+      padding: 10px 30px;
+      cursor: pointer;
+      overflow-x: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background-color: #ffffff;
+      border-radius: 25px;
+      .description {
+        display: flex;
+        align-items: center;
+        .number {
+          margin: 0 5px;
+          width: 20%;
+          display: flex;
+          justify-content: center;
+          .value {
+            color: #7d7d7d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50px;
+            background-color: #f4f6f8;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 28px;
+          }
+        }
+        .image {
+          margin: 0 30px;
+          .ticket-img {
+            width: 84px;
+            height: 84px;
+          }
+        }
+        .info {
+          display: flex;
+          flex-direction: column;
+          .name {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 28px;
+            color: #505050;
+            padding-bottom: 4px;
+          }
+          .further-info {
+            display: flex;
+            .brand {
+              font-weight: 600;
+              font-size: 16px;
+              line-height: 25px;
+              padding-left: 5px;
+              width: 110px;
+            }
+          }
+        }
+      }
+
+      .price {
+        margin: 0 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .amount {
+          text-align: center;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 28px;
+          color: #00a48a;
+        }
+        .code {
+          text-align: center;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 25px;
+          color: #b0b0b0;
+        }
+      }
+      .date-time {
+        border-right: 1px solid #c5c5c5;
+        border-left: 1px solid #c5c5c5;
+        padding: 0 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .date {
+          text-align: center;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 180%;
+          color: #7d7d7d;
+        }
+        .time {
+          text-align: center;
+          padding-top: 5px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 180%;
+          color: #7d7d7d;
+        }
+      }
+      .operation {
+        gap: 9px;
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .delete-icon {
+          width: 50px;
+          height: 50px;
+          cursor: pointer;
+        }
+        .status {
+          width: 80%;
+          height: 50px;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 28px;
+          color: #00a48a;
+          background-color: #defffa;
+          border-radius: 25px;
+          padding: 10px 30px;
+          text-align: center;
+        }
+      }
+      .unread-notification {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 14px;
+        background-color: #fa1744;
+        color: #ffffff;
+        border-radius: 20px;
+        margin-left: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 22px;
+      }
+    }
   }
 }

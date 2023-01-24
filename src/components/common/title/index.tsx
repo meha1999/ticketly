@@ -20,13 +20,15 @@ const Title: FC<TitleProps> = ({
         <div className="hero">
           {svgIcon ? (
             svgIcon
-          ) : (
+          ) : titleIcon ? (
             <Image
               src={titleIcon}
               alt={titleText}
               className="title-icon"
               draggable={false}
             />
+          ) : (
+            ""
           )}
           <span className="title-text">{titleText}</span>
         </div>

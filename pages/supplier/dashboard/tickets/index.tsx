@@ -12,15 +12,17 @@ import { TicketService } from "services/ticket.service";
 import { JalaliDateTime } from "jalali-date-time";
 import { TicketStatusChoicesEnum } from "src/model/status";
 import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const ticketService = new TicketService();
 
 const pageConfig: Record<string, string> = {
   UNREAD: "supplying",
-  ACCEPTED: "sending",
-  ANSWERED: "sending",
-  INPROCESS: "sending",
+  ACCEPTED: "supplying",
+  ANSWERED: "supplying",
   PENDING: "supplying",
+  INPROCESS: "sending",
   CLOSED: "sending",
 };
 const dateTimeConfig = {
@@ -36,6 +38,11 @@ const Requests = () => {
   const [activeTab, setActiveTab] = useState("supplying");
   const [ticketList, setTicketList] = useState([]);
   const { push: routerPush, query } = useRouter();
+
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
 
   const getTickets = async () => {
     try {
@@ -55,7 +62,7 @@ const Requests = () => {
 
   useEffect(() => {
     getTickets();
-  }, [query.status, activeTab]);
+  }, [query.status, activeTab, notification]);
 
   return (
     <>
@@ -68,20 +75,26 @@ const Requests = () => {
               <div className="requests-title-component">
                 <div className="unseen-massages">
                   <span>خوانده نشده</span>
-                  <span className="count">4</span>
+                  <span className="count">
+                    <>
+                      {notification?.detail.filter(
+                        (item) => !!item.unread_message
+                      ).length}
+                    </>
+                  </span>
                 </div>
                 <div className="tabs">
                   <button
                     className={activeTab === "supplying" ? "active" : ""}
                     onClick={() => setActiveTab("supplying")}
                   >
-                    در انتظار ارزیاب
+                    در حال تامین
                   </button>
                   <button
                     className={activeTab === "sending" ? "active" : ""}
                     onClick={() => setActiveTab("sending")}
                   >
-                    ارزیاب پاسخ داده
+                    تامین شده
                   </button>
                 </div>
               </div>
@@ -98,35 +111,50 @@ const Requests = () => {
               <span> وضعیت درخواست</span>
             </div>
             <ul className="list-wrapper">
-              {ticketList?.map((ticket: any, index: number) => (
-                <li
-                  key={ticket.id}
-                  className="list-item"
-                  onClick={() => handleOpenChat(ticket.id)}
-                >
-                  <div className="title">
-                    <span className="count">{index + 1}</span>
-                    {ticket.name}
-                  </div>
-                  <div className="user">
-                    <div className="logo">
-                      <Image src={ProfileBold} alt="" width={20} height={20} />
+              {ticketList?.map((ticket: any, index: number) => {
+                const unread = notification?.detail.filter(
+                  (item) => item.data[0].ticket === ticket.id
+                )[0];
+                return (
+                  <li
+                    key={ticket.id}
+                    className="list-item"
+                    onClick={() => handleOpenChat(ticket.id)}
+                  >
+                    <div className="title">
+                      <span className="count">{index + 1}</span>
+                      {ticket.name}
                     </div>
-                    <span className="name">
-                      {ticket.customer ?? "بدون نام"}
-                    </span>
-                  </div>
-                  <div className="date">{ticket.id}</div>
-                  <div className="date">
-                    {JalaliDateTime(dateTimeConfig).toFullText(
-                      new Date(ticket.updated_at)
+                    <div className="user">
+                      <div className="logo">
+                        <Image
+                          src={ProfileBold}
+                          alt=""
+                          width={20}
+                          height={20}
+                        />
+                      </div>
+                      <span className="name">
+                        {ticket.customer ?? "بدون نام"}
+                      </span>
+                    </div>
+                    <div className="date">{ticket.id}</div>
+                    <div className="date">
+                      {JalaliDateTime(dateTimeConfig).toFullText(
+                        new Date(ticket.updated_at)
+                      )}
+                    </div>
+                    <div className="status">
+                      <ReqStatusBtn status={ticket.status} />
+                    </div>
+                    {!!unread?.data[0].unread_message && (
+                      <div className="unread-notification">
+                        {unread?.data[0].unread_message}
+                      </div>
                     )}
-                  </div>
-                  <div className="status">
-                    <ReqStatusBtn status={ticket.status} />
-                  </div>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

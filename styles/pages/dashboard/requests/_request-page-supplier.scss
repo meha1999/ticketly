@@ -82,7 +82,7 @@
         font-size: 16px;
         line-height: 25px;
         display: grid;
-        grid-template-columns: 4fr 3fr 2fr 2fr 3fr;
+        grid-template-columns: 4fr 3fr 2fr 2fr 3fr .5fr;
         vertical-align: middle;
         border-radius: 20px;
         background: #f4f6f8;
@@ -142,6 +142,20 @@
           font-weight: 600;
           font-size: 12px;
         }
+        .unread-notification {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 6px 14px;
+          background-color: #fa1744;
+          color: #ffffff;
+          border-radius: 20px;
+          margin-left: 10px;
+          margin-right: 15px;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 22px;
+        }
         :last-child {
           border: none;
         }
@@ -158,11 +172,11 @@
   font-size: 14px;
   user-select: none;
   &.answered {
-    color: #00A48A;
-    background:  #DEFFFA;;
+    color: #00a48a;
+    background: #defffa;
   }
   &.pending {
-    color: #5E7BEC;
-    background: #E2E8FF;
+    color: #5e7bec;
+    background: #e2e8ff;
   }
 }

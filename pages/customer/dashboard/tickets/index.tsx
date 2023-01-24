@@ -49,7 +49,7 @@ const Tickets = () => {
     UNREAD: "در انتظار تایید ارزیاب",
     ACCEPTED: "در انتظار پیام ارزیاب",
     ANSWERED: "در انتظار پاسخ مشتری",
-    INPROCESS: "در حال تامیین",
+    INPROCESS: "در حال تامین",
     CLOSED: "بسته شده",
     // PROVIDED: "مشتری پاسخ داده",
     // RETURNED: "در انتظار پاسخ مشتری",

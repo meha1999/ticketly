@@ -221,9 +221,6 @@ export const ReqStatusBtn = ({ status }: { status: string }) => {
     PENDING: "در انتظار پاسخ مشتری",
     INPROCESS: "در انتظار تامین کننده",
     CLOSED: "بسته شد",
-    PROVIDED: "مشتری پاسخ داده",
-    RETURNED: "در انتظار پاسخ مشتری",
-    DELIVERED: "مشتری پاسخ داده",
   };
   return (
     <div className={`btn-status-wrapper ${className[status]} `}>

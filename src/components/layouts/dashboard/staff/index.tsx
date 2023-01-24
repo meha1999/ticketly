@@ -4,8 +4,10 @@ import { GetServerSideProps } from "next";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEventSource } from "react-use-websocket";
+import { NotificationService } from "services/notification.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -29,7 +31,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       });
   }, [lastEvent?.data]);
 
-  
+
   return (
     <div className="dashboard-layout">
       <div className="dashboard-container">

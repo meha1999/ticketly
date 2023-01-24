@@ -4,8 +4,11 @@ import { GetServerSideProps } from "next";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEventSource } from "react-use-websocket";
+import { NotificationService } from "services/notification.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+
+const notificationService = new NotificationService();
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -27,6 +30,24 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         payload: JSON.parse(lastEvent?.data),
       });
   }, [lastEvent?.data]);
+
+
+  const handleGetNotification = async () => {
+    try {
+      const res = await notificationService.getNotifications();
+      console.log(res)
+    } catch (error) {
+    } finally {
+    }
+    // dispatch({
+    //   type: REDUX_ACTION.SET_NOTIFICATION,
+    //   payload: JSON.parse(lastEvent?.data),
+    // });
+  };
+  useEffect(() => {
+    handleGetNotification();
+  }, []);
+
 
   return (
     <div className="dashboard-layout">

@@ -11,23 +11,30 @@ import Delete from "public/images/icons/delete.svg";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
 import { NavLink } from "src/tools/NavLink";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const ticketService = new TicketService();
 
 const Tickets = () => {
   const { push: routerPush } = useRouter();
+  const notification = useSelector<
+    ReduxStoreModel,
+    ReduxStoreModel["notification"]
+  >((store) => store.notification);
 
   const [ticketList, setTicketList] = useState([]);
 
+  const getTickets = async () => {
+    try {
+      const ticketRes = await ticketService.getTickets();
+      setTicketList(ticketRes.data);
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    const getTickets = async () => {
-      try {
-        const ticketRes = await ticketService.getTickets();
-        setTicketList(ticketRes.data);
-      } catch (error) {}
-    };
     getTickets();
-  }, []);
+  }, [notification]);
 
   const dateTimeConfig = {
     timezone: "Asia/Tehran",
@@ -40,13 +47,13 @@ const Tickets = () => {
 
   const translate: Record<string, string> = {
     UNREAD: "در انتظار تایید ارزیاب",
-    ACCEPTED: "در انتظار پاسخ مشتری",
+    ACCEPTED: "در انتظار پیام ارزیاب",
     ANSWERED: "در انتظار پاسخ مشتری",
-    INPROCESS: "در انتظار تامین کننده",
-    CLOSED: "مشتری پاسخ داده",
-    PROVIDED: "مشتری پاسخ داده",
-    RETURNED: "در انتظار پاسخ مشتری",
-    DELIVERED: "مشتری پاسخ داده",
+    INPROCESS: "در حال تامیین",
+    CLOSED: "بسته شده",
+    // PROVIDED: "مشتری پاسخ داده",
+    // RETURNED: "در انتظار پاسخ مشتری",
+    // DELIVERED: "مشتری پاسخ داده",
   };
 
   const handleOpenChat = (ticketId: string) => {
@@ -99,7 +106,7 @@ const Tickets = () => {
                 </div>
               </div>
               <div className="price">
-                <div className="amount">{ticket.price ?? "******"} تومان</div>
+                <div className="amount">شماره سفارش</div>
                 <div className="code">{ticket.id}</div>
               </div>
               <div className="date-time">

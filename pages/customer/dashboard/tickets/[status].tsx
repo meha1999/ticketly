@@ -10,7 +10,6 @@ import DefaultTicket from "public/images/default-ticket.svg";
 import Delete from "public/images/icons/delete.svg";
 import { JalaliDateTime } from "jalali-date-time";
 import { useRouter } from "next/router";
-import { NavLink } from "src/tools/NavLink";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import SeoHead from "components/common/seo-head";
@@ -40,7 +39,7 @@ const Tickets = () => {
 
   useEffect(() => {
     getTickets();
-  }, [query.status]);
+  }, [query.status, notification]);
 
   const dateTimeConfig = {
     timezone: "Asia/Tehran",
@@ -53,8 +52,9 @@ const Tickets = () => {
 
   const translate: Record<string, string> = {
     UNREAD: "در انتظار تایید ارزیاب",
-    ACCEPTED: "در انتظار پاسخ مشتری",
+    ACCEPTED: "در انتظار پیام ارزیاب",
     ANSWERED: "در انتظار پاسخ مشتری",
+    PENDING: "در انتظار پاسخ ارزیاب",
     INPROCESS: "در انتظار تامین کننده",
     CLOSED: "بسته شد",
     // PROVIDED: "مشتری پاسخ داده",
@@ -66,6 +66,7 @@ const Tickets = () => {
     UNREAD: "supplying",
     ACCEPTED: "sending",
     ANSWERED: "sending",
+    PENDING: "sending",
     INPROCESS: "closed",
     CLOSED: "closed",
   };
@@ -114,15 +115,10 @@ const Tickets = () => {
                         </div>
                       </div>
                     </div>
-                    {unread?.data[0].unread_message && (
-                      <div className="unread-notification">
-                        {unread?.data[0].unread_message}
-                      </div>
-                    )}
                   </div>
                   <div className="price">
                     <div className="amount">
-                      {ticket.price ?? "******"} تومان
+                     شماره سفارش
                     </div>
                     <div className="code">{ticket.id}</div>
                   </div>
@@ -134,13 +130,25 @@ const Tickets = () => {
                       )}
                     </div>
                   </div>
-                  <div className="operation">
+                  <div
+                    className="operation"
+                    style={{
+                      justifyContent: !!unread?.data[0].unread_message
+                        ? "space-between"
+                        : "center",
+                    }}
+                  >
                     {query?.status === "supplying" && (
                       <div className="delete-icon">
                         <Image src={Delete} alt="delete" />
                       </div>
                     )}
                     <div className="status">{translate[ticket.status]}</div>
+                    {!!unread?.data[0].unread_message && (
+                      <div className="unread-notification">
+                        {unread?.data[0].unread_message}
+                      </div>
+                    )}
                   </div>
                 </div>
               );

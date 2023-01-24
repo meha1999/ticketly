@@ -1,7 +1,7 @@
 import Divider from "components/common/divider";
 import SeoHead from "components/common/seo-head";
 import Title from "components/common/title";
-import DashboardLayout from "components/layouts/dashboard/customer";
+import DashboardLayout from "components/layouts/dashboard/staff";
 import CustomerOrderCard from "components/pure/customer-order-card";
 import OrdersIcon from "images/icons/orders_icon";
 import { GetServerSideProps } from "next";
@@ -63,7 +63,7 @@ export default Orders;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {
-    ctx.res.setHeader("Location", "/customer/auth/login");
+    ctx.res.setHeader("Location", "/staff/auth/login");
     ctx.res.statusCode = 302;
     ctx.res.end();
   }

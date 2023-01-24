@@ -6,7 +6,7 @@ import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { NavLink } from "src/tools/NavLink";
 //icons
 import { IoLogOutOutline } from "react-icons/io5";
-import { BsGridFill } from "react-icons/bs";
+import { BsClipboardCheck, BsGridFill } from "react-icons/bs";
 import { TiUser } from "react-icons/ti";
 import { BiEdit } from "react-icons/bi";
 import { GiCarWheel } from "react-icons/gi";
@@ -55,20 +55,20 @@ const Sidebar = () => {
       icon: TiUser,
       subLinks: [],
     },
-    {
-      id: 3,
-      title: "ثبت محصول",
-      path: "/staff/dashboard/register",
-      icon: SiHackthebox,
-      subLinks: [],
-    },
-    {
-      id: 4,
-      title: "انبار",
-      path: "/staff/dashboard/store",
-      icon: GiCarWheel,
-      subLinks: [],
-    },
+    // {
+    //   id: 3,
+    //   title: "ثبت محصول",
+    //   path: "/staff/dashboard/register",
+    //   icon: SiHackthebox,
+    //   subLinks: [],
+    // },
+    // {
+    //   id: 4,
+    //   title: "انبار",
+    //   path: "/staff/dashboard/store",
+    //   icon: GiCarWheel,
+    //   subLinks: [],
+    // },
     {
       id: 5,
       title: "لیست تامین کنندگان",
@@ -99,6 +99,13 @@ const Sidebar = () => {
           path: "/staff/dashboard/tickets/closed",
         },
       ],
+    },
+    {
+      id: 7,
+      title: "سفارشات",
+      path: "/staff/dashboard/orders",
+      icon: BsClipboardCheck,
+      subLinks: [],
     },
   ];
 

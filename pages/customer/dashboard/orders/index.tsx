@@ -1,4 +1,5 @@
 import Divider from "components/common/divider";
+import SeoHead from "components/common/seo-head";
 import Title from "components/common/title";
 import DashboardLayout from "components/layouts/dashboard/customer";
 import CustomerOrderCard from "components/pure/customer-order-card";
@@ -28,30 +29,33 @@ const Orders = () => {
   }, []);
 
   return (
-    <DashboardLayout>
-      <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
-      <Divider />
-      <ul className="customer-orders">
-        {orders.length ? (
-          orders?.map((item: any) => (
-            <li key={item.id}>
-              <CustomerOrderCard
-                image={item.image}
-                id={item.id}
-                manufacturer={""}
-                name={item.name}
-                brand={item.brand}
-                price={item.total_price}
-                dateAndTime={item.created_at}
-                status={item.status}
-              />
-            </li>
-          ))
-        ) : (
-          <p>لیست سفارشات شما خالی است.</p>
-        )}
-      </ul>
-    </DashboardLayout>
+    <>
+      <DashboardLayout>
+        <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
+        <Divider />
+        <ul className="customer-orders">
+          {orders.length ? (
+            orders?.map((item: any) => (
+              <li key={item.id}>
+                <CustomerOrderCard
+                  image={item.image}
+                  id={item.id}
+                  manufacturer={""}
+                  name={item.name}
+                  brand={item.brand}
+                  price={item.total_price}
+                  dateAndTime={item.created_at}
+                  status={item.status}
+                />
+              </li>
+            ))
+          ) : (
+            <p>لیست سفارشات شما خالی است.</p>
+          )}
+        </ul>
+      </DashboardLayout>
+      <SeoHead title="سفارشات" description="" />
+    </>
   );
 };
 

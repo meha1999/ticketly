@@ -1,12 +1,13 @@
 import ChatComponent from "components/common/chat";
+import SeoHead from "components/common/seo-head";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import DashboardLayout from "components/layouts/dashboard/supplier";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import { useSelector } from "react-redux";
+import useWebSocket from "react-use-websocket";
 import { ChatService } from "services/chat.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
@@ -36,22 +37,17 @@ const Chat = () => {
 
   const [messageHistory, setMessageHistory] = useState<any>([]);
 
-  const { sendJsonMessage, lastMessage, readyState }: any = useWebSocket(
-    socketUrl,
-    { queryParams: { token: token } }
-  );
+  const { sendJsonMessage, lastMessage }: any = useWebSocket(socketUrl, {
+    queryParams: { token: token },
+  });
 
   const fetchMessageHistory = async () => {
     try {
       const res = await chatService.allChats(router.query.ticketId);
       setMessageHistory(res.data);
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -78,22 +74,17 @@ const Chat = () => {
     []
   );
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState as number];
-
   return (
-    <DashboardLayout>
-      <ChatComponent
-        data={messageHistory}
-        onSend={handleClickSendMessage}
-        ticketId={router.query.ticketId}
-      />
-    </DashboardLayout>
+    <>
+      <DashboardLayout>
+        <ChatComponent
+          data={messageHistory}
+          onSend={handleClickSendMessage}
+          ticketId={router.query.ticketId}
+        />
+      </DashboardLayout>
+      <SeoHead title="چت" description="" />
+    </>
   );
 };
 

@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { NavLink } from "src/tools/NavLink";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import SeoHead from "components/common/seo-head";
 
 const ticketService = new TicketService();
 
@@ -74,74 +75,81 @@ const Tickets = () => {
   };
 
   return (
-    <DashboardLayout>
-      <div className="tickets">
-        <Title
-          titleIcon={TicketBold}
-          titleText="درخواست ها"
-          titleSideComponent={<></>}
-        />
-        <Divider />
-        <div className="tickets-conatiner">
-          {ticketList.map((ticket: any, key: any) => {
-            const unread = notification?.detail.filter(
-              (item) => item.data[0].ticket === ticket.id
-            )[0];
-            return (
-              <div
-                className="ticket-box"
-                key={key}
-                onClick={() => handleOpenChat(ticket.id)}
-              >
-                <div className="description">
-                  <div className="number">
-                    <div className="value">{key + 1}</div>
-                  </div>
-                  <div className="image">
-                    <Image
-                      src={DefaultTicket}
-                      alt="tikcet"
-                      className="ticket-img"
-                    />
-                  </div>
-                  <div className="info">
-                    <div className="name">{ticket.name}</div>
-                    <div className="further-info">
-                      <div className="brand">{ticket.brand ?? "بدون برند"}</div>
+    <>
+      <DashboardLayout>
+        <div className="tickets">
+          <Title
+            titleIcon={TicketBold}
+            titleText="درخواست ها"
+            titleSideComponent={<></>}
+          />
+          <Divider />
+          <div className="tickets-conatiner">
+            {ticketList.map((ticket: any, key: any) => {
+              const unread = notification?.detail.filter(
+                (item) => item.data[0].ticket === ticket.id
+              )[0];
+              return (
+                <div
+                  className="ticket-box"
+                  key={key}
+                  onClick={() => handleOpenChat(ticket.id)}
+                >
+                  <div className="description">
+                    <div className="number">
+                      <div className="value">{key + 1}</div>
                     </div>
-                  </div>
-                  {unread?.data[0].unread_message && (
-                    <div className="unread-notification">
-                      {unread?.data[0].unread_message}
+                    <div className="image">
+                      <Image
+                        src={DefaultTicket}
+                        alt="tikcet"
+                        className="ticket-img"
+                      />
                     </div>
-                  )}
-                </div>
-                <div className="price">
-                  <div className="amount">{ticket.price ?? "******"} تومان</div>
-                  <div className="code">{ticket.id}</div>
-                </div>
-                <div className="date-time">
-                  <div className="date">{ticket.date}</div>
-                  <div className="time">
-                    {JalaliDateTime(dateTimeConfig).toFullText(
-                      new Date(ticket.updated_at)
+                    <div className="info">
+                      <div className="name">{ticket.name}</div>
+                      <div className="further-info">
+                        <div className="brand">
+                          {ticket.brand ?? "بدون برند"}
+                        </div>
+                      </div>
+                    </div>
+                    {unread?.data[0].unread_message && (
+                      <div className="unread-notification">
+                        {unread?.data[0].unread_message}
+                      </div>
                     )}
                   </div>
-                </div>
-                <div className="operation">
-                  {query?.status === "supplying" && (
-                    <div className="delete-icon">
-                      <Image src={Delete} alt="delete" />
+                  <div className="price">
+                    <div className="amount">
+                      {ticket.price ?? "******"} تومان
                     </div>
-                  )}
-                  <div className="status">{translate[ticket.status]}</div>
+                    <div className="code">{ticket.id}</div>
+                  </div>
+                  <div className="date-time">
+                    <div className="date">{ticket.date}</div>
+                    <div className="time">
+                      {JalaliDateTime(dateTimeConfig).toFullText(
+                        new Date(ticket.updated_at)
+                      )}
+                    </div>
+                  </div>
+                  <div className="operation">
+                    {query?.status === "supplying" && (
+                      <div className="delete-icon">
+                        <Image src={Delete} alt="delete" />
+                      </div>
+                    )}
+                    <div className="status">{translate[ticket.status]}</div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </DashboardLayout>
+      </DashboardLayout>
+      <SeoHead title=" درخواست ها" description="" />
+    </>
   );
 };
 

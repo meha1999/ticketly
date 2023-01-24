@@ -1,4 +1,5 @@
 import Divider from "components/common/divider";
+import SeoHead from "components/common/seo-head";
 import Title from "components/common/title";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
@@ -31,45 +32,53 @@ const Orders = () => {
 
   const sendPackageHandler = async (order_id: string) => {
     try {
-      const res = await orderService.changeOrderInfo(order_id, { status: "SENT" });
+      const res = await orderService.changeOrderInfo(order_id, {
+        status: "SENT",
+      });
       Toaster.success(
         <ToastComponent title="موفقیت آمیز" description="بسته شما ارسال شد" />
       );
       console.log(res);
     } catch (error) {
       Toaster.error(
-        <ToastComponent title=" ناموفق" description="در ارسال بسته شما مشکلی به وجود امد" />
+        <ToastComponent
+          title=" ناموفق"
+          description="در ارسال بسته شما مشکلی به وجود امد"
+        />
       );
     }
   };
 
   return (
-    <DashboardLayout>
-      <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
-      <Divider />
-      <ul className="customer-orders">
-        {orders.length ? (
-          orders?.map((item: any) => (
-            <li key={item.id}>
-              <CustomerOrderCard
-                isSupplier
-                image={item.image}
-                id={item.id}
-                manufacturer={""}
-                name={item.name}
-                brand={item.brand}
-                onSend={sendPackageHandler}
-                price={item.total_price}
-                dateAndTime={item.created_at}
-                status={item.status}
-              />
-            </li>
-          ))
-        ) : (
-          <p>لیست سفارشات خالی است.</p>
-        )}
-      </ul>
-    </DashboardLayout>
+    <>
+      <DashboardLayout>
+        <Title svgIcon={<OrdersIcon color="#505050" />} titleText="سفارشات" />
+        <Divider />
+        <ul className="customer-orders">
+          {orders.length ? (
+            orders?.map((item: any) => (
+              <li key={item.id}>
+                <CustomerOrderCard
+                  isSupplier
+                  image={item.image}
+                  id={item.id}
+                  manufacturer={""}
+                  name={item.name}
+                  brand={item.brand}
+                  onSend={sendPackageHandler}
+                  price={item.total_price}
+                  dateAndTime={item.created_at}
+                  status={item.status}
+                />
+              </li>
+            ))
+          ) : (
+            <p>لیست سفارشات خالی است.</p>
+          )}
+        </ul>
+      </DashboardLayout>
+      <SeoHead title="سفارشات" description="" />
+    </>
   );
 };
 

@@ -14,6 +14,7 @@ import { AuthService } from "services/auth.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import SeoHead from "components/common/seo-head";
 
 interface ProfileFormState {
   full_name: string;
@@ -84,12 +85,8 @@ const Profile = () => {
         />
       );
     } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
       setLoading(false);
     }
   };
@@ -140,11 +137,9 @@ const Profile = () => {
         }
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
@@ -156,11 +151,9 @@ const Profile = () => {
         setProvince(provinceRes.data);
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      }
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
     };
     getProvince();
   }, []);
@@ -175,11 +168,9 @@ const Profile = () => {
           setCities(citiesRes.data.shahrs);
         } catch (error) {
           Toaster.error(
-            <ToastComponent
-              title="ناموفق"
-              description="خطای سرور"
-            />
-          );        }
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
+        }
       };
       getCities();
     }
@@ -220,147 +211,150 @@ const Profile = () => {
   }, [user]);
 
   return (
-    <DashboardLayout>
-      <div className="profile-page-wrapper">
-        <Title titleIcon={ProfileBold} titleText="پروفایل" />
-        <Divider />
-        <form className="user-profile-form" onSubmit={submitProfileForm}>
-          <div className="form-item">
-            <ImageInput
-              id="photo"
-              label="تصویر کاربر"
-              inputColor="#5E7BEC"
-              onChange={userProfileHandler}
-              image={
-                binaryImage
-                  ? URL.createObjectURL(binaryImage as any)
-                  : userProfile ?? (user?.photo as string)
-              }
-            />
-          </div>
-          <div className="form-item">
-            <TextInput
-              id="full_name"
-              label="نام و نام خانوادگی"
-              value={profileForm.full_name}
-              onChange={setProfileDataHandler}
-            />
-            <TextInput
-              id="mobile_phone"
-              label="شماره موبایل"
-              value={profileForm.mobile_phone}
-              onChange={setProfileDataHandler}
-            />
-          </div>
-          <div className="form-item">
-            <TextInput
-              label="کد ملی"
-              id="national_id"
-              value={profileForm.national_id}
-              onChange={setProfileDataHandler}
-            />
-            <TextInput
-              label="ایمیل"
-              id="email"
-              value={profileForm.email}
-              onChange={setProfileDataHandler}
-            />
-          </div>
-          <div className="form-item">
-            <Dropdown
-              id="ostan"
-              label="استان"
-              disabled={!province.length}
-              currentOptions={province}
-              currentValue={profileForm?.ostan || undefined}
-              onChange={setProfileDataHandler}
-            />
-            <Dropdown
-              id="shahr"
-              label="شهر"
-              currentOptions={cities}
-              disabled={!cities.length}
-              onChange={setProfileDataHandler}
-              currentValue={profileForm?.shahr || undefined}
-            />
-          </div>
-          <TextInput
-            id="address"
-            isFullWidthInput
-            label="ادرس محل سکونت"
-            value={profileForm.address}
-            onChange={setProfileDataHandler}
-          />
-          <div>
-            <div className="form-btns-container">
-              <button
-                style={{
-                  color: "#B0B0B0",
-                  border: " 1px solid #B0B0B0",
-                  backgroundColor: "inherit",
-                }}
-                type="button"
-              >
-                لغو
-              </button>
-              <button
-                style={{
-                  color: "#fff",
-                  backgroundColor: "#5E7BEC",
-                  boxShadow: `0px 10px 20px #5E7BEC50 `,
-                }}
-                type="submit"
-              >
-                {loading ? "درحال ارسال . . . " : "ویرایش اطلاعات"}
-              </button>
+    <>
+      <DashboardLayout>
+        <div className="profile-page-wrapper">
+          <Title titleIcon={ProfileBold} titleText="پروفایل" />
+          <Divider />
+          <form className="user-profile-form" onSubmit={submitProfileForm}>
+            <div className="form-item">
+              <ImageInput
+                id="photo"
+                label="تصویر کاربر"
+                inputColor="#5E7BEC"
+                onChange={userProfileHandler}
+                image={
+                  binaryImage
+                    ? URL.createObjectURL(binaryImage as any)
+                    : userProfile ?? (user?.photo as string)
+                }
+              />
             </div>
-          </div>
-          <div className="change-password">
-            <h4 className="change-pass-title" style={{ color: "#5E7BEC" }}>
-              تغییر رمز عبور
-            </h4>
             <div className="form-item">
               <TextInput
-                id="currentPass"
-                label="رمز عبور فعلی"
-                value={resetPass.currentPass}
-                onChange={resetPasswordHandler}
+                id="full_name"
+                label="نام و نام خانوادگی"
+                value={profileForm.full_name}
+                onChange={setProfileDataHandler}
               />
               <TextInput
-                id="newPass"
-                label="رمز عبور جدید"
-                value={resetPass.newPass}
-                onChange={resetPasswordHandler}
+                id="mobile_phone"
+                label="شماره موبایل"
+                value={profileForm.mobile_phone}
+                onChange={setProfileDataHandler}
               />
             </div>
-            <div className="form-item left">
+            <div className="form-item">
               <TextInput
-                id="newPassRepeat"
-                label="تکرار رمز عبور جدید"
-                value={resetPass.newPassRepeat}
-                onChange={resetPasswordHandler}
+                label="کد ملی"
+                id="national_id"
+                value={profileForm.national_id}
+                onChange={setProfileDataHandler}
+              />
+              <TextInput
+                label="ایمیل"
+                id="email"
+                value={profileForm.email}
+                onChange={setProfileDataHandler}
               />
             </div>
-          </div>
-          <div>
-            <Divider />
-            <div className="form-btns-container">
-              <button
-                style={{
-                  color: "#fff",
-                  backgroundColor: "#5E7BEC",
-                  boxShadow: `0px 10px 20px #5E7BEC50 `,
-                }}
-                type="button"
-                onClick={handleChangePassword}
-              >
-                تایید
-              </button>
+            <div className="form-item">
+              <Dropdown
+                id="ostan"
+                label="استان"
+                disabled={!province.length}
+                currentOptions={province}
+                currentValue={profileForm?.ostan || undefined}
+                onChange={setProfileDataHandler}
+              />
+              <Dropdown
+                id="shahr"
+                label="شهر"
+                currentOptions={cities}
+                disabled={!cities.length}
+                onChange={setProfileDataHandler}
+                currentValue={profileForm?.shahr || undefined}
+              />
             </div>
-          </div>
-        </form>
-      </div>
-    </DashboardLayout>
+            <TextInput
+              id="address"
+              isFullWidthInput
+              label="ادرس محل سکونت"
+              value={profileForm.address}
+              onChange={setProfileDataHandler}
+            />
+            <div>
+              <div className="form-btns-container">
+                <button
+                  style={{
+                    color: "#B0B0B0",
+                    border: " 1px solid #B0B0B0",
+                    backgroundColor: "inherit",
+                  }}
+                  type="button"
+                >
+                  لغو
+                </button>
+                <button
+                  style={{
+                    color: "#fff",
+                    backgroundColor: "#5E7BEC",
+                    boxShadow: `0px 10px 20px #5E7BEC50 `,
+                  }}
+                  type="submit"
+                >
+                  {loading ? "درحال ارسال . . . " : "ویرایش اطلاعات"}
+                </button>
+              </div>
+            </div>
+            <div className="change-password">
+              <h4 className="change-pass-title" style={{ color: "#5E7BEC" }}>
+                تغییر رمز عبور
+              </h4>
+              <div className="form-item">
+                <TextInput
+                  id="currentPass"
+                  label="رمز عبور فعلی"
+                  value={resetPass.currentPass}
+                  onChange={resetPasswordHandler}
+                />
+                <TextInput
+                  id="newPass"
+                  label="رمز عبور جدید"
+                  value={resetPass.newPass}
+                  onChange={resetPasswordHandler}
+                />
+              </div>
+              <div className="form-item left">
+                <TextInput
+                  id="newPassRepeat"
+                  label="تکرار رمز عبور جدید"
+                  value={resetPass.newPassRepeat}
+                  onChange={resetPasswordHandler}
+                />
+              </div>
+            </div>
+            <div>
+              <Divider />
+              <div className="form-btns-container">
+                <button
+                  style={{
+                    color: "#fff",
+                    backgroundColor: "#5E7BEC",
+                    boxShadow: `0px 10px 20px #5E7BEC50 `,
+                  }}
+                  type="button"
+                  onClick={handleChangePassword}
+                >
+                  تایید
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </DashboardLayout>
+      <SeoHead title="پروفایل" description="" />
+    </>
   );
 };
 

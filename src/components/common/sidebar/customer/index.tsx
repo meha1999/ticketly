@@ -20,17 +20,13 @@ const authService = new AuthService();
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const {  push: RouterPush } = useRouter();
+  const { push: RouterPush } = useRouter();
   const handleLogout = async () => {
     try {
       await authService.logout();
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
       deleteCookie("role");
       deleteCookie("token");
       dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });
@@ -62,13 +58,13 @@ const Sidebar = () => {
       icon: SiHackthebox,
       subLinks: [],
     },
-    {
-      id: 4,
-      title: "انبار",
-      path: "/customer/dashboard/store",
-      icon: GiCarWheel,
-      subLinks: [],
-    },
+    // {
+    //   id: 4,
+    //   title: "انبار",
+    //   path: "/customer/dashboard/store",
+    //   icon: GiCarWheel,
+    //   subLinks: [],
+    // },
     {
       id: 5,
       title: "درخواست ها",
@@ -101,13 +97,13 @@ const Sidebar = () => {
       icon: BsClipboardCheck,
       subLinks: [],
     },
-    {
-      id: 7,
-      title: "کیف پول",
-      path: "/customer/dashboard/wallet",
-      icon: TfiWallet,
-      subLinks: [],
-    },
+    // {
+    //   id: 7,
+    //   title: "کیف پول",
+    //   path: "/customer/dashboard/wallet",
+    //   icon: TfiWallet,
+    //   subLinks: [],
+    // },
   ];
 
   return (

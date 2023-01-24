@@ -104,8 +104,12 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
             style={{
               cursor:
                 ticketStatus !== "INPROCESS" && ticketStatus !== "CLOSED"
-                  ? "default"
-                  : "pointer",
+                  ? "pointer"
+                  : "default",
+              backgroundColor:
+                ticketStatus !== "INPROCESS" && ticketStatus !== "CLOSED"
+                  ? "#f3c701"
+                  : "#4d4d4d",
             }}
             onClick={() =>
               ticketStatus !== "INPROCESS" &&

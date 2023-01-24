@@ -1,0 +1,8 @@
+export enum TicketStatusChoicesEnum {
+    UNREAD="UNREAD",
+    ACCEPTED="ACCEPTED",
+    PENDING="PENDING",
+    ANSWERED="ANSWERED",
+    INPROCESS="INPROCESS",
+    CLOSED="CLOSED",
+  }

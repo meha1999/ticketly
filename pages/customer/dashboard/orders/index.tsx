@@ -1,5 +1,7 @@
 import Divider from "components/common/divider";
 import Title from "components/common/title";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 import DashboardLayout from "components/layouts/dashboard/customer";
 import CustomerOrderCard from "components/pure/customer-order-card";
 import OrdersIcon from "images/icons/orders_icon";
@@ -23,6 +25,31 @@ const Orders = () => {
     }
   };
 
+  const clientSideActionsHandler = async (
+    order_id: string,
+    status: "RECEIVED" | "REJECTED" | "CONFIRMED"
+  ) => {
+    try {
+      const res = await orderService.changeOrderInfo(order_id, {
+        status,
+      });
+      Toaster.success(
+        <ToastComponent title="موفقیت آمیز" description="عملیات مورد نظر با موفقیت انجام شد" />
+      );
+      const updatedList = orders.map((order: any) =>
+        order.id === order_id ? res.data : order
+      );
+      setOrders(updatedList);
+    } catch (error) {
+      Toaster.error(
+        <ToastComponent
+          title=" ناموفق"
+          description="در انجام عملیات مورد نظر شما مشکلی به وجود امد"
+        />
+      );
+    }
+  };
+
   useEffect(() => {
     getOrders();
   }, []);
@@ -36,14 +63,15 @@ const Orders = () => {
           orders?.map((item: any) => (
             <li key={item.id}>
               <CustomerOrderCard
-                image={item.image}
                 id={item.id}
-                manufacturer={""}
                 name={item.name}
+                manufacturer={""}
+                image={item.image}
                 brand={item.brand}
+                status={item.status}
                 price={item.total_price}
                 dateAndTime={item.created_at}
-                status={item.status}
+                onClientAction={clientSideActionsHandler}
               />
             </li>
           ))

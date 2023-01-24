@@ -16,7 +16,11 @@ interface CustomerOrderCardProps {
   dateAndTime: string;
   status: string;
   isSupplier?: boolean;
-  onSend?: (OrderId: string) => void;
+  onSupplierAction?: (OrderId: string) => void;
+  onClientAction?: (
+    OrderId: string,
+    status: "RECEIVED" | "REJECTED" | "CONFIRMED"
+  ) => void;
 }
 
 const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
@@ -29,7 +33,8 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
   dateAndTime,
   isSupplier,
   status,
-  onSend = () => {},
+  onSupplierAction = () => {},
+  onClientAction = () => {},
 }) => {
   const statusTypes: Record<string, string> = {
     SUBMITED: "سفارش ثبت شده",
@@ -50,17 +55,26 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
 
   const statusIconsConfig: Record<string, any> = {
     SENT: (
-      <button className="icon dark-green" onClick={() => onSend(id)}>
+      <button
+        className="icon dark-green"
+        onClick={() => onClientAction(id, "RECEIVED")}
+      >
         <FiPackage title="تحویل گرفتن" />
       </button>
     ),
     RECEIVED: (
       <>
-        <button className="icon dark">
-          <TbArrowBackUp />
+        <button
+          className="icon dark"
+          onClick={() => onClientAction(id, "REJECTED")}
+        >
+          <TbArrowBackUp title="برگشت دادن"/>
         </button>
-        <button className="icon  light-green">
-          <CiCircleCheck />
+        <button
+          className="icon  light-green"
+          onClick={() => onClientAction(id, "CONFIRMED")}
+        >
+          <CiCircleCheck title="تایید بسته"/>
         </button>
       </>
     ),
@@ -68,7 +82,7 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
 
   const statusIconsConfigSupplier: Record<string, any> = {
     SUBMITED: (
-      <button className="icon dark-green" onClick={() => onSend(id)}>
+      <button className="icon dark-green" onClick={() => onSupplierAction(id)}>
         <FiPackage title="ارسال" />
       </button>
     ),

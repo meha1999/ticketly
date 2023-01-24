@@ -17,6 +17,8 @@ import { Toaster } from "components/common/toast/Toaster";
 import { NavLink } from "src/tools/NavLink";
 import ToastComponent from "components/common/toast/ToastComponent";
 import SeoHead from "components/common/seo-head";
+import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
+import { TicketStatusChoicesEnum } from "src/model/status";
 
 const ticketService = new TicketService();
 
@@ -186,7 +188,7 @@ const Requests = () => {
                     )}
                   </div>
                   <div className="status">
-                    <ReqStatusBtn status={item.status} />
+                    <ReqStatusBtn status={item?.status} />
                   </div>
                   <div className="ticket">
                     <ReqTicketBtn
@@ -210,37 +212,22 @@ const Requests = () => {
 
 export default Requests;
 
-export const ReqStatusBtn = ({ status }: { status: string }) => {
+export const ReqStatusBtn = ({
+  status,
+}: {
+  status: TicketStatusChoicesEnum;
+}) => {
   const className: Record<string, string> = {
     UNREAD: "pending",
     INPROCESS: "pending",
-    CLOSED: "fulfilled",
     ACCEPTED: "pending-2",
     ANSWERED: "pending-2",
     PENDING: "pending-2",
-    PROVIDED: "fulfilled",
-    RETURNED: "pending-2",
-    DELIVERED: "fulfilled",
+    CLOSED: "fulfilled",
   };
-
-  const translate: Record<string, string> = {
-    UNREAD: "در انتظار تایید ارزیاب",
-    ACCEPTED: "در انتظار پیام ارزیاب",
-    ANSWERED: "در انتظار پاسخ مشتری",
-    PENDING: "در انتظار پاسخ ارزیاب",
-    INPROCESS: "در انتظار تامین کننده",
-    CLOSED: "بسته شد",
-<<<<<<< HEAD
-=======
-    // PROVIDED: "مشتری پاسخ داده",
-    // RETURNED: "در انتظار پاسخ مشتری",
-    // DELIVERED: "مشتری پاسخ داده",
->>>>>>> 5b8a04d046544b3be7bc7eb96e7b68e49dcf4914
-  };
-
   return (
     <div className={`btn-status-wrapper ${className[status]} `}>
-      {translate[status]}
+      {TICKET_STATUS_PERSIAN[status]}
     </div>
   );
 };

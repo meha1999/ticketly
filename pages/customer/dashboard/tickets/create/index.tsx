@@ -49,6 +49,7 @@ const Create = () => {
   const [selectedPartType, setSelectedPartType] = useState<any>();
   const [selectedAccessoriesType, setSelectedAccessoriesType] = useState<any>();
   const [selectedFiles, setSelectedFiles] = useState<Array<any>>([]);
+  const [deSelectedFiles, setDeSelectedFiles] = useState<Array<any>>([]);
 
   const rootChangeHandler = (event: any) => {
     const selectedRootId = +event.target.value;
@@ -265,7 +266,12 @@ const Create = () => {
     }
   };
 
-  const handleReset = () => reset();
+  const handleReset = () => {
+    const list = selectedFiles.map((i: any) => i.id);
+    setDeSelectedFiles(list);
+    setSelectedFiles([]);
+    reset();
+  };
 
   useEffect(() => {
     const getCategories = async () => {

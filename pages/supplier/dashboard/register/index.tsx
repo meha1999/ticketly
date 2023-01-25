@@ -2,7 +2,7 @@ import DashboardLayout from "components/layouts/dashboard/supplier";
 import { GetServerSideProps } from "next";
 
 const Register = () => {
-  return <DashboardLayout>Register</DashboardLayout>;
+  return <DashboardLayout></DashboardLayout>;
 };
 
 export default Register;

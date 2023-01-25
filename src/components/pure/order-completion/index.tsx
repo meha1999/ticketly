@@ -22,6 +22,7 @@ interface OrderCompletionProps {
   ticketId: string;
   selectedTikcet: string;
   openChat: () => void;
+  orderSubmitted: () => void;
 }
 
 const OrderCompletion: FC<OrderCompletionProps> = ({
@@ -34,6 +35,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
   ticketId,
   selectedTikcet,
   openChat,
+  orderSubmitted,
 }) => {
   const router = useRouter();
   const notification = useSelector<
@@ -89,9 +91,8 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
         <button
           className="chat-user"
           style={{
-            backgroundColor:
-              selectedTikcet === ticketId ? "#00A48A" : "#defffa",
-            color: selectedTikcet === ticketId ? "#FFFFFF" : "#00A48A",
+            backgroundColor: selectedTikcet == ticketId ? "#00A48A" : "#defffa",
+            color: selectedTikcet == ticketId ? "#FFFFFF" : "#00A48A",
           }}
           onClick={openChat}
         >
@@ -144,7 +145,10 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
               productName={ticketSubject}
               customerWalletCash={customerWalletCash}
               suppliersList={supplierList}
-              closeModal={() => setIsOpen(false)}
+              closeModal={() => {
+                setIsOpen(false);
+                orderSubmitted();
+              }}
             />
           </CustomPortal>,
           portalContainer

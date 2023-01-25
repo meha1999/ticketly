@@ -81,6 +81,25 @@
           font-size: 20px;
         }
       }
+      .payment-method {
+        display: flex;
+        flex-direction: column;
+        .radio-input-group {
+          cursor: pointer;
+          
+          .radio-label {
+            padding-right: 10px;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 28px;
+            cursor: pointer;
+
+          }
+          .selected-label {
+            color: #5e7bec;
+          }
+        }
+      }
       .customer-section {
         width: 47%;
         display: flex;

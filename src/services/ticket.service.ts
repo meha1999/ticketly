@@ -41,4 +41,8 @@ export class TicketService extends BaseService {
   finalPayment(data: any) {
     return this.axiosInstanceWithToken.post(`/order/`, data);
   }
+
+  confirmOrder(id: string) {
+    return this.axiosInstanceWithToken.put(`/order/confirm/${id}/`);
+  }
 }

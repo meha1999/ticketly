@@ -56,6 +56,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   const [selectedSupplier, setSelectedSupplier] = useState<any>();
   const [supplierAddress, setSupplierAddress] = useState<string>("");
   const [paymentStatus, setPaymentStatus] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<"cash" | "wallet">("cash");
   const [supplyDate, setSupplyDate] = useState<
     DateObject | DateObject[] | Date | null
   >(new Date());
@@ -91,19 +92,14 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
         ticket_group: router.query.groupId,
       };
       const res = await ticketService.finalPayment(finalData);
-      if (res.status === 201) {
-        setPaymentStatus("success");
-      } else {
-        setPaymentStatus("failure");
+      if (paymentMethod === "wallet") {
+         await ticketService.confirmOrder(res.data.id);
       }
+      setPaymentStatus("success");
     } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
-    }
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+      setPaymentStatus("failure");
+    } 
     setIsPaymentOpen(false);
     setIsResultOpen(true);
   };
@@ -277,6 +273,40 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
               <div className="wallet-cash">
                 <span>موجودی کیف پول:</span>
                 <span>{} تومان</span>
+              </div>
+              <div className="payment-method">
+                <div className="radio-input-group">
+                  <input
+                    id="cash"
+                    type="radio"
+                    checked={paymentMethod === "cash"}
+                    onChange={() => setPaymentMethod("cash")}
+                  />
+                  <label
+                    htmlFor="cash"
+                    className={`radio-label ${
+                      paymentMethod === "cash" ? "selected-label" : ""
+                    }`}
+                  >
+                    پرداخت نقدی
+                  </label>
+                </div>
+                <div className="radio-input-group">
+                  <input
+                    id="wallet"
+                    type="radio"
+                    checked={paymentMethod === "wallet"}
+                    onChange={() => setPaymentMethod("wallet")}
+                  />
+                  <label
+                    htmlFor="wallet"
+                    className={`radio-label ${
+                      paymentMethod === "wallet" ? "selected-label" : ""
+                    }`}
+                  >
+                    کسر از کیف پول
+                  </label>
+                </div>
               </div>
             </div>
           </div>

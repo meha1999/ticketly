@@ -29,28 +29,18 @@ const ResultPayment: FC<ResultPaymentProps> = ({
         ) : (
           <>
             <p className="message failure">
-              موجودی کیف پول شما با انتخاب کسر موجودی به صورت منفی درخواهد آمد.
+              موجودی کیف پول مشتری با انتخاب کسر موجودی به صورت منفی درخواهد
+              آمد.
             </p>
             <p className="failure-message">
-              بعد از افزایش اعتبار کیف پول دوباره برای پرداخت اقدام نمایید.
+              سفارش ثبت خواهد شد از مشتری بخواهید به صورت نقدی پرداخت نماید
             </p>
           </>
         )}
       </div>
-      {paymentStatus === "success" ? (
-        <button className="close-modal-btn" onClick={closeModal}>
-          بستن پنجره
-        </button>
-      ) : (
-        <div className="failure-modal-buttons">
-          <button className="cancel" onClick={closeModal}>
-            انصراف
-          </button>
-          <button className="deduct-wallet" onClick={deductWallet}>
-            کسر از کیف پول
-          </button>
-        </div>
-      )}
+      <button className="close-modal-btn" onClick={closeModal}>
+        بستن پنجره
+      </button>
     </div>
   );
 };

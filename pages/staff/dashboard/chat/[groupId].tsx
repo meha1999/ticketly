@@ -35,6 +35,7 @@ const Chat = () => {
   const [messageHistory, setMessageHistory] = useState<any>([]);
   const [customerTicket, setCustomerTicket] = useState<any>([]);
   const [suppliersTicket, setSuppliersTicket] = useState<any>([]);
+  const [submittedOrder, setSubmittedOrder] = useState<any>(false);
 
   const { sendJsonMessage, lastMessage, readyState }: any = useWebSocket(
     `${process.env.NEXT_PUBLIC_BASE_RASAD_WS_URL}/ws/chat/${ticketId}/`,
@@ -68,6 +69,7 @@ const Chat = () => {
     } catch (err) {
       Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
     } finally {
+      setSubmittedOrder(false);
     }
   };
 
@@ -92,8 +94,8 @@ const Chat = () => {
   }, [ticketId]);
 
   useEffect(() => {
-    router.query.groupId && fetchGroupInfo();
-  }, [router.query.groupId]);
+    submittedOrder && router.query.groupId && fetchGroupInfo();
+  }, [router.query.groupId, submittedOrder]);
 
   useEffect(() => {
     router.query.ticketId && setTicketId(router.query.ticketId as string);
@@ -103,8 +105,8 @@ const Chat = () => {
     if (lastMessage !== null) {
       const data = JSON.parse(lastMessage.data);
       !messageHistory[messageHistory.length - 1]?.seen &&
-      data.sender.id !== user?.id &&
-      messageHistory.map((item: any) => (item.seen = true));
+        data.sender.id !== user?.id &&
+        messageHistory.map((item: any) => (item.seen = true));
       setMessageHistory((prev: any) => [...prev, data]);
     }
   }, [lastMessage, setMessageHistory]);
@@ -124,6 +126,7 @@ const Chat = () => {
           openChat={() => setTicketId(customerTicket.id)}
           selectedTikcet={ticketId}
           ticketId={customerTicket.id}
+          orderSubmitted={() => setSubmittedOrder(true)}
         />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <ChatList

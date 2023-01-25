@@ -2,7 +2,7 @@ import DashboardLayout from "components/layouts/dashboard/staff";
 import { GetServerSideProps } from "next";
 
 const Providers = () => {
-  return <DashboardLayout>Under Development</DashboardLayout>;
+  return <DashboardLayout></DashboardLayout>;
 };
 
 export default Providers;

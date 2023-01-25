@@ -141,7 +141,7 @@ const Tickets = () => {
                   >
                     {query?.status === "supplying" && (
                       <div className="delete-icon">
-                        <Image src={Delete} alt="delete" />
+                        {/* <Image src={Delete} alt="delete" /> */}
                       </div>
                     )}
                     <div className="status">{translate[ticket.status]}</div>

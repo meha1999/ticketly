@@ -226,6 +226,28 @@
               color: red;
               font-size: 12px;
             }
+            .phone {
+              input {
+                width: 100%;
+                padding-left: 70px;
+                text-align: center;
+                font-size: 20px;
+                letter-spacing: 5px;
+              }
+              position: relative;
+              z-index: 1;
+              &::after {
+                min-width: 10px;
+                min-height: 10px;
+                content: " 98+";
+                position: absolute;
+                color: #505050;
+                top: 10px;
+                left: 20px;
+                z-index: 2;
+                font-size: 20px;
+              }
+            }
           }
           input {
             height: 50px;

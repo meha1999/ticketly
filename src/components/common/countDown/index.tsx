@@ -11,7 +11,7 @@ interface CountDownProps {
 }
 
 const CountDown: FC<CountDownProps> = ({
-  initialTime = 12000,
+  initialTime = 60000,
   className = "",
   onFinish,
   isFinished,

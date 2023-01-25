@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import NextNProgress from "components/common/nprogressNext";
 import { useRouter } from "next/router";
 import { ToastContainer } from "react-toastify";
@@ -51,13 +52,16 @@ const BaseWrapper = ({ Component, pageProps }: any) => {
         }
       />
       <Component {...pageProps} />
-      <ToastContainer
-        draggable
-        autoClose={4000}
-        position="bottom-left"
-        hideProgressBar={true}
-        pauseOnHover={false}
-      />
+      {ReactDOM.createPortal(
+        <ToastContainer
+          draggable
+          autoClose={4000}
+          position="bottom-left"
+          hideProgressBar={true}
+          pauseOnHover={false}
+        />,
+        document.getElementById("portal") || document.body
+      )}
     </>
   );
 };

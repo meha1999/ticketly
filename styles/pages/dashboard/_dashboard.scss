@@ -16,6 +16,89 @@
     gap: 50px;
     padding: 35px 0 20px 0;
   }
+  .last-requests-container {
+    display: flex;
+    flex-direction: column;
+    .last-requests-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: auto;
+      padding: 20px 0;
+      .item {
+        width: 100%;
+        padding: 15px;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 25px;
+        display: grid;
+        grid-template-columns: 5fr 4fr 3fr 3fr 2fr;
+        vertical-align: middle;
+        border-radius: 20px;
+        background: #ffffff;
+        &.hover {
+          &:hover {
+            cursor: pointer;
+            background: #e7eaec;
+          }
+        }
+        & > div {
+          padding-right: 20px;
+          display: flex;
+          line-height: 30px;
+          vertical-align: middle;
+          align-items: center;
+          justify-content: flex-start;
+          box-sizing: border-box;
+          border-left: 1px solid #b9b9b9;
+          &:last-child {
+            border-left: none;
+          }
+        }
+        .title {
+          padding: 0;
+          color: #505050;
+          vertical-align: middle;
+          .count {
+            width: 45px;
+            text-align: center;
+          }
+        }
+        .user {
+          .logo {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 7px;
+            background-color: #fff;
+            border-radius: 50%;
+            img {
+              filter: drop-shadow(0px 5px 10px rgba(70, 106, 255, 0.3));
+            }
+          }
+        }
+        .ticket-id {
+          font-weight: 600;
+          font-size: 14px;
+          color: #8b8b8b;
+        }
+        .date {
+          color: #7d7d7d;
+          justify-content: center;
+          font-weight: 400;
+          font-size: 12px;
+          padding: 0;
+        }
+        .status {
+          padding: 0;
+          padding: 0 12px;
+          justify-content: center;
+        }
+      }
+    }
+  }
   .list-wrapper {
     gap: 10px;
     height: auto;
@@ -30,7 +113,7 @@
       font-size: 16px;
       line-height: 25px;
       display: grid;
-      grid-template-columns: 5fr 4fr 3fr 3fr 2fr;
+      grid-template-columns: 4fr 4fr 2fr 3fr 4fr;
       vertical-align: middle;
       border-radius: 20px;
       background: #ffffff;

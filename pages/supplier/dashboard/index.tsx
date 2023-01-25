@@ -8,6 +8,24 @@ import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import DashboardBold from "public/images/icons/dashboard_bold.svg";
 import DashboardCardCarParts from "public/images/dashboard_card_car_parts.svg";
 import SeoHead from "components/common/seo-head";
+import Divider from "components/common/divider";
+import { useEffect, useState } from "react";
+import { TicketService } from "services/ticket.service";
+import Image from "next/image";
+import ProfileBold from "public/images/icons/profile_bold1.svg";
+import { JalaliDateTime } from "jalali-date-time";
+import { DATE_TIME_CONFIG } from "src/static/dateConfig";
+import { TicketStatusChoicesEnum } from "src/model/status";
+import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
+
+const ticketService = new TicketService();
+
+const userType: Record<string, string> = {
+  staff: "#5E7BEC",
+  customer: "#00A48A",
+  supplier: "#F2C901",
+  superuser: "#505050",
+};
 
 const Dashboard = () => {
   const router = useRouter();
@@ -15,12 +33,24 @@ const Dashboard = () => {
     (store) => store.user
   );
 
-  const userType: Record<string, string> = {
-    staff: "#5E7BEC",
-    customer: "#00A48A",
-    supplier: "#F2C901",
-    superuser: "#505050",
+  const [ticketList, setTicketList] = useState<any[]>([]);
+
+  const handleOpenChat = (ticketId: string) => {
+    router.push(`/supplier/dashboard/chat/${ticketId}/`);
   };
+  const getTickets = async () => {
+    try {
+      const ticketRes = await ticketService.getTickets();
+      const data: any[] = ticketRes.data.filter(
+        (item: any) => item.status === "ANSWERED"
+      );
+      setTicketList(data.splice(0, 3));
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getTickets();
+  }, []);
 
   return (
     <>
@@ -57,6 +87,43 @@ const Dashboard = () => {
               textColor="#FFFFFF"
             />
           </div>
+          <div className="last-requests-container">
+            <Title titleText="آخرین درخواست‌ها" />
+            <Divider />
+            <ul className="last-requests-list">
+              {ticketList?.map((item: any, index: number) => (
+                <li
+                  key={item.id}
+                  className={`item ${item.status !== "UNREAD" ? "hover" : ""}`}
+                  onClick={() =>
+                    item.status !== "UNREAD" && handleOpenChat(item.id)
+                  }
+                >
+                  <div className="title">
+                    <span className="count">{index + 1}</span>
+                    {item.name}
+                  </div>
+                  <div className="user">
+                    <div className="logo">
+                      <Image src={ProfileBold} alt="" width={20} height={20} />
+                    </div>
+                    <span className="name">
+                      {item.customer?.full_name ?? "نام کاربر یافت نشد"}
+                    </span>
+                  </div>
+                  <div className="ticket-id">{item.id}</div>
+                  <div className="date">
+                    {JalaliDateTime(DATE_TIME_CONFIG).toFullText(
+                      new Date(item.updated_at)
+                    )}
+                  </div>
+                  <div className="status">
+                    <ReqStatusBtn status={item?.status} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </DashboardLayout>
       <SeoHead title="پیشخوان" description="" />
@@ -75,4 +142,24 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {},
   };
+};
+
+export const ReqStatusBtn = ({
+  status,
+}: {
+  status: TicketStatusChoicesEnum;
+}) => {
+  const className: Record<string, string> = {
+    UNREAD: "pending",
+    INPROCESS: "pending",
+    ACCEPTED: "pending-2",
+    ANSWERED: "pending-2",
+    PENDING: "pending-2",
+    CLOSED: "fulfilled",
+  };
+  return (
+    <div className={`btn-status-wrapper ${className[status]} `}>
+      {TICKET_STATUS_PERSIAN[status]}
+    </div>
+  );
 };

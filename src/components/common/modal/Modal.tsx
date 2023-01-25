@@ -39,6 +39,7 @@ const Modal: React.FC<ModalProps> = ({
 
   const container2: any = document.getElementById("portal");
   const ref = useRef(null);
+  
   if (isModalOpen) {
     return (
       <>

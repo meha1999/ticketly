@@ -166,7 +166,7 @@ const Requests = () => {
                     item.status === "PENDING" || item.status === "ACCEPTED"
                       ? "unread-item"
                       : ""
-                  }`}
+                  } ${item.status !== "UNREAD" ? "hover" : ""}`}
                   key={index}
                   onClick={() => handleOpenChat(item.ticket_group, item.id)}
                 >

@@ -34,6 +34,7 @@ const ChatList: React.FC<ChatListProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [suppliersList, setSuppliersList] = useState<Array<any>>([]);
   const [selectedSuppliers, setSelectedSuppliers] = useState<Array<number>>([]);
+  const [sentText, setSentText] = useState<string>("");
 
   const notification = useSelector<
     ReduxStoreModel,
@@ -55,7 +56,6 @@ const ChatList: React.FC<ChatListProps> = ({
             (ticket: any) => ticket?.supplier?.id === item.id
           )
       );
-      console.log(finalData, res.data, group.ticket_group);
       setSuppliersList(finalData);
     } catch (error) {
       Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
@@ -80,7 +80,7 @@ const ChatList: React.FC<ChatListProps> = ({
         supplier: { id: item },
         staff: group.ticket_group[0].staff,
         priority: group.ticket_group[0].priority,
-        description: group.ticket_group[0].description,
+        description: sentText,
         ticket_group: group.ticket_group[0].ticket_group,
         status: "PENDING",
         branch_category: group.ticket_group[0].branch_category,
@@ -140,7 +140,6 @@ const ChatList: React.FC<ChatListProps> = ({
             const sse = notification?.detail
               ?.filter((message) => message?.ticket_group == group?.id)[0]
               ?.data?.filter((event) => event?.ticket == item.id)[0];
-            console.log(notification);
             return (
               <MessageCard
                 key={index}
@@ -176,6 +175,7 @@ const ChatList: React.FC<ChatListProps> = ({
               elementRef={addSupplierPortalRef}
               handleSelect={handleSelect}
               selectedSuppliers={selectedSuppliers}
+              setSentText={setSentText}
             />
           </CustomPortal>,
           portalContainer

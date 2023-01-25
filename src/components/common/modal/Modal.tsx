@@ -7,6 +7,7 @@ interface ModalProps {
   children: any;
   isOpen?: boolean;
   className?: string;
+  notClosableByUser?: boolean;
   onClose?: () => void;
   needToBeFixed?: boolean;
   noSwipeAnimation?: boolean;
@@ -21,7 +22,8 @@ const Modal: React.FC<ModalProps> = ({
   isOpen = false,
   needToBeFixed,
   noSwipeAnimation,
-  backdropClose = "active",
+  backdropClose,
+  notClosableByUser,
   container = document.body,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
@@ -61,7 +63,7 @@ const Modal: React.FC<ModalProps> = ({
               }`}
               onClick={(e) => {
                 if (e.target === ref.current) {
-                  backdropClose === "active" ? onClose!() : "";
+                  backdropClose && !notClosableByUser ? onClose!() : "";
                 }
               }}
             >

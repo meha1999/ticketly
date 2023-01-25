@@ -141,7 +141,7 @@ const Dashboard = () => {
                   </div>
                   <div className="operation">
                     <div className="delete-icon">
-                      <Image src={Delete} alt="delete" />
+                      {/* <Image src={Delete} alt="delete" /> */}
                     </div>
                     <div className="status">
                       {

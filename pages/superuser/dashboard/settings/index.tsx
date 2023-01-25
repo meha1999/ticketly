@@ -2,7 +2,7 @@ import DashboardLayout from "components/layouts/dashboard/superuser";
 import { GetServerSideProps } from "next";
 
 const Setting = () => {
-  return <DashboardLayout>Under Development</DashboardLayout>;
+  return <DashboardLayout></DashboardLayout>;
 };
 
 export default Setting;

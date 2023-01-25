@@ -2,7 +2,7 @@ import DashboardLayout from "components/layouts/dashboard/superuser";
 import { GetServerSideProps } from "next";
 
 const Users = () => {
-  return <DashboardLayout>Under Development</DashboardLayout>;
+  return <DashboardLayout></DashboardLayout>;
 };
 
 export default Users;

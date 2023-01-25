@@ -2,7 +2,7 @@ import DashboardLayout from "components/layouts/dashboard/customer";
 import { GetServerSideProps } from "next";
 
 const Wallet = () => {
-  return <DashboardLayout>Under Development</DashboardLayout>;
+  return <DashboardLayout></DashboardLayout>;
 };
 
 export default Wallet;

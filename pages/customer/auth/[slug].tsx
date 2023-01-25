@@ -42,7 +42,7 @@ const SignUp = () => {
         {
           ...data,
           mobile_phone: data.mobile_phone ? "+98" + data.mobile_phone : null,
-          email: data.email ? data.email : "",
+          email: data.email ? data.email : null,
         },
         "customer"
       );

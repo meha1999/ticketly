@@ -1,7 +1,7 @@
 import { BaseService } from "./base.service";
 
 export class TicketService extends BaseService {
-  getTickets(staff: boolean) {
+  getTickets(staff?: boolean) {
     return this.axiosInstanceWithToken.get(
       `/ticket/${staff ? "?negotiant=customer" : ""}`
     );
@@ -44,7 +44,7 @@ export class TicketService extends BaseService {
     return this.axiosInstanceWithToken.post(`/order/`, data);
   }
 
-  confirmOrder(id: string) {
+  confirmOrder(id?: string) {
     return this.axiosInstanceWithToken.put(`/order/confirm/${id}/`);
   }
 }

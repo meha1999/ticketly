@@ -44,7 +44,7 @@ const Dashboard = () => {
       const data: any[] = ticketRes.data.filter(
         (item: any) => item.status === "UNREAD"
       );
-      setTicketList(data.splice(0,3));
+      setTicketList(data.splice(0, 3));
     } catch (error) {}
   };
 
@@ -131,9 +131,12 @@ const Dashboard = () => {
                   item.status === "PENDING" || item.status === "ACCEPTED"
                     ? "unread-item"
                     : ""
-                }`}
+                } ${item.status !== "UNREAD" ? "hover" : ""}`}
                 key={index}
-                onClick={() => handleOpenChat(item.ticket_group, item.id)}
+                onClick={() =>
+                  item.status !== "UNREAD" &&
+                  handleOpenChat(item.ticket_group, item.id)
+                }
               >
                 <div className="title">
                   <span className="count">{index + 1}</span>

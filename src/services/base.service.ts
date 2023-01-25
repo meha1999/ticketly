@@ -4,8 +4,22 @@ import Axios, {
   AxiosRequestConfig,
   CancelTokenSource,
 } from "axios";
+import { REDUX_ACTION } from "src/enum/redux-action.enum";
 // custom
 import { store } from "src/store/index";
+import { deleteCookie } from "cookies-next";
+
+const errorComposer = (error: any) => {
+  const statusCode = error.response ? error.response.status : null;
+  if (statusCode === 401) {
+    deleteCookie("role");
+    deleteCookie("token");
+    store.dispatch({ type: REDUX_ACTION.EMPTY_USER });
+    store.dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });
+    const loginPath = window.location.pathname.split("/")[1];
+    window.location.href = window.origin + "/" + loginPath + "/auth/login ";
+  }
+};
 
 export abstract class BaseService {
   constructor(alternativeBaseUrl?: string) {
@@ -102,6 +116,7 @@ export abstract class BaseService {
         // }
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
+        errorComposer(error);
         return Promise.reject(error);
       }
     );

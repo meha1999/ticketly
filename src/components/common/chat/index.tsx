@@ -66,12 +66,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       const res = await ticketService.getTicketById(ticketId);
       setTicketInfo(res.data);
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
     }
   };
 
@@ -111,7 +107,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             hasSeen={item.seen}
             message={item.text}
             file={item.file}
-            name={item.sender.username}
+            name={item.sender.full_name}
             profileImage={item.sender.photo}
             color={userType[item.sender.role]}
             count={scrollIndex === index + 1}

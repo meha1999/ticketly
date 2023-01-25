@@ -36,6 +36,20 @@ export class AuthService extends BaseService {
     );
   }
 
+  validate(payload: Record<string, any>): Promise<any> {
+    return this.axiosInstanceWithoutToken.post(
+      `/account/user/validate/`,
+      payload
+    );
+  }
+
+  resendOtp(payload: Record<string, any>): Promise<any> {
+    return this.axiosInstanceWithoutToken.post(
+      `/account/user/resend/`,
+      payload
+    );
+  }
+
   logout(): Promise<any> {
     return this.axiosInstanceWithToken.post("/auth/logout/");
   }

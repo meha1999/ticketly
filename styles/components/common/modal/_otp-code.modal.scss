@@ -92,6 +92,11 @@
     display: flex;
     margin-top: 60px;
     justify-content: flex-end;
+    &.loading {
+      button {
+        background: #00a48a80;
+      }
+    }
     button {
       min-width: 150px;
       padding: 8px 16px;

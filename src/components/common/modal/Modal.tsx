@@ -7,7 +7,7 @@ interface ModalProps {
   children: any;
   isOpen?: boolean;
   className?: string;
-  notClosableByUser?: boolean;
+  notClosableByUser: boolean;
   onClose?: () => void;
   needToBeFixed?: boolean;
   noSwipeAnimation?: boolean;
@@ -19,11 +19,11 @@ const Modal: React.FC<ModalProps> = ({
   children,
   onClose = () => {},
   className,
+  notClosableByUser,
   isOpen = false,
   needToBeFixed,
   noSwipeAnimation,
   backdropClose,
-  notClosableByUser,
   container = document.body,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
@@ -39,6 +39,7 @@ const Modal: React.FC<ModalProps> = ({
 
   const container2: any = document.getElementById("portal");
   const ref = useRef(null);
+  
   if (isModalOpen) {
     return (
       <>

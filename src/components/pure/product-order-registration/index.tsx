@@ -177,7 +177,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                   {...register("staff_delivery_address", { required: true })}
                 ></textarea>
                 {errors.staff_delivery_address && (
-                  <p>وارد کردن آدرس اجباری است.</p>
+                  <p className="error">وارد کردن آدرس اجباری است.</p>
                 )}
               </div>
               <div className="wallet-cash">
@@ -267,7 +267,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                   value={selectedSupplier?.address}
                 ></textarea>
                 {errors.supplier_delivery_address && (
-                  <p>وارد کردن آدرس اجباری است.</p>
+                  <p className="error">وارد کردن آدرس اجباری است.</p>
                 )}
               </div>
               <div className="wallet-cash">
@@ -325,7 +325,9 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 />
                 <span>تومان</span>
               </div>
-              {errors.total_price && <p>وارد کردن قیمت اجباری است.</p>}
+              {errors.total_price && (
+                <p className="price-error">وارد کردن قیمت اجباری است.</p>
+              )}
             </div>
             <button type="submit">پرداخت نهایی</button>
           </div>

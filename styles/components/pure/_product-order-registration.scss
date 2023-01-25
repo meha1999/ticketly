@@ -32,6 +32,9 @@
         display: flex;
         flex-direction: column;
         gap: 5px;
+        .error {
+          color: red;
+        }
         .label {
           font-weight: 400;
           font-size: 16px;
@@ -86,14 +89,13 @@
         flex-direction: column;
         .radio-input-group {
           cursor: pointer;
-          
+
           .radio-label {
             padding-right: 10px;
             font-weight: 700;
             font-size: 18px;
             line-height: 28px;
             cursor: pointer;
-
           }
           .selected-label {
             color: #5e7bec;
@@ -211,6 +213,13 @@
         align-items: center;
         gap: 20px;
         width: 60%;
+        position: relative;
+        .price-error {
+          color: red;
+          position: absolute;
+          bottom: -25px;
+          right: 120px;
+        }
         .title {
           font-weight: 700;
           font-size: 16px;

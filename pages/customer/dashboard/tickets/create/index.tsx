@@ -352,7 +352,9 @@ const Create = () => {
                   type="text"
                   {...register("name", { required: true })}
                 />
-                {errors.name && <p>وارد کردن نام کالا اجباری است.</p>}
+                {errors.name && (
+                  <p className="name-error">وارد کردن نام کالا اجباری است.</p>
+                )}
               </div>
             </div>
             <div className="message">
@@ -362,7 +364,9 @@ const Create = () => {
                 rows={10}
                 {...register("description", { required: true })}
               ></textarea>
-              {errors.description && <p>وارد کردن پیام اجباری است.</p>}
+              {errors.description && (
+                <p className="message-error">وارد کردن پیام اجباری است.</p>
+              )}
             </div>
             <div className="row">
               <label>{"فایل پیوست:"}</label>

@@ -93,13 +93,13 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
       };
       const res = await ticketService.finalPayment(finalData);
       if (paymentMethod === "wallet") {
-         await ticketService.confirmOrder(res.data.id);
+        await ticketService.confirmOrder(res.data.id);
       }
       setPaymentStatus("success");
     } catch (error) {
       Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
       setPaymentStatus("failure");
-    } 
+    }
     setIsPaymentOpen(false);
     setIsResultOpen(true);
   };
@@ -272,7 +272,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
               </div>
               <div className="wallet-cash">
                 <span>موجودی کیف پول:</span>
-                <span>{} تومان</span>
+                <span>{selectedSupplier?.wallet_account?.amount} تومان</span>
               </div>
               <div className="payment-method">
                 <div className="radio-input-group">

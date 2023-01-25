@@ -24,7 +24,7 @@ const ResultPayment: FC<ResultPaymentProps> = ({
         )}
         {paymentStatus === "success" ? (
           <p className="message success">
-            پرداخت از طریق کیف پول مکانیک با موفقیت انجام شد.
+            سفارش با موفقیت ثبت شد.
           </p>
         ) : (
           <>
@@ -33,7 +33,7 @@ const ResultPayment: FC<ResultPaymentProps> = ({
               آمد.
             </p>
             <p className="failure-message">
-              سفارش ثبت خواهد شد از مشتری بخواهید به صورت نقدی پرداخت نماید
+              سفارش ثبت خواهد شد. از مشتری بخواهید به صورت نقدی پرداخت نماید
             </p>
           </>
         )}

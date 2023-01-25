@@ -55,7 +55,7 @@ const Chat = () => {
   useEffect(() => {
     if (lastMessage !== null) {
       const data = JSON.parse(lastMessage.data);
-      !messageHistory[messageHistory.length - 1].seen &&
+      !messageHistory[messageHistory.length - 1]?.seen &&
         data.sender.id !== user?.id &&
         messageHistory.map((item: any) => (item.seen = true));
       setMessageHistory((prev: any) => [...prev, data]);

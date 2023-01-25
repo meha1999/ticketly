@@ -74,7 +74,6 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
     setSelectedSupplier(item[0]);
     setIsPaymentOpen(false);
   };
-  console.log(selectedSupplier);
 
   const handleFinalPayment = async (data: FieldValues) => {
     try {
@@ -97,7 +96,6 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
       } else {
         setPaymentStatus("failure");
       }
-      console.log(res);
     } catch (error) {
       Toaster.error(
         <ToastComponent

@@ -31,11 +31,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       });
   }, [lastEvent?.data]);
 
-
   const handleGetNotification = async () => {
     try {
       const res = await notificationService.getNotifications();
-      console.log(res)
+      console.log(res);
     } catch (error) {
     } finally {
     }
@@ -47,7 +46,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   useEffect(() => {
     handleGetNotification();
   }, []);
-
 
   return (
     <div className="dashboard-layout">

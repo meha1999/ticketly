@@ -1,5 +1,5 @@
 import Title from "components/common/title";
-import { FC } from "react";
+import React, { FC } from "react";
 import suppliersListIcon from "images/icons/suppliers_list.svg";
 import Divider from "components/common/divider";
 import { BiCheck } from "react-icons/bi";
@@ -14,6 +14,7 @@ interface SuppliersListProps {
   elementRef: React.RefObject<HTMLDivElement>;
   handleSelect: (id: number) => void;
   selectedSuppliers: Array<any>;
+  setSentText: (value: string) => void;
 }
 
 const SuppliersList: FC<SuppliersListProps> = ({
@@ -23,6 +24,7 @@ const SuppliersList: FC<SuppliersListProps> = ({
   elementRef,
   handleSelect,
   selectedSuppliers,
+  setSentText,
 }) => {
   const dateTimeConfig = {
     timezone: "Asia/Tehran",
@@ -31,6 +33,10 @@ const SuppliersList: FC<SuppliersListProps> = ({
     titleFormat: "W, D N Y ",
     dateFormat: "Y-M-D",
     timeFormat: "H:I:S",
+  };
+
+  const handleSentTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value && setSentText(e.target.value);
   };
 
   return (
@@ -60,7 +66,12 @@ const SuppliersList: FC<SuppliersListProps> = ({
                   <span className="row-number">{index + 1}</span>
                   <div className="profile-image">
                     {supplier.photo ? (
-                      <Image src={supplier.photo} alt="profile-image"  width={42} height={42}/>
+                      <Image
+                        src={supplier.photo}
+                        alt="profile-image"
+                        width={42}
+                        height={42}
+                      />
                     ) : (
                       <UserIcon color="#F3C701" />
                     )}
@@ -76,6 +87,18 @@ const SuppliersList: FC<SuppliersListProps> = ({
               </li>
             ))}
           </ul>
+        </div>
+        <div className="sent-text-container">
+          <label htmlFor="sent-text" className="title">
+            متن ارسالی:
+          </label>
+          <input
+            type="text"
+            name="sent-text"
+            id="sent-text"
+            className="sent-text-input"
+            onChange={handleSentTextChange}
+          />
         </div>
         <div className="actions-btn">
           <button className="cancel-btn" onClick={cancel}>

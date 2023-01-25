@@ -39,7 +39,6 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       };
       const response = await chatService.upload(data, config);
       onSend(response.data.id, "voice");
-      console.log(response);
     } catch (error) {
       Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
     }

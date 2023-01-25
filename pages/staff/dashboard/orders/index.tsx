@@ -16,7 +16,6 @@ const Orders = () => {
   const getOrders = async () => {
     try {
       const res = await orderService.getOrders();
-      console.log(res);
       setOrders(res.data);
     } catch (error) {
       console.log(error);

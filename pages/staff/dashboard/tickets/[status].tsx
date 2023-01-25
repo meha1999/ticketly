@@ -39,7 +39,7 @@ const Requests = () => {
 
   const getTickets = async () => {
     try {
-      const ticketRes = await ticketService.getTickets();
+      const ticketRes = await ticketService.getTickets(true);
       const data = ticketRes.data.filter(
         (item: any) => SHOW_LIST_BASE_ROUTE_CONFIG[item.status] === query.status
       );

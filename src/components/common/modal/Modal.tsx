@@ -7,7 +7,7 @@ interface ModalProps {
   children: any;
   isOpen?: boolean;
   className?: string;
-  notClosableByUser: boolean;
+  notClosableByUser?: boolean;
   onClose?: () => void;
   needToBeFixed?: boolean;
   noSwipeAnimation?: boolean;

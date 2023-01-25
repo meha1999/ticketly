@@ -3,11 +3,11 @@
     padding-top: 20px;
     .name {
       font-weight: 700;
-      font-size: 26px;
+      font-size: 16px;
     }
     .message {
       font-weight: 700;
-      font-size: 18px;
+      font-size: 14px;
       line-height: 28px;
     }
   }
@@ -29,7 +29,7 @@
         width: 100%;
         padding: 15px;
         font-weight: 700;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 25px;
         display: grid;
         grid-template-columns: 5fr 4fr 3fr 3fr 2fr;
@@ -110,7 +110,7 @@
       width: 100%;
       padding: 15px;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 25px;
       display: grid;
       grid-template-columns: 4fr 4fr 2fr 3fr 4fr;
@@ -272,14 +272,14 @@
           text-align: center;
           font-style: normal;
           font-weight: 600;
-          font-size: 18px;
+          font-size: 14px;
           line-height: 28px;
           color: #00a48a;
         }
         .code {
           text-align: center;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 12px;
           line-height: 25px;
           color: #b0b0b0;
         }
@@ -287,6 +287,7 @@
       .date-time {
         border-right: 1px solid #c5c5c5;
         border-left: 1px solid #c5c5c5;
+        font-size: 12px;
         padding: 0 50px;
         display: flex;
         flex-direction: column;
@@ -295,7 +296,7 @@
           text-align: center;
           font-style: normal;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 12px;
           line-height: 180%;
           color: #7d7d7d;
         }
@@ -304,7 +305,7 @@
           padding-top: 5px;
           font-style: normal;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 12px;
           line-height: 180%;
           color: #7d7d7d;
         }
@@ -325,7 +326,7 @@
           height: 50px;
           font-style: normal;
           font-weight: 700;
-          font-size: 18px;
+          font-size: 14px;
           line-height: 28px;
           color: #00a48a;
           background-color: #defffa;

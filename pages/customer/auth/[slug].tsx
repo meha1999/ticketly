@@ -104,7 +104,7 @@ const SignUp = () => {
         </div>
         <div className="login-with-google">
           <div className="line"></div>
-          <span>یا</span>
+          <span style={{ fontSize: 16 }}>یا</span>
           <div className="line"></div>
         </div>
         <div className="type-change">
@@ -235,12 +235,12 @@ const Login = () => {
           </div>
           <div className="login-with-google">
             <div className="line"></div>
-            <span>یا</span>
+            <span style={{ fontSize: 16 }}>یا</span>
             <div className="line"></div>
           </div>
           <div className="google">
             <Image src={googleLogo} alt="google" />
-            <span>ورود با گوگل</span>
+            <span  style={{ fontSize: 14 }} >ورود با گوگل</span>
           </div>
           <button
             type="submit"

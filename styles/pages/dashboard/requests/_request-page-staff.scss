@@ -4,10 +4,12 @@
     gap: 40px;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     .unseen-massages {
       width: 260px;
       height: 30px;
       padding: 5px;
+      margin-right: 10px;
       padding-right: 20px;
       margin-bottom: 5px;
       color: #939393;
@@ -42,6 +44,7 @@
         font-weight: 600;
         transition: 0.2s ease-in-out all;
         border-bottom: 5px solid #5e7bec00;
+        font-size: 14px;
         &.active {
           color: #5e7bec;
           border-bottom: 5px solid #5e7bec;
@@ -82,7 +85,7 @@
         width: 100%;
         padding: 15px;
         font-weight: 700;
-        font-size: 16px;
+        font-size: 12px;
         line-height: 25px;
         display: grid;
         grid-template-columns: 4fr 3fr 2fr 3fr 2fr;
@@ -170,7 +173,7 @@
   text-align: center;
   border-radius: 20px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   user-select: none;
   &.pending {
     color: #d9b100;

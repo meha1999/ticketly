@@ -4,10 +4,12 @@
     gap: 40px;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     .unseen-massages {
       width: 260px;
       height: 30px;
       padding: 5px;
+      margin-right: 10px;
       padding-right: 20px;
       margin-bottom: 5px;
       color: #939393;
@@ -38,6 +40,7 @@
         cursor: pointer;
         color: #adadad;
         font-weight: 600;
+        font-size: 14px;
         transition: 0.2s ease-in-out all;
         border-bottom: 5px solid #5e7bec00;
         &.active {
@@ -79,7 +82,7 @@
         width: 100%;
         padding: 15px;
         font-weight: 700;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 25px;
         display: grid;
         grid-template-columns: 4fr 3fr 2fr 2fr 3fr 0.5fr;
@@ -127,11 +130,12 @@
           }
         }
         .date {
+          text-align: center;
           color: #7d7d7d;
           justify-content: center;
           font-weight: 400;
           font-size: 12px;
-          padding: 0;
+          padding: 0 5px;
         }
         .status {
           padding: 0;
@@ -173,6 +177,7 @@
   font-weight: 600;
   font-size: 14px;
   user-select: none;
+  margin: 0 5px;
   &.answered {
     color: #00a48a;
     background: #defffa;

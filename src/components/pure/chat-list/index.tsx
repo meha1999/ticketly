@@ -126,15 +126,13 @@ const ChatList: React.FC<ChatListProps> = ({
       <div className="unread-messages">
         <span>خوانده نشده ها</span>
         <div className="count">
-          {
-            notification?.detail?.filter(
-              (message) => message?.ticket_group == group?.id
-            )[0]?.unread_message ||0
-          }
+          {notification?.detail?.filter(
+            (message) => message?.ticket_group == group?.id
+          )[0]?.unread_message || 0}
         </div>
       </div>
       <div className="suppliers">
-        <h3>تامین کنندگان:</h3>
+        <div style={{ fontSize: 14 }}>تامین کنندگان:</div>
         <div className="suppliers-list">
           {data?.map((item: any, index: number) => {
             const sse = notification?.detail

@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 20px;
     color: #ffffff;
     padding: 15px 5px;
     text-align: center;
@@ -29,7 +29,7 @@
     }
   }
   .menus {
-    gap: 15px;
+    gap: 22px;
     display: flex;
     font-size: 18px;
     padding-top: 20px;
@@ -40,10 +40,11 @@
       display: flex;
       align-items: center;
       font-weight: 600;
+      font-size: 16px;
       text-decoration: none;
       color: #4d4d4d;
       & svg {
-        font-size: 20px;
+        font-size: 18px;
       }
       &.disable {
         pointer-events: none;
@@ -104,7 +105,7 @@
     align-items: center;
     gap: 10px;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 14px;
     color: #ffffff;
     margin-top: auto;
     margin-bottom: 40px;

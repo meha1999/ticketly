@@ -6,7 +6,7 @@
   .tickets-conatiner {
     width: 100%;
     .ticket-box {
-      padding: 15px 30px;
+      padding: 5px 30px;
       cursor: pointer;
       overflow-x: auto;
       margin: 14px 0;
@@ -34,11 +34,13 @@
             border-radius: 50px;
             background-color: #f4f6f8;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 16px;
             line-height: 28px;
           }
         }
         .image {
+          display: flex;
+          align-items: center;
           margin: 0 30px;
           .ticket-img {
             width: 84px;
@@ -51,7 +53,7 @@
           .name {
             font-style: normal;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 14px;
             line-height: 28px;
             color: #505050;
             padding-bottom: 4px;
@@ -60,7 +62,7 @@
             display: flex;
             .brand {
               font-weight: 600;
-              font-size: 16px;
+              font-size: 14px;
               line-height: 25px;
               padding-left: 5px;
               width: 110px;
@@ -78,14 +80,14 @@
           text-align: center;
           font-style: normal;
           font-weight: 600;
-          font-size: 18px;
+          font-size: 14px;
           line-height: 28px;
           color: #00a48a;
         }
         .code {
           text-align: center;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 12px;
           line-height: 25px;
           color: #b0b0b0;
         }
@@ -101,7 +103,7 @@
           text-align: center;
           font-style: normal;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 12px;
           line-height: 180%;
           color: #7d7d7d;
         }
@@ -110,7 +112,7 @@
           padding-top: 5px;
           font-style: normal;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 12px;
           line-height: 180%;
           color: #7d7d7d;
         }
@@ -131,7 +133,7 @@
           height: 50px;
           font-style: normal;
           font-weight: 700;
-          font-size: 18px;
+          font-size: 14px;
           line-height: 28px;
           color: #00a48a;
           background-color: #defffa;

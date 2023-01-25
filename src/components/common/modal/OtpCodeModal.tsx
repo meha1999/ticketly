@@ -13,7 +13,9 @@ interface OptCodeModalProps {
   isOpen: boolean;
   value: string;
   title: string;
+  loading: boolean;
   onClose: () => void;
+  handleReset: () => void;
   onChangeValue: (value: string) => void;
   onSubmission: (otp: string) => void;
 }
@@ -21,9 +23,11 @@ interface OptCodeModalProps {
 const OtpCodeModal: FC<OptCodeModalProps> = ({
   title,
   value,
+  loading,
   isOpen,
   onClose,
   onSubmission,
+  handleReset,
   onChangeValue,
 }) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -47,15 +51,17 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
   };
 
   const submitOtpCodeHandler = () => {
-    if (otp.first && otp.second && otp.third && otp.forth) {
-      onSubmission(otp.first + otp.second + otp.third + otp.forth);
-    } else {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="لطفا کد دریافتی را به صورت کامل وارد نمایید."
-        />
-      );
+    if (!loading) {
+      if (otp.first && otp.second && otp.third && otp.forth) {
+        onSubmission(otp.first + otp.second + otp.third + otp.forth);
+      } else {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="لطفا کد دریافتی را به صورت کامل وارد نمایید."
+          />
+        );
+      }
     }
   };
 
@@ -77,6 +83,12 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
   }, [otp]);
 
   useEffect(() => {
+    if (otp.first && otp.second && otp.third && otp.forth)
+      submitOtpCodeHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [otp]);
+
+  useEffect(() => {
     setOtp({
       first: "",
       second: "",
@@ -90,7 +102,7 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
   const [resetCounter, setResetCounter] = useState(false);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} notClosableByUser>
       <div className="otp-code-modal-wrapper">
         <div className="title-bar">
           <h5 className="title">تایید {title}</h5>
@@ -158,6 +170,7 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
               className="btn"
               disabled={!isCountDownFinished}
               onClick={() => {
+                handleReset();
                 setResetCounter(true);
                 setIsCountDownFinished(false);
               }}
@@ -167,10 +180,12 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
             </button>
           </div>
         </div>
-        <div className="submit">
-          <button onClick={submitOtpCodeHandler}>تایید کد</button>
+        <div className={`submit ${loading ? "loading" : ""}`}>
+          <button onClick={submitOtpCodeHandler}>
+            {loading ? "درحال انجام" : "تایید کد"}
+          </button>
         </div>
-{/* 
+        {/* 
         <div className={`divider-with-name success`}>
           <span />
           <FaRegCheckCircle />

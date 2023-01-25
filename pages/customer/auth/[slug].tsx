@@ -31,20 +31,23 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [isValidateModalOpen, setIsValidateModalOpen] = useState(false);
   const [signUpValidateType, setSignUpValidateType] = useState<
-    "email" | "mobile"
+    "email" | "mobile_phone"
   >("email");
+  const [accountId, setAccountId] = useState<number | null>(null);
 
   const signUpUser = async (data: FieldValues) => {
     setLoading(true);
     try {
-      await authService.signUp(data, "customer");
-      router.push("/customer/auth/login");
-      Toaster.success(
-        <ToastComponent
-          title="موفقیت امیز"
-          description="لطفا برای استفاده از سیستم وارد شوید"
-        />
+      const res = await authService.signUp(
+        {
+          ...data,
+          mobile_phone: data.mobile_phone ? "+98" + data.mobile_phone : null,
+          email: data.email ? data.email : "",
+        },
+        "customer"
       );
+      setAccountId(+res.data.id);
+      setIsValidateModalOpen(true);
     } catch (err) {
       Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
     } finally {
@@ -52,10 +55,53 @@ const SignUp = () => {
     }
   };
 
-  const submitWithOtpCode = (otp: string) => {
-    console.log(otp);
+  const submitWithOtpCode = async (otp: string) => {
+    const payload = {
+      account_id: accountId,
+      platform: signUpValidateType === "email" ? "EMAIL" : "SMS",
+      code: otp,
+    };
+    setLoading(true);
+    try {
+      await authService.validate(payload);
+      router.push("/customer/auth/login");
+      Toaster.success(
+        <ToastComponent
+          title="موفقیت امیز"
+          description="لطفا برای استفاده از سیستم وارد شوید"
+        />
+      );
+      setIsValidateModalOpen(false);
+    } catch (error) {
+      Toaster.error(
+        <ToastComponent title="ناموفق" description="کد وارد شده اشتباه است." />
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const resendOtp = async () => {
+    setLoading(true);
+    try {
+      await authService.resendOtp({
+        account_id: accountId,
+        platform: signUpValidateType === "email" ? "EMAIL" : "SMS",
+      });
+      Toaster.success(
+        <ToastComponent
+          title="موفقیت امیز"
+          description="کد ورود برای شما ارسال شد"
+        />
+      );
+    } catch (error) {
+      Toaster.error(
+        <ToastComponent title="ناموفق" description="کد وارد شده اشتباه است." />
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     resetField(signUpValidateType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,9 +166,9 @@ const SignUp = () => {
           <button
             type="button"
             className={`item ${
-              signUpValidateType === "mobile" ? "active" : ""
+              signUpValidateType === "mobile_phone" ? "active" : ""
             } `}
-            onClick={() => setSignUpValidateType("mobile")}
+            onClick={() => setSignUpValidateType("mobile_phone")}
           >
             شماره موبایل
           </button>
@@ -135,25 +181,25 @@ const SignUp = () => {
               {...register("email", { required: true })}
             />
           ) : (
-            <input
-              id="mobile"
-              type="mobile"
-              maxLength={11}
-              {...register("mobile", { required: true })}
-            />
+            <div className="phone">
+              <input
+                id="mobile_phone"
+                type="mobile_phone"
+                maxLength={10}
+                {...register("mobile_phone", { required: true })}
+              />
+            </div>
           )}
         </div>
-        <button
-          // type="submit"
-          onClick={() => setIsValidateModalOpen(true)}
-          className="sign-up-btn bg-customer box-shadow-customer"
-        >
+        <button type="submit" className="sign-up-btn bg-customer box-shadow-customer">
           {loading ? "درحال انجام" : "ثبت نام"}
         </button>
       </form>
       <Image src={authTools} alt="tools" className="tools-image" />
       <OtpCodeModal
+        loading={loading}
         isOpen={isValidateModalOpen}
+        handleReset={() => resendOtp()}
         value={getValues(signUpValidateType)}
         onClose={() => setIsValidateModalOpen(false)}
         onSubmission={(otp) => submitWithOtpCode(otp)}
@@ -172,7 +218,6 @@ const Login = () => {
   } = useForm();
   const dispatch = useDispatch();
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
 

@@ -94,8 +94,12 @@ const Chat = () => {
   }, [ticketId]);
 
   useEffect(() => {
+    router.query.groupId && fetchGroupInfo();
+  }, [router.query.groupId]);
+
+  useEffect(() => {
     submittedOrder && router.query.groupId && fetchGroupInfo();
-  }, [router.query.groupId, submittedOrder]);
+  }, [submittedOrder]);
 
   useEffect(() => {
     router.query.ticketId && setTicketId(router.query.ticketId as string);

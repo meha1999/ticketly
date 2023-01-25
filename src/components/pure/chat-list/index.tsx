@@ -74,7 +74,7 @@ const ChatList: React.FC<ChatListProps> = ({
   const handleConfirm = async () => {
     const supplierData = selectedSuppliers.map((item) => {
       return {
-        name: group.ticket_group[0].name,
+        name: group?.ticket_group[0]?.name,
         department: group.ticket_group[0].department,
         customer: null,
         supplier: { id: item },
@@ -129,7 +129,7 @@ const ChatList: React.FC<ChatListProps> = ({
           {
             notification?.detail?.filter(
               (message) => message?.ticket_group == group?.id
-            )[0]?.unread_message
+            )[0]?.unread_message ||0
           }
         </div>
       </div>

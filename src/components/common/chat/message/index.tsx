@@ -3,7 +3,7 @@ import Microphone from "images/icons/microphone";
 import Attach from "images/icons/attach";
 import ImageUpload from "images/icons/image_upload";
 import sendMessageIcon from "images/icons/send_message.svg";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { ChatService } from "services/chat.service";
 import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
@@ -22,6 +22,7 @@ interface MessageProps {
 
 const Message: React.FC<MessageProps> = ({ onSend, color }) => {
   const { recorderState, ...handlers }: UseRecorder = useRecorder();
+  const formRef = useRef<any>();
 
   const stopMicrophone = async () => {
     try {
@@ -99,12 +100,25 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     e.target.children[1].value = "";
   };
 
+  const onEnterPress = (e: any) => {
+    if (e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+      formRef?.current.dispatchEvent(
+        new Event("submit", { cancelable: true, bubbles: true })
+      );
+    }
+  };
+
   useEffect(() => {
     recorderState.audio && stopMicrophone();
   }, [recorderState.audio]);
 
   return (
-    <form className="message-wrapper" onSubmit={handleSendTextMessage}>
+    <form
+      className="message-wrapper"
+      onSubmit={handleSendTextMessage}
+      ref={formRef}
+    >
       <div className="tools">
         <button
           type="button"
@@ -156,7 +170,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
         className="content"
         rows={1}
         placeholder="متن پیام خود را در این قسمت بنویسید."
-      ></textarea>
+        onKeyDown={onEnterPress}
+      />
       <button
         type="submit"
         className="submit_btn"

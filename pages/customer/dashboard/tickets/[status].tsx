@@ -139,11 +139,11 @@ const Tickets = () => {
                         : "center",
                     }}
                   >
-                    {query?.status === "supplying" && (
+                    {/* {query?.status === "supplying" && (
                       <div className="delete-icon">
-                        {/* <Image src={Delete} alt="delete" /> */}
+                        <Image src={Delete} alt="delete" />
                       </div>
-                    )}
+                    )} */}
                     <div className="status">{translate[ticket.status]}</div>
                     {!!unread?.data[0].unread_message && (
                       <div className="unread-notification">

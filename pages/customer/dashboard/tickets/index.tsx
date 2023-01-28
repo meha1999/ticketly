@@ -118,9 +118,9 @@ const Tickets = () => {
                 </div>
               </div>
               <div className="operation">
-                <div className="delete-icon">
-                  {/* <Image src={Delete} alt="delete" /> */}
-                </div>
+                {/* <div className="delete-icon">
+                  <Image src={Delete} alt="delete" />
+                </div> */}
                 <div className="status">{translate[ticket.status]}</div>
               </div>
             </div>

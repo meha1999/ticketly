@@ -140,9 +140,9 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="operation">
-                    <div className="delete-icon">
-                      {/* <Image src={Delete} alt="delete" /> */}
-                    </div>
+                    {/* <div className="delete-icon">
+                      <Image src={Delete} alt="delete" />
+                    </div> */}
                     <div className="status">
                       {
                         TICKET_STATUS_PERSIAN[

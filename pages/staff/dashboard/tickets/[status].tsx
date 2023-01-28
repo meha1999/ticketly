@@ -160,47 +160,59 @@ const Requests = () => {
               <span> وضعیت تیکت</span>
             </div>
             <ul className="list-wrapper">
-              {ticketList?.map((item: any, index: any) => (
-                <li
-                  className={`list-item ${
-                    item.status === "PENDING" || item.status === "ACCEPTED"
-                      ? "unread-item"
-                      : ""
-                  } ${item.status !== "UNREAD" ? "hover" : ""}`}
-                  key={index}
-                  onClick={() => handleOpenChat(item.ticket_group, item.id)}
-                >
-                  <div className="title">
-                    <span className="count">{index + 1}</span>
-                    {item.name}
-                  </div>
-                  <div className="user">
-                    <div className="logo">
-                      <Image src={ProfileBold} alt="" width={20} height={20} />
+              {ticketList?.map((item: any, index: any) => {
+                const unread = notification?.detail.find(
+                  (event) => event.ticket_group == item.ticket_group
+                );
+                return (
+                  <li
+                    className={`list-item ${
+                      item.status === "PENDING" ||
+                      item.status === "ACCEPTED" ||
+                      !!unread?.unread_message
+                        ? "unread-item"
+                        : ""
+                    } ${item.status !== "UNREAD" ? "hover" : ""}`}
+                    key={index}
+                    onClick={() => handleOpenChat(item.ticket_group, item.id)}
+                  >
+                    <div className="title">
+                      <span className="count">{index + 1}</span>
+                      {item.name}
                     </div>
-                    <span className="name">
-                      {item.customer?.full_name ?? "نام کاربر یافت نشد"}
-                    </span>
-                  </div>
-                  <div className="date">
-                    {JalaliDateTime(dateTimeConfig).toFullText(
-                      new Date(item.updated_at)
-                    )}
-                  </div>
-                  <div className="status">
-                    <ReqStatusBtn status={item?.status} />
-                  </div>
-                  <div className="ticket">
-                    <ReqTicketBtn
-                      status={item.status}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        ticketAction(item);
-                      }}
-                    />
-                  </div>
-                </li>
-              ))}
+                    <div className="user">
+                      <div className="logo">
+                        <Image
+                          src={ProfileBold}
+                          alt=""
+                          width={20}
+                          height={20}
+                        />
+                      </div>
+                      <span className="name">
+                        {item.customer?.full_name ?? "نام کاربر یافت نشد"}
+                      </span>
+                    </div>
+                    <div className="date">
+                      {JalaliDateTime(dateTimeConfig).toFullText(
+                        new Date(item.updated_at)
+                      )}
+                    </div>
+                    <div className="status">
+                      <ReqStatusBtn status={item?.status} />
+                    </div>
+                    <div className="ticket">
+                      <ReqTicketBtn
+                        status={item.status}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          ticketAction(item);
+                        }}
+                      />
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

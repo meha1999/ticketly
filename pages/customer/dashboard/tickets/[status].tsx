@@ -17,7 +17,6 @@ import SeoHead from "components/common/seo-head";
 const ticketService = new TicketService();
 
 const Tickets = () => {
-  
   const notification = useSelector<
     ReduxStoreModel,
     ReduxStoreModel["notification"]
@@ -118,9 +117,7 @@ const Tickets = () => {
                     </div>
                   </div>
                   <div className="price">
-                    <div className="amount">
-                     شماره سفارش
-                    </div>
+                    <div className="amount">شماره سفارش</div>
                     <div className="code">{ticket.id}</div>
                   </div>
                   <div className="date-time">
@@ -157,7 +154,7 @@ const Tickets = () => {
           </div>
         </div>
       </DashboardLayout>
-      <SeoHead title=" درخواست ها" description="" />
+      <SeoHead title="درخواست ها" description="" />
     </>
   );
 };

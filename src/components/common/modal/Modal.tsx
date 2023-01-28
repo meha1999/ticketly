@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
-type BackdropCloseType = "active" | "de-active";
-
 interface ModalProps {
   children: any;
   isOpen?: boolean;
@@ -12,18 +10,16 @@ interface ModalProps {
   needToBeFixed?: boolean;
   noSwipeAnimation?: boolean;
   container?: HTMLElement | null;
-  backdropClose?: BackdropCloseType;
 }
 
 const Modal: React.FC<ModalProps> = ({
   children,
   onClose = () => {},
   className,
-  notClosableByUser,
+  notClosableByUser = false,
   isOpen = false,
   needToBeFixed,
   noSwipeAnimation,
-  backdropClose,
   container = document.body,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
@@ -39,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({
 
   const container2: any = document.getElementById("portal");
   const ref = useRef(null);
-  
+
   if (isModalOpen) {
     return (
       <>
@@ -64,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({
               }`}
               onClick={(e) => {
                 if (e.target === ref.current) {
-                  backdropClose && !notClosableByUser ? onClose!() : "";
+                  !notClosableByUser ? onClose!() : "";
                 }
               }}
             >

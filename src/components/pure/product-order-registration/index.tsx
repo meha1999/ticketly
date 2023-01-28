@@ -50,8 +50,8 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   } = useForm();
 
   const suppliersListRef: any = useRef();
-
   const [isPaymentOpen, setIsPaymentOpen] = useState<boolean>(false);
+  const [name, setName] = useState<string>(productName);
   const [isResultOpen, setIsResultOpen] = useState<boolean>(false);
   const [selectedSupplier, setSelectedSupplier] = useState<any>();
   const [supplierAddress, setSupplierAddress] = useState<string>("");
@@ -80,7 +80,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
     try {
       const finalData = {
         customer: customerId,
-        name: productName,
+        name,
         staff_delivery_time: deliveryDate,
         staff_delivery_address: data.staff_delivery_address,
         staff: user?.id,
@@ -151,7 +151,13 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
               </div>
               <div className="field">
                 <span className="label">نام کالا:</span>
-                <div className="input-shape">{productName}</div>
+                <input
+                  type="text"
+                  className="input-shape"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                
               </div>
               <div className="field">
                 <label htmlFor="date" className="label">

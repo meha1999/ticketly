@@ -110,7 +110,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             name={item.sender.full_name}
             profileImage={item.sender.photo}
             color={userType[item.sender.role]}
-            count={scrollIndex === index + 1}
+            count={scrollIndex}
+            index={index}
             date={JalaliDateTime(dateTimeConfig).toFullText(
               new Date(item.created_at)
             )}

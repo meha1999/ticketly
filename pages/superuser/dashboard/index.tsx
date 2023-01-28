@@ -1,3 +1,4 @@
+import SeoHead from "components/common/seo-head";
 import DashboardLayout from "components/layouts/dashboard/superuser";
 import { GetServerSideProps } from "next";
 import { useSelector } from "react-redux";
@@ -10,7 +11,12 @@ const Dashboard = () => {
   >((store: ReduxStoreModel) => store.token);
   console.log(token);
 
-  return <DashboardLayout>Superuser Dashboard</DashboardLayout>;
+  return (
+    <>
+      <DashboardLayout>Superuser Dashboard</DashboardLayout>
+      <SeoHead title="پیشخوان" description="" />
+    </>
+  );
 };
 
 export default Dashboard;

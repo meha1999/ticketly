@@ -14,6 +14,7 @@ import { AuthService } from "services/auth.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import SeoHead from "components/common/seo-head";
 
 interface ProfileFormState {
   full_name: string;
@@ -84,12 +85,8 @@ const Profile = () => {
         />
       );
     } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
       setLoading(false);
     }
   };
@@ -140,11 +137,9 @@ const Profile = () => {
         }
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      } finally {
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
       }
     }
   };
@@ -156,11 +151,9 @@ const Profile = () => {
         setProvince(provinceRes.data);
       } catch (error) {
         Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="خطای سرور"
-          />
-        );      }
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
     };
     getProvince();
   }, []);
@@ -175,11 +168,9 @@ const Profile = () => {
           setCities(citiesRes.data.shahrs);
         } catch (error) {
           Toaster.error(
-            <ToastComponent
-              title="ناموفق"
-              description="خطای سرور"
-            />
-          );        }
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
+        }
       };
       getCities();
     }
@@ -235,7 +226,8 @@ const Profile = () => {
                 binaryImage
                   ? URL.createObjectURL(binaryImage as any)
                   : userProfile ?? (user?.photo as string)
-              }            />
+              }
+            />
           </div>
           <div className="form-item">
             <TextInput
@@ -359,6 +351,7 @@ const Profile = () => {
           </div>
         </form>
       </div>
+      <SeoHead title="پروفایل" description="" />
     </DashboardLayout>
   );
 };

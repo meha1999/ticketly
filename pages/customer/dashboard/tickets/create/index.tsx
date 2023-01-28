@@ -551,7 +551,7 @@ const Create = () => {
           </form>
         </div>
       </DashboardLayout>
-      <SeoHead title="ثبت درخواست جدید" description="" />
+      <SeoHead title="ثبت تیکت جدید" description="" />
     </>
   );
 };

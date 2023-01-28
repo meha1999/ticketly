@@ -3,14 +3,14 @@ image: alpine:latest
 pages:
    stage: deploy
    only:
-       - main    
+       - main
    before_script:
        - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
        - eval $(ssh-agent -s)
        - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
        - mkdir -p ~/.ssh
        - chmod 777 ~/.ssh
-    #- ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+       - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
        - echo $KNOWN_HOSTS > ~/.ssh/known_hosts
        - ls ~/.ssh
        - chmod 777 ~/.ssh/known_hosts

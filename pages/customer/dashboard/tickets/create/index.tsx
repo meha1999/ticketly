@@ -49,7 +49,7 @@ const Create = () => {
   const [selectedPartType, setSelectedPartType] = useState<any>();
   const [selectedAccessoriesType, setSelectedAccessoriesType] = useState<any>();
   const [selectedFiles, setSelectedFiles] = useState<Array<any>>([]);
-  const [deSelectedFiles, setDeSelectedFiles] = useState<Array<any>>([]);
+  const [loading, setLoading] = useState<string>("");
 
   const rootChangeHandler = (event: any) => {
     const selectedRootId = +event.target.value;
@@ -86,6 +86,7 @@ const Create = () => {
       return;
     } else {
       try {
+        setLoading("file");
         const data = new FormData();
         data.append("file", e.target.files[0]);
         data.append("file_type", "FILE");
@@ -110,6 +111,7 @@ const Create = () => {
           <ToastComponent title="ناموفق" description="خطای سرور" />
         );
       } finally {
+        setLoading("");
       }
     }
   };
@@ -146,6 +148,8 @@ const Create = () => {
       );
     } catch (error) {
       Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
+      setLoading("");
     }
   };
 
@@ -154,6 +158,7 @@ const Create = () => {
       return;
     } else {
       try {
+        setLoading("image");
         const data = new FormData();
         data.append("file", e.target.files[0]);
         data.append("file_type", "IMAGE");
@@ -178,6 +183,7 @@ const Create = () => {
           <ToastComponent title="ناموفق" description="خطای سرور" />
         );
       } finally {
+        setLoading("");
       }
     }
   };
@@ -187,6 +193,7 @@ const Create = () => {
       return;
     } else {
       try {
+        setLoading("video");
         const data = new FormData();
         data.append("file", e.target.files[0]);
         data.append("file_type", "VIDEO");
@@ -211,6 +218,7 @@ const Create = () => {
           <ToastComponent title="ناموفق" description="خطای سرور" />
         );
       } finally {
+        setLoading("");
       }
     }
   };
@@ -260,17 +268,53 @@ const Create = () => {
           />
         );
       }
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (err: any) {
+      if (err.response.status === 406) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="شما به حد مجاز ثبت تیکت رسیده‌اید."
+          />
+        );
+      } else {
+        Toaster.error(
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
     } finally {
     }
   };
 
-  const handleReset = () => {
-    const list = selectedFiles.map((i: any) => i.id);
-    setDeSelectedFiles(list);
-    setSelectedFiles([]);
-    reset();
+  const handleReset = async () => {
+    try {
+      const list = selectedFiles.map((i: any) => i.id);
+      const finalList = list.map((item: any) => {
+        const temp = {
+          id: item,
+        };
+        return temp;
+      });
+      const res = await chatService.deleteUploadedFiles({
+        data: finalList,
+      });
+      if (res.status === 204 || res.status === 201) {
+        Toaster.success(
+          <ToastComponent
+            title="موفق"
+            description="فایل‌های پیوست با موفقیت حذف شدند."
+          />
+        );
+        setSelectedFiles([]);
+      } else {
+        Toaster.error(
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
+    } catch (error) {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
+      reset();
+    }
   };
 
   useEffect(() => {
@@ -373,27 +417,45 @@ const Create = () => {
               <div className="file-upload-content">
                 <div className="inputs-container">
                   <div className="upload-input-container">
-                    <label htmlFor="file" className="upload-input-label">
-                      <Attach color="#00A48A" />
-                      <span className="title">فایل</span>
+                    <label
+                      htmlFor="file"
+                      className={`upload-input-label ${
+                        loading && loading !== "file" ? "disabled" : ""
+                      }`}
+                    >
+                      {loading === "file" ? (
+                        <div className="loader"></div>
+                      ) : (
+                        <Attach color="#00A48A" />
+                      )}
+                      <span className="title">
+                        {loading === "file" ? "در‌حال بارگذاری" : "فایل"}
+                      </span>
                     </label>
                     <input
                       type="file"
                       id="file"
-                      className="upload-input"
+                      className={`upload-input ${
+                        loading && loading !== "file" ? "disabled" : ""
+                      }`}
                       {...register("file")}
                       onChange={handleUploadFile}
                     />
                   </div>
                   <div
                     className="upload-input-container"
-                    onClick={() =>
+                    onClick={() => {
+                      setLoading("voice");
                       !recorderState.initRecording
                         ? handlers.startRecording()
-                        : handlers.saveRecording()
-                    }
+                        : handlers.saveRecording();
+                    }}
                   >
-                    <label className="upload-input-label">
+                    <label
+                      className={`upload-input-label ${
+                        loading && loading !== "voice" ? "disabled" : ""
+                      }`}
+                    >
                       <Microphone
                         color={
                           recorderState.initRecording ? "#FA1744" : "#00A48A"
@@ -402,33 +464,63 @@ const Create = () => {
                           recorderState.initRecording ? "fade-in" : ""
                         }`}
                       />
-                      <span className="title">ضبط صدا</span>
+                      <span className="title">
+                        {recorderState.initRecording ? "در‌حال ضبط" : "ضبط صدا"}
+                      </span>
                     </label>
                   </div>
                   <div className="upload-input-container">
-                    <label htmlFor="image" className="upload-input-label">
-                      <ImageUpload color="#00A48A" />
-                      <span className="title">عکس</span>
+                    <label
+                      htmlFor="image"
+                      className={`upload-input-label ${
+                        loading && loading !== "image" ? "disabled" : ""
+                      }`}
+                    >
+                      {loading === "image" ? (
+                        <div className="loader"></div>
+                      ) : (
+                        <ImageUpload color="#00A48A" />
+                      )}
+                      <span className="title">
+                        {loading === "image" ? "در‌حال بارگذاری" : "عکس"}
+                      </span>
                     </label>
                     <input
                       type="file"
                       id="image"
                       accept=".png, .jpg, .jpeg"
-                      className="upload-input"
+                      className={`upload-input ${
+                        loading && loading !== "image" ? "disabled" : ""
+                      }`}
                       {...register("image")}
                       onChange={handleUploadImage}
                     />
                   </div>
                   <div className="upload-input-container">
-                    <label htmlFor="video" className="upload-input-label">
-                      <Play color="#00A48A" />
-                      <span className="title">ویدیو</span>
+                    <label
+                      htmlFor="video"
+                      className={`upload-input-label ${
+                        loading && loading !== "video"
+                          ? "disabled"
+                          : "self-disabled"
+                      }`}
+                    >
+                      {loading === "video" ? (
+                        <div className="loader"></div>
+                      ) : (
+                        <Play color="#00A48A" />
+                      )}
+                      <span className="title">
+                        {loading === "video" ? "در‌حال بارگذاری" : "ویدیو"}
+                      </span>
                     </label>
                     <input
                       type="file"
                       id="video"
                       accept="video/mp4"
-                      className="upload-input"
+                      className={`upload-input ${
+                        loading && loading !== "video" ? "disabled" : ""
+                      }`}
                       {...register("video")}
                       onChange={handleUploadVideo}
                     />

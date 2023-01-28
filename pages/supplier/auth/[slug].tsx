@@ -127,7 +127,7 @@ const SignUp = () => {
             id="username"
             {...register("username", { required: true })}
           />
-          {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
+          {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
         </div>
         <div className="password">
           <div className="input-container">
@@ -137,7 +137,7 @@ const SignUp = () => {
               id="password"
               {...register("password", { required: true })}
             />
-            {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
+            {errors.password && <p>وارد کردن رمز عبور اجباری است.</p>}
           </div>
           <div className="input-container">
             <label htmlFor="rePassword">تکرار رمز عبور:</label>
@@ -191,7 +191,10 @@ const SignUp = () => {
             </div>
           )}
         </div>
-        <button type="submit" className="sign-up-btn bg-supplier box-shadow-supplier">
+        <button
+          type="submit"
+          className="sign-up-btn bg-supplier box-shadow-supplier"
+        >
           {loading ? "درحال انجام" : "ثبت نام"}
         </button>
       </form>
@@ -266,7 +269,7 @@ const Login = () => {
               id="username"
               {...register("username", { required: true })}
             />
-            {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
+            {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
           </div>
           <div className="input-container">
             <label htmlFor="">رمز عبور:</label>
@@ -275,7 +278,7 @@ const Login = () => {
               id="password"
               {...register("password", { required: true })}
             />
-            {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
+            {errors.password && <p>وارد کردن رمز عبور اجباری است.</p>}
           </div>
           <div className="login-with-google">
             <div className="line"></div>

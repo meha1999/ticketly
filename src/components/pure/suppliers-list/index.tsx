@@ -1,11 +1,12 @@
 import Title from "components/common/title";
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import suppliersListIcon from "images/icons/suppliers_list.svg";
 import Divider from "components/common/divider";
 import { BiCheck } from "react-icons/bi";
 import UserIcon from "images/icons/user_icon";
 import Image from "next/image";
 import { JalaliDateTime } from "jalali-date-time";
+import { READY_MESSAGES } from "src/static/readyMessages";
 
 interface SuppliersListProps {
   suppliersList: Array<any>;
@@ -35,8 +36,15 @@ const SuppliersList: FC<SuppliersListProps> = ({
     timeFormat: "H:I:S",
   };
 
+  const sentTextRef: any = useRef();
+
   const handleSentTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value && setSentText(e.target.value);
+  };
+
+  const handleSelectMessage = (value: string) => {
+    setSentText(value);
+    sentTextRef.current.value = value;
   };
 
   return (
@@ -98,14 +106,26 @@ const SuppliersList: FC<SuppliersListProps> = ({
             id="sent-text"
             className="sent-text-input"
             onChange={handleSentTextChange}
+            ref={sentTextRef}
           />
         </div>
+        <ul className="ready-messages">
+          {READY_MESSAGES.map((item: string, index: number) => (
+            <li
+              key={index}
+              className="message"
+              onClick={() => handleSelectMessage(item)}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
         <div className="actions-btn">
           <button className="cancel-btn" onClick={cancel}>
             لغو
           </button>
           <button className="confirm-btn" onClick={confirm}>
-            تایید
+            تایید و ارسال متن
           </button>
         </div>
       </div>

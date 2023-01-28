@@ -75,17 +75,17 @@ const Sidebar = () => {
       subLinks: [
         {
           id: 1,
-          title: "درخواست‌های در حال تامین",
+          title: "در انتظار تایید",
           path: "/customer/dashboard/tickets/supplying",
         },
         {
           id: 2,
-          title: "درخواست‌های در حال ارسال",
+          title: "فعال",
           path: "/customer/dashboard/tickets/sending",
         },
         {
           id: 3,
-          title: "درخواست‌های بسته شده",
+          title: "تکمیل شده",
           path: "/customer/dashboard/tickets/closed",
         },
       ],

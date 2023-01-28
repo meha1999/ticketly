@@ -69,9 +69,9 @@ const Tickets = () => {
           titleSideComponent={
             <>
               <div className="tabs">
-                <NavLink href="supplying">درحال تامین</NavLink>
-                <NavLink href="sending">درحال ارسال</NavLink>
-                <NavLink href="closed">بسته شده</NavLink>
+                <NavLink href="supplying"> در انتظار</NavLink>
+                <NavLink href="sending">فعال</NavLink>
+                <NavLink href="closed">تکمیل</NavLink>
               </div>
             </>
           }

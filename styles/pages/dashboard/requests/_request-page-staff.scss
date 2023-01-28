@@ -1,21 +1,22 @@
 .ev-request-page-wrapper {
   .requests-title-component {
+    width: 70%;
     height: 100%;
     gap: 40px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     .unseen-massages {
-      width: 260px;
-      height: 30px;
-      padding: 5px;
+      width: 30%;
+      padding:  5px;
       margin-right: 10px;
       padding-right: 20px;
-      margin-bottom: 5px;
+      margin-bottom: 15px;
       color: #939393;
       font-size: 12px;
       line-height: 19px;
       display: flex;
+      align-items: center;
       border-radius: 20px;
       justify-content: space-between;
       border: 1px solid #939393;
@@ -30,13 +31,13 @@
       }
     }
     .tabs {
-      width: 500px;
+      width: 50%;
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-around;
       a {
-        width: 165px;
+        width: 30%;
         height: 100%;
         color: #adadad;
         cursor: pointer;

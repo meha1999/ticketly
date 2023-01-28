@@ -9,6 +9,7 @@ import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import VideoUpload from "images/icons/video_uplaod";
 
 const chatService = new ChatService();
 
@@ -94,6 +95,31 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     }
   };
 
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    } else {
+      try {
+        const data = new FormData();
+        data.append("file", e.target.files[0]);
+        data.append("file_type", "VIDEO");
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        const response = await chatService.upload(data, config);
+        onSend(response.data.id, "video");
+        e.target.files = null;
+        e.target.value = "";
+      } catch (error) {
+        Toaster.error(
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
+      }
+    }
+  };
+
+  
   const handleSendTextMessage = (e: any) => {
     e.preventDefault();
     onSend(e.target.children[1].value, "text");
@@ -161,6 +187,21 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
             className="file-input"
             title=""
             onChange={handlePhotoUpload}
+          />
+        </div>
+        <div className="file-upload">
+          <label htmlFor="video" className="file-input-label">
+            <button type="button" className="tool_btn">
+              <VideoUpload color={color} />
+            </button>
+          </label>
+          <input
+            type="file"
+            id="video"
+            accept="video/*"
+            className="file-input"
+            title=""
+            onChange={handleVideoUpload}
           />
         </div>
       </div>

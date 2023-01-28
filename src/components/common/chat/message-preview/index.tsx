@@ -10,7 +10,8 @@ import VoiceMassageDownloader from "../VoiceMassageViewer";
 interface MessagePreviewProps {
   profileImage: string;
   name: string;
-  count?: boolean;
+  count?: number;
+  index: number;
   message?: string;
   date?: string;
   color: string;
@@ -24,17 +25,19 @@ const MessagePreview: FC<MessagePreviewProps> = ({
   message,
   date,
   count,
+  index,
   color,
   hasSeen,
   file,
 }) => {
   const first = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    first.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "start",
-    });
+    count === index + 1 &&
+      first.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "start",
+      });
   }, [count]);
 
   const fileViewerHandler = (file: any) => {
@@ -49,7 +52,9 @@ const MessagePreview: FC<MessagePreviewProps> = ({
         />
       ),
       VIDEO: <VideoMassageViewer videoSrc={file.file} />,
-      VOICE: <VoiceMassageDownloader voiceSrc={file.file} fileSize={file.size} />,
+      VOICE: (
+        <VoiceMassageDownloader voiceSrc={file.file} fileSize={file.size} />
+      ),
     };
     return Components[file.file_type] || "";
   };

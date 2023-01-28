@@ -105,19 +105,19 @@ const Requests = () => {
                   href="/staff/dashboard/tickets/supplying"
                   className={activeTab === "supplying" ? "active" : ""}
                 >
-                  درحال تامین
+                  در انتظار
                 </NavLink>
                 <NavLink
                   href="/staff/dashboard/tickets/sending"
                   className={activeTab === "sending" ? "active" : ""}
                 >
-                  درحال ارسال
+                  فعال
                 </NavLink>
                 <NavLink
                   href="/staff/dashboard/tickets/closed"
                   className={activeTab === "closed" ? "active" : ""}
                 >
-                  بسته شده
+                  تکمیل
                 </NavLink>
               </div>
             </div>

@@ -25,12 +25,8 @@ const Sidebar = () => {
     try {
       await authService.logout();
     } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } finally {
       deleteCookie("role");
       deleteCookie("token");
       dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });
@@ -85,17 +81,17 @@ const Sidebar = () => {
       subLinks: [
         {
           id: 1,
-          title: "درخواست‌های در حال تامین",
+          title: "در انتظار تایید",
           path: "/staff/dashboard/tickets/supplying",
         },
         {
           id: 2,
-          title: "درخواست‌های در حال ارسال",
+          title: "فعال",
           path: "/staff/dashboard/tickets/sending",
         },
         {
           id: 3,
-          title: "درخواست‌های بسته شده",
+          title: "تکمیل شده",
           path: "/staff/dashboard/tickets/closed",
         },
       ],

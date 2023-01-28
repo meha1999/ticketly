@@ -138,13 +138,13 @@ const Requests = () => {
             titleSideComponent={
               <div className="requests-title-component">
                 <div className="unseen-massages">
-                  <span>خوانده نشده</span>
+                  <span>درخواست های جدید</span>
                   <span className="count">{newTickets}</span>
                 </div>
                 <div className="tabs">
-                  <NavLink href="supplying">درحال تامین</NavLink>
-                  <NavLink href="sending">درحال ارسال</NavLink>
-                  <NavLink href="closed">بسته شده</NavLink>
+                  <NavLink href="supplying">در انتظار</NavLink>
+                  <NavLink href="sending">فعال</NavLink>
+                  <NavLink href="closed">تکمیل</NavLink>
                 </div>
               </div>
             }

@@ -19,6 +19,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import SeoHead from "components/common/seo-head";
 import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
 import { TicketStatusChoicesEnum } from "src/model/status";
+import { useEventSource } from "react-use-websocket";
 
 const ticketService = new TicketService();
 
@@ -30,6 +31,10 @@ const Requests = () => {
 
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
+  );
+
+  const { lastEvent } = useEventSource(
+    `${process.env.NEXT_PUBLIC_BASE_RASAD_URL}/events/all/`
   );
 
   const notification = useSelector<
@@ -53,7 +58,7 @@ const Requests = () => {
 
   useEffect(() => {
     getTickets();
-  }, [query.status, notification]);
+  }, [query.status, notification, lastEvent]);
 
   const dateTimeConfig = {
     timezone: "Asia/Tehran",

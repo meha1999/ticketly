@@ -1,26 +1,26 @@
-image: alpine:latest
+# image: alpine:latest
 
-pages:
-   stage: deploy
-   only:
-       - main
-   before_script:
-       - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
-       - eval $(ssh-agent -s)
-       - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-       - mkdir -p ~/.ssh
-       - chmod 777 ~/.ssh
-       - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
-       - echo $KNOWN_HOSTS > ~/.ssh/known_hosts
-       - ls ~/.ssh
-       - chmod 777 ~/.ssh/known_hosts
-       - /usr/bin/ssh-copy-id -f -i  ~/.ssh/id_rsa.pub -p 22000 -o "StrictHostKeyChecking=no" root@46.100.84.27
-       - sleep 3 
-   script:
+# pages:
+#    stage: deploy
+#    only:
+#        - main
+#    before_script:
+#        - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+#        - eval $(ssh-agent -s)
+#        - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#        - mkdir -p ~/.ssh
+#        - chmod 777 ~/.ssh
+#        - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+#        - echo $KNOWN_HOSTS > ~/.ssh/known_hosts
+#        - ls ~/.ssh
+#        - chmod 777 ~/.ssh/known_hosts
+#        - /usr/bin/ssh-copy-id -f -i  ~/.ssh/id_rsa.pub -p 22000 -o "StrictHostKeyChecking=no" root@46.100.84.27
+#        - sleep 3 
+#    script:
 
-       - ssh $SSH_USER@$VM_IPADDRESS -p $VM_PORT "rm -rf /root/ticketly-ui/*"
-       - scp -r -P $VM_PORT ./*  root@46.100.84.27:/root/ticketly-ui
-       - ssh root@46.100.84.27 -p 22000 "bash /root/ticketly-ui/kill.sh"
-       - ssh root@46.100.84.27 -p 22000 "cd /root/ticketly-ui/ && npm i && npm install pm2 -g && pm2 delete all && pm2 --name app01 start npm -- start" 
+#        - ssh $SSH_USER@$VM_IPADDRESS -p $VM_PORT "rm -rf /root/ticketly-ui/*"
+#        - scp -r -P $VM_PORT ./*  root@46.100.84.27:/root/ticketly-ui
+#        - ssh root@46.100.84.27 -p 22000 "bash /root/ticketly-ui/kill.sh"
+#        - ssh root@46.100.84.27 -p 22000 "cd /root/ticketly-ui/ && npm i && npm run build && npm run start > /dev/null 2>&1 &" 
 
  

@@ -122,7 +122,7 @@ const Dashboard = () => {
                       <div className="name">{ticket.name}</div>
                       <div className="further-info">
                         <div className="brand">
-                          {ticket.brand ?? "بدون برند"}
+                          {ticket.branch_category.name ?? "بدون برند"}
                         </div>
                       </div>
                     </div>

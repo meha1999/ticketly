@@ -29,19 +29,18 @@
       color: red;
     }
     label {
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
       color: #4d4d4d;
     }
     select {
       background: #e4e7ea;
       border-radius: 25px;
-      width: 480px;
-      height: 50px;
-      padding: 0 30px;
+      width: 80%;
+      padding: 12px 30px;
       display: flex;
       align-items: center;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
       color: #4d4d4d;
       border: none;
@@ -56,12 +55,11 @@
     input[type="text"] {
       background: #ffffff;
       border-radius: 25px;
-      width: 480px;
-      height: 50px;
-      padding: 0 30px;
+      width: 80%;
+      padding: 10px 30px;
       display: flex;
       align-items: center;
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
       color: #4d4d4d;
       border: none;
@@ -77,7 +75,7 @@
         border-radius: 25px;
         width: 87.5%;
         padding: 10px 30px;
-        font-weight: 400;
+        font-weight: 600;
         font-size: 14px;
         color: #5f5f5f;
       }
@@ -95,8 +93,6 @@
         align-items: center;
         gap: 7px;
         .upload-input-container {
-          width: 176px;
-          height: 50px;
           border-radius: 25px;
           position: relative;
           .loader {
@@ -137,6 +133,8 @@
             }
           }
           .upload-input-label {
+          padding: 10px 30px;
+
             cursor: pointer;
             border-radius: inherit;
             background: #d7eeeb;
@@ -208,16 +206,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 68px;
-        height: 60px;
+        width:50px;
+        height: 45px;
         border: 1px solid #b0b0b0;
         border-radius: 25px;
         background-color: transparent;
         cursor: pointer;
       }
       .submit {
-        width: 243px;
-        height: 60px;
+        padding: 12px 30px;
         background: #00a48a;
         box-shadow: 0px 10px 20px rgba(0, 164, 138, 0.25);
         border-radius: 25px;

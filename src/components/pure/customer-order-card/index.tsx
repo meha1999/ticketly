@@ -42,6 +42,7 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
     RECEIVED: "دریافت شده",
     REJECTED: "عودت داده شده",
     CONFIRMED: "تحویل داده شده است ",
+    FAILED: "ناموفق",
   };
 
   const dateTimeConfig = {
@@ -68,13 +69,13 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
           className="icon dark"
           onClick={() => onClientAction(id, "REJECTED")}
         >
-          <TbArrowBackUp title="برگشت دادن"/>
+          <TbArrowBackUp title="برگشت دادن" />
         </button>
         <button
           className="icon  light-green"
           onClick={() => onClientAction(id, "CONFIRMED")}
         >
-          <CiCircleCheck title="تایید بسته"/>
+          <CiCircleCheck title="تایید بسته" />
         </button>
       </>
     ),
@@ -94,6 +95,7 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
     CONFIRMED: "norm",
     RECEIVED: "norm",
     REJECTED: "alert",
+    FAILED: "alert",
   };
 
   return (

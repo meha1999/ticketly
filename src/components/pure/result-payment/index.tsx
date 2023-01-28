@@ -23,17 +23,15 @@ const ResultPayment: FC<ResultPaymentProps> = ({
           <Image src={closeIcon} alt="close" />
         )}
         {paymentStatus === "success" ? (
-          <p className="message success">
-            سفارش با موفقیت ثبت شد.
-          </p>
+          <p className="message success">سفارش با موفقیت ثبت شد.</p>
         ) : (
           <>
             <p className="message failure">
-              موجودی کیف پول مشتری با انتخاب کسر موجودی به صورت منفی درخواهد
-              آمد.
+              موجودی کیف پول مشتری با انتخاب کسر موجودی از حد مشخص شده پایین تر
+              خواهد آمد.
             </p>
             <p className="failure-message">
-              سفارش ثبت خواهد شد. از مشتری بخواهید به صورت نقدی پرداخت نماید
+              از مشتری بخواهید کیف پول خود را شارژ کند
             </p>
           </>
         )}

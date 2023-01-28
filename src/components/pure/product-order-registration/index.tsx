@@ -96,9 +96,14 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
         await ticketService.confirmOrder(res.data.id);
       }
       setPaymentStatus("success");
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
-      setPaymentStatus("failure");
+    } catch (error: any) {
+      if (error.response.status == 406) {
+        setPaymentStatus("failure");
+      } else {
+        Toaster.error(
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      }
     }
     setIsPaymentOpen(false);
     setIsResultOpen(true);
@@ -157,7 +162,6 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-                
               </div>
               <div className="field">
                 <label htmlFor="date" className="label">

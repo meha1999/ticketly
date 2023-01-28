@@ -40,8 +40,12 @@ const Header = () => {
         >
           <div className="image-container">
             {user?.photo ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={user?.photo as string} alt="logo" />
+              <Image
+                src={user?.photo as string}
+                alt="user"
+                width={57}
+                height={57}
+              />
             ) : (
               <UserIcon color={userType[router.asPath.split("/")[1]]} />
             )}

@@ -14,4 +14,8 @@ export class ChatService extends BaseService {
   deleteUploadedFile(id: number) {
     return this.axiosInstanceWithToken.delete(`/file/upload/${id}/`);
   }
+
+  deleteUploadedFiles(data: any) {
+    return this.axiosInstanceWithToken.post("/file/deleteMany/", data);
+  }
 }

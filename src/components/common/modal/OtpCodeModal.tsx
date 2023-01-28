@@ -102,7 +102,7 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
   const [resetCounter, setResetCounter] = useState(false);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} notClosableByUser>
+    <Modal isOpen={isOpen} onClose={onClose} >
       <div className="otp-code-modal-wrapper">
         <div className="title-bar">
           <h5 className="title">تایید {title}</h5>

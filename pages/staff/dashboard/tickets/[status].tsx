@@ -174,7 +174,15 @@ const Requests = () => {
                         : ""
                     } ${item.status !== "UNREAD" ? "hover" : ""}`}
                     key={index}
-                    onClick={() => handleOpenChat(item.ticket_group, item.id)}
+                    style={{
+                      cursor: !(item.status === "UNREAD")
+                        ? "pointer"
+                        : "default",
+                    }}
+                    onClick={() =>
+                      !(item.status === "UNREAD") &&
+                      handleOpenChat(item.ticket_group, item.id)
+                    }
                   >
                     <div className="title">
                       <span className="count">{index + 1}</span>

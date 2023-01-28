@@ -19,6 +19,7 @@ pages:
    script:
        #- ssh $SSH_USER@$VM_IPADDRESS -p $VM_PORT "lsof -n -i :3000 | grep LISTEN | awk '{print $2}'"
       # - ssh $SSH_USER@$VM_IPADDRESS -p $VM_PORT "kill -9 $(lsof -n -i :3000 | grep LISTEN | awk '{print $2}')"
+       - ssh root@46.100.84.27 -p 22000 "ss -Slp | grep -Po ':3000\s.*pid=\K\d+(?=,)' | xargs kill"
        - ssh root@46.100.84.27 -p 22000 "fuser -k 3000/tcp"
        - ssh $SSH_USER@$VM_IPADDRESS -p $VM_PORT "rm -rf /root/ticketly-ui/*"
        - scp -r -P $VM_PORT ./*  root@46.100.84.27:/root/ticketly-ui

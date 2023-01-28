@@ -244,7 +244,7 @@ const Create = () => {
         priority: "high",
         description: data.description,
         status: "UNREAD",
-        branch_category: selectedAccessoriesType,
+        branch_category: { id: selectedAccessoriesType },
         upload_ticket: selectedFiles.map((i: any) => {
           return { id: i.id };
         }),
@@ -316,7 +316,7 @@ const Create = () => {
               <div className="field">
                 <Dropdown
                   id="category"
-                  label="دسته بندی"
+                  label="نوع وسیله نقلیه"
                   disabled={!rootCategories.length}
                   currentOptions={rootCategories}
                   currentValue={selectedRoot}
@@ -326,7 +326,7 @@ const Create = () => {
               <div className="field">
                 <Dropdown
                   id="part_type"
-                  label="دسته بندی"
+                  label="نام برند"
                   disabled={!trunkCategories?.length}
                   currentOptions={trunkCategories}
                   currentValue={selectedPartType}
@@ -361,7 +361,7 @@ const Create = () => {
               <label htmlFor="description">{"پیام:"}</label>
               <textarea
                 id="description"
-                rows={10}
+                rows={6}
                 {...register("description", { required: true })}
               ></textarea>
               {errors.description && (

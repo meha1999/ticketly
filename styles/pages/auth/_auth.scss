@@ -45,7 +45,7 @@
           cursor: pointer;
           text-decoration: none;
           font-weight: 700;
-          font-size: 20px;
+          font-size: 16px;
           line-height: 40px;
         }
         .selected {
@@ -71,7 +71,7 @@
           justify-content: center;
           align-items: center;
           font-weight: 700;
-          font-size: 18px;
+          font-size: 16px;
           color: #efd101;
           width: 60%;
           text-align: center;
@@ -94,7 +94,7 @@
         .form {
           z-index: 1;
           width: 100%;
-          max-width: clamp(43%, 60%, 650px);
+          max-width: clamp(33%, 60%, 50px);
           height: 100%;
           padding: 0 5% 0 3%;
           background-color: #f4f6f8ee;
@@ -103,7 +103,7 @@
           justify-content: center;
           label {
             font-weight: 600;
-            font-size: 14px;
+            font-size: 12px;
             color: #505050;
             margin-right: 20px;
           }
@@ -117,14 +117,16 @@
               margin-right: 10px;
               color: red;
               font-size: 12px;
+              font-weight: 700px ;
             }
           }
           input {
-            height: 50px;
             background-color: #ffffff;
             border-radius: 25px;
             border: none;
-            padding: 0 10px;
+            padding: 10px;
+            font-weight: 700;
+
           }
           .login-with-google {
             width: 100%;
@@ -143,8 +145,8 @@
             }
           }
           .google {
-            height: 50px;
             background-color: #ffffff;
+            padding: 5px 0;
             border-radius: 25px;
             display: flex;
             justify-content: center;
@@ -159,7 +161,7 @@
             }
           }
           .login-btn {
-            padding: 24px 0;
+            padding: 16px 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -170,7 +172,7 @@
             border: none;
             cursor: pointer;
             margin-right: auto;
-            width: 40%;
+            width: 35%;
             height: 5%;
             &.loading {
               position: relative;
@@ -193,7 +195,7 @@
           top: 0;
           left: 0;
           width: 100%;
-          max-width: 1200px;
+          max-width: 900px;
           height: 100%;
           object-fit: cover;
           border-radius: 60px 0 0 60px;
@@ -208,7 +210,7 @@
         .form {
           z-index: 1;
           width: 100%;
-          max-width: clamp(43%, 60%, 650px);
+          max-width: clamp(33%, 60%, 50px);
           height: 100%;
           padding: 0 5% 0 3%;
           display: flex;
@@ -217,7 +219,7 @@
           background-color: #f4f6f8ee;
           label {
             font-weight: 600;
-            font-size: 14px;
+            font-size: 12px;
             color: #505050;
             margin-right: 20px;
           }
@@ -244,8 +246,11 @@
               position: relative;
               z-index: 1;
               &::after {
+                text-align: center;
                 min-width: 10px;
                 min-height: 10px;
+                font-size: 14px !important;
+                font-weight: 700;
                 content: " 98+";
                 position: absolute;
                 color: #505050;
@@ -257,11 +262,10 @@
             }
           }
           input {
-            height: 50px;
             background-color: #ffffff;
             border-radius: 25px;
             border: none;
-            padding: 0 10px;
+            padding: 5px 10px;
           }
           .password {
             gap: 20px;
@@ -303,7 +307,7 @@
             }
           }
           .sign-up-btn {
-            padding: 24px 0;
+            padding: 16px 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -314,7 +318,7 @@
             border: none;
             cursor: pointer;
             margin-right: auto;
-            width: 40%;
+            width: 30%;
             height: 5%;
           }
         }
@@ -323,7 +327,7 @@
           top: 0;
           left: 0px;
           width: 100%;
-          max-width: 1200px;
+          max-width: 900px;
           height: 100%;
           object-fit: cover;
           border-radius: 60px 0 0 60px;
@@ -336,7 +340,7 @@
           background-color: #e6e9ec;
           .item {
             width: 50%;
-            line-height: 40px;
+            line-height: 30px;
             border-radius: 25px;
             text-align: center;
             cursor: pointer;

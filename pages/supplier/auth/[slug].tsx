@@ -130,7 +130,7 @@ const SignUp = () => {
           {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
         </div>
         <div className="password">
-          <div className="input-container">
+          <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="password">رمز عبور:</label>
             <input
               type="password"
@@ -139,7 +139,7 @@ const SignUp = () => {
             />
             {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
           </div>
-          <div className="input-container">
+          <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="rePassword">تکرار رمز عبور:</label>
             <input
               type="password"
@@ -268,7 +268,7 @@ const Login = () => {
             />
             {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
           </div>
-          <div className="input-container">
+          <div className="input-container" >
             <label htmlFor="">رمز عبور:</label>
             <input
               type="password"

@@ -130,7 +130,7 @@ const SignUp = () => {
           {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
         </div>
         <div className="password">
-          <div className="input-container">
+          <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="password">رمز عبور:</label>
             <input
               type="password"
@@ -139,7 +139,7 @@ const SignUp = () => {
             />
             {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
           </div>
-          <div className="input-container">
+          <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="rePassword">تکرار رمز عبور:</label>
             <input
               type="password"
@@ -191,7 +191,10 @@ const SignUp = () => {
             </div>
           )}
         </div>
-        <button type="submit" className="sign-up-btn bg-customer box-shadow-customer">
+        <button
+          type="submit"
+          className="sign-up-btn bg-customer box-shadow-customer"
+        >
           {loading ? "درحال انجام" : "ثبت نام"}
         </button>
       </form>
@@ -269,7 +272,7 @@ const Login = () => {
             />
             {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
           </div>
-          <div className="input-container">
+          <div className="input-container" >
             <label htmlFor="">رمز عبور:</label>
             <input
               type="password"
@@ -285,7 +288,7 @@ const Login = () => {
           </div>
           <div className="google">
             <Image src={googleLogo} alt="google" />
-            <span  style={{ fontSize: 14 }} >ورود با گوگل</span>
+            <span style={{ fontSize: 14 }}>ورود با گوگل</span>
           </div>
           <button
             type="submit"

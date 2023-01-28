@@ -8,7 +8,7 @@
     justify-content: space-around;
     .unseen-massages {
       width: 30%;
-      padding:  5px;
+      padding: 5px;
       margin-right: 10px;
       padding-right: 20px;
       margin-bottom: 15px;
@@ -140,6 +140,7 @@
           }
         }
         .date {
+          text-align: center;
           color: #7d7d7d;
           justify-content: center;
           font-weight: 400;
@@ -190,6 +191,7 @@
   }
 }
 .ticket-status-wrapper {
+  text-align: center;
   padding: 0;
   display: flex;
   gap: 7px;

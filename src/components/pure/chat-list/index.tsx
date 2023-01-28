@@ -72,31 +72,45 @@ const ChatList: React.FC<ChatListProps> = ({
   };
 
   const handleConfirm = async () => {
-    const supplierData = selectedSuppliers.map((item) => {
-      return {
-        name: group?.ticket_group[0]?.name,
-        department: group.ticket_group[0].department,
-        customer: null,
-        supplier: { id: item },
-        staff: group.ticket_group[0].staff,
-        priority: group.ticket_group[0].priority,
-        description: sentText,
-        ticket_group: group.ticket_group[0].ticket_group,
-        status: "PENDING",
-        branch_category: group.ticket_group[0].branch_category,
-        order_ticket: [],
+    console.log(selectedSuppliers);
+
+    if (selectedSuppliers.length) {
+      const supplierData = selectedSuppliers.map((item) => {
+        return {
+          name: group?.ticket_group[0]?.name,
+          department: group.ticket_group[0].department,
+          customer: null,
+          supplier: { id: item },
+          staff: group.ticket_group[0].staff,
+          priority: group.ticket_group[0].priority,
+          description: sentText,
+          ticket_group: group.ticket_group[0].ticket_group,
+          status: "PENDING",
+          branch_category: group.ticket_group[0].branch_category,
+          order_ticket: [],
+        };
+      });
+      const finalData = {
+        ticket_group: [...group.ticket_group, ...supplierData],
       };
-    });
-    const finalData = {
-      ticket_group: [...group.ticket_group, ...supplierData],
-    };
-    try {
-      await ticketService.addSuppliersToGroup(group.id, finalData);
-      onAddSuplier();
-      handleCancel();
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
-    } finally {
+      try {
+        await ticketService.addSuppliersToGroup(group.id, finalData);
+        onAddSuplier();
+        handleCancel();
+      } catch (err) {
+        Toaster.error(
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
+      } finally {
+        setSelectedSuppliers([]);
+      }
+    } else {
+      Toaster.error(
+        <ToastComponent
+          title=""
+          description="انتخاب حداقل یک تامین کننده اجباری است."
+        />
+      );
     }
   };
 

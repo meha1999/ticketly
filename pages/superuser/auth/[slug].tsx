@@ -73,7 +73,7 @@ const Login = () => {
               id="username"
               {...register("username", { required: true })}
             />
-            {errors.username && <p>وارد کردن نام‌کاربری اجباری است.</p>}
+            {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
           </div>
           <div className="input-container">
             <label htmlFor="">رمز عبور:</label>
@@ -82,7 +82,7 @@ const Login = () => {
               id="password"
               {...register("password", { required: true })}
             />
-            {errors.password && <p>وارد کردن پسورد اجباری است.</p>}
+            {errors.password && <p>وارد کردن رمز عبور اجباری است.</p>}
           </div>
           <div className="login-with-google">
             <div className="line"></div>

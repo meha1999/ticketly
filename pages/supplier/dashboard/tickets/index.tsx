@@ -135,7 +135,7 @@ const Requests = () => {
                         />
                       </div>
                       <span className="name">
-                        {ticket.customer ?? "بدون نام"}
+                        {ticket.staff.full_name ??ticket.staff.username ?? "بدون نام"}
                       </span>
                     </div>
                     <div className="date">{ticket.id}</div>

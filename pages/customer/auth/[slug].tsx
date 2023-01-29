@@ -291,7 +291,7 @@ const Login = () => {
               })}
             />
             {errors.username && (
-              <p>لطفا نام کاربری خود را به درستی وارد نمایید</p>
+              <p>لطفا نام کاربری خود را به درستی  وارد نمایید</p>
             )}
           </div>
           <div className="input-container">

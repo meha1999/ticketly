@@ -258,7 +258,6 @@ const Create = () => {
         upload_ticket: selectedFiles.map((i: any) => {
           return { id: i.id };
         }),
-        order_ticket: [],
       };
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {

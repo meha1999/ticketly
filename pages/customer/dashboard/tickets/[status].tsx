@@ -13,6 +13,8 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import SeoHead from "components/common/seo-head";
+import { Toaster } from "components/common/toast/Toaster";
+import ToastComponent from "components/common/toast/ToastComponent";
 
 const ticketService = new TicketService();
 
@@ -22,7 +24,7 @@ const Tickets = () => {
     ReduxStoreModel["notification"]
   >((store) => store.notification);
 
-  const [ticketList, setTicketList] = useState([]);
+  const [ticketList, setTicketList] = useState<any[]>([]);
   const { push: routerPush, query } = useRouter();
 
   const getTickets = async () => {
@@ -34,6 +36,26 @@ const Tickets = () => {
       setTicketList(data);
     } catch (error) {
       setTicketList([]);
+    }
+  };
+
+  const deleteTicketHandler = async (id: number) => {
+    try {
+      await ticketService.deleteTicket(id);
+      setTicketList(ticketList.filter((i) => i.id !== id));
+      Toaster.success(
+        <ToastComponent
+          title="موفقیت آمیز"
+          description="تیکت شما با موفقیت حذف شد"
+        />
+      );
+    } catch (error) {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="در حذف تیکت شما مشکلی به وجود آمد"
+        />
+      );
     }
   };
 
@@ -56,10 +78,6 @@ const Tickets = () => {
     ANSWERED: "در انتظار پاسخ مشتری",
     PENDING: "در انتظار پاسخ ارزیاب",
     INPROCESS: "در انتظار تامین کننده",
-    CLOSED: "بسته شد",
-    // PROVIDED: "مشتری پاسخ داده",
-    // RETURNED: "در انتظار پاسخ مشتری",
-    // DELIVERED: "مشتری پاسخ داده",
   };
 
   const pageConfig: Record<string, string> = {
@@ -136,11 +154,17 @@ const Tickets = () => {
                         : "center",
                     }}
                   >
-                    {/* {query?.status === "supplying" && (
-                      <div className="delete-icon">
+                    {query?.status === "supplying" && (
+                      <div
+                        className="delete-icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteTicketHandler(ticket.id);
+                        }}
+                      >
                         <Image src={Delete} alt="delete" />
                       </div>
-                    )} */}
+                    )}
                     <div className="status">{translate[ticket.status]}</div>
                     {!!unread?.data[0].unread_message && (
                       <div className="unread-notification">

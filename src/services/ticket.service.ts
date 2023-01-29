@@ -47,4 +47,8 @@ export class TicketService extends BaseService {
   confirmOrder(id?: string) {
     return this.axiosInstanceWithToken.put(`/order/confirm/${id}/`);
   }
+
+  deleteTicket(id: number) {
+    return this.axiosInstanceWithToken.delete(`/ticket/${id}/`);
+  }
 }

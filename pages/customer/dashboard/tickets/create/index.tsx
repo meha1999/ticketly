@@ -74,11 +74,6 @@ const Create = () => {
   ) => {
     const selectedAccessoriesTypeId = +event.target.value;
     setSelectedAccessoriesType(selectedAccessoriesTypeId);
-    setBranchCategories(
-      branchCategories.filter(
-        (rootItem) => rootItem.id === selectedAccessoriesTypeId
-      )
-    );
   };
 
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,11 +247,15 @@ const Create = () => {
         priority: "high",
         description: data.description,
         status: "UNREAD",
-        branch_category: selectedAccessoriesType,
+        order_ticket: [],
+        branch_category: {
+          id: selectedAccessoriesType,
+          trunk_category: selectedPartType,
+          name: data.name,
+        },
         upload_ticket: selectedFiles.map((i: any) => {
           return { id: i.id };
         }),
-        order_ticket: [],
       };
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {

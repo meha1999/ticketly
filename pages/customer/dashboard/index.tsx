@@ -19,6 +19,8 @@ import { JalaliDateTime } from "jalali-date-time";
 import { DATE_TIME_CONFIG } from "src/static/dateConfig";
 import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
 import { TicketStatusChoicesEnum } from "src/model/status";
+import { Toaster } from "components/common/toast/Toaster";
+import ToastComponent from "components/common/toast/ToastComponent";
 
 const userType: Record<string, string> = {
   staff: "#5E7BEC",
@@ -29,7 +31,7 @@ const userType: Record<string, string> = {
 const ticketService = new TicketService();
 
 const Dashboard = () => {
-  const { asPath, push: routerPush } = useRouter();
+  const { asPath, push: routerPush, query } = useRouter();
   const [ticketList, setTicketList] = useState<any[]>([]);
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
@@ -47,6 +49,26 @@ const Dashboard = () => {
 
   const handleOpenChat = (ticketId: string) => {
     routerPush(`/customer/dashboard/chat/${ticketId}/`);
+  };
+
+  const deleteTicketHandler = async (id: number) => {
+    try {
+      await ticketService.deleteTicket(id);
+      setTicketList(ticketList.filter((i) => i.id !== id));
+      Toaster.success(
+        <ToastComponent
+          title="موفقیت آمیز"
+          description="تیکت شما با موفقیت حذف شد"
+        />
+      );
+    } catch (error) {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="در حذف تیکت شما مشکلی به وجود آمد"
+        />
+      );
+    }
   };
 
   useEffect(() => {
@@ -140,9 +162,17 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="operation">
-                    {/* <div className="delete-icon">
-                      <Image src={Delete} alt="delete" />
-                    </div> */}
+                    {query?.status === "supplying" && (
+                      <div
+                        className="delete-icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteTicketHandler(ticket.id);
+                        }}
+                      >
+                        <Image src={Delete} alt="delete" />
+                      </div>
+                    )}
                     <div className="status">
                       {
                         TICKET_STATUS_PERSIAN[

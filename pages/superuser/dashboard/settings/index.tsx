@@ -1,12 +1,16 @@
+import SeoHead from "components/common/seo-head";
 import DashboardLayout from "components/layouts/dashboard/superuser";
 import { GetServerSideProps } from "next";
 
 const Setting = () => {
-  return <DashboardLayout></DashboardLayout>;
+  return (
+    <DashboardLayout>
+      <SeoHead title="تنظیمات" description="" />
+    </DashboardLayout>
+  );
 };
 
 export default Setting;
-
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!ctx.req.url?.includes(ctx.req.cookies?.role as string)) {

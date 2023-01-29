@@ -73,7 +73,10 @@ const Create = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedAccessoriesTypeId = +event.target.value;
-    setSelectedAccessoriesType(selectedAccessoriesTypeId);
+    const selected = branchCategories.find(
+      (rootItem) => rootItem.id === selectedAccessoriesTypeId
+    );
+    setSelectedAccessoriesType(selected.id);
   };
 
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -247,11 +250,10 @@ const Create = () => {
         priority: "high",
         description: data.description,
         status: "UNREAD",
-        order_ticket: [],
         branch_category: {
-          id: selectedAccessoriesType,
-          trunk_category: selectedPartType,
-          name: data.name,
+          ...branchCategories?.find(
+            (rootItem) => rootItem.id === selectedAccessoriesType
+          ),
         },
         upload_ticket: selectedFiles.map((i: any) => {
           return { id: i.id };
@@ -340,7 +342,7 @@ const Create = () => {
 
   useEffect(() => {
     setSelectedAccessoriesType(
-      branchCategories?.length ? branchCategories[0]?.id : null
+      branchCategories?.length ? branchCategories[0].id : null
     );
   }, [selectedPartType, branchCategories]);
 
@@ -359,7 +361,7 @@ const Create = () => {
               <div className="field">
                 <Dropdown
                   id="category"
-                  label="دسته بندی"
+                  label="نوع وسیله نقلیه"
                   disabled={!rootCategories.length}
                   currentOptions={rootCategories}
                   currentValue={selectedRoot}
@@ -369,7 +371,7 @@ const Create = () => {
               <div className="field">
                 <Dropdown
                   id="part_type"
-                  label="دسته بندی"
+                  label="نام برند"
                   disabled={!trunkCategories?.length}
                   currentOptions={trunkCategories}
                   currentValue={selectedPartType}
@@ -404,7 +406,7 @@ const Create = () => {
               <label htmlFor="description">{"پیام:"}</label>
               <textarea
                 id="description"
-                rows={10}
+                rows={6}
                 {...register("description", { required: true })}
               ></textarea>
               {errors.description && (
@@ -550,7 +552,7 @@ const Create = () => {
           </form>
         </div>
       </DashboardLayout>
-      <SeoHead title="ثبت درخواست جدید" description="" />
+      <SeoHead title="ثبت تیکت جدید" description="" />
     </>
   );
 };

@@ -1,0 +1,49 @@
+.wallet {
+  .wallet-amount {
+    padding: 25px 0;
+    display: flex;
+    justify-content: space-between;
+    .title {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .deposit {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      .text {
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .amount {
+        text-align: center;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 31px;
+        color: #00a48a;
+        border: 1px solid #d7d7d7;
+        border-radius: 25px;
+        padding: 5px 60px;
+      }
+    }
+  }
+  .add-credit {
+    width: 100%;
+    .ready-options {
+      display: flex;
+      justify-content: flex-end;
+      .options-conatiner{
+        .cash-option{
+          background: #FFFFFF;
+border-radius: 25px;
+        }
+      }
+    }
+    .customize-amount {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}

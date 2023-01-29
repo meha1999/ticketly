@@ -75,7 +75,7 @@ const Login = () => {
             />
             {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
           </div>
-          <div className="input-container">
+          <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="">رمز عبور:</label>
             <input
               type="password"

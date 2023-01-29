@@ -88,7 +88,7 @@
           text-align: center;
           color: #7d7d7d;
           justify-content: center;
-          font-weight: 400;
+          font-weight: 600;
           font-size: 12px;
           padding: 0;
         }
@@ -162,7 +162,7 @@
         text-align: center;
         color: #7d7d7d;
         justify-content: center;
-        font-weight: 400;
+        font-weight: 600;
         font-size: 12px;
         padding: 0;
       }
@@ -286,6 +286,7 @@
           color: #b0b0b0;
         }
       }
+
       .date-time {
         border-right: 1px solid #c5c5c5;
         border-left: 1px solid #c5c5c5;
@@ -312,6 +313,7 @@
           color: #7d7d7d;
         }
       }
+      
       .operation {
         gap: 9px;
         width: 30%;
@@ -324,8 +326,7 @@
           cursor: pointer;
         }
         .status {
-          width: 80%;
-          height: 50px;
+          width: 50%;
           font-style: normal;
           font-weight: 700;
           font-size: 12px;

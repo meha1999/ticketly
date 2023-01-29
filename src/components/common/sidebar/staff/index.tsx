@@ -81,13 +81,13 @@ const Sidebar = () => {
       subLinks: [
         {
           id: 1,
-          title: "در انتظار تایید",
-          path: "/staff/dashboard/tickets/supplying",
+          title: "فعال",
+          path: "/staff/dashboard/tickets/sending",
         },
         {
           id: 2,
-          title: "فعال",
-          path: "/staff/dashboard/tickets/sending",
+          title: "در انتظار تایید",
+          path: "/staff/dashboard/tickets/supplying",
         },
         {
           id: 3,

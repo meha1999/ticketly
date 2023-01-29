@@ -129,7 +129,7 @@ const Tickets = () => {
                       <div className="name">{ticket.name}</div>
                       <div className="further-info">
                         <div className="brand">
-                          {ticket.brand ?? "بدون برند"}
+                          {ticket.branch_category.name ?? "بدون برند"}
                         </div>
                       </div>
                     </div>
@@ -178,7 +178,7 @@ const Tickets = () => {
           </div>
         </div>
       </DashboardLayout>
-      <SeoHead title=" درخواست ها" description="" />
+      <SeoHead title="درخواست ها" description="" />
     </>
   );
 };

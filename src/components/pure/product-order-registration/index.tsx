@@ -183,6 +183,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                 </label>
                 <textarea
                   id="staff_delivery_address"
+                  rows={2}
                   className="address"
                   {...register("staff_delivery_address", { required: true })}
                 ></textarea>
@@ -270,6 +271,8 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                   آدرس تامین کننده:
                 </label>
                 <textarea
+                                  rows={2}
+
                   id="supplier_delivery_address"
                   className="address"
                   placeholder={supplierAddress}

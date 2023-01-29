@@ -1,8 +1,13 @@
+import SeoHead from "components/common/seo-head";
 import DashboardLayout from "components/layouts/dashboard/superuser";
 import { GetServerSideProps } from "next";
 
 const Users = () => {
-  return <DashboardLayout></DashboardLayout>;
+  return (
+    <DashboardLayout>
+      <SeoHead title="کاربران" description="" />
+    </DashboardLayout>
+  );
 };
 
 export default Users;

@@ -98,13 +98,13 @@ const Sidebar = () => {
       icon: BsClipboardCheck,
       subLinks: [],
     },
-    // {
-    //   id: 7,
-    //   title: "کیف پول",
-    //   path: "/customer/dashboard/wallet",
-    //   icon: TfiWallet,
-    //   subLinks: [],
-    // },
+    {
+      id: 7,
+      title: "کیف پول",
+      path: "/customer/dashboard/wallet",
+      icon: TfiWallet,
+      subLinks: [],
+    },
   ];
 
   return (

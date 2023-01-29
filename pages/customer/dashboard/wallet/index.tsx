@@ -3,8 +3,13 @@ import Title from "components/common/title";
 import DashboardLayout from "components/layouts/dashboard/customer";
 import { GetServerSideProps } from "next";
 import wallet_bold from "public/images/icons/wallet_bold.svg";
+import { useSelector } from "react-redux";
+import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
 const Wallet = () => {
+  const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
+    (store) => store.user
+  );
   return (
     <DashboardLayout>
       <Title titleIcon={wallet_bold} titleText="کیف پول" />
@@ -14,12 +19,14 @@ const Wallet = () => {
           <div className="title">{"پرداخت آنلاین داخل کیف پول شخصی شما"}</div>
           <div className="deposit">
             <div className="text">{"موجودی کیف پول شما:"}</div>
-            <div className="amount">{"50.000.000"} تومان</div>
+            <div className="amount">{user?.wallet_account.amount} تومان</div>
           </div>
         </div>
         <div className="add-credit">
           <div className="ready-options">
-            <div className="title">مبلغ مورد نظر خود را در داخل کیف پول خود وارد نمائید:</div>
+            <div className="title">
+              مبلغ مورد نظر خود را در داخل کیف پول خود وارد نمائید:
+            </div>
 
             <div className="options-conatiner">
               <div className="cash-option">

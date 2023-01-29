@@ -24,4 +24,15 @@ export interface UserModel {
   user_permissions: string[];
   shahr: number | null;
   ostan: number | null;
+  wallet_account: {
+    id: number;
+    updated_at: Date;
+    created_at: Date;
+    is_deleted: boolean;
+    account: number;
+    amount: number;
+    max_debt: number;
+    sheba: string | null;
+    sheba_verified: boolean;
+  };
 }

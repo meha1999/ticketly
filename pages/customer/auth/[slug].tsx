@@ -86,7 +86,7 @@ const SignUp = () => {
     try {
       await authService.resendOtp({
         account_id: accountId,
-        platform: signUpValidateType === "email" ? "EMAIL" : "SMS",
+        [signUpValidateType]: getValues(signUpValidateType),
       });
       Toaster.success(
         <ToastComponent
@@ -272,7 +272,7 @@ const Login = () => {
             />
             {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
           </div>
-          <div className="input-container" >
+          <div className="input-container">
             <label htmlFor="">رمز عبور:</label>
             <input
               type="password"

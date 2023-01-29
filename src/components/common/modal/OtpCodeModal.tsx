@@ -33,6 +33,7 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(value);
   const [isCountDownFinished, setIsCountDownFinished] = useState(false);
+  const [resetCounter, setResetCounter] = useState(false);
 
   const [otp, setOtp] = useState({
     first: "",
@@ -40,6 +41,7 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
     third: "",
     forth: "",
   });
+
   const firstInput = useRef<HTMLInputElement>(null);
   const secondInput = useRef<HTMLInputElement>(null);
   const thirdInput = useRef<HTMLInputElement>(null);
@@ -47,6 +49,8 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
 
   const editDetailHandler = () => {
     if (value !== inputValue) onChangeValue(inputValue);
+    handleReset();
+    setResetCounter(!resetCounter);
     setIsEditMode(false);
   };
 
@@ -66,8 +70,7 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
   };
 
   const otpInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 1)
-      setOtp({ ...otp, [e.target.name]: e.target.value });
+    setOtp({ ...otp, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
@@ -99,10 +102,8 @@ const OtpCodeModal: FC<OptCodeModalProps> = ({
     setInputValue(value);
   }, [isOpen, value]);
 
-  const [resetCounter, setResetCounter] = useState(false);
-
   return (
-    <Modal isOpen={isOpen} onClose={onClose} >
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="otp-code-modal-wrapper">
         <div className="title-bar">
           <h5 className="title">تایید {title}</h5>

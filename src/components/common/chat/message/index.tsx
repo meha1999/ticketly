@@ -221,7 +221,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           boxShadow: `0px 10px 20px ${color}35`,
         }}
       >
-        <span>ارسال پیام</span>
+        <span className="text">ارسال پیام</span>
         <Image src={sendMessageIcon} alt="send-message" />
       </button>
     </form>

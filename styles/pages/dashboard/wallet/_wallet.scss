@@ -31,13 +31,31 @@
   }
   .add-credit {
     width: 100%;
+    padding: 45px 0;
     .ready-options {
       display: flex;
       justify-content: flex-end;
-      .options-conatiner{
-        .cash-option{
-          background: #FFFFFF;
-border-radius: 25px;
+      align-items: center;
+      gap: 30px;
+      .title {
+        font-weight: 700;
+        font-size: 14px;
+        color: #00a48a;
+      }
+      .options-conatiner {
+        display: flex;
+        .cash-option {
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          background: #ffffff;
+          border-radius: 25px;
+          font-weight: 700;
+          font-size: 12px;
+          color: #00a48a;
+          padding: 8px 20px;
         }
       }
     }

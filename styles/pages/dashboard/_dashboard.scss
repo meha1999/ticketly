@@ -15,6 +15,9 @@
     display: flex;
     gap: 50px;
     padding: 35px 0 20px 0;
+    @media (max-width: 1350px) {
+   flex-direction: column;
+    }
   }
   .last-requests-container {
     display: flex;
@@ -336,6 +339,8 @@
           border-radius: 25px;
           padding: 10px 30px;
           text-align: center;
+          display: flex;
+          justify-content: center;
         }
       }
       .unread-notification {

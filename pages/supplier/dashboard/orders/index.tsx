@@ -64,7 +64,7 @@ const Orders = () => {
                   isSupplier
                   id={item.id}
                   name={item.name}
-                  manufacturer={""}
+                  manufacturer={item.branch_category.name}
                   image={item.image}
                   brand={item.brand}
                   status={item.status}

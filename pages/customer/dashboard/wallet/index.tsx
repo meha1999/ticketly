@@ -18,7 +18,24 @@ const Wallet = () => {
           </div>
         </div>
         <div className="add-credit">
-          <div className="ready-options"></div>
+          <div className="ready-options">
+            <div className="title">مبلغ مورد نظر خود را در داخل کیف پول خود وارد نمائید:</div>
+
+            <div className="options-conatiner">
+              <div className="cash-option">
+                <div>10.000.000</div>
+                <div>تومان</div>
+              </div>
+              <div className="cash-option">
+                <div>5.000.000</div>
+                <div>تومان</div>
+              </div>
+              <div className="cash-option">
+                <div>1.000.000</div>
+                <div>تومان</div>
+              </div>
+            </div>
+          </div>
           <div className="customize-amount"></div>
         </div>
       </div>

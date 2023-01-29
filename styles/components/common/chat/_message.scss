@@ -39,7 +39,6 @@
       background-color: transparent;
       border: none;
       cursor: pointer;
-
     }
   }
   .content {
@@ -66,5 +65,10 @@
     font-size: 16px;
     color: #ffffff;
     cursor: pointer;
+    @media (max-width: 1400px) {
+      .text {
+        display: none;
+      }
+    }
   }
 }

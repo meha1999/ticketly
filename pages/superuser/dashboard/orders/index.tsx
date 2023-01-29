@@ -37,7 +37,7 @@ const Orders = () => {
               <CustomerOrderCard
                 image={item.image}
                 id={item.id}
-                manufacturer={""}
+                manufacturer={item.branch_category.name}
                 name={item.name}
                 brand={item.brand}
                 price={item.total_price}

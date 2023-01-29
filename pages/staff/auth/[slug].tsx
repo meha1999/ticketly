@@ -86,7 +86,7 @@ const SignUp = () => {
     try {
       await authService.resendOtp({
         account_id: accountId,
-        platform: signUpValidateType === "email" ? "EMAIL" : "SMS",
+        [signUpValidateType]: getValues(signUpValidateType),
       });
       Toaster.success(
         <ToastComponent

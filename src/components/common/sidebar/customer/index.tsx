@@ -75,13 +75,13 @@ const Sidebar = () => {
       subLinks: [
         {
           id: 1,
-          title: "فعال",
-          path: "/customer/dashboard/tickets/sending",
+          title: "در انتظار تایید",
+          path: "/customer/dashboard/tickets/supplying",
         },
         {
           id: 2,
-          title: "در انتظار تایید",
-          path: "/customer/dashboard/tickets/supplying",
+          title: "در حال بررسی",
+          path: "/customer/dashboard/tickets/sending",
         },
 
         {

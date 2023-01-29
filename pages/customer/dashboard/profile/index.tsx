@@ -120,26 +120,36 @@ const Profile = () => {
       );
       return;
     } else {
-      try {
-        const data = {
-          new_password1: resetPass.newPass,
-          new_password2: resetPass.newPassRepeat,
-        };
-        const res = await authService.changePassword(data);
-        if (res.status === 200) {
-          setResetPass({ currentPass: "", newPass: "", newPassRepeat: "" });
-          Toaster.success(
-            <ToastComponent
-              title="موفقیت امیز"
-              description="رمز‌عبور شما با موفقیت تغییر یافت."
-            />
-          );
-        }
-      } catch (error) {
+      if (resetPass.newPass !== resetPass.newPassRepeat) {
         Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
+          <ToastComponent
+            title="پسورد ها نابرابر"
+            description="پسورد جدید و تکرار آن برابر نیستند"
+          />
         );
-      } finally {
+      } else {
+        try {
+          const data = {
+            new_password1: resetPass.newPass,
+            new_password2: resetPass.newPassRepeat,
+            old_password: resetPass.currentPass,
+          };
+          const res = await authService.changePassword(data);
+          if (res.status === 200) {
+            setResetPass({ currentPass: "", newPass: "", newPassRepeat: "" });
+            Toaster.success(
+              <ToastComponent
+                title="موفقیت امیز"
+                description="رمز‌عبور شما با موفقیت تغییر یافت."
+              />
+            );
+          }
+        } catch (error) {
+          Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
+        } finally {
+        }
       }
     }
   };

@@ -148,7 +148,7 @@ const Requests = () => {
                 </div>
                 <div className="tabs">
                   <NavLink href="supplying">در انتظار</NavLink>
-                  <NavLink href="sending">فعال</NavLink>
+                  <NavLink href="sending">در حال بررسی</NavLink>
                   <NavLink href="closed">تکمیل</NavLink>
                 </div>
               </div>

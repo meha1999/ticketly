@@ -241,7 +241,10 @@
                 padding-left: 70px;
                 text-align: center;
                 font-size: 20px;
-                letter-spacing: 5px;
+                letter-spacing: 4px;
+                &::placeholder{
+                  color: #d0d0d0;
+                }
               }
               position: relative;
               z-index: 1;

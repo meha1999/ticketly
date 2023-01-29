@@ -86,7 +86,7 @@ const SignUp = () => {
     try {
       await authService.resendOtp({
         account_id: accountId,
-        platform: signUpValidateType === "email" ? "EMAIL" : "SMS",
+        [signUpValidateType]: getValues(signUpValidateType),
       });
       Toaster.success(
         <ToastComponent
@@ -106,6 +106,11 @@ const SignUp = () => {
     resetField(signUpValidateType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signUpValidateType]);
+
+  const VALIDATION_FA: Record<string, string> = {
+    email: "لطفا ایمیل خود را به درستی وارد نمایید",
+    mobile_phone: "لطفا شماره تلفن خود را به درستی وارد نمایید",
+  };
 
   return (
     <div className="sign-up">
@@ -185,10 +190,17 @@ const SignUp = () => {
               <input
                 id="mobile_phone"
                 type="mobile_phone"
+                placeholder="9120000000"
                 maxLength={10}
-                {...register("mobile_phone", { required: true })}
+                {...register("mobile_phone", {
+                  required: true,
+                  min: 10,
+                })}
               />
             </div>
+          )}
+          {errors[signUpValidateType] && (
+            <p>{VALIDATION_FA[signUpValidateType] || ""}</p>
           )}
         </div>
         <button
@@ -272,7 +284,7 @@ const Login = () => {
             />
             {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
           </div>
-          <div className="input-container" >
+          <div className="input-container">
             <label htmlFor="">رمز عبور:</label>
             <input
               type="password"

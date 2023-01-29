@@ -79,15 +79,16 @@ const Sidebar = () => {
       icon: BiEdit,
       disable: true,
       subLinks: [
+    
         {
           id: 1,
-          title: "فعال",
-          path: "/staff/dashboard/tickets/sending",
+          title: "در انتظار تایید",
+          path: "/staff/dashboard/tickets/supplying",
         },
         {
           id: 2,
-          title: "در انتظار تایید",
-          path: "/staff/dashboard/tickets/supplying",
+          title: "در حال بررسی",
+          path: "/staff/dashboard/tickets/sending",
         },
         {
           id: 3,

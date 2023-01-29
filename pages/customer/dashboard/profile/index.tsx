@@ -132,6 +132,7 @@ const Profile = () => {
           const data = {
             new_password1: resetPass.newPass,
             new_password2: resetPass.newPassRepeat,
+            old_password: resetPass.currentPass,
           };
           const res = await authService.changePassword(data);
           if (res.status === 200) {

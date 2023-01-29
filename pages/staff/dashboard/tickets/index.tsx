@@ -111,7 +111,7 @@ const Requests = () => {
                   href="/staff/dashboard/tickets/sending"
                   className={activeTab === "sending" ? "active" : ""}
                 >
-                  فعال
+                  در حال بررسی
                 </NavLink>
                 <NavLink
                   href="/staff/dashboard/tickets/closed"

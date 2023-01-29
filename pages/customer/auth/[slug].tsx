@@ -107,6 +107,11 @@ const SignUp = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signUpValidateType]);
 
+  const VALIDATION_FA: Record<string, string> = {
+    email: "لطفا ایمیل خود را به درستی وارد نمایید",
+    mobile_phone: "لطفا شماره تلفن خود را به درستی وارد نمایید",
+  };
+
   return (
     <div className="sign-up">
       <form className="form" onSubmit={handleSubmit(signUpUser)}>
@@ -185,10 +190,17 @@ const SignUp = () => {
               <input
                 id="mobile_phone"
                 type="mobile_phone"
+                placeholder="9120000000"
                 maxLength={10}
-                {...register("mobile_phone", { required: true })}
+                {...register("mobile_phone", {
+                  required: true,
+                  min: 10,
+                })}
               />
             </div>
+          )}
+          {errors[signUpValidateType] && (
+            <p>{VALIDATION_FA[signUpValidateType] || ""}</p>
           )}
         </div>
         <button

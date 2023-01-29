@@ -130,9 +130,14 @@ const SignUp = () => {
           <input
             type="text"
             id="username"
-            {...register("username", { required: true })}
+            {...register("username", {
+              required: true,
+              pattern: /[A-Za-z][A-Za-z0-9_]{4,29}$/,
+            })}
           />
-          {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
+          {errors.username && (
+            <p>لطفا نام کاربری خود را به درستی وارد نمایید</p>
+          )}
         </div>
         <div className="password">
           <div className="input-container" style={{ width: "45%" }}>
@@ -280,9 +285,14 @@ const Login = () => {
             <input
               type="text"
               id="username"
-              {...register("username", { required: true })}
+              {...register("username", {
+                required: true,
+                pattern: /[A-Za-z][A-Za-z0-9_]{4,29}$/,
+              })}
             />
-            {errors.username && <p>وارد کردن نام‌ کاربری اجباری است.</p>}
+            {errors.username && (
+              <p>لطفا نام کاربری خود را به درستی  وارد نمایید</p>
+            )}
           </div>
           <div className="input-container">
             <label htmlFor="">رمز عبور:</label>

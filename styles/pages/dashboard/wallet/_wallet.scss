@@ -18,6 +18,7 @@
         font-size: 14px;
       }
       .amount {
+        text-align: center;
         font-weight: 700;
         font-size: 16px;
         line-height: 31px;
@@ -29,6 +30,20 @@
     }
   }
   .add-credit {
-    
+    width: 100%;
+    .ready-options {
+      display: flex;
+      justify-content: flex-end;
+      .options-conatiner{
+        .cash-option{
+          background: #FFFFFF;
+border-radius: 25px;
+        }
+      }
+    }
+    .customize-amount {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }

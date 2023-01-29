@@ -73,10 +73,10 @@ const Create = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedAccessoriesTypeId = +event.target.value;
-    const ajab = branchCategories.find(
+    const selected = branchCategories.find(
       (rootItem) => rootItem.id === selectedAccessoriesTypeId
     );
-    setSelectedAccessoriesType(ajab);
+    setSelectedAccessoriesType(selected.id);
   };
 
   const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -250,7 +250,11 @@ const Create = () => {
         priority: "high",
         description: data.description,
         status: "UNREAD",
-        branch_category: { ...selectedAccessoriesType },
+        branch_category: {
+          ...branchCategories?.find(
+            (rootItem) => rootItem.id === selectedAccessoriesType
+          ),
+        },
         upload_ticket: selectedFiles.map((i: any) => {
           return { id: i.id };
         }),
@@ -339,7 +343,7 @@ const Create = () => {
 
   useEffect(() => {
     setSelectedAccessoriesType(
-      branchCategories?.length ? branchCategories[0] : null
+      branchCategories?.length ? branchCategories[0].id : null
     );
   }, [selectedPartType, branchCategories]);
 

@@ -17,7 +17,10 @@ const Wallet = () => {
             <div className="amount">{"50.000.000"} تومان</div>
           </div>
         </div>
-        <div className="add-credit"></div>
+        <div className="add-credit">
+          <div className="ready-options"></div>
+          <div className="customize-amount"></div>
+        </div>
       </div>
       <Divider />
     </DashboardLayout>

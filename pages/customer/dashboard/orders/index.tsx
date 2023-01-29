@@ -34,7 +34,10 @@ const Orders = () => {
         status,
       });
       Toaster.success(
-        <ToastComponent title="موفقیت آمیز" description="عملیات مورد نظر با موفقیت انجام شد" />
+        <ToastComponent
+          title="موفقیت آمیز"
+          description="عملیات مورد نظر با موفقیت انجام شد"
+        />
       );
       const updatedList = orders.map((order: any) =>
         order.id === order_id ? res.data : order
@@ -64,12 +67,12 @@ const Orders = () => {
             orders?.map((item: any) => (
               <li key={item.id}>
                 <CustomerOrderCard
-                    id={item.id}
-                name={item.name}
-                  manufacturer={""}
+                  id={item.id}
+                  name={item.name}
+                  manufacturer={item.branch_category.name}
                   image={item.image}
                   brand={item.brand}
-                status={item.status}
+                  status={item.status}
                   price={item.total_price}
                   dateAndTime={item.created_at}
                   onClientAction={clientSideActionsHandler}

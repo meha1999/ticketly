@@ -313,12 +313,14 @@ const Profile = () => {
             <div className="form-item">
               <TextInput
                 id="currentPass"
+                type="password"
                 label="رمز عبور فعلی"
                 value={resetPass.currentPass}
                 onChange={resetPasswordHandler}
               />
               <TextInput
                 id="newPass"
+                type="password"
                 label="رمز عبور جدید"
                 value={resetPass.newPass}
                 onChange={resetPasswordHandler}
@@ -327,6 +329,7 @@ const Profile = () => {
             <div className="form-item left">
               <TextInput
                 id="newPassRepeat"
+                type="password"
                 label="تکرار رمز عبور جدید"
                 value={resetPass.newPassRepeat}
                 onChange={resetPasswordHandler}

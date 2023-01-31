@@ -47,6 +47,7 @@ const Profile = () => {
   const [province, setProvince] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [binaryImage, setBinaryImage] = useState<string | Blob | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [userProfile, setUserProfile] = useState<string | ArrayBuffer | null>(
     null
   );
@@ -242,6 +243,7 @@ const Profile = () => {
                 onChange={setProfileDataHandler}
               />
               <TextInput
+                maxLength={11}
                 id="mobile_phone"
                 label="شماره موبایل"
                 value={profileForm.mobile_phone}
@@ -250,6 +252,7 @@ const Profile = () => {
             </div>
             <div className="form-item">
               <TextInput
+                maxLength={10}
                 label="کد ملی"
                 id="national_id"
                 value={profileForm.national_id}
@@ -258,6 +261,7 @@ const Profile = () => {
               <TextInput
                 label="ایمیل"
                 id="email"
+                type="email"
                 value={profileForm.email}
                 onChange={setProfileDataHandler}
               />
@@ -322,6 +326,8 @@ const Profile = () => {
                   label="رمز عبور فعلی"
                   value={resetPass.currentPass}
                   onChange={resetPasswordHandler}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
                 <TextInput
                   id="newPass"
@@ -329,6 +335,8 @@ const Profile = () => {
                   label="رمز عبور جدید"
                   value={resetPass.newPass}
                   onChange={resetPasswordHandler}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
               </div>
               <div className="form-item left">
@@ -338,6 +346,8 @@ const Profile = () => {
                   label="تکرار رمز عبور جدید"
                   value={resetPass.newPassRepeat}
                   onChange={resetPasswordHandler}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
               </div>
             </div>

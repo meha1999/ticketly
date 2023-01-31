@@ -17,6 +17,9 @@ import { JalaliDateTime } from "jalali-date-time";
 import { DATE_TIME_CONFIG } from "src/static/dateConfig";
 import { TicketStatusChoicesEnum } from "src/model/status";
 import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
+import { Toaster } from "components/common/toast/Toaster";
+import ToastComponent from "components/common/toast/ToastComponent";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -45,7 +48,9 @@ const Dashboard = () => {
         (item: any) => item.status === "ANSWERED"
       );
       setTicketList(data.splice(0, 3));
-    } catch (error) {}
+    } catch (error: any) {
+      errorHandler(error);
+    }
   };
 
   useEffect(() => {

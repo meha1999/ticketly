@@ -15,6 +15,7 @@ import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import SeoHead from "components/common/seo-head";
 import { Toaster } from "components/common/toast/Toaster";
 import ToastComponent from "components/common/toast/ToastComponent";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -34,7 +35,8 @@ const Tickets = () => {
         (item: any) => pageConfig[item.status] === query.status
       );
       setTicketList(data);
-    } catch (error) {
+    } catch (error: any) {
+      errorHandler(error);
       setTicketList([]);
     }
   };
@@ -49,13 +51,8 @@ const Tickets = () => {
           description="تیکت شما با موفقیت حذف شد"
         />
       );
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="در حذف تیکت شما مشکلی به وجود آمد"
-        />
-      );
+    } catch (error: any) {
+      errorHandler(error);
     }
   };
 

@@ -9,6 +9,7 @@ import OrdersIcon from "images/icons/orders_icon";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { OrderService } from "services/order.service";
+import errorHandler from "src/tools/error-handler";
 
 const orderService = new OrderService();
 
@@ -19,8 +20,8 @@ const Orders = () => {
     try {
       const res = await orderService.getOrders();
       setOrders(res.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };
@@ -41,13 +42,8 @@ const Orders = () => {
         order.id === order_id ? res.data : order
       );
       setOrders(updatedList);
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title=" ناموفق"
-          description="در ارسال بسته شما مشکلی به وجود امد"
-        />
-      );
+    } catch (error: any) {
+      errorHandler(error);
     }
   };
 

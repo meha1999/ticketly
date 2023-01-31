@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { TicketService } from "services/ticket.service";
 import ToastComponent from "../toast/ToastComponent";
 import { Toaster } from "../toast/Toaster";
+import errorHandler from "src/tools/error-handler";
 
 const dateTimeConfig = {
   timezone: "Asia/Tehran",
@@ -65,8 +66,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     try {
       const res = await ticketService.getTicketById(ticketId);
       setTicketInfo(res.data);
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };

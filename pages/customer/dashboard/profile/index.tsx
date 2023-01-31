@@ -15,7 +15,7 @@ import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import SeoHead from "components/common/seo-head";
-import { useForm } from "react-hook-form";
+import errorHandler from "src/tools/error-handler";
 
 interface ProfileFormState {
   full_name: string;
@@ -36,7 +36,6 @@ const profileService = new ProfileService();
 const authService = new AuthService();
 
 const Profile = () => {
-  const formHandler = useForm();
   const [profileForm, setProfileForm] = useState<Partial<ProfileFormState>>({});
   const [resetPass, setResetPass] = useState<ChangePassState>({
     currentPass: "",
@@ -87,8 +86,8 @@ const Profile = () => {
           description="اطلاعات شما با موفقیت ویرایش شد"
         />
       );
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -133,8 +132,7 @@ const Profile = () => {
       } else {
         try {
           const data = {
-            new_password1: resetPass.newPass,
-            new_password2: resetPass.newPassRepeat,
+            new_password: resetPass.newPass,
             old_password: resetPass.currentPass,
           };
           const res = await authService.changePassword(data);
@@ -147,10 +145,8 @@ const Profile = () => {
               />
             );
           }
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
         }
       }
@@ -162,10 +158,8 @@ const Profile = () => {
       try {
         const provinceRes = await profileService.getProvince();
         setProvince(provinceRes.data);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        errorHandler(error);
       }
     };
     getProvince();
@@ -179,10 +173,8 @@ const Profile = () => {
             profileForm.ostan ?? 8
           );
           setCities(citiesRes.data.shahrs);
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         }
       };
       getCities();
@@ -229,10 +221,7 @@ const Profile = () => {
         <div className="profile-page-wrapper">
           <Title titleIcon={ProfileBold} titleText="پروفایل" />
           <Divider />
-          <form
-            className="user-profile-form"
-            onSubmit={formHandler.handleSubmit((data) => console.log(data))}
-          >
+          <form className="user-profile-form" onSubmit={submitProfileForm}>
             <div className="form-item">
               <ImageInput
                 id="photo"

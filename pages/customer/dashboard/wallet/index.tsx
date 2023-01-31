@@ -1,6 +1,8 @@
 import Divider from "components/common/divider";
 import SeoHead from "components/common/seo-head";
 import Title from "components/common/title";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 import DashboardLayout from "components/layouts/dashboard/customer";
 import { GetServerSideProps } from "next";
 import wallet_bold from "public/images/icons/wallet_bold.svg";
@@ -8,6 +10,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { WalletService } from "services/wallet.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import errorHandler from "src/tools/error-handler";
 
 const walletService = new WalletService();
 
@@ -23,8 +26,8 @@ const Wallet = () => {
     try {
       const res = await walletService.getDepositeTransaction();
       setDepositTransactions(res.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      errorHandler(error);
     }
   };
 

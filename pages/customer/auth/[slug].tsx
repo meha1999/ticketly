@@ -15,6 +15,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import OtpCodeModal from "components/common/modal/OtpCodeModal";
 import SeoHead from "components/common/seo-head";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 const authService = new AuthService();
 
@@ -30,6 +31,7 @@ const SignUp = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isValidateModalOpen, setIsValidateModalOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [signUpValidateType, setSignUpValidateType] = useState<
     "email" | "mobile_phone"
   >("email");
@@ -120,6 +122,7 @@ const SignUp = () => {
           <input
             type="text"
             id="full_name"
+            aria-invalid={!!errors.full_name}
             {...register("full_name", { required: true })}
           />
           {errors.full_name && <p>وارد کردن نام و نام خانوادگی اجباری است.</p>}
@@ -130,6 +133,7 @@ const SignUp = () => {
           <input
             type="text"
             id="username"
+            aria-invalid={!!errors.username}
             {...register("username", {
               required: true,
               pattern: /[A-Za-z][A-Za-z0-9_]{4,29}$/,
@@ -143,19 +147,36 @@ const SignUp = () => {
           <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="password">رمز عبور:</label>
             <input
-              type="password"
               id="password"
-              {...register("password", { required: true })}
+              aria-invalid={!!errors.password}
+              type={showPassword ? "text" : "password"}
+              {...register("password", { min: 8, required: true })}
             />
             {errors.password && <p>وارد کردن رمز عبور اجباری است.</p>}
+            {showPassword ? (
+              <BsEye onClick={() => setShowPassword(false)} />
+            ) : (
+              <BsEyeSlash onClick={() => setShowPassword(true)} />
+            )}
           </div>
           <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="rePassword">تکرار رمز عبور:</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="rePassword"
-              {...register("rePassword", { required: true })}
+              aria-invalid={!!errors.rePassword}
+              {...register("rePassword", {
+                min: 8,
+                required: true,
+                deps: ["password"],
+              })}
             />
+            {errors.rePassword && <p>وارد کردن رمز عبور اجباری است.</p>}
+            {showPassword ? (
+              <BsEye onClick={() => setShowPassword(false)} />
+            ) : (
+              <BsEyeSlash onClick={() => setShowPassword(true)} />
+            )}
           </div>
         </div>
         <div className="login-with-google">
@@ -188,7 +209,8 @@ const SignUp = () => {
             <input
               id="email"
               type="email"
-              {...register("email", { required: true })}
+              aria-invalid={!!errors.email}
+              {...register("email", { required: true, min: 8 })}
             />
           ) : (
             <div className="phone">
@@ -197,6 +219,7 @@ const SignUp = () => {
                 type="mobile_phone"
                 placeholder="9120000000"
                 maxLength={10}
+                aria-invalid={!!errors.mobile_phone}
                 {...register("mobile_phone", {
                   required: true,
                   min: 10,
@@ -239,6 +262,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
 
   const loginUser = async (data: FieldValues) => {
@@ -285,22 +309,29 @@ const Login = () => {
             <input
               type="text"
               id="username"
+              aria-invalid={!!errors.username}
               {...register("username", {
                 required: true,
                 pattern: /[A-Za-z][A-Za-z0-9_]{4,29}$/,
               })}
             />
             {errors.username && (
-              <p>لطفا نام کاربری خود را به درستی  وارد نمایید</p>
+              <p>لطفا نام کاربری خود را به درستی وارد نمایید</p>
             )}
           </div>
           <div className="input-container">
             <label htmlFor="">رمز عبور:</label>
             <input
-              type="password"
               id="password"
-              {...register("password", { required: true })}
+              aria-invalid={!!errors.password}
+              type={showPassword ? "text" : "password"}
+              {...register("password", { required: true, min: 8 })}
             />
+            {showPassword ? (
+              <BsEye onClick={() => setShowPassword(false)} />
+            ) : (
+              <BsEyeSlash onClick={() => setShowPassword(true)} />
+            )}
             {errors.password && <p>وارد کردن رمز عبور اجباری است.</p>}
           </div>
           <div className="login-with-google">

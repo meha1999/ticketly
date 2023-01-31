@@ -1,6 +1,7 @@
 .input-label-wrap {
   width: 100%;
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: space-between;
 
@@ -17,5 +18,10 @@
     &.full {
       width: 100%;
     }
+  }
+  svg {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
   }
 }

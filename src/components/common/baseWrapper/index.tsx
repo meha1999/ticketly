@@ -6,6 +6,9 @@ import { useCallback, useEffect } from "react";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { NotificationService } from "services/notification.service";
 import { useDispatch } from "react-redux";
+import { Toaster } from "../toast/Toaster";
+import ToastComponent from "../toast/ToastComponent";
+import errorHandler from "src/tools/error-handler";
 
 const notificationService = new NotificationService();
 
@@ -27,8 +30,8 @@ const BaseWrapper = ({ Component, pageProps }: any) => {
         type: REDUX_ACTION.SET_NOTIFICATION,
         payload: res.data,
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      errorHandler(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath.includes("dashboard")]);

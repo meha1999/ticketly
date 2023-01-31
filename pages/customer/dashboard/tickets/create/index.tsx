@@ -24,6 +24,7 @@ import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
 import SeoHead from "components/common/seo-head";
 import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 const chatService = new ChatService();
@@ -107,10 +108,8 @@ const Create = () => {
               description="فایل شما با موفقیت آپلود شد."
             />
           );
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
           setLoading("");
         }
@@ -157,8 +156,8 @@ const Create = () => {
           description="فایل شما با موفقیت آپلود شد."
         />
       );
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading("");
     }
@@ -191,10 +190,8 @@ const Create = () => {
               description="عکس شما با موفقیت آپلود شد."
             />
           );
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
           setLoading("");
         }
@@ -238,10 +235,8 @@ const Create = () => {
               description="ویدیو شما با موفقیت آپلود شد."
             />
           );
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
           setLoading("");
         }
@@ -271,9 +266,8 @@ const Create = () => {
           />
         );
       }
-    } catch (error) {
-      console.log(error);
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };
@@ -306,19 +300,8 @@ const Create = () => {
           />
         );
       }
-    } catch (err: any) {
-      if (err.response.status === 406) {
-        Toaster.error(
-          <ToastComponent
-            title="ناموفق"
-            description="شما به حد مجاز ثبت تیکت رسیده‌اید."
-          />
-        );
-      } else {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
-      }
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };
@@ -348,8 +331,8 @@ const Create = () => {
           <ToastComponent title="ناموفق" description="خطای سرور" />
         );
       }
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       reset();
     }
@@ -363,10 +346,8 @@ const Create = () => {
         setSelectedRoot(res.data[0].id);
         setTrunkCategories(res.data[0].trunk_root);
         setBranchCategories(res.data[0].trunk_root[0].branch_trunk);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        errorHandler(error);
       }
     };
     getCategories();

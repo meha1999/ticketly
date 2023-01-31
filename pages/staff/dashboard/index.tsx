@@ -21,6 +21,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import { BsCheckLg } from "react-icons/bs";
 import { DATE_TIME_CONFIG } from "src/static/dateConfig";
+import errorHandler from "src/tools/error-handler";
 
 const userType: Record<string, string> = {
   staff: "#5E7BEC",
@@ -45,7 +46,9 @@ const Dashboard = () => {
         (item: any) => item.status === "UNREAD"
       );
       setTicketList(data.splice(0, 3));
-    } catch (error) {}
+    } catch (error: any) {
+      errorHandler(error);
+    }
   };
 
   const handleOpenChat = (groupId: string, ticketId: string) => {
@@ -69,8 +72,8 @@ const Dashboard = () => {
       );
       const newList = ticketList.filter((item: any) => item.id !== ticket.id);
       setTicketList(newList);
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     }
   };
 

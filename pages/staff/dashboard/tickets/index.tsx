@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { Toaster } from "components/common/toast/Toaster";
 import { NavLink } from "src/tools/NavLink";
 import ToastComponent from "components/common/toast/ToastComponent";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -42,7 +43,9 @@ const Requests = () => {
       );
       setNewTickets(unreadTickets.length);
       setTicketList(ticketRes.data);
-    } catch (error) {}
+    } catch (error: any) {
+      errorHandler(error);
+    }
   };
 
   useEffect(() => {
@@ -70,10 +73,8 @@ const Requests = () => {
           item.id === ticket.id ? res.data : item
         );
         setTicketList(newList);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        errorHandler(error);
       }
     }
   };

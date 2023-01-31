@@ -15,6 +15,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import OtpCodeModal from "components/common/modal/OtpCodeModal";
 import SeoHead from "components/common/seo-head";
+import errorHandler from "src/tools/error-handler";
 
 const authService = new AuthService();
 
@@ -48,8 +49,8 @@ const SignUp = () => {
       );
       setAccountId(+res.data.id);
       setIsValidateModalOpen(true);
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -72,10 +73,8 @@ const SignUp = () => {
         />
       );
       setIsValidateModalOpen(false);
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent title="ناموفق" description="کد وارد شده اشتباه است." />
-      );
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -94,10 +93,8 @@ const SignUp = () => {
           description="کد ورود برای شما ارسال شد"
         />
       );
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent title="ناموفق" description="کد وارد شده اشتباه است." />
-      );
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -260,10 +257,8 @@ const Login = () => {
       });
       setLoading(false);
       router.push("/customer/dashboard");
-    } catch (err: any) {
-      Toaster.error(
-        <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
-      );
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setBtnLoading(false);
       setLoading(false);
@@ -291,7 +286,7 @@ const Login = () => {
               })}
             />
             {errors.username && (
-              <p>لطفا نام کاربری خود را به درستی  وارد نمایید</p>
+              <p>لطفا نام کاربری خود را به درستی وارد نمایید</p>
             )}
           </div>
           <div className="input-container">

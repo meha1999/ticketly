@@ -20,6 +20,7 @@ import SeoHead from "components/common/seo-head";
 import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
 import { TicketStatusChoicesEnum } from "src/model/status";
 import { useEventSource } from "react-use-websocket";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -53,7 +54,9 @@ const Requests = () => {
       );
       setNewTickets(unreadTickets.length);
       setTicketList(data);
-    } catch (error) {}
+    } catch (error: any) {
+      errorHandler(error);
+    }
   };
 
   useEffect(() => {
@@ -87,10 +90,8 @@ const Requests = () => {
         );
         const newList = ticketList.filter((item: any) => item.id !== ticket.id);
         setTicketList(newList);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        errorHandler(error);
       }
     }
     if (ticket.status !== "CLOSED " && ticket.status !== "UNREAD") {
@@ -106,10 +107,8 @@ const Requests = () => {
         );
         const newList = ticketList.filter((item: any) => item.id !== ticket.id);
         setTicketList(newList);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطایی در سرور بروز داد" />
-        );
+      } catch (error: any) {
+        errorHandler(error);
       }
     }
   };

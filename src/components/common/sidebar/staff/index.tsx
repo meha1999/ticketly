@@ -14,6 +14,7 @@ import { SiHackthebox } from "react-icons/si";
 import { GrContactInfo } from "react-icons/gr";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import errorHandler from "src/tools/error-handler";
 
 const authService = new AuthService();
 
@@ -24,8 +25,8 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await authService.logout();
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       deleteCookie("role");
       deleteCookie("token");
@@ -79,7 +80,6 @@ const Sidebar = () => {
       icon: BiEdit,
       disable: true,
       subLinks: [
-    
         {
           id: 1,
           title: "در انتظار تایید",

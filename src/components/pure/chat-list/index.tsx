@@ -9,6 +9,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -57,8 +58,8 @@ const ChatList: React.FC<ChatListProps> = ({
           )
       );
       setSuppliersList(finalData);
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };
@@ -97,10 +98,8 @@ const ChatList: React.FC<ChatListProps> = ({
         await ticketService.addSuppliersToGroup(group.id, finalData);
         onAddSuplier();
         handleCancel();
-      } catch (err) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        errorHandler(error);
       } finally {
         setSelectedSuppliers([]);
       }

@@ -11,6 +11,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import VideoUpload from "images/icons/video_uplaod";
 import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
+import errorHandler from "src/tools/error-handler";
 
 const chatService = new ChatService();
 
@@ -42,8 +43,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       };
       const response = await chatService.upload(data, config);
       onSend(response.data.id, "voice");
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     }
   };
 
@@ -65,10 +66,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           onSend(response.data.id, "file");
           e.target.files = null;
           e.target.value = "";
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
         }
       } else {
@@ -101,10 +100,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           onSend(response.data.id, "image");
           e.target.files = null;
           e.target.value = "";
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
         }
       } else {
@@ -137,10 +134,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           onSend(response.data.id, "video");
           e.target.files = null;
           e.target.value = "";
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
         }
       } else {

@@ -16,6 +16,7 @@ import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import SeoHead from "components/common/seo-head";
+import errorHandler from "src/tools/error-handler";
 
 const chatService = new ChatService();
 const ticketService = new TicketService();
@@ -46,8 +47,8 @@ const Chat = () => {
     try {
       const res = await chatService.allChats(ticketId);
       setMessageHistory(res.data);
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };
@@ -66,8 +67,8 @@ const Chat = () => {
 
       setCustomerTicket(mechanics.length ? mechanics[0] : {});
       setSuppliersTicket(suppliers);
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setSubmittedOrder(false);
     }

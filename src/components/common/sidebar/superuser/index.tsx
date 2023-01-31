@@ -13,6 +13,7 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import errorHandler from "src/tools/error-handler";
 
 const authService = new AuthService();
 
@@ -22,13 +23,9 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await authService.logout();
-    } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+    } catch (error: any) {
+      errorHandler(error);
+    } finally {
       deleteCookie("role");
       deleteCookie("token");
       dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });

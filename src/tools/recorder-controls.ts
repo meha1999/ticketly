@@ -1,8 +1,12 @@
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 import { SetRecorder } from "src/model/recorder";
 
 export async function startRecording(setRecorderState: SetRecorder) {
   try {
-    const stream: MediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const stream: MediaStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
 
     setRecorderState((prevState) => {
       return {

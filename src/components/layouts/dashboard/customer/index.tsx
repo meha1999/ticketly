@@ -1,5 +1,7 @@
 import Header from "components/common/header";
 import Sidebar from "components/common/sidebar/customer";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 import { GetServerSideProps } from "next";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +9,7 @@ import { useEventSource } from "react-use-websocket";
 import { NotificationService } from "services/notification.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import errorHandler from "src/tools/error-handler";
 
 const notificationService = new NotificationService();
 
@@ -35,7 +38,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     try {
       const res = await notificationService.getNotifications();
       console.log(res);
-    } catch (error) {
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
     // dispatch({

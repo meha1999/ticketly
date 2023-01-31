@@ -15,6 +15,7 @@ import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import SeoHead from "components/common/seo-head";
+import errorHandler from "src/tools/error-handler";
 
 interface ProfileFormState {
   full_name: string;
@@ -84,8 +85,8 @@ const Profile = () => {
           description="اطلاعات شما با موفقیت ویرایش شد"
         />
       );
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -133,7 +134,6 @@ const Profile = () => {
             new_password1: resetPass.newPass,
             new_password2: resetPass.newPassRepeat,
             old_password: resetPass.currentPass,
-
           };
           const res = await authService.changePassword(data);
           if (res.status === 200) {
@@ -145,10 +145,8 @@ const Profile = () => {
               />
             );
           }
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         } finally {
         }
       }
@@ -160,10 +158,8 @@ const Profile = () => {
       try {
         const provinceRes = await profileService.getProvince();
         setProvince(provinceRes.data);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        errorHandler(error);
       }
     };
     getProvince();
@@ -177,10 +173,8 @@ const Profile = () => {
             profileForm.ostan ?? 8
           );
           setCities(citiesRes.data.shahrs);
-        } catch (error) {
-          Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+        } catch (error: any) {
+          errorHandler(error);
         }
       };
       getCities();

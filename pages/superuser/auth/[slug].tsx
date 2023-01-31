@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Toaster } from "components/common/toast/Toaster";
 import ToastComponent from "components/common/toast/ToastComponent";
 import SeoHead from "components/common/seo-head";
+import errorHandler from "src/tools/error-handler";
 
 const authService = new AuthService();
 
@@ -46,10 +47,8 @@ const Login = () => {
       });
       setLoading(false);
       router.push("/superuser/dashboard");
-    } catch (err: any) {
-      Toaster.error(
-        <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
-      );
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setBtnLoading(false);
       setLoading(false);
@@ -91,12 +90,12 @@ const Login = () => {
           </div>
           <div className="login-with-google">
             <div className="line"></div>
-            <span style={{ fontSize: 16 }} >یا</span>
+            <span style={{ fontSize: 16 }}>یا</span>
             <div className="line"></div>
           </div>
           <div className="google">
             <Image src={googleLogo} alt="google" />
-            <span style={{ fontSize: 14 }} >ورود با گوگل</span>
+            <span style={{ fontSize: 14 }}>ورود با گوگل</span>
           </div>
           <button
             type="submit"

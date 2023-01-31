@@ -39,7 +39,7 @@ const ImageInput: FC<ImageInputProps> = ({
             name={id}
             type="file"
             onChange={onChange}
-            accept=".jpg, .png, .jpeg, .webp"
+            accept=".jpg, .png, .jpeg, "
           />
         </label>
       </div>

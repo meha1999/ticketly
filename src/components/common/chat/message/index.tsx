@@ -208,7 +208,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
             type="file"
             className="file-input"
             title="آپلود فایل"
-            accept=".rar, .zip, .txt, .pdf, .docx , .xlsx , .mp4 ,.mov , .mp3,. png, .jpg, .jpeg , .webp, .mkv, .gif "
+            accept=".rar, .zip, .txt, .pdf, .docx , .xlsx , .mp4 ,.mov , .mp3,. png, .jpg, .jpeg , .mkv, .gif "
             onChange={handleFileUpload}
           />
         </div>
@@ -221,7 +221,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           <input
             type="file"
             id="photo"
-            accept=".png, .jpg, .jpeg , .webp"
+            accept=".png, .jpg, .jpeg "
             className="file-input"
             title="آپلود تصویر"
             onChange={handlePhotoUpload}

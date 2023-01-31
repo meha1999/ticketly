@@ -65,6 +65,6 @@ export class AuthService extends BaseService {
   }
 
   changePassword(data: any) {
-    return this.axiosInstanceWithToken.post("/auth/password/change/", data);
+    return this.axiosInstanceWithToken.put("/account/user/password-change/", data);
   }
 }

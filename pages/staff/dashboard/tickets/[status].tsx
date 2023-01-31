@@ -87,10 +87,19 @@ const Requests = () => {
         );
         const newList = ticketList.filter((item: any) => item.id !== ticket.id);
         setTicketList(newList);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        Object.keys(error?.response?.data).length
+          ? Object.keys(error?.response?.data).map((item) => {
+              Toaster.error(
+                <ToastComponent
+                  title={item}
+                  description={error?.response?.data[item]}
+                />
+              );
+            })
+          : Toaster.error(
+              <ToastComponent title="ناموفق" description="خطای سرور" />
+            );
       }
     }
     if (ticket.status !== "CLOSED " && ticket.status !== "UNREAD") {
@@ -106,10 +115,19 @@ const Requests = () => {
         );
         const newList = ticketList.filter((item: any) => item.id !== ticket.id);
         setTicketList(newList);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطایی در سرور بروز داد" />
-        );
+      } catch (error: any) {
+        Object.keys(error?.response?.data).length
+          ? Object.keys(error?.response?.data).map((item) => {
+              Toaster.error(
+                <ToastComponent
+                  title={item}
+                  description={error?.response?.data[item]}
+                />
+              );
+            })
+          : Toaster.error(
+              <ToastComponent title="ناموفق" description="خطای سرور" />
+            );
       }
     }
   };

@@ -57,8 +57,19 @@ const ChatList: React.FC<ChatListProps> = ({
           )
       );
       setSuppliersList(finalData);
-    } catch (error) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     } finally {
     }
   };
@@ -97,10 +108,19 @@ const ChatList: React.FC<ChatListProps> = ({
         await ticketService.addSuppliersToGroup(group.id, finalData);
         onAddSuplier();
         handleCancel();
-      } catch (err) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        Object.keys(error?.response?.data).length
+          ? Object.keys(error?.response?.data).map((item) => {
+              Toaster.error(
+                <ToastComponent
+                  title={item}
+                  description={error?.response?.data[item]}
+                />
+              );
+            })
+          : Toaster.error(
+              <ToastComponent title="ناموفق" description="خطای سرور" />
+            );
       } finally {
         setSelectedSuppliers([]);
       }

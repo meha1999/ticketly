@@ -65,8 +65,19 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     try {
       const res = await ticketService.getTicketById(ticketId);
       setTicketInfo(res.data);
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     } finally {
     }
   };

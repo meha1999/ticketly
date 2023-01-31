@@ -43,13 +43,19 @@ const Orders = () => {
         order.id === order_id ? res.data : order
       );
       setOrders(updatedList);
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title=" ناموفق"
-          description="در انجام عملیات مورد نظر شما مشکلی به وجود امد"
-        />
-      );
+    } catch (error :any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     }
   };
 

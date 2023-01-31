@@ -49,13 +49,19 @@ const Tickets = () => {
           description="تیکت شما با موفقیت حذف شد"
         />
       );
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="در حذف تیکت شما مشکلی به وجود آمد"
-        />
-      );
+    } catch (error :any) {
+      Object.keys(error?.response?.data).length
+      ? Object.keys(error?.response?.data).map((item) => {
+          Toaster.error(
+            <ToastComponent
+              title={item}
+              description={error?.response?.data[item]}
+            />
+          );
+        })
+      : Toaster.error(
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );
     }
   };
 

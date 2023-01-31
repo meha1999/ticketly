@@ -70,10 +70,19 @@ const Requests = () => {
           item.id === ticket.id ? res.data : item
         );
         setTicketList(newList);
-      } catch (error) {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+      } catch (error: any) {
+        Object.keys(error?.response?.data).length
+          ? Object.keys(error?.response?.data).map((item) => {
+              Toaster.error(
+                <ToastComponent
+                  title={item}
+                  description={error?.response?.data[item]}
+                />
+              );
+            })
+          : Toaster.error(
+              <ToastComponent title="ناموفق" description="خطای سرور" />
+            );
       }
     }
   };

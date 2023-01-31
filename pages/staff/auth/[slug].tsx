@@ -48,8 +48,19 @@ const SignUp = () => {
       );
       setAccountId(+res.data.id);
       setIsValidateModalOpen(true);
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     } finally {
       setLoading(false);
     }
@@ -72,10 +83,19 @@ const SignUp = () => {
         />
       );
       setIsValidateModalOpen(false);
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent title="ناموفق" description="کد وارد شده اشتباه است." />
-      );
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     } finally {
       setLoading(false);
     }
@@ -94,10 +114,19 @@ const SignUp = () => {
           description="کد ورود برای شما ارسال شد"
         />
       );
-    } catch (error) {
-      Toaster.error(
-        <ToastComponent title="ناموفق" description="کد وارد شده اشتباه است." />
-      );
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     } finally {
       setLoading(false);
     }
@@ -144,7 +173,7 @@ const SignUp = () => {
             />
             {errors.password && <p>وارد کردن رمز عبور اجباری است.</p>}
           </div>
-          <div className="input-container"  style={{ width: "45%" }}>
+          <div className="input-container" style={{ width: "45%" }}>
             <label htmlFor="rePassword">تکرار رمز عبور:</label>
             <input
               type="password"
@@ -246,10 +275,19 @@ const Login = () => {
       });
       setLoading(false);
       router.push("/staff/dashboard");
-    } catch (err: any) {
-      Toaster.error(
-        <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
-      );
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     } finally {
       setBtnLoading(false);
       setLoading(false);

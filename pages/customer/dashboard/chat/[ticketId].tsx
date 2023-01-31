@@ -46,9 +46,19 @@ const Chat = () => {
     try {
       const res = await chatService.allChats(router.query.ticketId);
       setMessageHistory(res.data);
-    } catch (err) {
-      Toaster.error(<ToastComponent title="ناموفق" description="خطای سرور" />);
-    } finally {
+    } catch (err :any) {
+      Object.keys(err?.response?.data).length
+      ? Object.keys(err?.response?.data).map((item) => {
+          Toaster.error(
+            <ToastComponent
+              title={item}
+              description={err?.response?.data[item]}
+            />
+          );
+        })
+      : Toaster.error(
+          <ToastComponent title="ناموفق" description="خطای سرور" />
+        );    } finally {
     }
   };
 

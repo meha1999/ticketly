@@ -100,9 +100,18 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
       if (error.response.status == 406) {
         setPaymentStatus("failure");
       } else {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+        Object.keys(error?.response?.data).length
+          ? Object.keys(error?.response?.data).map((item) => {
+              Toaster.error(
+                <ToastComponent
+                  title={item}
+                  description={error?.response?.data[item]}
+                />
+              );
+            })
+          : Toaster.error(
+              <ToastComponent title="ناموفق" description="خطای سرور" />
+            );
       }
     }
     setIsPaymentOpen(false);
@@ -271,8 +280,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                   آدرس تامین کننده:
                 </label>
                 <textarea
-                                  rows={2}
-
+                  rows={2}
                   id="supplier_delivery_address"
                   className="address"
                   placeholder={supplierAddress}

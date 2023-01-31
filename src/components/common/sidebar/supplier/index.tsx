@@ -24,13 +24,20 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await authService.logout();
-    } catch (err) {
-      Toaster.error(
-        <ToastComponent
-          title="ناموفق"
-          description="خطای سرور"
-        />
-      );    } finally {
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
+    } finally {
       deleteCookie("role");
       deleteCookie("token");
       dispatch({ type: REDUX_ACTION.EMPTY_TOKEN });

@@ -46,10 +46,19 @@ const Login = () => {
       });
       setLoading(false);
       router.push("/superuser/dashboard");
-    } catch (err: any) {
-      Toaster.error(
-        <ToastComponent title="خطایی در وارد شدن شما بروز داده است" />
-      );
+    } catch (error: any) {
+      Object.keys(error?.response?.data).length
+        ? Object.keys(error?.response?.data).map((item) => {
+            Toaster.error(
+              <ToastComponent
+                title={item}
+                description={error?.response?.data[item]}
+              />
+            );
+          })
+        : Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
     } finally {
       setBtnLoading(false);
       setLoading(false);
@@ -91,12 +100,12 @@ const Login = () => {
           </div>
           <div className="login-with-google">
             <div className="line"></div>
-            <span style={{ fontSize: 16 }} >یا</span>
+            <span style={{ fontSize: 16 }}>یا</span>
             <div className="line"></div>
           </div>
           <div className="google">
             <Image src={googleLogo} alt="google" />
-            <span style={{ fontSize: 14 }} >ورود با گوگل</span>
+            <span style={{ fontSize: 14 }}>ورود با گوگل</span>
           </div>
           <button
             type="submit"

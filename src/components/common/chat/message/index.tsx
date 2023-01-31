@@ -10,6 +10,7 @@ import { UseRecorder } from "src/model/recorder";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import VideoUpload from "images/icons/video_uplaod";
+import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
 
 const chatService = new ChatService();
 
@@ -61,32 +62,44 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
-      try {
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("file_type", "FILE");
+      const isValid = checkFileInputValidation(e.target.files[0].name, "file");
+      if (isValid) {
+        try {
+          const data = new FormData();
+          data.append("file", e.target.files[0]);
+          data.append("file_type", "FILE");
 
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
-        const response = await chatService.upload(data, config);
-        onSend(response.data.id, "file");
+          const config = {
+            headers: { "content-type": "multipart/form-data" },
+          };
+          const response = await chatService.upload(data, config);
+          onSend(response.data.id, "file");
+          e.target.files = null;
+          e.target.value = "";
+        } catch (error: any) {
+          Object.keys(error?.response?.data).length
+            ? Object.keys(error?.response?.data).map((item) => {
+                Toaster.error(
+                  <ToastComponent
+                    title={item}
+                    description={error?.response?.data[item]}
+                  />
+                );
+              })
+            : Toaster.error(
+                <ToastComponent title="ناموفق" description="خطای سرور" />
+              );
+        } finally {
+        }
+      } else {
         e.target.files = null;
         e.target.value = "";
-      } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="لطفا فایل تایپ مناسب اپلود نمایید"
+          />
+        );
       }
     }
   };
@@ -95,31 +108,43 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
-      try {
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("file_type", "IMAGE");
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
-        const response = await chatService.upload(data, config);
-        onSend(response.data.id, "image");
+      const isValid = checkFileInputValidation(e.target.files[0].name, "image");
+      if (isValid) {
+        try {
+          const data = new FormData();
+          data.append("file", e.target.files[0]);
+          data.append("file_type", "IMAGE");
+          const config = {
+            headers: { "content-type": "multipart/form-data" },
+          };
+          const response = await chatService.upload(data, config);
+          onSend(response.data.id, "image");
+          e.target.files = null;
+          e.target.value = "";
+        } catch (error: any) {
+          Object.keys(error?.response?.data).length
+            ? Object.keys(error?.response?.data).map((item) => {
+                Toaster.error(
+                  <ToastComponent
+                    title={item}
+                    description={error?.response?.data[item]}
+                  />
+                );
+              })
+            : Toaster.error(
+                <ToastComponent title="ناموفق" description="خطای سرور" />
+              );
+        } finally {
+        }
+      } else {
         e.target.files = null;
         e.target.value = "";
-      } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="لطفا فایل تایپ مناسب اپلود نمایید"
+          />
+        );
       }
     }
   };
@@ -128,31 +153,43 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
-      try {
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("file_type", "VIDEO");
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
-        const response = await chatService.upload(data, config);
-        onSend(response.data.id, "video");
+      const isValid = checkFileInputValidation(e.target.files[0].name, "video");
+      if (isValid) {
+        try {
+          const data = new FormData();
+          data.append("file", e.target.files[0]);
+          data.append("file_type", "VIDEO");
+          const config = {
+            headers: { "content-type": "multipart/form-data" },
+          };
+          const response = await chatService.upload(data, config);
+          onSend(response.data.id, "video");
+          e.target.files = null;
+          e.target.value = "";
+        } catch (error: any) {
+          Object.keys(error?.response?.data).length
+            ? Object.keys(error?.response?.data).map((item) => {
+                Toaster.error(
+                  <ToastComponent
+                    title={item}
+                    description={error?.response?.data[item]}
+                  />
+                );
+              })
+            : Toaster.error(
+                <ToastComponent title="ناموفق" description="خطای سرور" />
+              );
+        } finally {
+        }
+      } else {
         e.target.files = null;
         e.target.value = "";
-      } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
-      } finally {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="لطفا فایل تایپ مناسب اپلود نمایید"
+          />
+        );
       }
     }
   };
@@ -185,6 +222,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       <div className="tools">
         <button
           type="button"
+          title="ضبط صوت"
           className="tool_btn"
           onClick={() => {
             !recorderState.initRecording
@@ -207,7 +245,8 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
             id="file-input"
             type="file"
             className="file-input"
-            title=""
+            title="آپلود فایل"
+            accept=".rar, .zip, .txt, .pdf, .docx , .xlsx , .mp4 ,.mov , .mp3,. png, .jpg, .jpeg , .webp, .mkv, .gif "
             onChange={handleFileUpload}
           />
         </div>
@@ -220,9 +259,9 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           <input
             type="file"
             id="photo"
-            accept=".png, .jpg, .jpeg"
+            accept=".png, .jpg, .jpeg , .webp"
             className="file-input"
-            title=""
+            title="آپلود تصویر"
             onChange={handlePhotoUpload}
           />
         </div>
@@ -235,9 +274,9 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           <input
             type="file"
             id="video"
-            accept="video/*"
+            accept=".mkv, .mp4 ,.mov"
             className="file-input"
-            title=""
+            title="آپلود ویدیو"
             onChange={handleVideoUpload}
           />
         </div>

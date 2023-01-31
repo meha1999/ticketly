@@ -23,6 +23,7 @@ import { Toaster } from "components/common/toast/Toaster";
 import useRecorder from "src/tools/custom-hooks/use-recorder";
 import { UseRecorder } from "src/model/recorder";
 import SeoHead from "components/common/seo-head";
+import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
 
 const ticketService = new TicketService();
 const chatService = new ChatService();
@@ -83,42 +84,54 @@ const Create = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
-      try {
-        setLoading("file");
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("file_type", "FILE");
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
-        const res = await chatService.upload(data, config);
-        setSelectedFiles([
-          ...selectedFiles,
-          { file: e.target.files[0], id: res.data.id },
-        ]);
+      const isValid = checkFileInputValidation(e.target.files[0].name, "file");
+      if (isValid) {
+        try {
+          setLoading("file");
+          const data = new FormData();
+          data.append("file", e.target.files[0]);
+          data.append("file_type", "FILE");
+          const config = {
+            headers: { "content-type": "multipart/form-data" },
+          };
+          const res = await chatService.upload(data, config);
+          setSelectedFiles([
+            ...selectedFiles,
+            { file: e.target.files[0], id: res.data.id },
+          ]);
+          e.target.files = null;
+          e.target.value = "";
+          Toaster.success(
+            <ToastComponent
+              title="موفق"
+              description="فایل شما با موفقیت آپلود شد."
+            />
+          );
+        } catch (error: any) {
+          Object.keys(error?.response?.data).length
+            ? Object.keys(error?.response?.data).map((item) => {
+                Toaster.error(
+                  <ToastComponent
+                    title={item}
+                    description={error?.response?.data[item]}
+                  />
+                );
+              })
+            : Toaster.error(
+                <ToastComponent title="ناموفق" description="خطای سرور" />
+              );
+        } finally {
+          setLoading("");
+        }
+      } else {
         e.target.files = null;
         e.target.value = "";
-        Toaster.success(
+        Toaster.error(
           <ToastComponent
-            title="موفق"
-            description="فایل شما با موفقیت آپلود شد."
+            title="ناموفق"
+            description="لطفا فایل تایپ مناسب اپلود نمایید"
           />
         );
-      } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
-      } finally {
-        setLoading("");
       }
     }
   };
@@ -175,42 +188,54 @@ const Create = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
-      try {
-        setLoading("image");
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("file_type", "IMAGE");
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
-        const res = await chatService.upload(data, config);
-        setSelectedFiles([
-          ...selectedFiles,
-          { file: e.target.files[0], id: res.data.id },
-        ]);
+      const isValid = checkFileInputValidation(e.target.files[0].name, "image");
+      if (isValid) {
+        try {
+          setLoading("image");
+          const data = new FormData();
+          data.append("file", e.target.files[0]);
+          data.append("file_type", "IMAGE");
+          const config = {
+            headers: { "content-type": "multipart/form-data" },
+          };
+          const res = await chatService.upload(data, config);
+          setSelectedFiles([
+            ...selectedFiles,
+            { file: e.target.files[0], id: res.data.id },
+          ]);
+          e.target.files = null;
+          e.target.value = "";
+          Toaster.success(
+            <ToastComponent
+              title="موفق"
+              description="عکس شما با موفقیت آپلود شد."
+            />
+          );
+        } catch (error: any) {
+          Object.keys(error?.response?.data).length
+            ? Object.keys(error?.response?.data).map((item) => {
+                Toaster.error(
+                  <ToastComponent
+                    title={item}
+                    description={error?.response?.data[item]}
+                  />
+                );
+              })
+            : Toaster.error(
+                <ToastComponent title="ناموفق" description="خطای سرور" />
+              );
+        } finally {
+          setLoading("");
+        }
+      } else {
         e.target.files = null;
         e.target.value = "";
-        Toaster.success(
+        Toaster.error(
           <ToastComponent
-            title="موفق"
-            description="عکس شما با موفقیت آپلود شد."
+            title="ناموفق"
+            description="لطفا فایل تایپ مناسب اپلود نمایید"
           />
         );
-      } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
-      } finally {
-        setLoading("");
       }
     }
   };
@@ -219,42 +244,54 @@ const Create = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
-      try {
-        setLoading("video");
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("file_type", "VIDEO");
-        const config = {
-          headers: { "content-type": "multipart/form-data" },
-        };
-        const res = await chatService.upload(data, config);
-        setSelectedFiles([
-          ...selectedFiles,
-          { file: e.target.files[0], id: res.data.id },
-        ]);
+      const isValid = checkFileInputValidation(e.target.files[0].name, "video");
+      if (isValid) {
+        try {
+          setLoading("video");
+          const data = new FormData();
+          data.append("file", e.target.files[0]);
+          data.append("file_type", "VIDEO");
+          const config = {
+            headers: { "content-type": "multipart/form-data" },
+          };
+          const res = await chatService.upload(data, config);
+          setSelectedFiles([
+            ...selectedFiles,
+            { file: e.target.files[0], id: res.data.id },
+          ]);
+          e.target.files = null;
+          e.target.value = "";
+          Toaster.success(
+            <ToastComponent
+              title="موفق"
+              description="ویدیو شما با موفقیت آپلود شد."
+            />
+          );
+        } catch (error: any) {
+          Object.keys(error?.response?.data).length
+            ? Object.keys(error?.response?.data).map((item) => {
+                Toaster.error(
+                  <ToastComponent
+                    title={item}
+                    description={error?.response?.data[item]}
+                  />
+                );
+              })
+            : Toaster.error(
+                <ToastComponent title="ناموفق" description="خطای سرور" />
+              );
+        } finally {
+          setLoading("");
+        }
+      } else {
         e.target.files = null;
         e.target.value = "";
-        Toaster.success(
+        Toaster.error(
           <ToastComponent
-            title="موفق"
-            description="ویدیو شما با موفقیت آپلود شد."
+            title="ناموفق"
+            description="لطفا فایل تایپ مناسب اپلود نمایید"
           />
         );
-      } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
-      } finally {
-        setLoading("");
       }
     }
   };
@@ -513,11 +550,12 @@ const Create = () => {
                     <input
                       type="file"
                       id="file"
+                      {...register("file")}
+                      onChange={handleUploadFile}
                       className={`upload-input ${
                         loading && loading !== "file" ? "disabled" : ""
                       }`}
-                      {...register("file")}
-                      onChange={handleUploadFile}
+                      accept=".rar, .zip, .txt, .pdf, .docx , .xlsx , .mp4 ,.mov, .mp3,. png, .jpg, .jpeg  , .webp, .mkv, .gif "
                     />
                   </div>
                   <div
@@ -566,7 +604,7 @@ const Create = () => {
                     <input
                       type="file"
                       id="image"
-                      accept=".png, .jpg, .jpeg"
+                      accept=".png, .jpg, .jpeg .webp"
                       className={`upload-input ${
                         loading && loading !== "image" ? "disabled" : ""
                       }`}
@@ -595,7 +633,7 @@ const Create = () => {
                     <input
                       type="file"
                       id="video"
-                      accept="video/mp4"
+                      accept=".mkv ,.mp4, .mov"
                       className={`upload-input ${
                         loading && loading !== "video" ? "disabled" : ""
                       }`}

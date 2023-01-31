@@ -52,6 +52,8 @@ const Dashboard = () => {
     getTickets();
   }, []);
 
+  console.log(ticketList);
+
   return (
     <>
       <DashboardLayout>
@@ -108,7 +110,9 @@ const Dashboard = () => {
                       <Image src={ProfileBold} alt="" width={20} height={20} />
                     </div>
                     <span className="name">
-                      {item.customer?.full_name ?? "نام کاربر یافت نشد"}
+                      {item.staff?.full_name ??
+                        item.staff?.username ??
+                        "نام کاربر یافت نشد"}
                     </span>
                   </div>
                   <div className="ticket-id">{item.id}</div>

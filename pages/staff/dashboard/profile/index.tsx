@@ -46,6 +46,7 @@ const Profile = () => {
   const [cities, setCities] = useState<any>([]);
   const [province, setProvince] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [binaryImage, setBinaryImage] = useState<string | Blob | null>(null);
   const [userProfile, setUserProfile] = useState<string | ArrayBuffer | null>(
     null
@@ -243,6 +244,7 @@ const Profile = () => {
               />
               <TextInput
                 id="mobile_phone"
+                maxLength={11}
                 label="شماره موبایل"
                 value={profileForm.mobile_phone}
                 onChange={setProfileDataHandler}
@@ -251,13 +253,15 @@ const Profile = () => {
             <div className="form-item">
               <TextInput
                 label="کد ملی"
+                maxLength={10}
                 id="national_id"
                 value={profileForm.national_id}
                 onChange={setProfileDataHandler}
               />
               <TextInput
-                label="ایمیل"
                 id="email"
+                label="ایمیل"
+                type="email"
                 value={profileForm.email}
                 onChange={setProfileDataHandler}
               />
@@ -322,6 +326,8 @@ const Profile = () => {
                   label="رمز عبور فعلی"
                   value={resetPass.currentPass}
                   onChange={resetPasswordHandler}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
                 <TextInput
                   id="newPass"
@@ -329,6 +335,8 @@ const Profile = () => {
                   label="رمز عبور جدید"
                   value={resetPass.newPass}
                   onChange={resetPasswordHandler}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
               </div>
               <div className="form-item left">
@@ -338,6 +346,8 @@ const Profile = () => {
                   label="تکرار رمز عبور جدید"
                   value={resetPass.newPassRepeat}
                   onChange={resetPasswordHandler}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
               </div>
             </div>

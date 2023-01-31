@@ -50,6 +50,7 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState<string | ArrayBuffer | null>(
     null
   );
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
 
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
@@ -238,26 +239,29 @@ const Profile = () => {
               <TextInput
                 id="full_name"
                 label="نام و نام خانوادگی"
-                value={profileForm.full_name}
                 onChange={setProfileDataHandler}
               />
               <TextInput
                 id="mobile_phone"
+                type="text"
+                maxLength={11}
                 label="شماره موبایل"
-                value={profileForm.mobile_phone}
                 onChange={setProfileDataHandler}
               />
             </div>
             <div className="form-item">
               <TextInput
+                maxLength={10}
+                type="text"
                 label="کد ملی"
                 id="national_id"
                 value={profileForm.national_id}
                 onChange={setProfileDataHandler}
               />
               <TextInput
-                label="ایمیل"
                 id="email"
+                type="email"
+                label="ایمیل"
                 value={profileForm.email}
                 onChange={setProfileDataHandler}
               />
@@ -280,13 +284,7 @@ const Profile = () => {
                 currentValue={profileForm?.shahr || undefined}
               />
             </div>
-            <TextInput
-              id="address"
-              isFullWidthInput
-              label="ادرس محل سکونت"
-              value={profileForm.address}
-              onChange={setProfileDataHandler}
-            />
+            <TextInput id="address" isFullWidthInput label="ادرس محل سکونت" />
             <div>
               <div className="form-btns-container">
                 <button
@@ -321,6 +319,8 @@ const Profile = () => {
                   type="password"
                   label="رمز عبور فعلی"
                   value={resetPass.currentPass}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                   onChange={resetPasswordHandler}
                 />
                 <TextInput
@@ -328,6 +328,8 @@ const Profile = () => {
                   type="password"
                   label="رمز عبور جدید"
                   value={resetPass.newPass}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                   onChange={resetPasswordHandler}
                 />
               </div>
@@ -338,6 +340,8 @@ const Profile = () => {
                   label="تکرار رمز عبور جدید"
                   value={resetPass.newPassRepeat}
                   onChange={resetPasswordHandler}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
               </div>
             </div>

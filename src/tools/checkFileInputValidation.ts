@@ -12,12 +12,11 @@ const expectedFileTypes = [
   "jpeg",
   "mkv",
   "gif",
-  "webp",
   "mov",
 ];
 
 const expectedVideoType = ["mkv ", "mp4", "mov"];
-const expectedImageType = ["png ", "jpeg", "jpg", "webp"];
+const expectedImageType = ["png ", "jpeg", "jpg"];
 
 export const checkFileInputValidation = (
   fileFullNameWithExtension: string,

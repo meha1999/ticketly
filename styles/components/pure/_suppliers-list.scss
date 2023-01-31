@@ -169,6 +169,10 @@
         border-radius: 20px;
         color: #ffffff;
         cursor: pointer;
+        &:disabled {
+          background: #5e7bec80;
+          cursor: no-drop;
+        }
       }
     }
   }

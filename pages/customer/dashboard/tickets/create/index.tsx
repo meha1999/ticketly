@@ -459,7 +459,7 @@ const Create = () => {
                       className={`upload-input ${
                         loading && loading !== "file" ? "disabled" : ""
                       }`}
-                      accept=".rar, .zip, .txt, .pdf, .docx , .xlsx , .mp4 ,.mov, .mp3,. png, .jpg, .jpeg  , .webp, .mkv, .gif "
+                      accept=".rar, .zip, .txt, .pdf, .docx , .xlsx , .mp4 ,.mov, .mp3,. png, .jpg, .jpeg  , .mkv, .gif "
                     />
                   </div>
                   <div
@@ -508,7 +508,7 @@ const Create = () => {
                     <input
                       type="file"
                       id="image"
-                      accept=".png, .jpg, .jpeg .webp"
+                      accept=".png, .jpg, .jpeg"
                       className={`upload-input ${
                         loading && loading !== "image" ? "disabled" : ""
                       }`}

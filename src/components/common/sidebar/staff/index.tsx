@@ -14,6 +14,7 @@ import { SiHackthebox } from "react-icons/si";
 import { GrContactInfo } from "react-icons/gr";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
+import errorHandler from "src/tools/error-handler";
 
 const authService = new AuthService();
 
@@ -25,18 +26,7 @@ const Sidebar = () => {
     try {
       await authService.logout();
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     } finally {
       deleteCookie("role");
       deleteCookie("token");

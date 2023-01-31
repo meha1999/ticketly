@@ -15,6 +15,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import OtpCodeModal from "components/common/modal/OtpCodeModal";
 import SeoHead from "components/common/seo-head";
+import errorHandler from "src/tools/error-handler";
 
 const authService = new AuthService();
 
@@ -48,19 +49,8 @@ const SignUp = () => {
       );
       setAccountId(+res.data.id);
       setIsValidateModalOpen(true);
-    } catch (err: any) {
-      Object.keys(err?.response?.data).length
-        ? Object.keys(err?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={err?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -84,18 +74,7 @@ const SignUp = () => {
       );
       setIsValidateModalOpen(false);
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -114,19 +93,8 @@ const SignUp = () => {
           description="کد ورود برای شما ارسال شد"
         />
       );
-    } catch (error :any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -289,12 +257,8 @@ const Login = () => {
       });
       setLoading(false);
       router.push("/customer/dashboard");
-    } catch (err: any) {
-      Object.keys(err.response.data).map((item) => {
-        Toaster.error(
-          <ToastComponent title={item} description={err.response.data[item]} />
-        );
-      });
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
       setBtnLoading(false);
       setLoading(false);

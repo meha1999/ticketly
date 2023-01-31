@@ -1,11 +1,14 @@
 import Divider from "components/common/divider";
 import Title from "components/common/title";
+import ToastComponent from "components/common/toast/ToastComponent";
+import { Toaster } from "components/common/toast/Toaster";
 import DashboardLayout from "components/layouts/dashboard/customer";
 import CustomerOrderCard from "components/pure/customer-order-card";
 import OrdersIcon from "images/icons/orders_icon";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { OrderService } from "services/order.service";
+import errorHandler from "src/tools/error-handler";
 
 const orderService = new OrderService();
 
@@ -16,8 +19,8 @@ const Orders = () => {
     try {
       const res = await orderService.getOrders();
       setOrders(res.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };

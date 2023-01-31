@@ -15,6 +15,7 @@ import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import SeoHead from "components/common/seo-head";
+import errorHandler from "src/tools/error-handler";
 
 interface ProfileFormState {
   full_name: string;
@@ -85,18 +86,7 @@ const Profile = () => {
         />
       );
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     } finally {
       setLoading(false);
     }
@@ -156,18 +146,7 @@ const Profile = () => {
             );
           }
         } catch (error: any) {
-          Object.keys(error?.response?.data).length
-            ? Object.keys(error?.response?.data).map((item) => {
-                Toaster.error(
-                  <ToastComponent
-                    title={item}
-                    description={error?.response?.data[item]}
-                  />
-                );
-              })
-            : Toaster.error(
-                <ToastComponent title="ناموفق" description="خطای سرور" />
-              );
+          errorHandler(error);
         } finally {
         }
       }
@@ -180,18 +159,7 @@ const Profile = () => {
         const provinceRes = await profileService.getProvince();
         setProvince(provinceRes.data);
       } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
+        errorHandler(error);
       }
     };
     getProvince();
@@ -206,18 +174,7 @@ const Profile = () => {
           );
           setCities(citiesRes.data.shahrs);
         } catch (error: any) {
-          Object.keys(error?.response?.data).length
-            ? Object.keys(error?.response?.data).map((item) => {
-                Toaster.error(
-                  <ToastComponent
-                    title={item}
-                    description={error?.response?.data[item]}
-                  />
-                );
-              })
-            : Toaster.error(
-                <ToastComponent title="ناموفق" description="خطای سرور" />
-              );
+          errorHandler(error);
         }
       };
       getCities();

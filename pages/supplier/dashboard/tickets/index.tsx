@@ -14,6 +14,9 @@ import { TicketStatusChoicesEnum } from "src/model/status";
 import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { Toaster } from "components/common/toast/Toaster";
+import ToastComponent from "components/common/toast/ToastComponent";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -51,7 +54,8 @@ const Requests = () => {
         (item: any) => pageConfig[item.status] === activeTab
       );
       setTicketList(data);
-    } catch (error) {
+    } catch (error: any) {
+      errorHandler(error);
       setTicketList([]);
     }
   };
@@ -77,9 +81,11 @@ const Requests = () => {
                   <span>خوانده نشده</span>
                   <span className="count">
                     <>
-                      {notification?.detail.filter(
-                        (item) => !!item.unread_message
-                      ).length}
+                      {
+                        notification?.detail.filter(
+                          (item) => !!item.unread_message
+                        ).length
+                      }
                     </>
                   </span>
                 </div>
@@ -135,7 +141,9 @@ const Requests = () => {
                         />
                       </div>
                       <span className="name">
-                        {ticket.staff.full_name ??ticket.staff.username ?? "بدون نام"}
+                        {ticket.staff.full_name ??
+                          ticket.staff.username ??
+                          "بدون نام"}
                       </span>
                     </div>
                     <div className="date">{ticket.id}</div>

@@ -9,6 +9,7 @@ import OrdersIcon from "images/icons/orders_icon";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { OrderService } from "services/order.service";
+import errorHandler from "src/tools/error-handler";
 
 const orderService = new OrderService();
 
@@ -19,8 +20,8 @@ const Orders = () => {
     try {
       const res = await orderService.getOrders();
       setOrders(res.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      errorHandler(error);
     } finally {
     }
   };
@@ -42,18 +43,7 @@ const Orders = () => {
       );
       setOrders(updatedList);
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     }
   };
 

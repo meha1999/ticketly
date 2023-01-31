@@ -13,6 +13,9 @@ import { useRouter } from "next/router";
 import { NavLink } from "src/tools/NavLink";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import { Toaster } from "components/common/toast/Toaster";
+import ToastComponent from "components/common/toast/ToastComponent";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -29,7 +32,9 @@ const Tickets = () => {
     try {
       const ticketRes = await ticketService.getTickets();
       setTicketList(ticketRes.data);
-    } catch (error) {}
+    } catch (error: any) {
+      errorHandler(error);
+    }
   };
 
   useEffect(() => {
@@ -98,7 +103,9 @@ const Tickets = () => {
                 <div className="info">
                   <div className="name">{ticket.name}</div>
                   <div className="further-info">
-                    <div className="brand">{ticket.branch_category.name ?? "بدون برند"}</div>
+                    <div className="brand">
+                      {ticket.branch_category.name ?? "بدون برند"}
+                    </div>
                     <div className="supplier">
                       {ticket.supplier ?? "بدون تامین"}
                     </div>

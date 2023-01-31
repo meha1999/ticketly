@@ -11,6 +11,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import VideoUpload from "images/icons/video_uplaod";
 import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
+import errorHandler from "src/tools/error-handler";
 
 const chatService = new ChatService();
 
@@ -43,18 +44,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
       const response = await chatService.upload(data, config);
       onSend(response.data.id, "voice");
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     }
   };
 
@@ -77,18 +67,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           e.target.files = null;
           e.target.value = "";
         } catch (error: any) {
-          Object.keys(error?.response?.data).length
-            ? Object.keys(error?.response?.data).map((item) => {
-                Toaster.error(
-                  <ToastComponent
-                    title={item}
-                    description={error?.response?.data[item]}
-                  />
-                );
-              })
-            : Toaster.error(
-                <ToastComponent title="ناموفق" description="خطای سرور" />
-              );
+          errorHandler(error);
         } finally {
         }
       } else {
@@ -122,18 +101,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           e.target.files = null;
           e.target.value = "";
         } catch (error: any) {
-          Object.keys(error?.response?.data).length
-            ? Object.keys(error?.response?.data).map((item) => {
-                Toaster.error(
-                  <ToastComponent
-                    title={item}
-                    description={error?.response?.data[item]}
-                  />
-                );
-              })
-            : Toaster.error(
-                <ToastComponent title="ناموفق" description="خطای سرور" />
-              );
+          errorHandler(error);
         } finally {
         }
       } else {
@@ -167,18 +135,7 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
           e.target.files = null;
           e.target.value = "";
         } catch (error: any) {
-          Object.keys(error?.response?.data).length
-            ? Object.keys(error?.response?.data).map((item) => {
-                Toaster.error(
-                  <ToastComponent
-                    title={item}
-                    description={error?.response?.data[item]}
-                  />
-                );
-              })
-            : Toaster.error(
-                <ToastComponent title="ناموفق" description="خطای سرور" />
-              );
+          errorHandler(error);
         } finally {
         }
       } else {

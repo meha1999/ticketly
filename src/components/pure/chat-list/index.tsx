@@ -9,6 +9,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -58,18 +59,7 @@ const ChatList: React.FC<ChatListProps> = ({
       );
       setSuppliersList(finalData);
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     } finally {
     }
   };
@@ -109,18 +99,7 @@ const ChatList: React.FC<ChatListProps> = ({
         onAddSuplier();
         handleCancel();
       } catch (error: any) {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
+        errorHandler(error);
       } finally {
         setSelectedSuppliers([]);
       }

@@ -14,6 +14,7 @@ import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import { useRouter } from "next/router";
+import errorHandler from "src/tools/error-handler";
 
 const ticketService = new TicketService();
 
@@ -100,18 +101,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
       if (error.response.status == 406) {
         setPaymentStatus("failure");
       } else {
-        Object.keys(error?.response?.data).length
-          ? Object.keys(error?.response?.data).map((item) => {
-              Toaster.error(
-                <ToastComponent
-                  title={item}
-                  description={error?.response?.data[item]}
-                />
-              );
-            })
-          : Toaster.error(
-              <ToastComponent title="ناموفق" description="خطای سرور" />
-            );
+        errorHandler(error);
       }
     }
     setIsPaymentOpen(false);

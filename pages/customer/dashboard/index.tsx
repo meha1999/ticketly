@@ -21,6 +21,7 @@ import { TICKET_STATUS_PERSIAN } from "src/static/statusConfig";
 import { TicketStatusChoicesEnum } from "src/model/status";
 import { Toaster } from "components/common/toast/Toaster";
 import ToastComponent from "components/common/toast/ToastComponent";
+import errorHandler from "src/tools/error-handler";
 
 const userType: Record<string, string> = {
   staff: "#5E7BEC",
@@ -44,7 +45,9 @@ const Dashboard = () => {
         (item: any) => item.status === "UNREAD"
       );
       setTicketList(data.splice(0, 3));
-    } catch (error) {}
+    } catch (error: any) {
+      errorHandler(error);
+    }
   };
 
   const handleOpenChat = (ticketId: string) => {
@@ -62,18 +65,7 @@ const Dashboard = () => {
         />
       );
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     }
   };
 

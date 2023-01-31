@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Toaster } from "components/common/toast/Toaster";
 import ToastComponent from "components/common/toast/ToastComponent";
 import SeoHead from "components/common/seo-head";
+import errorHandler from "src/tools/error-handler";
 
 const authService = new AuthService();
 
@@ -47,18 +48,7 @@ const Login = () => {
       setLoading(false);
       router.push("/superuser/dashboard");
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     } finally {
       setBtnLoading(false);
       setLoading(false);

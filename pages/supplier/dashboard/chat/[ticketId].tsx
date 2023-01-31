@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import useWebSocket from "react-use-websocket";
 import { ChatService } from "services/chat.service";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
+import errorHandler from "src/tools/error-handler";
 
 const chatService = new ChatService();
 
@@ -46,18 +47,7 @@ const Chat = () => {
       const res = await chatService.allChats(router.query.ticketId);
       setMessageHistory(res.data);
     } catch (error: any) {
-      Object.keys(error?.response?.data).length
-        ? Object.keys(error?.response?.data).map((item) => {
-            Toaster.error(
-              <ToastComponent
-                title={item}
-                description={error?.response?.data[item]}
-              />
-            );
-          })
-        : Toaster.error(
-            <ToastComponent title="ناموفق" description="خطای سرور" />
-          );
+      errorHandler(error);
     } finally {
     }
   };

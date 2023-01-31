@@ -124,7 +124,11 @@ const SuppliersList: FC<SuppliersListProps> = ({
           <button className="cancel-btn" onClick={cancel}>
             لغو
           </button>
-          <button className="confirm-btn" onClick={confirm}>
+          <button
+            className="confirm-btn"
+            onClick={confirm}
+            disabled={!selectedSuppliers.length}
+          >
             تایید و ارسال متن
           </button>
         </div>

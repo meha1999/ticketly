@@ -153,7 +153,7 @@ const Create = () => {
       Toaster.success(
         <ToastComponent
           title="موفق"
-          description="فایل شما با موفقیت آپلود شد."
+          description="صوت شما با موفقیت آپلود شد."
         />
       );
     } catch (error: any) {
@@ -307,35 +307,36 @@ const Create = () => {
   };
 
   const handleReset = async () => {
-    try {
-      const list = selectedFiles.map((i: any) => i.id);
-      const finalList = list.map((item: any) => {
-        const temp = {
-          id: item,
-        };
-        return temp;
-      });
-      const res = await chatService.deleteUploadedFiles({
-        data: finalList,
-      });
-      if (res.status === 204 || res.status === 201) {
-        Toaster.success(
-          <ToastComponent
-            title="موفق"
-            description="فایل‌های پیوست با موفقیت حذف شدند."
-          />
-        );
-        setSelectedFiles([]);
-      } else {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+    const list = selectedFiles.map((i: any) => i.id);
+    const finalList = list.map((item: any) => {
+      const temp = {
+        id: item,
+      };
+      return temp;
+    });
+    if (finalList.length) {
+      try {
+        const res = await chatService.deleteUploadedFiles({
+          data: finalList,
+        });
+        if (res.status === 204 || res.status === 201) {
+          Toaster.success(
+            <ToastComponent
+              title="موفق"
+              description="فایل‌های پیوست با موفقیت حذف شدند."
+            />
+          );
+          setSelectedFiles([]);
+        } else {
+          Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
+        }
+      } catch (error: any) {
+        errorHandler(error);
       }
-    } catch (error: any) {
-      errorHandler(error);
-    } finally {
-      reset();
     }
+    reset();
   };
 
   useEffect(() => {

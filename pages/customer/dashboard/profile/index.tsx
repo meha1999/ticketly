@@ -16,6 +16,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import SeoHead from "components/common/seo-head";
 import errorHandler from "src/tools/error-handler";
+import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
 
 interface ProfileFormState {
   full_name: string;
@@ -73,7 +74,7 @@ const Profile = () => {
       profileForm.national_id &&
         formData.append("national_id", profileForm.national_id);
       profileForm.ostan && formData.append("ostan", `${profileForm.ostan}`);
-
+      profileForm.email && formData.append("email", profileForm.email);
       const formRes = await authService.userInfoPatch(formData);
       dispatch({
         type: REDUX_ACTION.SET_USER,
@@ -97,7 +98,16 @@ const Profile = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     }
-    setBinaryImage(e.target.files[0]);
+    if (checkFileInputValidation(e.target.files[0].name, "image")) {
+      setBinaryImage(e.target.files[0]);
+    } else {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="پسوند‌های مجاز شامل jpg, jpeg و png می‌باشد."
+        />
+      );
+    }
   };
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
@@ -238,12 +248,14 @@ const Profile = () => {
             <div className="form-item">
               <TextInput
                 id="full_name"
+                value={profileForm?.full_name}
                 label="نام و نام خانوادگی"
                 onChange={setProfileDataHandler}
               />
               <TextInput
                 id="mobile_phone"
                 type="text"
+                value={profileForm?.mobile_phone}
                 maxLength={11}
                 label="شماره موبایل"
                 onChange={setProfileDataHandler}
@@ -255,14 +267,14 @@ const Profile = () => {
                 type="text"
                 label="کد ملی"
                 id="national_id"
-                value={profileForm.national_id}
+                value={profileForm?.national_id}
                 onChange={setProfileDataHandler}
               />
               <TextInput
                 id="email"
                 type="email"
                 label="ایمیل"
-                value={profileForm.email}
+                value={profileForm?.email}
                 onChange={setProfileDataHandler}
               />
             </div>
@@ -284,7 +296,13 @@ const Profile = () => {
                 currentValue={profileForm?.shahr || undefined}
               />
             </div>
-            <TextInput id="address" isFullWidthInput label="ادرس محل سکونت" />
+            <TextInput
+              value={profileForm?.address}
+              id="address"
+              isFullWidthInput
+              label="ادرس محل سکونت"
+              onChange={setProfileDataHandler}
+            />
             <div>
               <div className="form-btns-container">
                 <button
@@ -318,7 +336,7 @@ const Profile = () => {
                   id="currentPass"
                   type="password"
                   label="رمز عبور فعلی"
-                  value={resetPass.currentPass}
+                  value={resetPass?.currentPass}
                   showPassword={showPassword}
                   setShowPassword={setShowPassword}
                   onChange={resetPasswordHandler}
@@ -327,7 +345,7 @@ const Profile = () => {
                   id="newPass"
                   type="password"
                   label="رمز عبور جدید"
-                  value={resetPass.newPass}
+                  value={resetPass?.newPass}
                   showPassword={showPassword}
                   setShowPassword={setShowPassword}
                   onChange={resetPasswordHandler}
@@ -338,7 +356,7 @@ const Profile = () => {
                   id="newPassRepeat"
                   type="password"
                   label="تکرار رمز عبور جدید"
-                  value={resetPass.newPassRepeat}
+                  value={resetPass?.newPassRepeat}
                   onChange={resetPasswordHandler}
                   showPassword={showPassword}
                   setShowPassword={setShowPassword}

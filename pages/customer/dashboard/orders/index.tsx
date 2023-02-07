@@ -71,6 +71,7 @@ const Orders = () => {
                   status={item.status}
                   price={item.total_price}
                   dateAndTime={item.created_at}
+                  count={item?.count??1}
                   onClientAction={clientSideActionsHandler}
                 />
               </li>

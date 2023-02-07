@@ -153,10 +153,16 @@ const Requests = () => {
                     {item?.customer?.full_name ?? "نام کاربر یافت نشد"}
                   </span>
                 </div>
-                <div className="date">
-                  {JalaliDateTime(dateTimeConfig).toFullText(
-                    new Date(item?.updated_at)
-                  )}
+                <div
+                  className="date"
+                  style={{ display: "flex", flexDirection: "column" }}
+                >
+                  <div>
+                    {JalaliDateTime(dateTimeConfig).toFullText(
+                      new Date(item.updated_at)
+                    )}
+                  </div>
+                  <div style={{ direction: "ltr" }}>{item.due_time}</div>
                 </div>
                 <div className="status">
                   <ReqStatusBtn

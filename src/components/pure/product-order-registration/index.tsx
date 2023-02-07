@@ -25,6 +25,7 @@ interface ProductOrderRegistrationProps {
   customerPhoto: string;
   productName: string;
   customerWalletCash: number;
+  productCount: number;
   suppliersList: Array<any>;
   closeModal: () => void;
 }
@@ -36,6 +37,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   customerId,
   customerPhoto,
   productName,
+  productCount,
   customerWalletCash,
   closeModal,
 }) => {
@@ -53,6 +55,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
   const suppliersListRef: any = useRef();
   const [isPaymentOpen, setIsPaymentOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>(productName);
+  const [count, setCount] = useState<number>(productCount);
   const [isResultOpen, setIsResultOpen] = useState<boolean>(false);
   const [selectedSupplier, setSelectedSupplier] = useState<any>();
   const [supplierAddress, setSupplierAddress] = useState<string>("");
@@ -91,6 +94,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
         total_price: data.total_price,
         items_order: [],
         ticket_group: router.query.groupId,
+        count,
       };
       const res = await ticketService.finalPayment(finalData);
       if (paymentMethod === "wallet") {
@@ -160,6 +164,17 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
                   className="input-shape"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="field">
+                <span className="label">تعداد</span>
+                <input
+                  type="number"
+                  className="input-shape"
+                  value={count}
+                  onChange={(e) =>
+                    +e.target.value > 0 && setCount(+e.target.value)
+                  }
                 />
               </div>
               <div className="field">

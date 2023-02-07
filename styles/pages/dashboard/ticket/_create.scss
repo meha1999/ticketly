@@ -14,15 +14,141 @@
         justify-content: space-between;
         align-items: center;
         position: relative;
+        .select-period {
+          width: 100%;
+          display: flex;
+          height: 40px;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          font-weight: 600;
+          font-size: 14px;
+          color: #4d4d4d;
+          .select-period-group {
+            display: flex;
+            background-color: #e4e7ea;
+            border-radius: 100px;
+            height: 40px;
+            align-items: center;
+            padding: 0 6px;
+            margin-right: 10px;
+            .select-period-date-number {
+              height: 28px;
+              width: 80px;
+              border-radius: 100px;
+              border: none;
+              text-align: center;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: #737373;
+              &:focus {
+                outline: none;
+              }
+              &::-webkit-outer-spin-button,
+              &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+            }
+            .select-period-dropdown {
+              cursor: pointer;
+              position: relative;
+              border-radius: 100px;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+              width: 134px;
+              .select-period-dropdown-button {
+                cursor: pointer;
+                border: none;
+                border-radius: 100px;
+                width: 122px;
+                height: 28px;
+                color: #737373;
+                z-index: 10;
+                display: flex;
+                &.button-active {
+                  color: #ffffff;
+                  background-image: linear-gradient(to right, #0683f8, #0877ee);
+                }
+                &:hover {
+                  color: #ffffff;
+                  background-image: linear-gradient(to right, #0683f8, #0877ee);
+                }
+                .select-period-dropdown-button-title {
+                  width: 80%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+                .select-period-dropdown-button-icons {
+                  width: 20%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  position: relative;
+                  & :first-child {
+                    position: absolute;
+                    right: 0;
+                  }
+                  & :last-child {
+                    right: 0;
+                    top: 14px;
+                    position: absolute;
+                  }
+                }
+              }
+              .select-period-items-wrapper {
+                position: absolute;
+                width: 100%;
+                padding-top: 30px;
+                background-color: #eaeef4;
+                top: -5px;
+                left: -5px;
+                border-radius: 20px;
+                z-index: 5;
+                display: none;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                box-shadow: 0px 0px 32px rgba(64, 64, 64, 0.25);
+                .select-period-items-button {
+                  cursor: pointer;
+                  border: none;
+                  border-radius: 100px;
+                  width: 122px;
+                  height: 28px;
+                  margin: 10px 0 5px 0;
+                  background-color: inherit;
+                  &:hover {
+                    color: #ffffff;
+                    background-image: linear-gradient(
+                      to right,
+                      #0683f8,
+                      #0877ee
+                    );
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
     .name-error {
+      font-weight: 400;
+      font-size: 12px;
       position: absolute;
       bottom: -25px;
       left: 260px;
       color: red;
     }
     .message-error {
+      font-weight: 400;
+      font-size: 12px;
       position: absolute;
       bottom: -25px;
       right: 200px;
@@ -55,7 +181,7 @@
     input[type="text"] {
       background: #ffffff;
       border-radius: 25px;
-      width: 80%;
+      width: 40%;
       padding: 10px 30px;
       display: flex;
       align-items: center;
@@ -63,6 +189,19 @@
       font-size: 14px;
       color: #4d4d4d;
       border: none;
+    }
+    input[type="number"] {
+      background: #ffffff;
+      border-radius: 25px;
+      width: 40%;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: #4d4d4d;
+      border: none;
+      text-align: center;
     }
     .message {
       display: flex;
@@ -73,7 +212,7 @@
         border: none;
         background: #ffffff;
         border-radius: 25px;
-        width: 87.5%;
+        width: 90%;
         padding: 10px 30px;
         font-weight: 600;
         font-size: 14px;
@@ -133,7 +272,7 @@
             }
           }
           .upload-input-label {
-          padding: 10px 30px;
+            padding: 10px 30px;
 
             cursor: pointer;
             border-radius: inherit;
@@ -206,7 +345,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width:50px;
+        width: 50px;
         height: 45px;
         border: 1px solid #b0b0b0;
         border-radius: 25px;

@@ -253,7 +253,7 @@ const ProductOrderRegistration: FC<ProductOrderRegistrationProps> = ({
               </div>
               <div className="field supplier-date">
                 <label htmlFor="date" className="label">
-                  زمان تحویل کالا:
+                  زمان ارسال کالا:
                 </label>
                 <div className="input-shape">
                   <DatePicker

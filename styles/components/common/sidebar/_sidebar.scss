@@ -65,30 +65,44 @@
         }
       }
     }
+    .border-custom {
+      height: 95px;
+      border-right: 1px dashed #777777;
+    }
     .sub-menus {
       gap: 10px;
       padding-top: 20px;
       display: flex;
       font-size: 12px;
       font-weight: 600;
-      margin-right: 25px;
       margin-left: 10px;
       flex-direction: column;
       list-style-type: none;
-      .menu {
-        &.active {
-          font-weight: 700;
-          &.customer {
-            color: #00a48a;
-          }
-          &.supplier {
-            color: #eed201;
-          }
-          &.staff {
-            color: #5e7bec;
-          }
-          &.superuser {
-            color: #bdbdbd;
+
+      .sub-menu-conatiner {
+        display: flex;
+        align-items: center;
+        .dashed {
+          border-top: 1px dashed #777777;
+          width: 20px;
+          height: 0px;
+          margin-left: 5px;
+        }
+        .menu {
+          &.active {
+            font-weight: 700;
+            &.customer {
+              color: #00a48a;
+            }
+            &.supplier {
+              color: #eed201;
+            }
+            &.staff {
+              color: #5e7bec;
+            }
+            &.superuser {
+              color: #bdbdbd;
+            }
           }
         }
       }

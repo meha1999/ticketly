@@ -122,16 +122,24 @@ const Sidebar = () => {
                 <span>{title}</span>
               </NavLink>
               {subLinks.length ? (
-                <ul className="sub-menus">
-                  {subLinks.map(({ id, path, title, icon: Icon }: any) => (
-                    <li key={id}>
-                      <NavLink href={path} className="menu staff">
-                        {Icon && <Icon />}
-                        <span>{title}</span>
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
+                <div style={{ display: "flex", marginRight: 7 }}>
+                  <div className="border-custom"></div>
+                  <ul className="sub-menus">
+                    {subLinks.map(
+                      ({ id, path, title, icon: Icon }: any, index: number) => (
+                        <div className="sub-menu-conatiner" key={index}>
+                          <div className="dashed"></div>
+                          <li key={id}>
+                            <NavLink href={path} className="menu staff">
+                              {Icon && <Icon />}
+                              <span>{title}</span>
+                            </NavLink>
+                          </li>
+                        </div>
+                      )
+                    )}
+                  </ul>
+                </div>
               ) : (
                 ""
               )}

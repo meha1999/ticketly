@@ -37,7 +37,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const handleGetNotification = async () => {
     try {
       const res = await notificationService.getNotifications();
-      console.log(res);
     } catch (error: any) {
       errorHandler(error);
     } finally {

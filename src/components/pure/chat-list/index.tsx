@@ -86,7 +86,8 @@ const ChatList: React.FC<ChatListProps> = ({
             description: sentText,
             ticket_group: group.ticket_group[0].ticket_group,
             status: "PENDING",
-            branch_category: group.ticket_group[0].branch_category,
+            product_category: group.ticket_group[0].product_category,
+            service_category: group.ticket_group[0].service_category,
             order_ticket: [],
           };
         });
@@ -102,7 +103,7 @@ const ChatList: React.FC<ChatListProps> = ({
         } finally {
           setSelectedSuppliers([]);
         }
-      }else{
+      } else {
         Toaster.error(
           <ToastComponent
             title="ناموفق"

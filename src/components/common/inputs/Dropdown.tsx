@@ -4,7 +4,7 @@ interface DropdownProps {
   id: string;
   label: string;
   disabled?: boolean;
-  currentValue: number | undefined;
+  currentValue: number | string | undefined;
   currentOptions: any[];
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -31,9 +31,9 @@ const Dropdown: FC<DropdownProps> = ({
         placeholder="لطفا یک مورد انتخاب نمایید"
         disabled={disabled}
       >
-        <option selected disabled hidden>{
-          disabled ? "لیست موارد خالی میباشد" : "لطفا یک مورد انتخاب نمایید"
-        }</option>
+        <option selected disabled hidden>
+          {disabled ? "لیست موارد خالی میباشد" : "لطفا یک مورد انتخاب نمایید"}
+        </option>
         {currentOptions?.map((i) => (
           <option value={i.id} key={i.id}>
             {i.name}

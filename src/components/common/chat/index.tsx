@@ -79,7 +79,41 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   return (
     <div className="chat">
       <div className="heading">
-        <h2 className="title">{ticketInfo?.name}</h2>
+        <div className="info">
+          <h2 className="title">{ticketInfo?.name}</h2>
+          <div className="bread-crumb">
+            {ticketInfo?.product_category ? (
+              <>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div className="fullCircle"></div>
+                  {
+                    ticketInfo?.product_category?.trunk_category?.root_category
+                      ?.name
+                  }
+                  <div style={{ marginRight: 10 }}>/</div>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div className="fullCircle"></div>
+                  {ticketInfo?.product_category?.trunk_category?.name}
+                  <div style={{ marginRight: 10 }}>/</div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div className="fullCircle"></div>
+                  {ticketInfo?.product_category?.name}
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div className="fullCircle"></div>
+                  {ticketInfo?.service_category?.name}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
         <div className="chat-id">
           <span>{"شناسه گفتگو:"}</span>
           <span>{ticketInfo?.id}</span>

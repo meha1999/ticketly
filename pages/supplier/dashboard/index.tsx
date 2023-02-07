@@ -57,7 +57,6 @@ const Dashboard = () => {
     getTickets();
   }, []);
 
-  console.log(ticketList);
 
   return (
     <>

@@ -52,6 +52,15 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
+      if (e.target.files[0].size >= 50000000) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="حداکثر سایز فایل 50 مگابایت میباشد"
+          />
+        );
+        return;
+      }
       const isValid = checkFileInputValidation(e.target.files[0].name, "file");
       if (isValid) {
         try {
@@ -87,6 +96,15 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
+      if (e.target.files[0].size >= 20000000) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="حداکثر سایز عکس 20 مگابایت میباشد"
+          />
+        );
+        return;
+      }
       const isValid = checkFileInputValidation(e.target.files[0].name, "image");
       if (isValid) {
         try {
@@ -121,6 +139,15 @@ const Message: React.FC<MessageProps> = ({ onSend, color }) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
+      if (e.target.files[0].size >= 50000000) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="حداکثر سایز فیلم 50 مگابایت میباشد"
+          />
+        );
+        return;
+      }
       const isValid = checkFileInputValidation(e.target.files[0].name, "video");
       if (isValid) {
         try {

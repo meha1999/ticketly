@@ -15,6 +15,7 @@ interface CustomerOrderCardProps {
   price: number;
   dateAndTime: string;
   status: string;
+  count: number;
   isSupplier?: boolean;
   onSupplierAction?: (OrderId: string) => void;
   onClientAction?: (
@@ -33,6 +34,7 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
   dateAndTime,
   isSupplier,
   status,
+  count,
   onSupplierAction = () => {},
   onClientAction = () => {},
 }) => {
@@ -113,6 +115,10 @@ const CustomerOrderCard: FC<CustomerOrderCardProps> = ({
       <p className="brand-container">
         <span className="title">برند:</span>
         <span className="brand">{brand ? brand : "نا‌مشخص"}</span>
+      </p>
+      <p className="price-container">
+        <span className="title">تعداد:</span>
+        <span>{count}</span>
       </p>
       <p className="price-container">
         <span className="title">قیمت:</span>

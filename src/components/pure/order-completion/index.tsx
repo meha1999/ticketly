@@ -14,6 +14,7 @@ const ticketService = new TicketService();
 
 interface OrderCompletionProps {
   ticketSubject: string;
+  ticketCount: number;
   customerName: string;
   customerWalletCash: number;
   customerPhoto: string;
@@ -27,6 +28,7 @@ interface OrderCompletionProps {
 
 const OrderCompletion: FC<OrderCompletionProps> = ({
   ticketSubject,
+  ticketCount,
   customerName,
   customerWalletCash,
   customerPhoto,
@@ -75,7 +77,9 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
     <div className="order-completion">
       <div className="subject">
         <span className="subject-title">موضوع تیکت:</span>
-        <span className="subject-name">{ticketSubject}</span>
+        <span className="subject-name">
+          {ticketCount ? ticketCount : 1} {ticketSubject + " x "}
+        </span>
       </div>
       <div className="user">
         <div className="heading">
@@ -138,6 +142,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
         ReactDOM.createPortal(
           <CustomPortal>
             <ProductOrderRegistration
+              productCount={ticketCount ?? 1}
               elementRef={orderRegistrationModalRef}
               customerName={customerName}
               customerId={customerId}

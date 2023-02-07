@@ -16,6 +16,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import SeoHead from "components/common/seo-head";
 import errorHandler from "src/tools/error-handler";
+import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
 
 interface ProfileFormState {
   full_name: string;
@@ -73,7 +74,7 @@ const Profile = () => {
       profileForm.national_id &&
         formData.append("national_id", profileForm.national_id);
       profileForm.ostan && formData.append("ostan", `${profileForm.ostan}`);
-
+      profileForm.email && formData.append("email", profileForm.email);
       const formRes = await authService.userInfoPatch(formData);
       dispatch({
         type: REDUX_ACTION.SET_USER,
@@ -97,7 +98,16 @@ const Profile = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     }
-    setBinaryImage(e.target.files[0]);
+    if (checkFileInputValidation(e.target.files[0].name, "image")) {
+      setBinaryImage(e.target.files[0]);
+    } else {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="پسوند‌های مجاز شامل jpg, jpeg و png می‌باشد."
+        />
+      );
+    }
   };
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {

@@ -14,6 +14,7 @@ import { Toaster } from "components/common/toast/Toaster";
 import ToastComponent from "components/common/toast/ToastComponent";
 import SeoHead from "components/common/seo-head";
 import errorHandler from "src/tools/error-handler";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 const authService = new AuthService();
 
@@ -27,6 +28,7 @@ const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const loginUser = async (data: FieldValues) => {
     try {
@@ -79,14 +81,19 @@ const Login = () => {
               <p>لطفا نام کاربری خود را به درستی وارد نمایید</p>
             )}
           </div>
-          <div className="input-container" style={{ width: "45%" }}>
+          <div className="input-container">
             <label htmlFor="">رمز عبور:</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               {...register("password", { required: true })}
             />
             {errors.password && <p>وارد کردن رمز عبور اجباری است.</p>}
+            {showPassword ? (
+              <BsEye onClick={() => setShowPassword(false)} />
+            ) : (
+              <BsEyeSlash onClick={() => setShowPassword(true)} />
+            )}
           </div>
           <div className="login-with-google">
             <div className="line"></div>

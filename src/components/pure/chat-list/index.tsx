@@ -78,16 +78,16 @@ const ChatList: React.FC<ChatListProps> = ({
         const supplierData = selectedSuppliers.map((item) => {
           return {
             name: group?.ticket_group[0]?.name,
-            department: group.ticket_group[0].department,
+            department: group.ticket_group[0]?.department,
             customer: null,
             supplier: { id: item },
-            staff: group.ticket_group[0].staff,
-            priority: group.ticket_group[0].priority,
+            staff: group.ticket_group[0]?.staff,
+            priority: group.ticket_group[0]?.priority,
             description: sentText,
-            ticket_group: group.ticket_group[0].ticket_group,
+            ticket_group: group.ticket_group[0]?.ticket_group,
             status: "PENDING",
-            product_category: group.ticket_group[0].product_category,
-            service_category: group.ticket_group[0].service_category,
+            product_category: group.ticket_group[0]?.product_category,
+            service_category: group.ticket_group[0]?.service_category,
             order_ticket: [],
           };
         });

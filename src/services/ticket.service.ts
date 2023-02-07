@@ -32,6 +32,13 @@ export class TicketService extends BaseService {
     );
   }
 
+  
+  getServices() {
+    return this.axiosInstanceWithToken.get(
+      "/service/category/root/trunk/branch/"
+    );
+  }
+
   getSuppliersList(role: string) {
     return this.axiosInstanceWithToken.get(`/account/user/?role=${role}`);
   }

@@ -9,7 +9,6 @@ const Dashboard = () => {
     ReduxStoreModel,
     ReduxStoreModel["token"]
   >((store: ReduxStoreModel) => store.token);
-  console.log(token);
 
   return (
     <>

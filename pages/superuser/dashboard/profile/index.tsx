@@ -16,6 +16,7 @@ import ToastComponent from "components/common/toast/ToastComponent";
 import { Toaster } from "components/common/toast/Toaster";
 import SeoHead from "components/common/seo-head";
 import errorHandler from "src/tools/error-handler";
+import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
 
 interface ProfileFormState {
   full_name: string;
@@ -73,7 +74,7 @@ const Profile = () => {
       profileForm.national_id &&
         formData.append("national_id", profileForm.national_id);
       profileForm.ostan && formData.append("ostan", `${profileForm.ostan}`);
-
+      profileForm.email && formData.append("email", profileForm.email);
       const formRes = await authService.userInfoPatch(formData);
       dispatch({
         type: REDUX_ACTION.SET_USER,
@@ -97,7 +98,16 @@ const Profile = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     }
-    setBinaryImage(e.target.files[0]);
+    if (checkFileInputValidation(e.target.files[0].name, "image")) {
+      setBinaryImage(e.target.files[0]);
+    } else {
+      Toaster.error(
+        <ToastComponent
+          title="ناموفق"
+          description="پسوند‌های مجاز شامل jpg, jpeg و png می‌باشد."
+        />
+      );
+    }
   };
 
   const setProfileDataHandler = (e: React.ChangeEvent<any>) => {
@@ -238,14 +248,14 @@ const Profile = () => {
             <TextInput
               id="full_name"
               label="نام و نام خانوادگی"
-              value={profileForm.full_name}
+              value={profileForm?.full_name}
               onChange={setProfileDataHandler}
             />
             <TextInput
               id="mobile_phone"
               maxLength={11}
               label="شماره موبایل"
-              value={profileForm.mobile_phone}
+              value={profileForm?.mobile_phone}
               onChange={setProfileDataHandler}
             />
           </div>
@@ -254,14 +264,14 @@ const Profile = () => {
               label="کد ملی"
               maxLength={10}
               id="national_id"
-              value={profileForm.national_id}
+              value={profileForm?.national_id}
               onChange={setProfileDataHandler}
             />
             <TextInput
               label="ایمیل"
               type="email"
               id="email"
-              value={profileForm.email}
+              value={profileForm?.email}
               onChange={setProfileDataHandler}
             />
           </div>
@@ -287,7 +297,7 @@ const Profile = () => {
             id="address"
             isFullWidthInput
             label="ادرس محل سکونت"
-            value={profileForm.address}
+            value={profileForm?.address}
             onChange={setProfileDataHandler}
           />
           <div>
@@ -323,7 +333,7 @@ const Profile = () => {
                 id="currentPass"
                 type="password"
                 label="رمز عبور فعلی"
-                value={resetPass.currentPass}
+                value={resetPass?.currentPass}
                 onChange={resetPasswordHandler}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
@@ -332,7 +342,7 @@ const Profile = () => {
                 id="newPass"
                 type="password"
                 label="رمز عبور جدید"
-                value={resetPass.newPass}
+                value={resetPass?.newPass}
                 onChange={resetPasswordHandler}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
@@ -343,7 +353,7 @@ const Profile = () => {
                 id="newPassRepeat"
                 type="password"
                 label="تکرار رمز عبور جدید"
-                value={resetPass.newPassRepeat}
+                value={resetPass?.newPassRepeat}
                 onChange={resetPasswordHandler}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}

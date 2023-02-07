@@ -60,13 +60,16 @@ const Orders = () => {
                   isSupplier
                   id={item.id}
                   name={item.name}
-                  manufacturer={item.branch_category.name}
+                  manufacturer={
+                    item?.product_category?.name ?? item.service_category?.name
+                  }
                   image={item.image}
                   brand={item.brand}
                   status={item.status}
                   price={item.total_price}
                   dateAndTime={item.created_at}
                   onSupplierAction={sendPackageHandler}
+                  count={item?.count ?? 1}
                 />
               </li>
             ))

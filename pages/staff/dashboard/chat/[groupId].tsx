@@ -122,6 +122,7 @@ const Chat = () => {
         <Title titleText="صفحه چت" titleIcon={chatIcon} />
         <Divider />
         <OrderCompletion
+          ticketCount={customerTicket?.count}
           ticketSubject={customerTicket.name}
           customerName={customerTicket.customer?.full_name}
           customerWalletCash={customerTicket.customer?.wallet_account?.amount}

@@ -10,11 +10,29 @@
     display: flex;
     align-items: center;
     padding-bottom: 15px;
-    .title {
-      font-weight: 700;
-      font-size: 18px;
-      color: #4d4d4d;
+    .info {
       margin-left: auto;
+      .title {
+        font-weight: 700;
+        font-size: 18px;
+        color: #4d4d4d;
+      }
+      .bread-crumb {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 14px;
+        gap: 10px;
+        color: #8B8B8B;        ;
+        .fullCircle {
+          width: 10px;
+          height: 10px;
+          border: 1px solid #8b8b8b;
+          border-radius: 50%;
+          background-color: #8b8b8b;
+          margin-left: 5px;
+        }
+      }
     }
     .chat-id {
       font-weight: 600;

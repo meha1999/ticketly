@@ -6,7 +6,7 @@ import Title from "components/common/title";
 import Divider from "components/common/divider";
 import { GetServerSideProps } from "next";
 import { FieldValues, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TicketService } from "services/ticket.service";
 import { useSelector } from "react-redux";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
@@ -25,14 +25,23 @@ import { UseRecorder } from "src/model/recorder";
 import SeoHead from "components/common/seo-head";
 import { checkFileInputValidation } from "src/tools/checkFileInputValidation";
 import errorHandler from "src/tools/error-handler";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdArrowDropDown } from "react-icons/md";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 const ticketService = new TicketService();
 const chatService = new ChatService();
 
+const TimePeriodEntities = [
+  { name: "ساعت", value: "h" },
+  { name: "روز", value: "d" },
+  { name: "هفته", value: "w" },
+  { name: "ماه", value: "m" },
+];
+
 const Create = () => {
   const { recorderState, ...handlers }: UseRecorder = useRecorder();
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -52,12 +61,42 @@ const Create = () => {
   const [selectedAccessoriesType, setSelectedAccessoriesType] = useState<any>();
   const [selectedFiles, setSelectedFiles] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<string>("");
+  const [requestType, setRequestType] = useState<number>(1);
+  const dropDownRef = useRef<HTMLInputElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [count, setCount] = useState(1);
+
+  const [range, setRange] = useState<any>({
+    numberOfRange: 1,
+    timeFrame: "d",
+  });
+
+  const translateRangeType: any = {
+    h: "ساعت",
+    d: "روز",
+    w: "هفته",
+    m: "ماه",
+  };
+
+  const rangeToHour: any = {
+    h: 1,
+    d: 24,
+    w: 24 * 7,
+    m: 24 * 30,
+  };
+
+  const type = [
+    { id: 1, name: "خرید کالا" },
+    { id: 2, name: "سرویس (خدمات)" },
+  ];
 
   const rootChangeHandler = (event: any) => {
     const selectedRootId = +event.target.value;
     setSelectedRoot(selectedRootId);
     setTrunkCategories(
-      rootCategories.find((item) => item.id === selectedRootId).trunk_root
+      rootCategories.find((item) => item.id === selectedRootId)[
+        requestType == 1 ? "product_trunk_root" : "service_trunk_root"
+      ]
     );
   };
 
@@ -67,7 +106,9 @@ const Create = () => {
     const selectedTrunkId = +event.target.value;
     setSelectedPartType(selectedTrunkId);
     setBranchCategories(
-      trunkCategories.find((item) => item.id === selectedTrunkId).branch_trunk
+      trunkCategories.find((item) => item.id === selectedTrunkId)[
+        requestType == 1 ? "product_branch_trunk" : "service_branch_trunk"
+      ]
     );
   };
 
@@ -85,6 +126,15 @@ const Create = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
+      if (e.target.files[0].size >= 50000000) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="حداکثر سایز فایل 50 مگابایت میباشد"
+          />
+        );
+        return;
+      }
       const isValid = checkFileInputValidation(e.target.files[0].name, "file");
       if (isValid) {
         try {
@@ -153,7 +203,7 @@ const Create = () => {
       Toaster.success(
         <ToastComponent
           title="موفق"
-          description="فایل شما با موفقیت آپلود شد."
+          description="صوت شما با موفقیت آپلود شد."
         />
       );
     } catch (error: any) {
@@ -167,6 +217,15 @@ const Create = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
+      if (e.target.files[0].size >= 20000000) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="حداکثر سایز عکس 20 مگابایت میباشد"
+          />
+        );
+        return;
+      }
       const isValid = checkFileInputValidation(e.target.files[0].name, "image");
       if (isValid) {
         try {
@@ -212,6 +271,15 @@ const Create = () => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
     } else {
+      if (e.target.files[0].size >= 50000000) {
+        Toaster.error(
+          <ToastComponent
+            title="ناموفق"
+            description="حداکثر سایز فیلم 50 مگابایت میباشد"
+          />
+        );
+        return;
+      }
       const isValid = checkFileInputValidation(e.target.files[0].name, "video");
       if (isValid) {
         try {
@@ -280,16 +348,26 @@ const Create = () => {
         customer: user?.id,
         priority: "high",
         description: data.description,
+        product_category: null,
+        service_category: null,
         status: "UNREAD",
-        branch_category: {
-          ...branchCategories?.find(
-            (rootItem) => rootItem.id === selectedAccessoriesType
-          ),
-        },
+        due_time: `${rangeToHour[range.timeFrame] * range.numberOfRange}:00:00`,
         upload_ticket: selectedFiles.map((i: any) => {
           return { id: i.id };
         }),
+        count: count,
       };
+      requestType == 1
+        ? (finalData.product_category = {
+            ...branchCategories?.find(
+              (rootItem) => rootItem.id === selectedAccessoriesType
+            ),
+          })
+        : (finalData.service_category = {
+            ...branchCategories?.find(
+              (rootItem) => rootItem.id === selectedAccessoriesType
+            ),
+          });
       const res = await ticketService.createTicket(finalData);
       if (res.status === 201) {
         router.push("/customer/dashboard/tickets/supplying");
@@ -307,55 +385,73 @@ const Create = () => {
   };
 
   const handleReset = async () => {
-    try {
-      const list = selectedFiles.map((i: any) => i.id);
-      const finalList = list.map((item: any) => {
-        const temp = {
-          id: item,
-        };
-        return temp;
-      });
-      const res = await chatService.deleteUploadedFiles({
-        data: finalList,
-      });
-      if (res.status === 204 || res.status === 201) {
-        Toaster.success(
-          <ToastComponent
-            title="موفق"
-            description="فایل‌های پیوست با موفقیت حذف شدند."
-          />
-        );
-        setSelectedFiles([]);
-      } else {
-        Toaster.error(
-          <ToastComponent title="ناموفق" description="خطای سرور" />
-        );
+    const list = selectedFiles.map((i: any) => i.id);
+    const finalList = list.map((item: any) => {
+      const temp = {
+        id: item,
+      };
+      return temp;
+    });
+    if (finalList.length) {
+      try {
+        const res = await chatService.deleteUploadedFiles({
+          data: finalList,
+        });
+        if (res.status === 204 || res.status === 201) {
+          Toaster.success(
+            <ToastComponent
+              title="موفق"
+              description="فایل‌های پیوست با موفقیت حذف شدند."
+            />
+          );
+          setSelectedFiles([]);
+        } else {
+          Toaster.error(
+            <ToastComponent title="ناموفق" description="خطای سرور" />
+          );
+        }
+      } catch (error: any) {
+        errorHandler(error);
       }
+    }
+    reset();
+  };
+
+  const getCategories = async () => {
+    try {
+      const res =
+        requestType == 1
+          ? await ticketService.getCategories()
+          : await ticketService.getServices();
+      setRootCategories(res.data);
+      setSelectedRoot(res.data[0].id);
+      setTrunkCategories(
+        requestType == 1
+          ? res.data[0].product_trunk_root
+          : res.data[0].service_trunk_root
+      );
+      setBranchCategories(
+        requestType == 1
+          ? res.data[0].product_trunk_root[0].product_branch_trunk
+          : res.data[0].service_trunk_root[0].service_branch_trunk
+      );
     } catch (error: any) {
       errorHandler(error);
-    } finally {
-      reset();
     }
   };
 
   useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await ticketService.getCategories();
-        setRootCategories(res.data);
-        setSelectedRoot(res.data[0].id);
-        setTrunkCategories(res.data[0].trunk_root);
-        setBranchCategories(res.data[0].trunk_root[0].branch_trunk);
-      } catch (error: any) {
-        errorHandler(error);
-      }
-    };
     getCategories();
-  }, []);
+  }, [requestType]);
 
   useEffect(() => {
     setSelectedPartType(trunkCategories[0]?.id);
-    setBranchCategories(trunkCategories[0]?.branch_trunk);
+    setBranchCategories(
+      trunkCategories[0] &&
+        trunkCategories[0][
+          requestType == 1 ? "product_branch_trunk" : "service_branch_trunk"
+        ]
+    );
   }, [selectedRoot, trunkCategories]);
 
   useEffect(() => {
@@ -378,30 +474,105 @@ const Create = () => {
             <div className="row">
               <div className="field">
                 <Dropdown
-                  id="category"
-                  label="نوع وسیله نقلیه"
-                  disabled={!rootCategories.length}
-                  currentOptions={rootCategories}
-                  currentValue={selectedRoot}
-                  onChange={rootChangeHandler}
+                  id="type"
+                  label="انتخاب درخواست"
+                  currentOptions={type}
+                  currentValue={requestType}
+                  onChange={(e) => setRequestType(e.target.value as any)}
                 />
               </div>
               <div className="field">
-                <Dropdown
-                  id="part_type"
-                  label="نام برند"
-                  disabled={!trunkCategories?.length}
-                  currentOptions={trunkCategories}
-                  currentValue={selectedPartType}
-                  onChange={partTypeChangeHandler}
-                />
+                <div className="select-period">
+                  <span className="select-period-title">
+                    {"زمان انتظار دریافت پاسخ :"}
+                  </span>
+                  <div className="select-period-group">
+                    <input
+                      value={range.numberOfRange ? range.numberOfRange : ""}
+                      onChange={(e) =>
+                        e.target.valueAsNumber <= 40 &&
+                        setRange({
+                          numberOfRange: e.target.valueAsNumber,
+                          timeFrame: range.timeFrame,
+                        })
+                      }
+                      placeholder={"تعداد"}
+                      type="number"
+                      className="select-period-date-number"
+                    />
+                    <div className="select-period-dropdown" ref={dropDownRef}>
+                      <button
+                        className={`select-period-dropdown-button ${
+                          isOpen ? "button-active" : ""
+                        }`}
+                        onClick={() => setIsOpen(!isOpen)}
+                      >
+                        <span className="select-period-dropdown-button-title">
+                          {range?.timeFrame
+                            ? translateRangeType[range?.timeFrame]
+                            : "بازه"}
+                        </span>
+                        <span className="select-period-dropdown-button-icons">
+                          <GiHamburgerMenu />
+                          <MdArrowDropDown />
+                        </span>
+                      </button>
+                      <div
+                        className="select-period-items-wrapper"
+                        style={{ display: isOpen ? "flex" : "none" }}
+                      >
+                        {TimePeriodEntities?.map((item, index) => (
+                          <button
+                            key={index}
+                            className="select-period-items-button"
+                            onClick={() => {
+                              setIsOpen(false);
+                              setRange({
+                                numberOfRange: range.numberOfRange,
+                                timeFrame: item.value,
+                              });
+                            }}
+                          >
+                            {item.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div className="row">
+              {requestType == 1 && (
+                <>
+                  <div className="field">
+                    <Dropdown
+                      id="category"
+                      label="نوع وسیله نقلیه"
+                      disabled={!rootCategories.length}
+                      currentOptions={rootCategories}
+                      currentValue={selectedRoot}
+                      onChange={rootChangeHandler}
+                    />
+                  </div>
+                  <div className="field">
+                    <Dropdown
+                      id="part_type"
+                      label="نام برند"
+                      disabled={!trunkCategories?.length}
+                      currentOptions={trunkCategories}
+                      currentValue={selectedPartType}
+                      onChange={partTypeChangeHandler}
+                    />
+                  </div>
+                </>
+              )}
             </div>
             <div className="row">
               <div className="field">
                 <Dropdown
                   id="accessories_type"
-                  label="نوع لوازم قطعه"
+                  label={requestType == 2 ? "سرویس انتخابی:" : "نوع لوازم قطعه"}
                   disabled={!branchCategories?.length}
                   currentOptions={branchCategories}
                   currentValue={selectedAccessoriesType}
@@ -409,12 +580,63 @@ const Create = () => {
                 />
               </div>
               <div className="field">
-                <label htmlFor="name">{"نام کالا:"}</label>
+                <label htmlFor="name">
+                  {requestType == 2 ? "موضوع سرویس:" : "نام کالا:"}
+                </label>
                 <input
                   id="name"
                   type="text"
                   {...register("name", { required: true })}
                 />
+                {errors.name && (
+                  <p className="name-error">وارد کردن نام کالا اجباری است.</p>
+                )}
+                <label htmlFor="count">{"تعداد"}</label>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-around",
+                    backgroundColor: "white",
+                    borderRadius: 15,
+                    width: 100,
+                  }}
+                >
+                  <div
+                    onClick={() => count < 99 && setCount((prev) => prev + 1)}
+                    style={{
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      fontSize: "small",
+                    }}
+                  >
+                    <FaPlus />
+                  </div>
+                  <input
+                    id="count"
+                    type="number"
+                    value={count}
+                    onChange={(e) =>
+                      +e.target.value > 0 &&
+                      +e.target.value <= 100 &&
+                      setCount(+e.target.value)
+                    }
+                  />
+                  <div
+                    onClick={() => count > 1 && setCount((prev) => prev - 1)}
+                    style={{
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "small",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <FaMinus />
+                  </div>
+                </div>
                 {errors.name && (
                   <p className="name-error">وارد کردن نام کالا اجباری است.</p>
                 )}

@@ -126,7 +126,9 @@ const Tickets = () => {
                       <div className="name">{ticket.name}</div>
                       <div className="further-info">
                         <div className="brand">
-                          {ticket.branch_category.name ?? "بدون برند"}
+                          {ticket?.product_category?.name ??
+                            ticket?.service_category?.name ??
+                            "بدون برند"}
                         </div>
                       </div>
                     </div>

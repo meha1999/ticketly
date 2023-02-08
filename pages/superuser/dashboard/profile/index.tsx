@@ -296,7 +296,7 @@ const Profile = () => {
           <TextInput
             id="address"
             isFullWidthInput
-            label="ادرس محل سکونت"
+            label="ادرس محل کار"
             value={profileForm?.address}
             onChange={setProfileDataHandler}
           />

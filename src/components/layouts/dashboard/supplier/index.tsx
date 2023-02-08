@@ -16,8 +16,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     (store) => store.user
   );
 
+  const token: any = useSelector<ReduxStoreModel, ReduxStoreModel["token"]>(
+    (store: ReduxStoreModel) => store.token
+  );
+
   const { lastEvent } = useEventSource(
-    `${process.env.NEXT_PUBLIC_BASE_RASAD_URL}/events/${user?.id}/`
+    `${process.env.NEXT_PUBLIC_BASE_RASAD_URL}/events/${user?.id}/`,
+    { queryParams: { token: token } }
   );
 
   useEffect(() => {

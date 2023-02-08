@@ -100,7 +100,7 @@ const Dashboard = () => {
               onClick={() => {
                 routerPush("/customer/dashboard/tickets/create");
               }}
-              text="ثبت تیکت جدید"
+              text="ثبت درخواست جدید"
               textColor="#FFFFFF"
             />
             <DashboardCard

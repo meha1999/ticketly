@@ -468,7 +468,7 @@ const Create = () => {
     <>
       <DashboardLayout>
         <div className="create">
-          <Title titleText="ثبت تیکت جدید" titleIcon={createTicket} />
+          <Title titleText="ثبت درخواست جدید" titleIcon={createTicket} />
           <Divider />
           <form className="content" onSubmit={handleSubmit(handleRequest)}>
             <div className="row">
@@ -796,7 +796,7 @@ const Create = () => {
           </form>
         </div>
       </DashboardLayout>
-      <SeoHead title="ثبت تیکت جدید" description="" />
+      <SeoHead title="ثبت درخواست جدید" description="" />
     </>
   );
 };

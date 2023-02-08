@@ -78,7 +78,7 @@ const OrderCompletion: FC<OrderCompletionProps> = ({
       <div className="subject">
         <span className="subject-title">موضوع تیکت:</span>
         <span className="subject-name">
-          {ticketCount ? ticketCount : 1} {ticketSubject + " x "}
+          {ticketSubject} {ticketCount ? ticketCount : 1} عدد
         </span>
       </div>
       <div className="user">

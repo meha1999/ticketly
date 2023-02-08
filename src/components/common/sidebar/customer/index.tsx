@@ -54,7 +54,7 @@ const Sidebar = () => {
     },
     {
       id: 3,
-      title: "ثبت تیکت جدید",
+      title: "ثبت درخواست جدید",
       path: "/customer/dashboard/tickets/create",
       icon: SiHackthebox,
       subLinks: [],

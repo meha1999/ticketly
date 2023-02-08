@@ -81,7 +81,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       <div className="heading">
         <div className="info">
           <h2 className="title">
-            {ticketInfo?.name} x {ticketInfo?.count ??1}
+            {ticketInfo?.name} {ticketInfo?.count ?? "1"} عدد
           </h2>
           <div className="bread-crumb">
             {ticketInfo?.product_category ? (

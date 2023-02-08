@@ -8,19 +8,22 @@ import { NotificationService } from "services/notification.service";
 import { REDUX_ACTION } from "src/enum/redux-action.enum";
 import { ReduxStoreModel } from "src/model/redux/redux-store-model";
 
-
 interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-
   const dispatch = useDispatch();
   const user = useSelector<ReduxStoreModel, ReduxStoreModel["user"]>(
     (store) => store.user
   );
+  
+  const token: any = useSelector<ReduxStoreModel, ReduxStoreModel["token"]>(
+    (store: ReduxStoreModel) => store.token
+  );
 
   const { lastEvent } = useEventSource(
-    `${process.env.NEXT_PUBLIC_BASE_RASAD_URL}/events/${user?.id}/`
+    `${process.env.NEXT_PUBLIC_BASE_RASAD_URL}/events/${user?.id}/`,
+    { queryParams: { token: token } }
   );
 
   useEffect(() => {
@@ -30,7 +33,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         payload: JSON.parse(lastEvent?.data),
       });
   }, [lastEvent?.data]);
-
 
   return (
     <div className="dashboard-layout">

@@ -69,7 +69,7 @@ const Orders = () => {
                   price={item.total_price}
                   dateAndTime={item.created_at}
                   onSupplierAction={sendPackageHandler}
-                  count={item?.count ?? 1}
+                  count={item?.count ?? ""}
                 />
               </li>
             ))

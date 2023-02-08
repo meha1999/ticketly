@@ -73,7 +73,7 @@ const Orders = () => {
                   status={item.status}
                   price={item.total_price}
                   dateAndTime={item.created_at}
-                  count={item?.count ?? 1}
+                  count={item?.count ?? ''}
                   onClientAction={clientSideActionsHandler}
                 />
               </li>

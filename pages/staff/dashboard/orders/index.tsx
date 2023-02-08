@@ -50,7 +50,7 @@ const Orders = () => {
                   price={item.total_price}
                   dateAndTime={item.created_at}
                   status={item.status}
-                  count={item?.count ?? 1}
+                  count={item?.count ?? ''}
                 />
               </li>
             ))

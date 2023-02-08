@@ -489,19 +489,21 @@ const Create = () => {
                   <div className="select-period-group">
                     <input
                       value={range.numberOfRange ? range.numberOfRange : ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        e.preventDefault();
                         e.target.valueAsNumber <= 40 &&
-                        setRange({
-                          numberOfRange: e.target.valueAsNumber,
-                          timeFrame: range.timeFrame,
-                        })
-                      }
+                          setRange({
+                            numberOfRange: e.target.valueAsNumber,
+                            timeFrame: range.timeFrame,
+                          });
+                      }}
                       placeholder={"تعداد"}
                       type="number"
                       className="select-period-date-number"
                     />
                     <div className="select-period-dropdown" ref={dropDownRef}>
                       <button
+                        type="button"
                         className={`select-period-dropdown-button ${
                           isOpen ? "button-active" : ""
                         }`}
@@ -523,6 +525,7 @@ const Create = () => {
                       >
                         {TimePeriodEntities?.map((item, index) => (
                           <button
+                            type="button"
                             key={index}
                             className="select-period-items-button"
                             onClick={() => {
